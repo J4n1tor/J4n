@@ -73,12 +73,20 @@ strip or a shelf to divide a page, and the wet-floor sign beside a note that som
 
 ## The demo GIF
 
-`assets/demo.gif` is the real `j4n` screen, recorded by `scripts/brand/demo/record.py`: an agent runs a failing test,
-reads, searches and edits (the edit waits on an approval card), runs the tests again, and tries a force push that the gate
-blocks; then the Tasks, Spend and Log tabs. The agent is a scripted Claude Code session (`scenario.jsonl`, played by
-`player.sh`), so no model is called and nothing leaves the machine; J4n itself runs as it always does, in a throwaway home
-and project.
+`assets/demo.gif` is the real `j4n` screen in orchestrate mode, recorded by `scripts/brand/demo/record.py` in a small
+sample web API (`shop`). One line asks for a per-client rate limit and a `/health` endpoint with tests. A cheap model reads
+it as a split, and the card asks before two chats start, each in a worktree of its own. The project's own tests run on
+each chat's work, and Codex reviews it: it finds that the limiter keeps one list for every client, so that chat goes back
+and fixes it. Both parts are laid in. Main joins them; its delete of an old file waits on an approval card, and its force
+push is blocked by the gate. Codex reviews Main's change too. Then the Tasks, Spend and Log tabs.
+
+The agents are scripted stand-ins for Claude Code and Codex (`standin.py`): they answer J4n by what it asks them, so no
+model is called and nothing leaves the machine. Their edits and test runs are real, in J4n's worktrees. J4n itself runs as
+it always does, in a throwaway home and project.
 
 ```bash
-python3 scripts/brand/demo/record.py --bin target/release/j4n   # needs tmux, git, rsvg-convert, ffmpeg, JetBrainsMono Nerd Font
+python3 scripts/brand/demo/record.py --bin target/release/j4n   # needs tmux, git, python3, rsvg-convert, ffmpeg, JetBrainsMono Nerd Font
 ```
+
+`--keep DIR` keeps the frames (and `frames.json`, the take as captured); `--again DIR/frames.json` draws the GIF again from
+a kept take, with no new take.

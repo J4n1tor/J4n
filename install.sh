@@ -252,9 +252,12 @@ main() {
   trap 'cleanup; exit 143' TERM
 
   say "downloading $asset ($version) from $base"
-  if ! fetch "$base/$asset" "$tmp/$asset"; then
-    [ -z "${J4N_DOWNLOAD_URL:-}" ] || die "$base/$asset could not be downloaded (is it there?)"
-    [ "$version" = latest ] || die "release $version has no $asset, or $repo cannot be reached: see $github/$repo/releases"
+  case "$base" in file://*) ;; *) has curl || has wget || die "needs curl or wget to download (install one of them, e.g. with your package manager)" ;; esac
+  # the first try keeps the downloader's own words: a 404 on releases/latest is the normal way to learn there is no full
+  # release, and the lines below say what it means; they are shown only where they are the reason
+  if ! fetch "$base/$asset" "$tmp/$asset" 2>"$tmp/fetch.err"; then
+    [ -z "${J4N_DOWNLOAD_URL:-}" ] || { cat "$tmp/fetch.err" >&2; die "$base/$asset could not be downloaded (is it there?)"; }
+    [ "$version" = latest ] || { cat "$tmp/fetch.err" >&2; die "release $version has no $asset, or $repo cannot be reached: see $github/$repo/releases"; }
     # releases/latest serves full releases only: the newest one may be a pre-release, or lack this target
     tag=$(newest_tag) || no_release "no full release of $repo has $asset, and the release list cannot be read from here: the
   repository is private or does not exist, or GitHub is not reachable (offline, a proxy, or the API's hourly limit)"

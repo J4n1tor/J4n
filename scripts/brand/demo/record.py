@@ -3,17 +3,21 @@
 
     python3 scripts/brand/demo/record.py --bin target/release/j4n [--out assets/demo.gif]
 
-It makes a throwaway home and project in a temp folder, starts `j4n` in a private tmux server (its own socket, 120×36)
-with `J4N_CLAUDE` pointing at `player.sh`, which plays `scenario.jsonl` as a Claude Code session, and a dead proxy, so
-nothing leaves the machine. Keys are typed on a timeline that waits for what the screen shows. Each changed screen is
-captured with its colours, drawn as an SVG of cells in JetBrainsMono Nerd Font, rendered with `rsvg-convert`, and joined
-by `ffmpeg` with each frame's own duration. Needs: tmux, git, rsvg-convert, ffmpeg, the font installed.
+It makes a throwaway home and a small sample project (`shop`, a web API with its tests) in a temp folder, and starts `j4n` in a
+private tmux server (its own socket, 120×36) under `lanes = orchestrate`, with `claude` and `codex` on the PATH played by
+`standin.py`: scripted agents that answer J4n by what it asks them, so no model is called, and a dead proxy, so nothing leaves
+the machine. J4n itself runs as it always does: it reads the line, splits it into two chats in worktrees of their own, runs the
+project's real tests on their work, has codex review it, lays it in, and gates what Main does after. Keys are typed on a
+timeline that waits for what the screen shows. Each changed screen is captured with its colours, drawn as an SVG of cells in
+JetBrainsMono Nerd Font, rendered with `rsvg-convert`, and joined by `ffmpeg` with each frame's own duration.
+Needs: tmux, git, python3, rsvg-convert, ffmpeg, the font installed.
 """
 
 from __future__ import annotations
 
 import argparse
 import html
+import json
 import re
 import shutil
 import subprocess
@@ -30,44 +34,89 @@ SOCK = "j4n-demo-record"
 FG, BG = "#cdd2d8", "#161a20"
 FONT = "JetBrainsMono Nerd Font"
 CW, CH, FS, PAD = 9.6, 20, 16, 14
-PROMPT = "the login test fails, fix it and push"
+PROMPT = "add a per-client rate limit and a /health endpoint to the API, with tests"
 SPEED = 1.25  # played a little faster than it was recorded
+MIN_GAP = 0.5  # seconds of the recording between two frames of a burst of changes
 
-AUTH = '''from datetime import datetime, timezone
+# The sample project, as it is committed before the line is typed.
+SHOP = {
+    "src/__init__.py": "",
+    "src/app.py": '''from src import orders
+
+ROUTES = {"/orders": orders.list_orders}
 
 
-def is_expired(token):
-    return token.expires_at < datetime.now()
-'''
+def handle(path, client="anon"):
+    """The status and body the API answers `path` with."""
+    route = ROUTES.get(path)
+    if route is None:
+        return 404, {"error": "not found"}
+    return 200, route()
+''',
+    "src/orders.py": '''ORDERS = [{"id": 1, "item": "mug", "qty": 2}]
+
+
+def list_orders():
+    return ORDERS
+''',
+    "src/throttle.py": '''# The first throttle: a sleep before every answer. Nothing imports it.
+import time
+
+
+def slow_down():
+    time.sleep(0.1)
+''',
+    "tests/test_orders.py": '''import unittest
+
+from src.app import handle
+
+
+class OrdersTest(unittest.TestCase):
+    def test_orders_are_listed(self):
+        status, body = handle("/orders")
+        self.assertEqual(status, 200)
+        self.assertEqual(body[0]["item"], "mug")
+
+    def test_an_unknown_path_is_404(self):
+        self.assertEqual(handle("/nope")[0], 404)
+''',
+}
+
+# Orchestrate mode with its picks made, so no setup or needs card comes first; a chat that writes waits for a yes (the default).
+SETTINGS = {
+    "lanes": '"orchestrate"', "setup.card": "false", "plan.cheap_doer": '"claude"',
+    "orchestrate.look_doer": '"claude"', "orchestrate.look_model": '"haiku"', "lane.doer": '"claude"', "lane.model": '"sonnet"',
+}
 
 
 def tmux(*args: str, check: bool = True) -> str:
     return subprocess.run(["tmux", "-L", SOCK, *args], capture_output=True, text=True, check=check).stdout
 
 
-def setup(root: Path, binary: Path) -> None:
-    home, shop = root / "home", root / "shop"
-    (home / ".j4n" / "settings").mkdir(parents=True)
-    (root / "tmp").mkdir()
-    (shop / "src").mkdir(parents=True)
-    (shop / "tests").mkdir()
-    (shop / "src" / "auth.py").write_text(AUTH)
-    (shop / "tests" / "test_login.py").write_text("def test_token_expires():\n    assert True\n")
-    # The scripted session's edits are not real, so the project's own check after edits would test the untouched files.
-    (home / ".j4n" / "settings" / "demo.toml").write_text('api = 1\n[[setting]]\nid = "check.after"\nvalue = false\n')
-    claude = root / "claude"
-    claude.write_text(f'#!/bin/sh\nFAKE_FIXTURE="{HERE / "scenario.jsonl"}" exec "{HERE / "player.sh"}" "$@"\n')
-    claude.chmod(0o755)
+def setup(root: Path, binary: Path, log: Path | None) -> None:
+    home, shop, bin_ = root / "home", root / "shop", root / "bin"
+    for d in (home / ".j4n" / "settings", root / "tmp", bin_):
+        d.mkdir(parents=True)
+    for path, text in SHOP.items():
+        (shop / path).parent.mkdir(parents=True, exist_ok=True)
+        (shop / path).write_text(text)
+    rows = "".join(f'[[setting]]\nid = "{k}"\nvalue = {v}\n' for k, v in SETTINGS.items())
+    (home / ".j4n" / "settings" / "demo.toml").write_text(f'api = 1\n{rows}[[enable]]\nid = "lanes"\n')
+    for agent in ("claude", "codex"):
+        (bin_ / agent).write_text(f'#!/bin/sh\nexec python3 -I "{HERE / "standin.py"}" {agent} "$@"\n')
+        (bin_ / agent).chmod(0o755)
     who = ["-c", "user.name=demo", "-c", "user.email=demo@example.com"]
-    subprocess.run(["git", "init", "-q"], cwd=shop, check=True)
+    subprocess.run(["git", "init", "-q", "-b", "main"], cwd=shop, check=True)
     subprocess.run(["git", "add", "-A"], cwd=shop, check=True)
     subprocess.run(["git", *who, "commit", "-q", "-m", "shop"], cwd=shop, check=True)
     tmux("kill-server", check=False)
     env = {
-        "PATH": "/usr/bin:/bin", "HOME": str(home), "J4N_HOME": str(home / ".j4n"), "TMPDIR": str(root / "tmp"),
+        "PATH": f"{bin_}:/usr/bin:/bin", "HOME": str(home), "J4N_HOME": str(home / ".j4n"), "TMPDIR": str(root / "tmp"),
         "TERM": "xterm-256color", "COLORTERM": "truecolor", "LANG": "C.UTF-8", "https_proxy": "http://127.0.0.1:9",
-        "J4N_CLAUDE": str(claude), "J4N_MOUSE": "0",
+        "J4N_CLAUDE": str(bin_ / "claude"), "J4N_MOUSE": "0", "TZ": "UTC",
     }
+    if log:
+        env["DEMO_LOG"] = str(log)
     cmd = ["env", "-i", *[f"{k}={v}" for k, v in env.items()], str(binary), "--doer", "claude", "--model", "sonnet", "--approval", "ask"]
     tmux("-f", "/dev/null", "new-session", "-d", "-x", str(COLS), "-y", str(ROWS), "-c", str(shop), *cmd)
     tmux("set", "-g", "status", "off")
@@ -104,7 +153,7 @@ def until(rec: Recorder, text: str, limit: float = 30) -> None:
         if text in plain(rec.screen()):
             return
         time.sleep(0.1)
-    raise SystemExit(f"the screen never showed {text!r}")
+    raise SystemExit(f"the screen never showed {text!r}:\n{plain(rec.screen())}")
 
 
 def hold(s: float) -> None:
@@ -117,8 +166,12 @@ def key(*k: str) -> None:
 
 def type_line(text: str) -> None:
     for i in range(0, len(text), 3):
-        tmux("send-keys", "-t", "0", "-l", text[i:i + 3])
+        tmux("send-keys", "-t", "0", "-l", "--", text[i:i + 3])
         time.sleep(0.07)
+
+
+class Again(Exception):
+    """This take cannot be used: make it again."""
 
 
 def play(rec: Recorder) -> None:
@@ -127,13 +180,30 @@ def play(rec: Recorder) -> None:
     type_line(PROMPT)
     hold(0.5)
     key("Enter")
-    until(rec, "1–3 · ? why")  # the approval card for the edit
-    hold(1.8)
+    until(rec, "wait for your yes", 30)
+    try:
+        until(rec, "Start 2 chats?", 6)  # the split waits for a yes: each chat's doer, model and cap
+    except SystemExit:
+        # The card is sent to the screen with the next task or plan event, and a split held after the planning turn's last
+        # one has none: J4n's own race, so the take is made again.
+        raise Again("the card of the split was not sent")
+    hold(2.6)
     key("1")
-    until(rec, "$0.0412")  # the turn has settled: the cost line
-    hold(2.4)
+    until(rec, "rm src/throttle.py", 90)  # Main's join: a delete asks
+    until(rec, "? why", 10)
+    hold(2.0)
+    key("1")
+    until(rec, "reviewed on codex", 60)  # Main's own change, reviewed by another doer
+    hold(2.0)
+    # Main's row, with its last words on the push the gate blocked, is above what came after it
+    for _ in range(12):
+        if "Not pushed" in plain(rec.screen()):
+            break
+        key("S-Up")
+        time.sleep(0.25)
+    hold(3.2)
     # Each page is held from when its content is drawn: the Log fills a moment after the tab opens.
-    for k, shown, h in (("F2", "Not pushed", 1.6), ("F5", "usd", 1.6), ("F7", "gate.verdict", 2.4), ("F1", "without --force", 1.8)):
+    for k, shown, h in (("F2", "merged", 3.0), ("F5", "usd", 1.8), ("F7", "verdict block", 3.0), ("F1", "lanes orchestrate", 1.5)):
         key(k)
         until(rec, shown, 10)
         hold(h)
@@ -264,6 +334,22 @@ def svg(screen: str) -> str:
     return "".join(parts)
 
 
+def thin(frames: list[tuple[float, str]]) -> list[tuple[float, str]]:
+    """The frames worth a place in the GIF: from the first drawn screen on, and in a burst of changes (a streamed answer, a
+    timer) one every `MIN_GAP` seconds of the recording, plus the last screen of each burst; a frame shown for less is
+    not read, and each one costs about a full screen of the file."""
+    start = next((i for i, (_, sc) in enumerate(frames) if "Settings" in plain(sc)), 0)
+    frames = [(t - frames[start][0], sc) for t, sc in frames[start:]]
+    # a screen caught while it was being drawn shows the line's row twice: it is no screen J4n showed
+    frames = [(t, sc) for t, sc in frames if plain(sc).count("▌ " + PROMPT[:40]) < 2]
+    kept: list[tuple[float, str]] = []
+    for i, (t, sc) in enumerate(frames):
+        nxt = frames[i + 1][0] if i + 1 < len(frames) else float("inf")
+        if not kept or nxt - t >= MIN_GAP or t - kept[-1][0] >= MIN_GAP:
+            kept.append((t, sc))
+    return kept
+
+
 def render(frames: list[tuple[float, str]], out: Path, work: Path) -> None:
     lines = []
     for i, (t, s) in enumerate(frames):
@@ -280,20 +366,11 @@ def render(frames: list[tuple[float, str]], out: Path, work: Path) -> None:
                     "-vf", graph, "-loop", "0", str(out)], check=True)
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("--bin", required=True, type=Path)
-    ap.add_argument("--out", default=Path("assets/demo.gif"), type=Path)
-    ap.add_argument("--keep", type=Path, help="also keep the frames (svg, png) in this folder")
-    args = ap.parse_args()
-    for tool in ("tmux", "git", "rsvg-convert", "ffmpeg"):
-        if not shutil.which(tool):
-            print(f"needs {tool}", file=sys.stderr)
-            return 1
-    subprocess.run([sys.executable, "-I", str(HERE / "make_scenario.py")], check=True)
+def record(args: argparse.Namespace) -> list[tuple[float, str]]:
+    """One take: the frames, drawn into `args.out`."""
     with tempfile.TemporaryDirectory(prefix="j4n-demo-") as tmp:
         root = Path(tmp)
-        setup(root, args.bin.resolve())
+        setup(root, args.bin.resolve(), root / "demo.log" if args.debug else None)
         rec = Recorder()
         rec.start()
         try:
@@ -302,10 +379,47 @@ def main() -> int:
             rec.stop = True
             rec.join()
             tmux("kill-server", check=False)
-        frames = [(t - rec.frames[0][0], s) for t, s in rec.frames]
+            if args.debug:
+                shutil.rmtree(args.debug, ignore_errors=True)
+                shutil.copytree(root, args.debug, symlinks=True, ignore_dangling_symlinks=True)
+        frames = thin(rec.frames)
         work = args.keep or root / "frames"
         work.mkdir(parents=True, exist_ok=True)
+        if args.keep:
+            (work / "frames.json").write_text(json.dumps(rec.frames))
+        (work / "screens.txt").write_text("\n\f\n".join(plain(sc) for _, sc in frames))
         render(frames, args.out, work)
+    return frames
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    ap.add_argument("--bin", type=Path, help="the j4n binary to record (a release build)")
+    ap.add_argument("--out", default=Path("assets/demo.gif"), type=Path)
+    ap.add_argument("--keep", type=Path, help="also keep the frames (svg, png, and their text in screens.txt) in this folder")
+    ap.add_argument("--again", type=Path, help="draw the GIF again from the frames.json a take kept, with no new take")
+    ap.add_argument("--debug", type=Path, help="copy the throwaway home and project here at the end, with what the agents were sent (demo.log)")
+    args = ap.parse_args()
+    if not args.bin and not args.again:
+        ap.error("--bin is needed for a new take")
+    for tool in ("tmux", "git", "rsvg-convert", "ffmpeg"):
+        if not shutil.which(tool):
+            print(f"needs {tool}", file=sys.stderr)
+            return 1
+    if args.again:
+        frames = thin([(t, sc) for t, sc in json.loads(args.again.read_text())])
+        render(frames, args.out, args.again.parent)
+        print(f"{len(frames)} frames, {frames[-1][0]:.1f} s -> {args.out}")
+        return 0
+    for take in range(1, 6):
+        try:
+            frames = record(args)
+            break
+        except Again as why:
+            print(f"take {take}: {why}; again", file=sys.stderr)
+    else:
+        print("no take could be used", file=sys.stderr)
+        return 1
     print(f"{len(frames)} frames, {frames[-1][0]:.1f} s -> {args.out}")
     return 0
 

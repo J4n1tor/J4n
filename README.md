@@ -9,8 +9,8 @@ J4n runs on top of the agents you already use (Claude Code, Codex, Gemini CLI, O
 it). Every task goes through one permission gate, is charged to one cost line and is recorded in one event log per project.
 It is a single Rust binary with a terminal UI, a one-shot mode and a pipe mode.
 
-<p align="center"><img alt="J4n in a terminal: an agent finds and fixes a failing test, the edit waits on an approval card, the gate blocks a force push, then the Tasks, Spend and Log tabs" src="assets/demo.gif" width="100%"><br>
-<sub>The real <code>j4n</code> screen. The agent here is a scripted Claude Code session, so no model was called.</sub></p>
+<p align="center"><img alt="J4n in a terminal, orchestrate mode: one line is split into two chats that work side by side in worktrees of their own, the project's tests run on each, a review by Codex sends a bug back and the chat fixes it, both parts are laid in, a delete waits on an approval card, the gate blocks a force push, then the Tasks, Spend and Log tabs" src="assets/demo.gif" width="100%"><br>
+<sub>The real <code>j4n</code> screen in orchestrate mode (experimental). The agents here are scripted stand-ins for Claude Code and Codex, so no model was called.</sub></p>
 
 > [!WARNING]
 > **Wet floor.** 0.1.0, experimental. The core is built and tested. Features marked *experimental* are off by default and
