@@ -4,28 +4,28 @@
  Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
 ━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
   switch             now    ╭─ keys · Features ────────────────────────────────────────────╮
-├   approval.inside  auto   │                                                              │side the project.
-│   auto (the default): on w│ ⏎        change    Change the row: a switch flips, words     │. On: an approval no rule
-│   has a say about (or that│                    open their picker.                        │ters inside the text a
-│   here-document gives Pyth│ space    flip      Flip the switch, or take the next of its  │project, a chat's worktree
-│   or the task's own tempor│                    words; at once, as your edit.             │test), a linter, a script
-│   of the project named for│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │on the line that opens only
-│   files it names inside th│                    Option as Meta or Alt.                    │n, built while it runs, is
-│   put to a Decider (the po│ ↑↓       move      The row above or below.                   │re one, asks you. You are
-│   still asked for anything│ u        undo      Take back your last change of the row     │ not of build folders,
-│   git push, a deploy and a│                    (:undo eN).                               │o said yes: rule:gate
-│   ("inside the project: …"│ /        find      Find in the rows, as you type; ⏎ keeps    │ry ask keeps it off.
-│   default auto            │                    it, esc clears it.                        │
-├ 󰔢 chats.on         off    │ ?        keys      All the keys of this page.                │ session.
-├ 󰔢 check.after      off    │ ⌃g       state     Turn the bottom row over: the keys, or    │
-├   cost.show        both   │                    what the whole screen is doing (tasks,    │lan, the list price, or bot…
-├   lane.doer        —      │                    what waits for you, today's spend, a      │ works).
-├   lane.model       —      │                    window that runs low).                    │
-├   lanes            single │                                                              │ate.
-├ 󰔢 packs.full       off    │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
-├ 󰔡 tabs.all         on     │ ⌥←→      sub-tabs  The sub-tab before or after.              │ yet too.
-├   theme.marks      icons  │ ⌥0       numbers   The numbers of the tabs, for a moment.    │or words.
-╰   theme.palette    jjj    │ F1–F9              Tab n, as ⌥n.                             │
+├   approval.inside  auto   │                                                              │
+│   The Gate says yes by its│ ⏎        change    Change the row: a switch flips, words     │
+│   default auto · the whole│                    open their picker.                        │
+├ 󰔢 chats.on         off    │ space    flip      Flip the switch, or take the next of its  │ session.
+├ 󰔢 check.after      off    │                    words; at once, as your edit.             │
+├   cost.show        both   │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │lan, the list price, or bot…
+├   lane.doer        —      │                    Option as Meta or Alt.                    │ works).
+├   lane.model       —      │ ↑↓       move      The row above or below.                   │
+├   lanes            single │ u        undo      Take back your last change of the row     │ate.
+├ 󰔢 packs.full       off    │                    (:undo eN).                               │
+├ 󰔡 tabs.all         on     │ /        find      Find in the rows, as you type; ⏎ keeps    │ yet too.
+├   theme.marks      icons  │                    it, esc clears it.                        │or words.
+╰   theme.palette    jjj    │ ?        keys      All the keys of this page.                │
+                            │ ⌃g       state     Turn the bottom row over: the keys, or    │
+                            │                    what the whole screen is doing (tasks,    │
+                            │                    what waits for you, today's spend, a      │
+                            │                    window that runs low).                    │
+                            │                                                              │
+                            │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                            │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                            │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                            │ F1–F9              Tab n, as ⌥n.                             │
                             │                                               any key closes │
                             ╰──────────────────────────────────────────────────────────────╯
 
@@ -33,4 +33,4 @@
 
 
 
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                 ⌃g keys

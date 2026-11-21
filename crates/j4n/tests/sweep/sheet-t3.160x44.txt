@@ -2,23 +2,23 @@
   󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
  ─────────────────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 claude
-  no runs yet
-test · default
+  no reading yet · the next task through it shows its windows
+test
   five_hour ━━━━━━━━━━━━━━╸─ 92%   the plan row does not say how long this window is
   seven_day ━━━━━━━━──────── 50%   the plan row does not say how long this window is
-codex · gemini
-  these doers report no window: nothing to show
-openrouter
-  credits: unknown (a gateway call, not made here)
-  today: nothing spent
-typesafe                                        ╭─ keys · usage ───────────────────────────────────────────────╮
-  credits: unknown (a gateway call, not made her│                                                              │
-  today: nothing spent                          │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
-  a day  • usd  • tokens                        │                    Option as Meta or Alt.                    │
-  • $0.12  usd                                  │ ?        keys      All the keys of this page.                │
-  • 15  tokens                                  │ ⌃k       find      Find anything: the commands and the tree. │
-  task  cost                                    │ ⌃g       state     Turn the bottom row over: the keys, or    │
-╰ t1    $0.1200                                 │                    what the whole screen is doing (tasks,    │
+  today 1 run · 15 tokens · $0.12 · this week 1 run · 15 tokens · $0.12
+  as test reported it · as of a moment ago
+  a day  • usd  • tokens
+  • $0.12  usd
+  • 15  tokens
+  task  cost                                    ╭─ keys · usage ───────────────────────────────────────────────╮
+╰ t1    $0.1200                                 │                                                              │
+                                                │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+                                                │                    Option as Meta or Alt.                    │
+                                                │ ?        keys      All the keys of this page.                │
+                                                │ ⌃k       find      Find anything: the commands and the tree. │
+                                                │ ⌃g       state     Turn the bottom row over: the keys, or    │
+                                                │                    what the whole screen is doing (tasks,    │
                                                 │                    what waits for you, today's spend, a      │
                                                 │                    window that runs low).                    │
                                                 │                                                              │
@@ -26,11 +26,8 @@ typesafe                                        ╭─ keys · usage ───�
                                                 │ ⌥←→      sub-tabs  The sub-tab before or after.              │
                                                 │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
                                                 │ F1–F9              Tab n, as ⌥n.                             │
-                                                │                                               any key closes │
-                                                ╰──────────────────────────────────────────────────────────────╯
-
-┃ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1                                                                                 r56
-  ├─ ± 0 files · ❱ 0 ran · $0.0000
+┃ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1         │                                               any key closes │        r56
+  ├─ ± 0 files · ❱ 0 ran · $0.0000              ╰──────────────────────────────────────────────────────────────╯
   ├─ ❯ #1 “write notes.txt hello” → t4 ✗ it ended with no answer and no sign of work: nothing was said, run or changed
   ╰─ ◇ needs you: t4 ✗ it ended with no answer and no sign of work: nothing was said, run or changed
   ◆ ledger · main · 1 tasks · ✓ 1                                                                                       r34                                   ▸
@@ -41,4 +38,7 @@ typesafe                                        ╭─ keys · usage ───�
 
 
 
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                                                         ⌃g keys

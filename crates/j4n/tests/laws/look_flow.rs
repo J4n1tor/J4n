@@ -37,6 +37,14 @@ fn a_word_of_the_look_is_drawn_at_once_is_written_for_the_project_and_is_taken_b
     let file = held(&d);
     assert!(file.contains("theme.frame") && file.contains("gutter"), "{file}");
     op.type_line("hello");
+    // the screen draws a line it sent at once, as its own (`sending`), before the core has taken it: the turn the next start reads
+    // is the Log's, so the world is closed only once the Log holds the line and its task is over
+    let end = Instant::now() + crate::support::PATIENCE;
+    while !world.front.log().read(0).any(|e| e.kind == "chat.say" && e.data.get("text").and_then(|t| t.as_str()) == Some("hello")) {
+        assert!(Instant::now() < end, "the line never reached the Log");
+        std::thread::sleep(Duration::from_millis(20));
+    }
+    crate::screen_drive::wait_idle(&world);
     let s = op.until("the turn in the gutter", |s| in_gutter(s) && s.lines().filter(|l| l.contains("hello")).count() >= 2);
     assert!(!s.lines().any(|l| l.contains("├─")), "pipes in the gutter look:\n{s}");
     // the next start reads it from the file

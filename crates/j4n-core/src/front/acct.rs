@@ -62,9 +62,15 @@ impl Front {
         std::iter::once(String::new()).chain(logins.iter().cloned()).filter(|a| Some(a.as_str()) != skip).map(|a| Candidate { shut: u.limited_until(doer, &a, model, now), load: u.tightest(doer, &a, now).unwrap_or(0.0), account: a }).collect()
     }
 
-    /// A chat is pinned to a login by `:switch <doer> account=<name>`; a login a turn was sent to for its limit is not a pin.
+    /// The account the operator picked in Agents › Setup for `doer` (`lane.account` beside `lane.doer`); none: its own sign-in.
+    pub(super) fn picked_account(&self, doer: &str) -> Option<String> {
+        Some(self.0.live.word("lane.account", "")).filter(|a| !a.is_empty() && self.main_pick().as_deref() == Some(doer))
+    }
+
+    /// A chat is pinned to a login by `:switch <doer> account=<name>` or by the operator's pick in Agents › Setup (`lane.account`); a login a
+    /// turn was sent to for its limit is not a pin.
     fn login_pin(b: &Binding) -> Option<&str> {
-        b.account.as_deref().filter(|a| !a.is_empty() && b.how == "switch")
+        b.account.as_deref().filter(|a| !a.is_empty() && matches!(b.how.as_str(), "switch" | "picked"))
     }
 
     /// The binding a turn runs under: the login that is open. Nothing changes for a doer that has no account signed in, nor for a

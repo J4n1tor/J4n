@@ -17,7 +17,7 @@
      codex, gemini, opencode, pi not found; no key for own, light · ⏎ opens
      Agents › Setup
 
- 󰄰 no doer yet · the first line picks one
+ 󰄰 test · the first line goes to it
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                                                                              │
 ╰──────────────────────────────────────────────────────────────────────────────╯

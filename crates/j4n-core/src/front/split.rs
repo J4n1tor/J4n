@@ -514,7 +514,13 @@ At most {max} chats. A `goal` is at most {GOAL_MAX} characters. Every path is in
         }
         let chat = self.open_chat(None, &b.goal, "", &b.id);
         self.link_sent(link, &from, &crate::links::Party::Chat { id: chat.clone(), seat: b.seat.as_ref().map(|s| s.id.clone()) }, "brief", &chat);
-        self.write(&chat, "thread.bound", Actor::Core, json!({ "doer": bound.doer, "model": bound.model, "endpoint": bound.endpoint, "route": null, "how": "brief", "answer": null }));
+        // a chat of the doer the operator picked with an account (Agents › Setup) runs as that account, pinned, as Main does
+        let mut data = json!({ "doer": bound.doer, "model": bound.model, "endpoint": bound.endpoint, "route": null, "how": "brief", "answer": null });
+        if let Some(a) = self.picked_account(&bound.doer) {
+            (data["account"], data["how"]) = (json!(a), json!("picked"));
+            (bound.account, bound.how) = (Some(a), "picked".into());
+        }
+        self.write(&chat, "thread.bound", Actor::Core, data);
         // the seat's words and tool lists, and the settings Main asked for, are the chat's own settings from its first turn
         self.chat_seated(&chat, b);
         // with the access on, a file of another chat's that the goal names is read as if `paths` named it, so its share is placed (the brief may name it and still ask for a stand-in)

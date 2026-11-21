@@ -41,4 +41,4 @@
 ├ :remember          <the note>                                     Keep a note in the memory: :remember the build needs --release.
 ├ :report            <thread, all>                                  The ledger: :report says the newest report of this thread again, rebuilt from…  experimental
 ├ :resume            Take the session the last change left back: the next line, once, carries on in the doer's old session and not in the new one `session.mod…
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                                                         ⌃g keys

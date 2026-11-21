@@ -87,8 +87,24 @@ pub struct Signed {
     pub plan: String,
 }
 
+/// What one agent, run as one login, did on one day as it reported it (`run.metrics`): its runs, the tokens it said (in and out) and
+/// the dollars it said, from the runs that said a price (`priced`).
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct Ran {
+    pub runs: u32,
+    pub tokens: u64,
+    pub usd: f64,
+    pub priced: u32,
+}
+
+impl Ran {
+    fn add(&mut self, o: &Ran) {
+        (self.runs, self.tokens, self.usd, self.priced) = (self.runs + o.runs, self.tokens + o.tokens, self.usd + o.usd, self.priced + o.priced);
+    }
+}
+
 /// What the Log says that `/usage` is made of: the readings, and the dollars each doer spent each day (and each ask point's model calls, under `#point`).
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Usage {
     loaded: bool,
     /// `/usage` was asked for in this run: only then is the gateway asked what a key has left.
@@ -103,6 +119,9 @@ pub struct Usage {
     waits: BTreeMap<(String, String), (u64, u64, String)>,
     /// Each login of this project, as its last sign-in or look left it, by account name.
     signed: BTreeMap<String, Signed>,
+    /// What each agent did as each login, by UTC day, as it reported it; and when it last reported anything (ms).
+    ran: BTreeMap<(String, String, u64), Ran>,
+    said_at: BTreeMap<(String, String), u64>,
 }
 
 impl Usage {
@@ -196,13 +215,165 @@ impl Usage {
                 }
             }
             "run.metrics" => {
+                let usd = d.get("usd").and_then(Json::as_f64);
                 let e = self.spent.entry((doer.clone(), ev.at_ms / DAY_MS)).or_default();
-                *e = (e.0 + d.get("usd").and_then(Json::as_f64).unwrap_or(0.0), e.1 + 1);
+                *e = (e.0 + usd.unwrap_or(0.0), e.1 + 1);
+                let n = |k: &str| d.get(k).and_then(Json::as_u64).unwrap_or(0);
+                let one = Ran { runs: 1, tokens: n("tokens_in") + n("tokens_out"), usd: usd.unwrap_or(0.0), priced: u32::from(usd.is_some()) };
+                self.ran.entry((doer.clone(), account.clone(), ev.at_ms / DAY_MS)).or_default().add(&one);
+                let at = self.said_at.entry((doer.clone(), account)).or_default();
+                *at = (*at).max(ev.at_ms);
             }
             _ => {}
         }
     }
+
+    /// What another project's Log says, taken in for the view: the newer reading of a window wins (a login's windows are the same in
+    /// every project), the runs and the spend add up, and what this project learned of a login stands over what another did.
+    pub fn absorb(&mut self, o: &Usage) {
+        for (k, r) in &o.windows {
+            if self.windows.get(k).is_none_or(|m| m.at_ms < r.at_ms) {
+                self.windows.insert(k.clone(), r.clone());
+                match o.blocked.get(k) {
+                    Some(at) => drop(self.blocked.insert(k.clone(), *at)),
+                    None => drop(self.blocked.remove(k)),
+                }
+            }
+        }
+        for (k, (usd, n)) in &o.spent {
+            let e = self.spent.entry(k.clone()).or_default();
+            *e = (e.0 + usd, e.1 + n);
+        }
+        for (k, r) in &o.ran {
+            self.ran.entry(k.clone()).or_default().add(r);
+        }
+        for (k, at) in &o.said_at {
+            let e = self.said_at.entry(k.clone()).or_default();
+            *e = (*e).max(*at);
+        }
+        for (k, w) in &o.waits {
+            if self.waits.get(k).is_none_or(|m| m.1 < w.1) {
+                self.waits.insert(k.clone(), w.clone());
+            }
+        }
+        for (k, s) in &o.signed {
+            self.signed.entry(k.clone()).or_insert_with(|| s.clone());
+        }
+    }
+
+    /// What `doer`, run as `account`, did on the UTC days `from..=to`.
+    fn ran(&self, doer: &str, account: &str, from: u64, to: u64) -> Ran {
+        let mut sum = Ran::default();
+        self.ran.range((doer.to_string(), account.to_string(), from)..=(doer.to_string(), account.to_string(), to)).for_each(|(_, r)| sum.add(r));
+        sum
+    }
 }
+
+/// How often the other projects' Logs are looked at again, and how many of the newest events of each the first look reads.
+const ELSEWHERE_MS: u64 = 60_000;
+const KEEP_ELSEWHERE: u64 = 20_000;
+
+/// What the Logs of the other projects of a J4n home say, for `/usage`: each project J4n opens leaves its folder in `<home>/projects/<key>/root`,
+/// and its Log is read from there without being opened (another J4n may have it), from where it was read last, only when it changed, and
+/// at most once a minute. A project opened before J4n left its folder there counts from its next start.
+#[derive(Default)]
+pub struct Elsewhere {
+    at: Option<u64>,
+    logs: BTreeMap<std::path::PathBuf, (std::path::PathBuf, u64, Usage)>,
+    merged: Usage,
+    kept: Option<(u64, Vec<Kept>)>,
+}
+
+/// An account kept in the J4n home (`<home>/accounts/<id>/`), with the connector and the plan the first row of it found names: the row is
+/// in the home's `account/` or in a project's, and a project with none of its own can be given a copy.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Kept {
+    pub connector: String,
+    pub id: String,
+    pub plan: Option<String>,
+}
+
+/// The accounts kept in the J4n home `home`: each folder under `accounts/` that a row of the home or of a project names, read again at
+/// most once a minute. The rows are J4n's own (a connector and a plan); the folders' contents are never read.
+fn kept_in(home: &std::path::Path) -> Vec<Kept> {
+    let folders: Vec<String> = std::fs::read_dir(home.join("accounts")).into_iter().flatten().flatten().filter(|e| e.path().is_dir()).map(|e| e.file_name().to_string_lossy().into_owned()).collect();
+    if folders.is_empty() {
+        return Vec::new();
+    }
+    let places = std::iter::once(home.join("account")).chain(std::fs::read_dir(home.join("projects")).into_iter().flatten().flatten().map(|e| e.path().join("account")));
+    let mut found: BTreeMap<String, Kept> = BTreeMap::new();
+    for dir in places {
+        for id in &folders {
+            if found.contains_key(id) {
+                continue;
+            }
+            let Some(table) = std::fs::read_to_string(dir.join(format!("{id}.toml"))).ok().and_then(|t| t.parse::<toml::Table>().ok()) else { continue };
+            let rows = table.get("account").and_then(toml::Value::as_array).into_iter().flatten().filter_map(toml::Value::as_table);
+            if let Some(row) = rows.into_iter().find(|r| r.get("id").and_then(toml::Value::as_str) == Some(id.as_str())) {
+                let word = |k: &str| row.get(k).and_then(toml::Value::as_str).map(String::from);
+                if let Some(connector) = word("connector").filter(|_| word("keeps").as_deref() != Some("yours")) {
+                    found.insert(id.clone(), Kept { connector, id: id.clone(), plan: word("plan") });
+                }
+            }
+        }
+    }
+    found.into_values().collect()
+}
+
+impl Elsewhere {
+    /// The accounts kept in the J4n home, as of at most a minute ago.
+    pub fn kept(&mut self, home: &std::path::Path, now_ms: u64) -> Vec<Kept> {
+        match &self.kept {
+            Some((at, k)) if now_ms.saturating_sub(*at) < ELSEWHERE_MS => k.clone(),
+            _ => {
+                let k = kept_in(home);
+                self.kept = Some((now_ms, k.clone()));
+                k
+            }
+        }
+    }
+
+    /// The other projects' readings merged, as of at most a minute ago; `own` is this project's folder, whose Log is not read here.
+    pub fn read(&mut self, home: &std::path::Path, own: &std::path::Path, now_ms: u64) -> &Usage {
+        if self.at.is_some_and(|at| now_ms.saturating_sub(at) < ELSEWHERE_MS) {
+            return &self.merged;
+        }
+        self.at = Some(now_ms);
+        let mine = own.join(".j4n").join("log");
+        let mut dirs: Vec<std::path::PathBuf> = std::fs::read_dir(home.join("projects"))
+            .into_iter()
+            .flatten()
+            .flatten()
+            .filter_map(|e| std::fs::read_to_string(e.path().join(ROOT_FILE)).ok())
+            .map(|root| std::path::PathBuf::from(root.trim()).join(".j4n").join("log"))
+            .filter(|d| *d != mine && d.is_dir())
+            .collect();
+        dirs.sort();
+        dirs.dedup();
+        self.logs.retain(|d, _| dirs.contains(d));
+        for dir in dirs {
+            let Some((seg, len, head)) = crate::log::peek(&dir) else { continue };
+            let (was_seg, was_len, u) = self.logs.entry(dir.clone()).or_insert_with(|| (std::path::PathBuf::new(), 0, Usage::default()));
+            if *was_seg == seg && *was_len == len {
+                continue;
+            }
+            // a Log that went back (made anew) is read anew
+            if head < u.last {
+                *u = Usage::default();
+            }
+            let from = if u.last == 0 { head.saturating_sub(KEEP_ELSEWHERE) } else { u.last + 1 };
+            crate::log::Reader::open(&dir, from).for_each(|e| u.count(&e));
+            (*was_seg, *was_len) = (seg, len);
+        }
+        let mut merged = Usage::default();
+        self.logs.values().for_each(|(_, _, u)| merged.absorb(u));
+        self.merged = merged;
+        &self.merged
+    }
+}
+
+/// The file in `<home>/projects/<key>/` that names the project's folder: `/usage` finds the other projects' Logs by it.
+pub const ROOT_FILE: &str = "root";
 
 /// How a window is going to end, at the pace it has had.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -294,43 +465,110 @@ pub fn view(u: &Usage, plans: &Plans, gateways: &[(String, String)], now_ms: u64
     view_with(u, plans, gateways, &[], &[], &BTreeMap::new(), now_ms)
 }
 
-/// [`view`], with the doers that report no window of any kind (one line says so), and what each gateway says it has left (a gateway not in
+/// [`view`], with the doers that report no window of any kind (a group of one, set up or with runs, says so; one that is neither is not
+/// shown), and what each gateway says it has left (a gateway not in
 /// `credits` says its credits are not known: no call was made). `accounts` are the logins there are, `(doer, account)`: each one of a doer that
 /// shows windows is a group, and one that has shown none says so, whatever another account has shown; with accounts, the doer's own
 /// login (no account) is a group too.
 pub fn view_with(u: &Usage, plans: &Plans, gateways: &[(String, String)], silent: &[String], accounts: &[(String, String)], credits: &BTreeMap<String, Result<Left, String>>, now_ms: u64) -> Json {
+    view_seen(u, plans, &Seen { gateways, silent, accounts, credits, agents: &[] }, now_ms)
+}
+
+/// What the view is made of besides the readings: the gateways whose key reads `(doer, gateway)`, the doers that report no window, the
+/// logins `(doer, account)`, what each gateway said it has left, and the agents that are set up (each is a group, with or without a reading).
+pub struct Seen<'a> {
+    pub gateways: &'a [(String, String)],
+    pub silent: &'a [String],
+    pub accounts: &'a [(String, String)],
+    pub credits: &'a BTreeMap<String, Result<Left, String>>,
+    pub agents: &'a [String],
+}
+
+/// `3 runs · 45.2k tokens · $0.21`, as the agent said it; a run that said no price adds no dollars, and none that did says so.
+fn ran_words(r: &Ran) -> String {
+    if r.runs == 0 {
+        return "nothing".into();
+    }
+    let tokens = match r.tokens {
+        0 => String::new(),
+        t if t >= 1_000_000 => format!(" · {:.1}M tokens", t as f64 / 1e6),
+        t if t >= 1_000 => format!(" · {:.1}k tokens", t as f64 / 1e3),
+        t => format!(" · {t} tokens"),
+    };
+    let usd = if r.priced == 0 { " · no cost said".to_string() } else { format!(" · ${:.2}", r.usd) };
+    format!("{} run{}{tokens}{usd}", r.runs, if r.runs == 1 { "" } else { "s" })
+}
+
+/// `12 min ago`, `3 h ago`, `2 d ago`: how old a reading is.
+fn ago(ms: u64) -> String {
+    match ms / 60_000 {
+        0 => "a moment ago".into(),
+        m if m < 60 => format!("{m} min ago"),
+        m if m < 48 * 60 => format!("{} h ago", m / 60),
+        m => format!("{} d ago", m / 1440),
+    }
+}
+
+/// A gateway as the operator knows it.
+fn gateway_name(id: &str) -> String {
+    match id {
+        "openrouter" => "OpenRouter".into(),
+        "typesafe" => "TypeSafe".into(),
+        other => other.into(),
+    }
+}
+
+/// [`view_with`], with the agents that are set up: every agent and every login of it is a group, with its windows (an agent that has them),
+/// what J4n ran through it today and this week as the agent reported it, and how old that is; one with no reading yet says so and how it
+/// gets one.
+pub fn view_seen(u: &Usage, plans: &Plans, seen: &Seen<'_>, now_ms: u64) -> Json {
+    let Seen { gateways, silent, accounts, credits, agents } = *seen;
+    let (today, week) = (now_ms / DAY_MS, (now_ms / DAY_MS).saturating_sub(6));
     let mut out = Vec::new();
     let mut groups: Vec<(&str, &str)> = u.windows.keys().map(|(d, a, _)| (d.as_str(), a.as_str())).collect();
-    for doer in plans.windowed() {
+    for doer in plans.windowed().into_iter().chain(agents.iter().map(String::as_str)) {
         let named: Vec<&str> = accounts.iter().filter(|(d, _)| d == doer).map(|(_, a)| a.as_str()).collect();
-        if !named.is_empty() {
+        if !named.is_empty() || agents.iter().any(|a| a == doer) {
             groups.push((doer, ""));
             groups.extend(named.into_iter().map(|a| (doer, a)));
         }
     }
+    // what ran this week, through an agent or a login the lists above left out, is a group too
+    groups.extend(u.ran.keys().filter(|(_, _, day)| *day >= week).map(|(d, a, _)| (d.as_str(), a.as_str())));
     groups.sort_unstable();
     groups.dedup();
     for doer in plans.windowed().into_iter().filter(|d| !groups.iter().any(|g| g.0 == *d)) {
         out.push(json!({ "group": doer }));
-        out.push(json!({ "text": "no runs yet", "tone": "dim" }));
+        out.push(json!({ "text": "no reading yet · the next task through it shows its windows", "tone": "dim" }));
     }
+    let grouped = groups.clone();
     for (doer, account) in groups {
+        let logins = grouped.iter().any(|g| g.0 == doer && !g.1.is_empty());
         let plan = plans.of(doer, Some(account).filter(|a| !a.is_empty()));
         let tag = plan.filter(|p| p.id != doer).map(|p| format!(" · {}{}", p.id, p.price.map(|m| format!(" ${m:.0}/mo")).unwrap_or_default())).unwrap_or_default();
         // a login with no plan row says the plan its sign-in gave, and one that is shut says until when
-        let sign = Some(account).filter(|a| !a.is_empty()).map(|a| u.signed(a).cloned().unwrap_or_default());
+        // a login nothing was learned of yet (an account kept in the home, never looked at here) is not said to need a sign-in
+        let sign = Some(account).filter(|a| !a.is_empty()).and_then(|a| u.signed(a).cloned());
         let tag = match sign.as_ref().filter(|s| tag.is_empty() && s.ok && !s.plan.is_empty()) {
             Some(s) => format!(" · {}", s.plan),
             None => tag,
         };
         let shut = u.limited_until(doer, account, "", now_ms).map(|at| format!(" · limited, back in {}", hm(at - now_ms))).unwrap_or_default();
-        out.push(json!({ "group": format!("{doer} · {}{tag}{shut}", if account.is_empty() { "default" } else { account }) }));
-        if !u.windows.keys().any(|(d, a, _)| d == doer && a == account) {
+        // a doer with no login of its own is its name alone; with logins, its own is `default`
+        let who = match (account.is_empty(), logins) {
+            (true, false) => doer.to_string(),
+            (true, true) => format!("{doer} · default"),
+            (false, _) => format!("{doer} · {account}"),
+        };
+        out.push(json!({ "group": format!("{who}{tag}{shut}") }));
+        let windowed = u.windows.keys().any(|(d, a, _)| d == doer && a == account);
+        let (day, seven) = (u.ran(doer, account, today, today), u.ran(doer, account, week, today));
+        if !windowed && seven.runs == 0 {
             // no run asked it yet: what the sign-in said is all there is, and nothing is sent to ask for more
             let text = match &sign {
-                Some(s) if !s.ok => "needs sign-in · no runs yet",
-                Some(_) => "signed in · no runs yet",
-                None => "no runs yet",
+                Some(s) if !s.ok => "needs sign-in · no reading yet",
+                Some(_) => "signed in · no reading yet · the next task through it shows it",
+                None => "no reading yet · the next task through it shows what it reports",
             };
             out.push(json!({ "text": text, "tone": "dim" }));
         }
@@ -354,17 +592,25 @@ pub fn view_with(u: &Usage, plans: &Plans, gateways: &[(String, String)], silent
             }
             out.push(entry);
         }
+        if seven.runs > 0 {
+            out.push(json!({ "text": format!("today {} · this week {}", ran_words(&day), ran_words(&seven)) }));
+        }
+        // how old the newest thing the agent said is: a window's reading or a run's numbers
+        let newest = u.windows.iter().filter(|((d, a, _), _)| d == doer && a == account).map(|(_, r)| r.at_ms).chain(u.said_at.get(&(doer.to_string(), account.to_string())).copied()).max();
+        if let Some(at) = newest.filter(|_| seven.runs > 0 || windowed) {
+            out.push(json!({ "text": format!("as {doer} reported it · as of {}", ago(now_ms.saturating_sub(at))), "tone": "dim" }));
+        }
+        if silent.iter().any(|s| s == doer) && account.is_empty() {
+            out.push(json!({ "text": format!("{doer} reports no limit window: only its runs show here"), "tone": "dim" }));
+        }
     }
-    if !silent.is_empty() {
-        out.push(json!({ "group": silent.join(" · ") }));
-        out.push(json!({ "text": "these doers report no window: nothing to show", "tone": "dim" }));
-    }
+    // a doer that reports no window, is not set up and ran nothing this week is no group: there is nothing of it to show
     let mut labels: Vec<&str> = gateways.iter().map(|g| g.1.as_str()).collect();
     labels.sort_unstable();
     labels.dedup();
     for label in labels {
         let today = gateways.iter().filter(|g| g.1 == label).filter_map(|g| u.spent.get(&(g.0.clone(), now_ms / DAY_MS))).fold((0.0, 0), |a, s| (a.0 + s.0, a.1 + s.1));
-        out.push(json!({ "group": label }));
+        out.push(json!({ "group": format!("{} · J4n's own key", gateway_name(label)) }));
         out.push(match credits.get(label) {
             Some(Ok(Left { remaining: Some(r), limit, .. })) => json!({ "text": format!("credits: ${r:.2} left{}", limit.map(|l| format!(" of ${l:.2}")).unwrap_or_default()) }),
             Some(Ok(Left { remaining: None, used, .. })) => json!({ "text": format!("credits: no limit on this key · ${used:.2} used in all") }),
@@ -408,20 +654,78 @@ impl Front {
             return None;
         }
         let now = self.log().clock().now_ms();
+        let cfg = self.0.cfg();
         // the gateway is asked what a key has left only when `/usage` was said (the call is made outside the lock: it can take seconds)
         let asked = self.usage().asked;
-        let accounts = self.accounts_now();
-        let credits: BTreeMap<String, Result<Left, String>> = self.0.cfg().credits.iter().filter(|_| self.0.cfg().gateways.iter().any(|g| g.1 == GATEWAY)).filter_map(|c| Some((GATEWAY.to_string(), if asked { c.left(now) } else { c.last()? }))).collect();
-        let mut u = self.usage();
-        // what the Log holds now, a run with no screen included: the screen's event path counts the same events once
-        u.catch_up(self.log());
+        // every login there is: this project's rows and the accounts kept in the J4n home
+        let mut accounts = self.accounts_now();
+        accounts.extend(self.kept_accounts().into_iter().map(|k| (k.connector, k.id)));
+        accounts.sort();
+        accounts.dedup();
+        // a gateway shows only while J4n's own key for it reads: a row that names a key nobody typed is not one
+        let gateways: Vec<(String, String)> = cfg.gateways.iter().filter(|(doer, _)| self.key_reads(doer)).cloned().collect();
+        let credits: BTreeMap<String, Result<Left, String>> = cfg.credits.iter().filter(|_| gateways.iter().any(|g| g.1 == GATEWAY)).filter_map(|c| Some((GATEWAY.to_string(), if asked { c.left(now) } else { c.last()? }))).collect();
+        // the agents that are set up, as Agents › Setup finds them: each is a group, with a reading or not
+        let agents: Vec<String> = cfg.setup.as_ref().map(|c| c.report_for(self.main_pick()).rows).unwrap_or_default().into_iter().filter(|r| r.kind == "doer" && r.id != "light" && r.tone == "good").map(|r| r.id).collect();
+        let u = self.usage_seen(now);
         let silent: Vec<String> = SILENT.iter().filter(|d| self.0.doers.iter().any(|x| x.id() == **d) && !u.windows.keys().any(|(w, _, _)| w == **d)).map(|d| d.to_string()).collect();
-        Some(json!({ "field": "meter", "value": view_with(&u, &self.0.tasks.plans(), &self.0.cfg().gateways, &silent, &accounts, &credits, now) }))
+        let seen = Seen { gateways: &gateways, silent: &silent, accounts: &accounts, credits: &credits, agents: &agents };
+        Some(json!({ "field": "meter", "value": view_seen(&u, &self.0.tasks.plans(), &seen, now) }))
+    }
+
+    /// This project's readings with the other projects' of the same J4n home taken in (read at most once a minute, outside the lock of this
+    /// project's own): what `/usage` and Setup's account rows show. The account routing reads this project's alone.
+    pub fn usage_seen(&self, now_ms: u64) -> Usage {
+        let mut all = {
+            let mut u = self.usage();
+            // what the Log holds now, a run with no screen included: the screen's event path counts the same events once
+            u.catch_up(self.log());
+            u.clone()
+        };
+        let cfg = self.0.cfg();
+        if let Some(home) = cfg.home.as_ref() {
+            let mut e = self.0.elsewhere.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            all.absorb(e.read(home, &cfg.root, now_ms));
+        }
+        all
+    }
+
+    /// The accounts kept in the J4n home (a folder of its own and a row somewhere that names its connector), whether or not this project
+    /// has a row for them; none without a home.
+    pub fn kept_accounts(&self) -> Vec<Kept> {
+        let cfg = self.0.cfg();
+        let Some(home) = cfg.home.as_ref() else { return Vec::new() };
+        self.0.elsewhere.lock().unwrap_or_else(std::sync::PoisonError::into_inner).kept(home, self.log().clock().now_ms())
+    }
+
+    /// Whether J4n's own key for the connector `id` reads now (its row names one and it is there); never its value. A doer with no connector
+    /// row (one made in code) is taken at its word.
+    fn key_reads(&self, id: &str) -> bool {
+        let Some(row) = self.screen().tables.raw("connector", id).map(|m| m.fields.clone()) else { return true };
+        row.get("key").and_then(toml::Value::as_str).is_some_and(|r| self.key_state(id, r).starts_with("set"))
     }
 
     /// The logins there are, `(doer, account)`, as the accounts book says now (a row accepted a moment ago is in it).
     pub fn accounts_now(&self) -> Vec<(String, String)> {
         self.0.cfg().accounts.as_ref().map(|f| f()).unwrap_or_default()
+    }
+
+    /// The share words of a cost: a share made from an assumed worth of the window says `est.`, and the window's own reading, where the
+    /// provider gave one for the login the newest task (`last`) ran as, comes first (`5h 26% · est. 1.8% of 5h`).
+    pub(super) fn share_words(&self, shares: &crate::cost::Shares, last: Option<&crate::task::Row>) -> Option<String> {
+        let words = shares.words()?;
+        let (Some((of, true)), Some(last)) = (shares.top(), last) else { return Some(words) };
+        let real = self.window_read(&last.spec.doer, last.spec.account.as_deref().unwrap_or_default(), of);
+        Some(real.map_or(words.clone(), |used| format!("{of} {} · {words}", crate::cost::percent(used))))
+    }
+
+    /// The provider's own reading of one window of the login (`5h`, `7d`, as the cost words name it), while it has not reset.
+    pub fn window_read(&self, doer: &str, account: &str, short: &str) -> Option<f64> {
+        let mut u = self.usage();
+        u.catch_up(self.log());
+        let now = self.log().clock().now_ms();
+        let named = |w: &str| crate::cost::WindowNow { doer: String::new(), account: String::new(), window: w.into(), used: 0.0, resets: 0 }.short() == short;
+        u.windows.iter().find(|((d, a, w), r)| d == doer && a == account && named(w) && u64::try_from(r.resets_s).unwrap_or(0).saturating_mul(1000) > now).map(|(_, r)| r.util)
     }
 
     /// How full the tightest window of `doer`, run as `account`, stands now (0 to 1), from the readings in the Log; none: it shows no window.

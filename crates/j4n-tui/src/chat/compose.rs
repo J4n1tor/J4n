@@ -93,11 +93,16 @@ pub(crate) fn no_doer(v: Option<&Json>) -> bool {
     v.and_then(|v| v.get("route_by")).and_then(Json::as_str) == Some("none") && v.and_then(|v| v.get("work")).and_then(Json::as_array).is_none_or(Vec::is_empty)
 }
 
-/// The words of a chat's empty state: dim, with the mark of a thing that waits.
-pub(crate) fn empty_state(th: &Theme) -> Line<'static> {
+/// The words of a chat's empty state: dim, with the mark of a thing that waits. The doer the first line goes to is named when the core
+/// knows it (`next`: the launch's `--doer`, or Setup's pick).
+pub(crate) fn empty_state(th: &Theme, v: Option<&Json>) -> Line<'static> {
     let mut spans = vec![Span::raw(" ")];
     spans.extend(named(th, "queued"));
-    spans.push(Span::styled("no doer yet · the first line picks one", th.tone(Tone::Dim)));
+    let words = match v.and_then(|v| v.get("next")).and_then(Json::as_str).filter(|n| !n.is_empty()) {
+        Some(next) => format!("{next} · the first line goes to it"),
+        None => "no doer yet · the first line picks one".to_string(),
+    };
+    spans.push(Span::styled(words, th.tone(Tone::Dim)));
     Line::from(spans)
 }
 

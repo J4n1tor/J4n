@@ -530,7 +530,9 @@ impl Fold for Book {
                     row.listed = row.listed.saturating_add(micros(d.get("usd").and_then(Json::as_f64).unwrap_or(0.0)));
                     row.planned |= d.get("plan_usd").is_some();
                     if let (Some(of), Some(frac)) = (d.get("share_of").and_then(Json::as_str), d.get("share").and_then(Json::as_f64)) {
-                        row.shares.add(of, frac);
+                        // a share made from an assumed worth of the window (no measure of it yet) is kept apart and said as an estimate
+                        let assumed = d.get("source").and_then(Json::as_str) == Some("assumed");
+                        row.shares.add(&if assumed { format!("{of}{}", crate::cost::EST) } else { of.to_string() }, frac);
                     }
                     row.plan_note = d.get("plan").and_then(Json::as_str).filter(|w| w.starts_with("no price")).unwrap_or_default().to_string();
                     row.tokens_in = row.tokens_in.saturating_add(d.get("tokens_in").and_then(Json::as_u64).unwrap_or(0));

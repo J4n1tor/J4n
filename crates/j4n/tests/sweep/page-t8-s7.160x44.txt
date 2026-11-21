@@ -41,4 +41,4 @@
 ├ power-asks                       shell         ask      —      reboots or shuts the machine down
 ├ proc-of-others                   read          block    —      a process's environment and memory hold its keys: a lane never reads them
 ├ prune-asks                       shell         ask      —      prunes container state
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                                                         ⌃g keys

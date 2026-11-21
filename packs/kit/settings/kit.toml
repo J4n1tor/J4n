@@ -5,6 +5,7 @@ api = 1
 [[setting]]
 id = "kit.mode"
 doc = "Whether the own agent is given the tool `py`: Python in a kernel that keeps its variables for the task (standard library only, no network where the task is in a box, one cell is one Gate call). `off` (the default) offers nothing and starts nothing; `on` offers it, and starts a kernel at the task's first cell. An unknown word is `off`."
+brief = "Give the own agent a Python kernel that keeps its variables for the task."
 ty = "str"
 default = "off"
 full = "on"

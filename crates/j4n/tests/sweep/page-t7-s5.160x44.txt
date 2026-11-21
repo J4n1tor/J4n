@@ -41,4 +41,4 @@
 ├ global/tab6                —     F6                                Open tab 6.
 ├ global/tab7                —     F7                                Open tab 7.
 ├ global/tab8                —     F8                                Open tab 8.
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                                                         ⌃g keys

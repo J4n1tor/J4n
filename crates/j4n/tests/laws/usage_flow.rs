@@ -28,7 +28,7 @@ fn usage_starts_no_task_and_its_row_follows_the_windows() {
     assert!(world.notices.is_empty(), "{:?}", world.notices);
     let mut op = Operator::sit(&world);
     op.type_line("/usage");
-    op.until("the view, with no window yet", |s| s.contains("no runs yet"));
+    op.until("the view, with no window yet", |s| s.contains("no reading yet · the next task through it shows its windows"));
     op.type_line(":usage");
     op.until("the second row", |_| kinds(&d, "chat.view") == 2);
     assert_eq!((kinds(&d, "task.queued"), kinds(&d, "task.started"), kinds(&d, "brief.rendered")), (0, 0, 0), "no task, no brief: nothing was asked of a doer");
@@ -36,7 +36,7 @@ fn usage_starts_no_task_and_its_row_follows_the_windows() {
     let resets = world.front.log().clock().now_ms() / 1000 + 3 * 3600;
     world.front.log().append(New::of("run.window", Actor::Doer("claude".into()), json!({ "window": "five_hour", "utilization": 0.42, "resets_at": resets, "status": "allowed" })).task("t1").thread("main")).unwrap();
     let s = op.until("the bar", |s| s.contains("42%"));
-    assert!(s.contains("claude · default") && s.contains("5h") && !s.contains("no runs yet"), "{s}");
+    assert!(s.contains("claude\n") && s.contains("5h") && !s.contains("no reading yet · the next task through it shows its windows"), "{s}");
     drop(op);
     world.close();
 }

@@ -841,9 +841,15 @@ impl Serve {
         // the newest task has the spend limit that counts: how far it has come, and how far it may
         let show = self.front.screen().show();
         match rows.last().and_then(|r| r.spec.limits.usd_soft.map(|soft| (r, soft))) {
-            Some((r, soft)) => Cell::new(show.money_of(r.shares.words().as_deref(), r.planned, &usd(r.spent), Some(&usd(crate::task::micros(soft))), &usd(r.listed)), if r.capped { Tone::Warn } else { Tone::Dim }),
-            None => Cell::new(show.money_of(shares.words().as_deref(), planned, &usd(spent), None, &usd(listed)), Tone::Dim),
+            Some((r, soft)) => Cell::new(show.money_of(self.share_words(&r.shares, rows).as_deref(), r.planned, &usd(r.spent), Some(&usd(crate::task::micros(soft))), &usd(r.listed)), if r.capped { Tone::Warn } else { Tone::Dim }),
+            None => Cell::new(show.money_of(self.share_words(&shares, rows).as_deref(), planned, &usd(spent), None, &usd(listed)), Tone::Dim),
         }
+    }
+
+    /// The share words of the cost: a share made from an assumed worth of the window says `est.`, and the window's own reading, where the
+    /// provider gave one for the login the newest task ran as, comes first (`5h 26% · est. 1.8% of 5h`).
+    fn share_words(&self, shares: &crate::cost::Shares, rows: &[Row]) -> Option<String> {
+        self.front.share_words(shares, rows.last())
     }
 
     /// The bottom bar: what the whole screen is doing, whichever tab is open. How many tasks work and how many wait for the
@@ -883,8 +889,9 @@ impl Serve {
         if self.front.desk().is_some_and(|d| d.on()) {
             cells.push(Cell::new("shape", Tone::Accent));
         }
-        // the Decider, as an icon with no name: drawn dim, and `Decider off` after it, while none can be asked
-        cells.push(if self.front.decider_on() { Cell::with_icon("decide", "", Tone::Plain) } else { Cell::with_icon("decide-off", "Decider off", Tone::Dim) });
+        // the Decider in the words of Agents › Setup's row (one reading for both): `Decider on · Jev`, dim `Decider off` while none answers
+        let decider = self.front.decider_now();
+        cells.push(if decider.on() { Cell::with_icon("decide", &decider.bar(), Tone::Plain) } else { Cell::with_icon("decide-off", &decider.bar(), Tone::Dim) });
         cells.push(Cell::new(self.front.cfg().project.clone(), Tone::Dim));
         let tone = if waiting > 0 { Tone::Warn } else if running > 0 { Tone::Accent } else { Tone::Plain };
         PRow { key: "status".into(), cells, tone, ..PRow::default() }
@@ -970,7 +977,14 @@ impl Serve {
         // the skills the running tasks were given, counted once each
         let skills = live.iter().flat_map(|r| r.spec.input.get("skills").and_then(|s| s.as_array()).into_iter().flatten().filter_map(|s| s.get("id").and_then(|i| i.as_str()))).collect::<std::collections::BTreeSet<_>>().len();
         let cost = if rows.iter().any(|r| r.spent + r.listed > 0) { self.money(&rows).text } else { String::new() };
-        compose::strip(&compose::Strip { window, route: route.as_deref().unwrap_or(compose::NO_DOER), lanes: self.front.lanes_now().word(), work, cost, mode: self.mode_word(), skills, plan: self.front.plan_counts(&self.thread), form: self.front.gauge_form(), skip: self.front.steps_hint(&self.thread) })
+        // no doer yet, and the one the first line goes to is known: the launch's `--doer`, else the pick of Setup with its account
+        let cfg = self.front.cfg();
+        let next = match (&route, &cfg.doer) {
+            (Some(_), _) => String::new(),
+            (None, Some(d)) => format!("{d}{}", cfg.model.as_deref().map(|m| format!(" · {m}")).unwrap_or_default()),
+            (None, None) => self.front.main_pick().map(|d| format!("{d}{}", self.front.picked_account(&d).map(|a| format!(" · {a}")).unwrap_or_default())).unwrap_or_default(),
+        };
+        compose::strip(&compose::Strip { window, route: route.as_deref().unwrap_or(compose::NO_DOER), next: &next, lanes: self.front.lanes_now().word(), work, cost, mode: self.mode_word(), skills, plan: self.front.plan_counts(&self.thread), form: self.front.gauge_form(), skip: self.front.steps_hint(&self.thread) })
     }
 
     /// The clock: a question that waits is sent again when its wait changes (the list is sent only when it differs).

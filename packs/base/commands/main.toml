@@ -120,7 +120,7 @@ open = "agents"
 
 [[command]]
 id = "setup"
-doc = "Open Agents › Setup: the agent, the model and the Decider, each with where it stands and the key that sets it, a key typed on its row and shown to no one (`:setup again` asks the programs again, `:setup test` makes one short call to each part that is set, `:setup doer <id>` picks the main lane's doer)."
+doc = "Open Agents › Setup: the agent, the model and the Decider, each with where it stands and the key that sets it, a key typed on its row and shown to no one (`:setup again` asks the programs again, `:setup test` makes one short call to each part that is set, `:setup doer <id>` picks the main lane's doer, `:setup doer <id> <account>` with the account it runs as)."
 words = [":setup", ":doctor"]
 open = "setup"
 

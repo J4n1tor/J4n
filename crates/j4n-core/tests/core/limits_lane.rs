@@ -364,15 +364,15 @@ fn usage_of(events: &[(&str, serde_json::Value)], accounts: &[&str]) -> String {
 #[test]
 fn usage_shows_a_signed_in_account_with_its_plan_and_no_runs_yet() {
     let text = usage_of(&[("account.checked", json!({ "account": "claude-1", "ok": true, "plan": "max", "state": "signed in" }))], &["claude-1"]);
-    assert!(text.contains("claude · claude-1 · max\n  signed in · no runs yet"), "{text}");
+    assert!(text.contains("claude · claude-1 · max\n  signed in · no reading yet"), "{text}");
     assert!(!text.contains("it shows after"), "{text}");
 }
 
 #[test]
 fn a_later_sign_in_without_a_plan_keeps_the_plan_and_a_failed_one_says_it_needs_a_sign_in() {
     let text = usage_of(&[("account.checked", json!({ "account": "w", "ok": true, "plan": "pro" })), ("account.signin", json!({ "account": "w", "ok": true })), ("account.signin", json!({ "account": "x", "ok": false, "reason": "timed out" }))], &["w", "x", "y"]);
-    assert!(text.contains("claude · w · pro\n  signed in · no runs yet"), "{text}");
-    assert!(text.contains("claude · x\n  needs sign-in · no runs yet") && text.contains("claude · y\n  needs sign-in · no runs yet"), "{text}");
+    assert!(text.contains("claude · w · pro\n  signed in · no reading yet"), "{text}");
+    assert!(text.contains("claude · x\n  needs sign-in · no reading yet") && text.contains("claude · y\n  no reading yet · the next task"), "{text}");
 }
 
 /// A shut login says so in its title.
@@ -383,7 +383,7 @@ fn usage_says_which_login_is_limited_and_for_how_long() {
     u.count(&ev);
     let (plans, _) = j4n_core::cost::Plans::load(&base_tables(""));
     let text = plain(&view_with(&u, &plans, &[], &[], &[], &BTreeMap::new(), T0));
-    assert!(text.contains("claude · default · limited, back in 1:15"), "{text}");
+    assert!(text.contains("claude · limited, back in 1:15"), "{text}");
 }
 
 // ---- the words of a limit, in each form claude prints ----

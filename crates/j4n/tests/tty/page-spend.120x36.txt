@@ -2,15 +2,7 @@
   󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
  ───────────────────━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────
 claude
-  no runs yet
-codex · gemini
-  these doers report no window: nothing to show
-openrouter
-  credits: unknown (a gateway call, not made here)
-  today: nothing spent
-typesafe
-  credits: unknown (a gateway call, not made here)
-  today: nothing spent
+  no reading yet · the next task through it shows its windows
   a day  —
 • each task's cost shows here once a task has run
 
@@ -23,7 +15,15 @@ typesafe
 
 
 
+
+
+
+
 • the report of each settled thread shows here: its facts, its lines and their receipts, its answers
+
+
+
+
 
 
 

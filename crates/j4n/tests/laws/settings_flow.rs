@@ -56,6 +56,8 @@ fn the_basic_switches_are_the_features_rows_and_every_switch_is_flipped_in_all_f
     for r in &features {
         let brief = &r.cells[3].text;
         assert!(!brief.is_empty() && brief.chars().count() <= 100 && !brief.contains('`'), "{}: one plain line: {brief:?}", r.key);
+        // the row the keys are on says that line whole and its default; its whole text is under All, so the short page stays short
+        assert!(r.detail.first().is_some_and(|d| d.text == *brief) && r.detail.iter().all(|d| d.text.chars().count() <= 120), "{}: the open row says its brief, not its doc: {:?}", r.key, r.detail);
     }
     // every other switch is a row of All, from the settings' own types, flipped there with `space`
     let all = rows(&mut serve, "settings");
@@ -180,6 +182,8 @@ fn packs_full_turns_the_feature_switches_on_and_says_so_in_features_and_the_oper
     for id in on {
         let r = features.iter().find(|r| r.key == id).unwrap_or_else(|| panic!("{id} is no row of Features"));
         assert!(r.cells.get(2).is_some_and(|c| c.text == "full"), "{id}: the column `by` says full: {:?}", r.cells);
+        let brief = &r.cells[3].text;
+        assert!(brief.chars().count() <= 100 && !brief.contains('`') && r.detail.first().is_some_and(|d| d.text == *brief), "{id}: one plain line, and the row open says it, not its whole text: {brief:?} {:?}", r.detail);
     }
     // what a pack that acts outside the project keeps: not a row of Features, and not turned on
     for id in ["contribute.mode", "inbox.mode", "kit.judge", "qc.jev", "reflexes.judge", "librarian.on", "weigh.on"] {

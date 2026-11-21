@@ -525,6 +525,9 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
     let mut front = Cfg::new(&root.file_name().map_or_else(|| root.display().to_string(), |n| n.to_string_lossy().into_owned()));
     front.thread = thread.into();
     front.root = root.clone();
+    front.home = Some(home.clone());
+    // this project's folder, left where `/usage` in another project finds its Log (nothing else is in the file)
+    remember_root(&here_dir(&home, &root), &root);
     // the models each doer has: a model word is matched against them, here for `--model` and later for `:switch`
     let lists = Arc::new(
         j4n_connect::modellist::ModelsOf::new(connectors.all(), {
@@ -576,12 +579,15 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
     });
     front.gateways = connectors.all().iter().filter(|c| c.key.is_some()).filter_map(|c| Some((c.id.clone(), gateway_of(c.url.as_deref()?)?))).collect();
     // offload: what the gateway key has left (the switch, its numbers and the main lane's pick are `Cfg::apply`'s)
-    front.credits = connectors.all().iter().find(|c| c.key.is_some() && c.url.as_deref().and_then(gateway_of).as_deref() == Some("openrouter")).and_then(|c| Some((c.url.clone()?, c.clone()))).map(|(base, row)| {
+    // the rows on the gateway that name a key: when asked, the first whose key is there now (one typed while J4n runs too) is the one used
+    let routers: Vec<_> = connectors.all().iter().filter(|c| c.key.is_some() && c.url.as_deref().and_then(gateway_of).as_deref() == Some("openrouter")).filter_map(|c| Some((c.url.clone()?, c.clone()))).collect();
+    front.credits = (!routers.is_empty()).then(|| {
         let red = red.clone();
         j4n_core::front::usage::Credits::new(move || {
             // the gateway's key where it is now: the environment, else the one J4n keeps
-            let key = row.read_key(&|name, reference| secret(&red, name, reference)).map_err(|why| why.map_or_else(|| format!("there is no key for {}", row.id), |why| format!("the key of {} is not used: {why}", row.id)))?;
-            j4n_connect::credits::ask(&j4n_connect::net::Net::new().idle(std::time::Duration::from_secs(10)), &base, &key)
+            let (base, row) = routers.iter().find(|(_, r)| r.has_key()).ok_or_else(|| "no key is typed for it yet".to_string())?;
+            let key = row.read_key(&|name, reference| secret(&red, name, reference)).map_err(|why| why.map_or_else(|| "no key is typed for it yet".to_string(), |why| format!("its key is not used: {why}")))?;
+            j4n_connect::credits::ask(&j4n_connect::net::Net::new().idle(std::time::Duration::from_secs(10)), base, &key)
         })
     });
     front.keys = Some(keys.clone());
@@ -771,6 +777,19 @@ fn model_word(lists: &dyn ModelLists, connectors: &Connectors, doer: Option<&str
 }
 
 /// The name of a gateway from its URL: `https://openrouter.ai/api/v1` is `openrouter`.
+/// Write the project's folder in `<home>/projects/<key>/root` when it is not there yet: a failure only means `/usage` elsewhere does not see
+/// this project.
+fn remember_root(here: &Path, root: &Path) {
+    let file = here.join(j4n_core::front::usage::ROOT_FILE);
+    let words = root.to_string_lossy();
+    if std::fs::read_to_string(&file).is_ok_and(|t| t.trim() == words) {
+        return;
+    }
+    if std::fs::create_dir_all(here).is_ok() {
+        let _ = std::fs::write(&file, format!("{words}\n"));
+    }
+}
+
 fn gateway_of(url: &str) -> Option<String> {
     let host = url.split("://").nth(1)?.split(['/', ':']).next()?;
     host.rsplit('.').nth(1).or(Some(host)).filter(|h| !h.is_empty()).map(String::from)

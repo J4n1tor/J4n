@@ -160,9 +160,21 @@ impl Shares {
     /// The window the most was taken of, as `0.8% of 5h`; none when no request had a share.
     pub fn words(&self) -> Option<String> {
         let (of, frac) = self.0.iter().max_by(|a, b| a.1.total_cmp(b.1))?;
-        Some(format!("{} of {of}", percent(*frac)))
+        Some(match of.strip_suffix(EST) {
+            Some(of) => format!("est. {} of {of}", percent(*frac)),
+            None => format!("{} of {of}", percent(*frac)),
+        })
+    }
+
+    /// The window the largest share is of (`5h`), and whether that share is an estimate.
+    pub fn top(&self) -> Option<(&str, bool)> {
+        let (of, _) = self.0.iter().max_by(|a, b| a.1.total_cmp(b.1))?;
+        Some(of.strip_suffix(EST).map_or((of.as_str(), false), |o| (o, true)))
     }
 }
+
+/// What marks a share made from an assumed worth of its window (`source: assumed`): it is said `est.`.
+pub const EST: &str = " est.";
 
 /// `0.8%`, `12%`, `<0.1%`: a share of a window.
 pub fn percent(frac: f64) -> String {

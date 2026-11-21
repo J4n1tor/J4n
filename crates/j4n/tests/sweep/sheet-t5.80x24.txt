@@ -21,4 +21,4 @@
         │                                               any key closes │
         ╰──────────────────────────────────────────────────────────────╯
 a proposal changes nothing until it is accepted; an accepted one can be undone
- 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project         ⌃g keys

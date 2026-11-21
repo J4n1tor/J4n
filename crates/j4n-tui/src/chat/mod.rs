@@ -109,7 +109,7 @@ pub fn draw(app: &mut App, f: &Field, area: Rect, fr: &mut Frame) {
         if !lines.is_empty() {
             lines.push(Plan::gap());
         }
-        lines.push(Out { line: compose::empty_state(&app.theme), ..Plan::gap() });
+        lines.push(Out { line: compose::empty_state(&app.theme, app.values.get(j4n_proto::COMPOSER_STRIP)), ..Plan::gap() });
     }
     app.breathes = breathes || !app.ui.sent.is_empty();
     // a part that waits elsewhere on the page keeps its sign

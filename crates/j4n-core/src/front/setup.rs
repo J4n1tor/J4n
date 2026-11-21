@@ -43,6 +43,45 @@ pub struct Proof {
 
 type Fields = BTreeMap<String, Value>;
 
+/// The Decider as it stands: the pack's switch as the files say it (`said`), whether this start loaded it, and the one that answers
+/// (empty: none has its key). Agents › Setup and the status bar both read it.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct DeciderNow {
+    pub said: bool,
+    pub loaded: bool,
+    pub answers: &'static str,
+}
+
+impl DeciderNow {
+    /// A Decider answers now: its pack is loaded and on, and one has its key.
+    pub fn on(&self) -> bool {
+        self.said && self.loaded && !self.answers.is_empty()
+    }
+
+    /// The words of the Setup row.
+    pub fn words(&self) -> String {
+        match (self.said, self.loaded) {
+            (true, true) if !self.answers.is_empty() => format!("on · {} answers", self.answers),
+            (true, true) => "on · its key is not typed yet".to_string(),
+            (true, false) => "on from the next start · ⟳".to_string(),
+            (false, true) => "off from the next start · ⟳".to_string(),
+            (false, false) => "off · answers the small questions so you are asked less".to_string(),
+        }
+    }
+
+    /// The status bar's cell: the Setup row's words, short (`Decider on · Jev`); `Decider off` while it is off.
+    pub fn bar(&self) -> String {
+        let who = self.answers.split([' ']).next().unwrap_or_default();
+        match (self.said, self.loaded) {
+            (true, true) if !who.is_empty() => format!("Decider on · {who}"),
+            (true, true) => "Decider on · no key".to_string(),
+            (true, false) => "Decider on from the next start ⟳".to_string(),
+            (false, true) => "Decider off from the next start ⟳".to_string(),
+            (false, false) => "Decider off".to_string(),
+        }
+    }
+}
+
 fn text(s: impl AsRef<str>) -> Value {
     Value::text(s.as_ref())
 }
@@ -227,6 +266,9 @@ impl Front {
                 m.insert("undo".into(), text(self.setup_undo("lane.doer")));
             }
             out.push(m);
+            if declared {
+                out.extend(self.setup_accounts(id, using || picked));
+            }
             if !using || !declared {
                 continue;
             }
@@ -269,6 +311,68 @@ impl Front {
         out
     }
 
+    /// Under an agent that has accounts (this project's rows, or the ones kept in the J4n home): its own sign-in and each account, a choice
+    /// of its own. `⏎` runs the main lane as it (`:setup doer <agent> <account>`, one edit `u` takes back); an account needs the pack
+    /// `accounts`, and while that is off its row turns it on. `chosen`: the agent is the one in use or picked.
+    fn setup_accounts(&self, doer: &str, chosen: bool) -> Vec<Fields> {
+        let here: Vec<String> = self.accounts_now().into_iter().filter(|(d, _)| d == doer).map(|(_, a)| a).collect();
+        let mut logins: Vec<(String, Option<String>)> = here.iter().map(|a| (a.clone(), None)).collect();
+        for k in self.kept_accounts().into_iter().filter(|k| k.connector == doer) {
+            if !logins.iter().any(|(a, _)| *a == k.id) {
+                logins.push((k.id, k.plan));
+            }
+        }
+        if logins.is_empty() {
+            return Vec::new();
+        }
+        logins.sort();
+        let screen = self.screen();
+        let loaded = screen.packs.iter().any(|p| p.id == "accounts" && p.on);
+        let waits = !loaded && pack_said(&screen, "accounts") == Some(true);
+        // the login the main lane runs as now: the main chat's while it is bound to this agent, else the pick
+        let main = self.cfg().thread.clone();
+        let now_as = match self.binding(&main).filter(|b| b.doer == doer) {
+            Some(b) => b.account.unwrap_or_default(),
+            None => self.picked_account(doer).unwrap_or_default(),
+        };
+        let seen = self.usage_seen(self.log().clock().now_ms());
+        let undo = self.setup_undo("lane.account");
+        let mut out = Vec::new();
+        for (login, plan) in std::iter::once((String::new(), None)).chain(logins) {
+            let own = login.is_empty();
+            let using = chosen && now_as == login;
+            let needs_pack = !own && !loaded;
+            // the agent's own sign-in is `default`, as `/usage` calls it
+            let label = if own { format!("{doer} · default") } else { format!("{doer} · {login}") };
+            let plan = plan.map(|p| format!(" · {p}")).unwrap_or_default();
+            let state = match seen.signed(&login).filter(|_| !own) {
+                Some(s) if s.ok => format!("signed in{}", if s.plan.is_empty() { plan } else { format!(" · {}", s.plan) }),
+                Some(_) => "needs sign-in".to_string(),
+                None if own => "its own sign-in".to_string(),
+                None => format!("kept in this J4n home{plan}"),
+            };
+            let note = match (needs_pack, waits, using) {
+                (true, true, _) => "its pack is on from the next start · ⟳".to_string(),
+                (true, false, _) => "its pack, accounts, is off · ⏎ turns it on".to_string(),
+                (false, _, true) if own => "in use".to_string(),
+                (false, _, true) => "in use · tasks here run as it".to_string(),
+                (false, _, false) => "⏎ runs this project's tasks as it".to_string(),
+            };
+            let mut m = row(&label, "account", doer, if using { "radio-on" } else { "radio-off" }, [label.as_str(), state.as_str(), note.as_str()]);
+            m.insert("doer".into(), text(doer));
+            m.insert("account".into(), text(&login));
+            m.insert("acctpack".into(), Value::Bool(!needs_pack));
+            m.insert("using".into(), Value::Bool(using));
+            m.insert("restart".into(), Value::Bool(needs_pack && waits));
+            m.insert("tone".into(), text(if needs_pack { "dim" } else { "plain" }));
+            if using && !undo.is_empty() {
+                m.insert("undo".into(), text(&undo));
+            }
+            out.push(m);
+        }
+        out
+    }
+
     fn setup_model(&self, report: Option<&Report>) -> Fields {
         let model = self.0.live.word("lane.model", "");
         let doer = self.setup_doer(report);
@@ -300,25 +404,26 @@ impl Front {
         m
     }
 
-    fn setup_decider(&self, providers: &[Value]) -> Vec<Fields> {
+    /// Where the Decider stands, as Agents › Setup says it and the status bar repeats it: one reading for both, so they never disagree.
+    pub fn decider_now(&self) -> DeciderNow {
         let screen = self.screen();
-        let info = screen.packs.iter().find(|p| p.id == DECIDER);
-        let loaded = info.is_some_and(|p| p.on);
+        let loaded = screen.packs.iter().any(|p| p.id == DECIDER && p.on);
         // what the files say now: a switch said while J4n runs is read at the next start
         let said = pack_said(&screen, DECIDER).unwrap_or(loaded);
+        let key = |id: &str| screen.tables.raw("provider", id).and_then(|m| m.fields.get("key").and_then(toml::Value::as_str).map(|k| is_set(&self.key_state(id, k)))).unwrap_or(false);
+        let (span_key, jev_key) = (key("openrouter"), key("typesafe"));
+        let answers = if !said { "" } else if jev_key { "Jev · System One" } else if span_key { "Span through OpenRouter" } else { "" };
+        DeciderNow { said, loaded, answers }
+    }
+
+    fn setup_decider(&self, providers: &[Value]) -> Vec<Fields> {
+        let now = self.decider_now();
+        let DeciderNow { said, loaded, answers } = now;
         let (span, jev) = (provider(providers, "openrouter"), provider(providers, "typesafe"));
         let set = |p: &Option<Fields>| p.as_ref().is_some_and(|p| is_set(&word(p, "key")));
         let (span_key, jev_key) = (set(&span), set(&jev));
-        let answers = if !said { "" } else if jev_key { "Jev · System One" } else if span_key { "Span through OpenRouter" } else { "" };
-        let done = loaded && said && !answers.is_empty();
-        let now = match (said, loaded) {
-            (true, true) if !answers.is_empty() => format!("on · {answers} answers"),
-            (true, true) => "on · its key is not typed yet".to_string(),
-            (true, false) => "on from the next start · ⟳".to_string(),
-            (false, true) => "off from the next start · ⟳".to_string(),
-            (false, false) => "off · answers the small questions so you are asked less".to_string(),
-        };
-        let mut step = row("Decider", "step", "", if done { "yes" } else { "queued" }, ["Decider", &now, if done { "⏎ change" } else { "⏎ set up" }]);
+        let done = now.on();
+        let mut step = row("Decider", "step", "", if done { "yes" } else { "queued" }, ["Decider", &now.words(), if done { "⏎ change" } else { "⏎ set up" }]);
         step.insert("done".into(), Value::Bool(done));
         step.insert("on".into(), Value::Bool(said));
         let mut out = vec![step];
@@ -331,6 +436,8 @@ impl Front {
             let note = format!("{what}{}{off_note}", if label == recommend { " · recommended" } else { "" });
             let mut m = keyed(row(label, "decider", "Decider", if answers == label { "radio-on" } else { "radio-off" }, [label, "not set", &note]), p.as_ref());
             m.insert("on".into(), Value::Bool(said));
+            // its key there and the Decider off: ⏎ turns it on (the card asks first); with no key, ⏎ types the key
+            m.insert("keyset".into(), Value::Bool(is_set(&word(&m, "now"))));
             out.push(m);
         }
         let mut none = row("none", "none", "Decider", if said { "radio-off" } else { "radio-on" }, ["none", "", if said { "every question keeps its fixed pick or comes to you · ⏎ turns the Decider off" } else { "every question keeps its fixed pick or comes to you" }]);
@@ -480,6 +587,7 @@ impl Front {
     }
 
     /// The Decider's part: its probe cases at one point (`intake` where it answers there), put as `:probe` puts them; ok when it passed.
+    /// The part names that point: its cost is that point's `probe.result`, and the run at start writes the other points' beside it.
     fn proof_decider(&self, id: &str, label: &str, key: &str) -> Json {
         let part = |ok: bool, ms: u64, usd: Option<f64>, why: &str| json!({ "part": "decider", "id": id, "label": label, "key": key, "ok": ok, "ms": ms, "usd": usd, "why": crate::text::line(why, 80) });
         let Some(prober) = self.0.asks.prober.clone() else { return part(false, 0, None, "no Decider is made to ask") };
@@ -501,7 +609,9 @@ impl Front {
             (None, true) => "it answered its probe cases".into(),
             (None, false) => format!("it missed {} of its probe cases", report.missed.len()),
         };
-        part(report.passed && report.why.is_none(), report.ms, report.usd, &why)
+        let mut done = part(report.passed && report.why.is_none(), report.ms, report.usd, &why);
+        done["point"] = Json::from(report.point);
+        done
     }
 
     /// The Test step and, once a test ran, a row per part and the row that runs it again. A part that failed is the row that mends it.

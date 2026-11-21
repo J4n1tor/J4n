@@ -18,6 +18,9 @@ pub struct Strip<'a> {
     pub window: Option<f64>,
     /// The route (`claude · sonnet 5.5`), the thread's binding.
     pub route: &'a str,
+    /// While the thread has no doer: the one its first line goes to when that is known before it (`--doer` at the start, or the pick in
+    /// Agents › Setup with its account); empty: the election chooses.
+    pub next: &'a str,
     /// The word of the switch `lanes`; the strip names it only when it is not `single`.
     pub lanes: &'a str,
     /// The tasks that work now, oldest first; a line that was just sent is one before its task has a frame.
@@ -53,6 +56,9 @@ pub fn strip(s: &Strip) -> Json {
     let mut strip = json!({ "tags": tags, "gauge": s.window, "route": s.route, "route_by": if s.route == NO_DOER { "none" } else { "core" }, "work": work, "cost": s.cost, "mode": s.mode });
     if s.skills > 0 {
         strip["skills"] = json!(s.skills);
+    }
+    if s.route == NO_DOER && !s.next.is_empty() {
+        strip["next"] = json!(s.next);
     }
     if let Some((done, total)) = s.plan {
         strip["plan"] = json!({ "done": done, "total": total });

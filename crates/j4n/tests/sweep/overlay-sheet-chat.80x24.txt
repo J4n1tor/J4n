@@ -17,7 +17,7 @@
         │                    window that runs low).                    │
         │ ⇧drag    select    Select the screen's text with the mouse:  │
         │                    hold ⇧ while you drag, because the mouse  │
- 󰄰 no do│                    is the screen's (Settings › Look › mouse  │
+ 󰄰 test │                    is the screen's (Settings › Look › mouse  │
 ╭───────│                    gives it back to the terminal).           │───────╮
 │       │ ⇥        take      Take it whole; ⇥ again, the next one.     │       │
 ╰───────│                                               any key closes │───────╯

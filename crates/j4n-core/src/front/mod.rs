@@ -157,6 +157,8 @@ pub struct Cfg {
     pub setup: Option<crate::doctor::Check>,
     /// The project's folder: where the claims of a branch's report are looked up (empty: the process's own folder).
     pub root: std::path::PathBuf,
+    /// The J4n home (`~/.j4n`): `/usage` reads the other projects' Logs and Setup the accounts kept there; none: neither is read.
+    pub home: Option<std::path::PathBuf>,
     /// What acts on its own: the setting `lanes` at the start; `:lanes` says another while J4n runs.
     pub lanes: crate::branch::Switch,
     /// The classes of branch a rule may start and what each is given (the pack `lanes`, `packs/lanes/rules/branch.toml`).
@@ -306,6 +308,7 @@ impl Cfg {
             models: Arc::new(models::NoLists),
             setup: None,
             root: std::path::PathBuf::new(),
+            home: None,
             lanes: Default::default(),
             branches: Default::default(),
             usd_line: crate::branch::LINE_USD,
@@ -478,6 +481,8 @@ struct Core {
     terms: std::sync::Mutex<terms::Terms>,
     /// The windows and the spend `/usage` shows, read from the Log when first asked for and kept as events are written.
     usage: Arc<std::sync::Mutex<usage::Usage>>,
+    /// What the Logs of the other projects of this J4n home say for `/usage`, read now and then, never for a line.
+    elsewhere: std::sync::Mutex<usage::Elsewhere>,
     /// Offload's own state: the switch and the pick as the operator last said them, the reviews that wait for a yes.
     chores: std::sync::Mutex<offload::State>,
     /// The reflexes the operator added, switched or removed while J4n runs, what each last said, and the yes a chat waits for.
@@ -540,7 +545,7 @@ impl Front {
         let who = Arc::new(Who::new(asks.clone(), &doers, std::collections::BTreeMap::new(), cfg.hosts.clone(), log.clone()));
         who.hands().set(&cfg.hand);
         let since_ms = log.clock().now_ms();
-        let front = Front(Arc::new(Core { envoys: Default::default(), since_ms, tasks, log, binds, asks, phrases, doers, cfg: std::sync::RwLock::new(Arc::new(cfg)), who, screen: std::sync::RwLock::new(Arc::new(Screen::builtin())), live: Default::default(), plans: None, reload: None, settings_rev: Default::default(), drafts: Default::default(), found: Default::default(), connect: Default::default(), proposer: None, restart: Default::default(), desk: None, logrows: Default::default(), look: Default::default(), lookfile: Default::default(), picks: Default::default(), keeper: None, lanes: None, lane: Default::default(), plan_lock: Default::default(), second: Default::default(), out: Default::default(), terms: Default::default(), usage: Default::default(), chores: Default::default(), reflexes: Default::default(), waits: Default::default(), retried: Default::default(), moves: Default::default(), routes: Default::default(), asked: Default::default(), welcome: Default::default(), needs: Default::default(), splits: Default::default(), split_n: Default::default(), digests: Default::default(), route_n: Default::default(), chat_lock: Default::default(), mail_taken: Default::default(), mail_asks: Default::default(), mail_n: Default::default(), access: Default::default() }));
+        let front = Front(Arc::new(Core { envoys: Default::default(), since_ms, tasks, log, binds, asks, phrases, doers, cfg: std::sync::RwLock::new(Arc::new(cfg)), who, screen: std::sync::RwLock::new(Arc::new(Screen::builtin())), live: Default::default(), plans: None, reload: None, settings_rev: Default::default(), drafts: Default::default(), found: Default::default(), connect: Default::default(), proposer: None, restart: Default::default(), desk: None, logrows: Default::default(), look: Default::default(), lookfile: Default::default(), picks: Default::default(), keeper: None, lanes: None, lane: Default::default(), plan_lock: Default::default(), second: Default::default(), out: Default::default(), terms: Default::default(), usage: Default::default(), elsewhere: Default::default(), chores: Default::default(), reflexes: Default::default(), waits: Default::default(), retried: Default::default(), moves: Default::default(), routes: Default::default(), asked: Default::default(), welcome: Default::default(), needs: Default::default(), splits: Default::default(), split_n: Default::default(), digests: Default::default(), route_n: Default::default(), chat_lock: Default::default(), mail_taken: Default::default(), mail_asks: Default::default(), mail_n: Default::default(), access: Default::default() }));
         front.pin_main();
         front
     }
@@ -1426,7 +1431,12 @@ impl Front {
     fn bind_first(&self, thread: &str, text: &str, intake: Option<AnswerRef>) -> Result<Binding, String> {
         let (mut b, who, route) = self.elect(thread, text)?;
         b.answer = who.or(intake);
-        self.write(thread, "thread.bound", Actor::Core, json!({ "doer": b.doer, "model": b.model, "endpoint": b.endpoint, "route": route, "how": b.how, "answer": b.answer }));
+        let mut data = json!({ "doer": b.doer, "model": b.model, "endpoint": b.endpoint, "route": route, "how": b.how, "answer": b.answer });
+        // the account the operator picked in Setup rides with the binding (left out where there is none, as before)
+        if let Some(a) = &b.account {
+            data["account"] = json!(a);
+        }
+        self.write(thread, "thread.bound", Actor::Core, data);
         Ok(b)
     }
 
@@ -1523,7 +1533,9 @@ impl Front {
                     let (b, route) = self.bind_to(named, model.as_deref(), "named");
                     return Ok((b, None, route));
                 }
-                let (b, route) = self.bind_to(pick, self.0.cfg().main.model.as_deref().or(cfg.model.as_deref()), "picked");
+                let (mut b, route) = self.bind_to(pick, self.0.cfg().main.model.as_deref().or(cfg.model.as_deref()), "picked");
+                // the account the operator picked with it (`lane.account`): the thread runs as that login, pinned
+                b.account = Some(self.0.live.word("lane.account", "")).filter(|a| !a.is_empty());
                 return Ok((b, None, route));
             }
             self.note_to(thread, &format!("the doer you picked, {pick}, is not ready: the election chooses · ⏎ opens Agents › Setup, which says what to mend"), "warn", Lead::open("open Setup", "setup"));

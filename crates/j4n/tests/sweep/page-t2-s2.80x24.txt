@@ -21,4 +21,4 @@
 ├ inside        choice    mid     a decider                         picks ask
 ├ intake        choice    mid     a rule, a decider, then you       picks task
 the questions that are open are under the tabs; this is where a question can co…
- 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project         ⌃g keys

@@ -778,7 +778,7 @@ impl Front {
         let (spent, listed): (i64, i64) = (today.iter().map(|r| r.spent).sum(), today.iter().map(|r| r.listed).sum());
         let mut shares = crate::cost::Shares::default();
         today.iter().for_each(|r| shares.merge(&r.shares));
-        Some(self.screen().show().money_of(shares.words().as_deref(), today.iter().any(|r| r.planned), &super::serve::usd(spent), None, &super::serve::usd(listed)))
+        Some(self.screen().show().money_of(self.share_words(&shares, today.last().copied()).as_deref(), today.iter().any(|r| r.planned), &super::serve::usd(spent), None, &super::serve::usd(listed)))
     }
 
     /// How the gauge is drawn (`look.gauge`): `auto` (the screen picks the shape from the width it has), the thin line, or the one circle slice.

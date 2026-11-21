@@ -33,4 +33,4 @@
 ├ :parts             <what to do>                                   The part runner: :parts <document> re…  experimental
 ├ :plan              <words>                                        Show the plan of the thread, edit it …
 ├ :plans             Show the plan rows and their prices.
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                 ⌃g keys

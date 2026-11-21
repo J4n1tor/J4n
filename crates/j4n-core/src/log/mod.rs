@@ -31,6 +31,20 @@ pub use blob::{BLOB_MAX, Blobs, is_blob_id};
 pub use ev::{Ev, FLASH_KINDS, KIND_MAX, New, SETTLED_KINDS, actor_word, is_kind};
 pub use seg::{LINE_MAX, Reader, link};
 
+/// Where the Log under `dir` stands, read without opening it (another J4n may have it open): the last segment's path and length, and the
+/// `seq` of its last whole line (0: none). Only the last few KiB are read; nothing is written.
+pub fn peek(dir: &std::path::Path) -> Option<(std::path::PathBuf, u64, u64)> {
+    use std::io::{Read, Seek, SeekFrom};
+    let (_, path) = seg::list(dir).ok()?.pop()?;
+    let mut f = std::fs::File::open(&path).ok()?;
+    let len = f.metadata().ok()?.len();
+    f.seek(SeekFrom::Start(len.saturating_sub(64 * 1024))).ok()?;
+    let mut buf = Vec::new();
+    f.read_to_end(&mut buf).ok()?;
+    let seq = buf.split(|b| *b == b'\n').rev().find_map(|line| serde_json::from_slice::<serde_json::Value>(line).ok()?.get("seq")?.as_u64()).unwrap_or(0);
+    Some((path, len, seq))
+}
+
 use crate::change::Actor;
 use crate::clock::{Clock, SystemClock};
 use crate::eval::glob_match;

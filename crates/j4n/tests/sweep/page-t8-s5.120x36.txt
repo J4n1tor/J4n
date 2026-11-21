@@ -33,4 +33,4 @@
 ├ global/subtab-prev         —     M-Left                            The sub-tab before.
 ├ global/tab-alt             —     M-1, M-2, M-3, M-4, M-5, M-6, M…  Open tab 1–9; the open tab's own number again open…
 ├ global/tab-numbers         —     M-0                               Show the numbers of the tabs for a moment.
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                 ⌃g keys

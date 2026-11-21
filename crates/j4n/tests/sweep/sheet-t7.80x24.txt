@@ -4,21 +4,21 @@
 Features│                    open their picker.                        │
 ━━━━━━━━│ space    flip      Flip the switch, or take the next of its  │────────
   switch│                    words; at once, as your edit.             │
-├   appr│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │d tests…
-│   auto│                    Option as Meta or Alt.                    │off
-│   that│ ↑↓       move      The row above or below.                   │nly the
-│   rule│ u        undo      Take back your last change of the row     │e text
-│   a he│                    (:undo eN).                               │fect
-│   stay│ /        find      Find in the rows, as you type; ⏎ keeps    │ary
-│   fold│                    it, esc clears it.                        │
-│   lint│ ?        keys      All the keys of this page.                │), a
-│   remo│ ⌃g       state     Turn the bottom row over: the keys, or    │ names
-│   insi│                    what the whole screen is doing (tasks,    │Python,
-│   buil│                    what waits for you, today's spend, a      │ay say
-│   insi│                    window that runs low).                    │ asked
-│   for │                                                              │ that
-│   is n│ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │or what
-│   a ru│ ⌥←→      sub-tabs  The sub-tab before or after.              │the
-│   proj│ ⌥0       numbers   The numbers of the tabs, for a moment.    │ies
-│   ever│                                               any key closes │
+├   appr│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+│   The │                    Option as Meta or Alt.                    │
+│   proj│ ↑↓       move      The row above or below.                   │
+│   defa│ u        undo      Take back your last change of the row     │
+├ 󰔢 chat│                    (:undo eN).                               │, with …
+├ 󰔢 chec│ /        find      Find in the rows, as you type; ⏎ keeps    │k chang…
+├   cost│                    it, esc clears it.                        │: its s…
+├   lane│ ?        keys      All the keys of this page.                │: J4n p…
+├   lane│ ⌃g       state     Turn the bottom row over: the keys, or    │nt's ow…
+├   lane│                    what the whole screen is doing (tasks,    │to, wid…
+├ 󰔢 pack│                    what waits for you, today's spend, a      │place o…
+├ 󰔡 tabs│                    window that runs low).                    │have no…
+├   them│                                                              │lain sy…
+╰   them│ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+        │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+        │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+        │                                               any key closes │
  1 waits╰──────────────────────────────────────────────────────────────╯⌃g keys

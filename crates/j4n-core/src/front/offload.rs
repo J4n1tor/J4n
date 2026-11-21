@@ -239,12 +239,64 @@ impl Front {
         if !self.knows_doer(id) || !self.0.who.ready("work", &[]).iter().any(|o| o.id == *id) {
             return self.refuse_to(thread, format!("`{id}` is not ready for work: it is not installed, not signed in or not for work · ⏎ opens Agents, which says which"), super::Lead::open("open Agents", "connectors"));
         }
+        // `:setup doer claude claude-1`: the doer and the account it runs as, in one edit that `u` takes back whole
+        let account = args.get(1).filter(|a| !a.is_empty()).cloned();
+        let main = self.0.cfg().thread.clone();
+        let was = self.binding(&main).filter(|b| b.doer == *id && b.account.as_deref().is_some_and(|a| !a.is_empty())).is_some();
+        if account.is_some() || !self.0.live.word("lane.account", "").is_empty() || was {
+            return match self.setup_pick_account(&main, id, account.as_deref()) {
+                Ok(words) => {
+                    self.chores().pick = Some(Some(id.clone()));
+                    self.note(thread, &words, "accent");
+                    said
+                }
+                Err(why) => self.refuse_to(thread, why, super::Lead::open("open Setup", "setup")),
+            };
+        }
         if let Err(why) = self.set_setting(thread, "lane.doer", "lane.toml", toml::Value::String(id.clone()), &format!("The main lane's doer: {id}")) {
             return self.refuse(thread, why);
         }
         self.chores().pick = Some(Some(id.clone()));
         self.note(thread, &format!("the main lane's doer is {id} for a thread that is not bound yet; `:switch {id}` moves this one"), "accent");
         said
+    }
+
+    /// The doer and its account (none: its own sign-in) as one edit: `lane.doer`, `lane.account` and, for an account kept in the J4n home that
+    /// this project has no row for, a copy of its row (its connector and plan), so a task here runs as it with its sign-in. The main chat is
+    /// moved to it at once, pinned to that login; what it says, or why not.
+    fn setup_pick_account(&self, main: &str, doer: &str, account: Option<&str>) -> Result<String, String> {
+        use crate::change::Where;
+        use crate::proposal::{Draft, Edited, Step, StepOp};
+        let setting = |id: &str, v: &str| {
+            let op = if v.is_empty() { StepOp::Unset(vec!["value".into()]) } else { StepOp::Set(toml::Table::from_iter([("value".to_string(), toml::Value::String(v.into()))])) };
+            Step { to: Where::User, file: Some("lane.toml".into()), kind: "setting".into(), id: id.into(), op }
+        };
+        let mut steps = vec![setting("lane.doer", doer), setting("lane.account", account.unwrap_or_default())];
+        if let Some(a) = account {
+            let here = self.accounts_now().iter().any(|(d, x)| d == doer && x == a);
+            if !here {
+                let kept = self.kept_accounts().into_iter().find(|k| k.connector == doer && k.id == a).ok_or_else(|| format!("`{a}` is not an account of {doer} in this J4n home · Agents › Setup lists the ones there are under {doer}"))?;
+                if !self.screen().packs.iter().any(|p| p.id == "accounts" && p.on) {
+                    return Err(format!("{doer} · {a} needs the pack accounts, which is off · ⏎ on its row in Agents › Setup turns it on"));
+                }
+                let mut row = toml::Table::from_iter([("connector".to_string(), toml::Value::String(kept.connector.clone()))]);
+                if let Some(p) = kept.plan {
+                    row.insert("plan".into(), toml::Value::String(p));
+                }
+                steps.push(Step { to: Where::User, file: Some(format!("account/{a}.toml")), kind: "account".into(), id: a.into(), op: StepOp::Set(row) });
+            }
+        }
+        let who = account.map_or_else(|| format!("{doer} · its own sign-in"), |a| format!("{doer} · {a}"));
+        let draft = Draft { key: format!("setting:lane.account:{doer}:{}", account.unwrap_or_default()), title: format!("The main lane runs as {who}"), why: "the operator's own edit".into(), evidence: 1, steps, widens: Vec::new() };
+        let back = match self.edit(draft)? {
+            Edited::Done { id, .. } => self.undo_words(&id, "lane.doer"),
+            Edited::Proposed { id, .. } => return Ok(format!("{who}: it widens what J4n may do · `:accept {id}`")),
+        };
+        // the main chat goes on as it now: pinned to that login, which the status line shows
+        let mut args = vec![doer.to_string()];
+        args.extend(account.map(|a| format!("account={a}")));
+        self.switch(main, &args)?;
+        Ok(format!("the main lane runs as {who}{back}"))
     }
 
     /// A setting written in the operator's folder as their edit: applied at once, `:undo` takes it back.

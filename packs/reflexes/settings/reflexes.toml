@@ -5,6 +5,7 @@ api = 1
 [[setting]]
 id = "reflexes.on"
 doc = "On: the reflexes that are on are checked, at a settled boundary only (never in the middle of a turn), and when a check holds one decision model is asked, from a digest made by code, whether the operator's sentence is true; if it says yes the command runs, and the Log says why (`rule.fired`, or `reflex.checked` with the judge's reason). Off (the default): nothing is checked, nothing is asked, nothing is written. A reflex never answers an approval and never widens what J4n may do. Read at the start."
+brief = "Check the reflexes that are on at each settled point, and run the ones that hold."
 ty = "bool"
 default = false
 full = true

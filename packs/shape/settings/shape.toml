@@ -5,6 +5,7 @@ api = 1
 [[setting]]
 id = "shape.on"
 doc = "Whether lines are shaped before anything has been said with `:shape on` or `:shape off`."
+brief = "Shape each line before it goes to the agent."
 ty = "bool"
 default = false
 full = true

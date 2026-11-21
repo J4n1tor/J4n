@@ -33,4 +33,4 @@ Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools 
 
 
 J4n keeps a key and never shows it · Settings › Features › tabs.all lists the providers nobody set up too
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                 ⌃g keys

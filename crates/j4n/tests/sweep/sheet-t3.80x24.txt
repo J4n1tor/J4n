@@ -2,23 +2,23 @@
  󰍩 Chat 1 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings           j4n 0.1.0
  ─────────────────━━━━━━━──────────────────────────────────────────────────────
 claude  ╭─ keys · usage ───────────────────────────────────────────────╮
-  no run│                                                              │
-test · d│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+  no rea│                                                              │
+test    │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
   five_h│                    Option as Meta or Alt.                    │
         │ ?        keys      All the keys of this page.                │
   seven_│ ⌃k       find      Find anything: the commands and the tree. │
         │ ⌃g       state     Turn the bottom row over: the keys, or    │
-codex · │                    what the whole screen is doing (tasks,    │
-  these │                    what waits for you, today's spend, a      │
-openrout│                    window that runs low).                    │
-  credit│                                                              │
-  today:│ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
-typesafe│ ⌥←→      sub-tabs  The sub-tab before or after.              │
-  credit│ ⌥0       numbers   The numbers of the tabs, for a moment.    │
-  today:│ F1–F9              Tab n, as ⌥n.                             │
-  a day │                                               any key closes │
-  • $0.1╰──────────────────────────────────────────────────────────────╯
-  • 15  tokens
-╰ t1    $0.1200
-┃ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1  r56
- 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys
+  today │                    what the whole screen is doing (tasks,    │
+  as tes│                    what waits for you, today's spend, a      │
+  a day │                    window that runs low).                    │
+  • $0.1│                                                              │
+  • 15  │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+  task  │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+╰ t1    │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+        │ F1–F9              Tab n, as ⌥n.                             │
+        │                                               any key closes │
+┃ ◆ ledg╰──────────────────────────────────────────────────────────────╯     r56
+  ├─ ± 0 files · ❱ 0 ran · $0.0000
+  ├─ ❯ #1 “write notes.txt hello” → t4 ✗ it ended with no answer and no
+  │  sign of work: nothing was said, run or changed
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project         ⌃g keys

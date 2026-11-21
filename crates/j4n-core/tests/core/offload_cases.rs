@@ -423,19 +423,22 @@ fn a_max20_account_shows_its_windows_like_a_max5_one_with_its_own_price() {
 }
 
 #[test]
-fn doers_that_report_no_window_are_one_row_and_a_window_they_do_report_is_a_bar() {
+fn a_doer_that_reports_no_window_shows_only_once_it_is_set_up_or_ran_and_a_window_it_does_report_is_a_bar() {
     let f = fx(vec![chatty("codex", &["a"]), chatty("gemini", &["b"]), chatty("claude", &["c"])], |_| {});
     let text = |f: &Fx| plain(&f.front.view_value("usage").unwrap()["value"]);
-    assert!(text(&f).contains("codex · gemini\n  these doers report no window"), "{}", text(&f));
-    assert!(!text(&f).contains("claude · gemini"), "claude has a plan with windows and is not in the row");
-    // codex reports one: it is a bar of its own, and only gemini is left in the row
+    // declared, but not set up and nothing ran through them: they are left out, not a row that has nothing to show
+    let first = text(&f);
+    assert!(!first.contains("codex") && !first.contains("gemini") && !first.contains("report no"), "{first}");
+    // codex reports one: it is a bar of its own; gemini is still left out
     f.rig.log.append(New::of("run.window", Actor::Doer("codex".into()), json!({ "window": "primary", "utilization": 0.4, "resets_at": 4_000_000_000_i64 })).task("t9").thread("other")).unwrap();
     f.front.usage_see(&f.rig.of_kind("run.window")[0]);
     let after = text(&f);
-    assert!(after.contains("codex · default") && after.contains("40%") && after.contains("\ngemini\n  these doers report no window"), "{after}");
-    // none of the doers declared: no row at all
-    let none = fx(vec![chatty("claude", &["c"])], |_| {});
-    assert!(!plain(&none.front.view_value("usage").unwrap()["value"]).contains("report no window"));
+    assert!(after.contains("codex\n  primary") && after.contains("40%") && !after.contains("gemini"), "{after}");
+    // a task ran through gemini: it is a group, with its runs and the line that it reports no window
+    f.rig.log.append(New::of("run.metrics", Actor::Doer("gemini".into()), json!({ "usd": 0.01, "tokens_in": 10, "tokens_out": 5 })).task("t10").thread("other")).unwrap();
+    f.front.usage_see(&f.rig.of_kind("run.metrics")[0]);
+    let ran = text(&f);
+    assert!(ran.contains("\ngemini\n") && ran.contains("gemini reports no limit window: only its runs show here"), "{ran}");
 }
 
 #[test]

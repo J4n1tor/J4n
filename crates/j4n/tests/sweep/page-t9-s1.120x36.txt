@@ -4,18 +4,9 @@
  Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
 ━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
   switch             now     by  what it does
-├   approval.inside  auto    —   The Gate says yes by itself to edits and tests that stay inside the project.
-│   auto (the default): on while lanes is orchestrate, off else; on and off that you set win. On: an approval no rule
-│   has a say about (or that only the rule for an unreadable line asks, for invisible characters inside the text a
-│   here-document gives Python) is said yes to by the Gate when its effect stays inside the project, a chat's worktree
-│   or the task's own temporary folder: an edit, a test run (cargo test, uv run pytest, npm test), a linter, a script
-│   of the project named for a check (scripts/verify.sh), a remove of build folders, Python on the line that opens only
-│   files it names inside the project. A line that is inside but for the paths of some Python, built while it runs, is
-│   put to a Decider (the point inside), which may say inside or ask; no Decider, or an unsure one, asks you. You are
-│   still asked for anything outside the project, the network, credentials, a delete that is not of build folders,
-│   git push, a deploy and a remote line, and for what a rule of yours asks. The Log says who said yes: rule:gate
-│   ("inside the project: …") or decider:<id> ("inside, harmless: …"). A run that denies every ask keeps it off.
-│   default auto
+├   approval.inside  auto    —
+│   The Gate says yes by itself to edits and tests that stay inside the project.
+│   default auto · the whole text: Settings › All
 ├ 󰔢 chats.on         off     —   Every line can become a chat of its own, with its own agent session.
 ├ 󰔢 check.after      off     —   Run the project's own tests after a task changed files.
 ├   cost.show        both    —   The money shown for a request on a plan: its share of the plan, the list price, or bot…
@@ -33,4 +24,13 @@
 
 
 
- 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project                                                 ⌃g keys

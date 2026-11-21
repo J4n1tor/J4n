@@ -109,6 +109,12 @@ ty = "str"
 default = ""
 
 [[setting]]
+id = "lane.account"
+doc = "The account the doer `lane.doer` runs as, one of its accounts (empty: its own sign-in). Agents › Setup sets it with the doer: ⏎ on `claude · claude-1`."
+ty = "str"
+default = ""
+
+[[setting]]
 basic = true
 id = "lane.model"
 doc = "The model of the doer `lane.doer`, as a model word of it (empty: under `orchestrate`, the standard tier of the doer, by `offload.prices`, never Opus or Fable; else the doer's own default)."

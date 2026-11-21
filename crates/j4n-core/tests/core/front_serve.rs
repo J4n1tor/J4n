@@ -404,10 +404,10 @@ fn the_bar_says_what_the_screen_is_doing_and_what_today_cost_and_not_who_it_is_w
     let mut s = serve(&f);
     let cells = |s: &mut Serve| rows(&watch(s, "bar:status"), "bar:status")[0].cells.iter().map(|c| c.text.clone()).collect::<Vec<_>>();
     // the doer and the model are the composer strip's to say; the bar does not say them, nor the mode
-    // the icon of the Decider has no word while it can be asked
-    assert_eq!(cells(&mut s), ["idle", "", "proj"]);
+    // the Decider in the words of Agents › Setup: its pack is not loaded here
+    assert_eq!(cells(&mut s), ["idle", "Decider off", "proj"]);
     f.turn("go");
-    assert_eq!(cells(&mut s), ["idle", "today $0.5000", "", "proj"]);
+    assert_eq!(cells(&mut s), ["idle", "today $0.5000", "Decider off", "proj"]);
     let strip = j4n_proto::COMPOSER_STRIP;
     let route = |s: &mut Serve| watch(s, strip).iter().rev().find_map(|d| match d { Down::Value { bind, value, .. } if bind == strip => value.get("route").cloned(), _ => None });
     assert_eq!(route(&mut s), Some(json!("alpha · haiku")));
@@ -438,35 +438,35 @@ fn the_bottom_bar_is_global_idle_running_waiting_money_today_and_a_window_that_r
     // idle: nothing runs, the row is plain (the screen shows the keys)
     let f = fx(vec![script(vec![Beat::Session("s".into()), say("a"), end("a")])], |_| {});
     let mut s = serve(&f);
-    assert_eq!(bar_of(&mut s), (vec!["idle".into(), "".into(), "proj".into()], Tone::Plain));
+    assert_eq!(bar_of(&mut s), (vec!["idle".into(), "Decider off".into(), "proj".into()], Tone::Plain));
     // one runs: the count, in the accent (the screen shows the state)
     let f = fx(vec![script(vec![Beat::Session("s".into()), Beat::Hold, end("x")])], |_| {});
     let mut s = serve(&f);
     let Said::Started { task } = f.say("go") else { panic!() };
     f.rig.until(&task, "running", |r| matches!(r.state, State::Running));
-    assert_eq!(bar_of(&mut s), (vec!["1 running".into(), "".into(), "proj".into()], Tone::Accent));
+    assert_eq!(bar_of(&mut s), (vec!["1 running".into(), "Decider off".into(), "proj".into()], Tone::Accent));
     // one waits for the operator: it says so, in warn, and wins the tone over the one that runs
     let f = fx(vec![script(vec![Beat::Session("s".into()), Beat::Ask(approval("a", "make build")), Beat::Hold, end("x")])], |_| {});
     let mut s = serve(&f);
     let Said::Started { task } = f.say("build") else { panic!() };
     f.rig.until(&task, "waiting", |r| matches!(r.state, State::Waiting { .. }));
-    assert_eq!(bar_of(&mut s), (vec!["1 waits for you".into(), "".into(), "proj".into()], Tone::Warn));
+    assert_eq!(bar_of(&mut s), (vec!["1 waits for you".into(), "Decider off".into(), "proj".into()], Tone::Warn));
     // money today: the sum of the tasks queued since the machine's midnight, and none of the days before
     let f = fx(vec![Scripted::new("alpha", vec![vec![Beat::Session("s".into()), Beat::Spend(0.5), say("a"), end("a")]])], |_| {});
     let mut s = serve(&f);
     f.turn("go");
-    assert_eq!(bar_of(&mut s).0, ["idle", "today $0.5000", "", "proj"]);
+    assert_eq!(bar_of(&mut s).0, ["idle", "today $0.5000", "Decider off", "proj"]);
     f.rig.clock.advance(2 * 86_400_000);
-    assert_eq!(bar_of(&mut s).0, ["idle", "", "proj"], "two days on, it was not today");
+    assert_eq!(bar_of(&mut s).0, ["idle", "Decider off", "proj"], "two days on, it was not today");
     // a window past four fifths used, until it resets, said bare; the one that is not low is not said
     let f = fx(vec![script(vec![Beat::Session("s".into()), Beat::Limits(vec![("five_hour", 0.92, 200_000), ("seven_day", 0.4, 200_000)]), say("a"), end("a")])], |_| {});
     let mut s = serve(&f);
     f.turn("go");
     f.rig.log.sync();
-    assert_eq!(bar_of(&mut s), (vec!["idle".into(), "5h 92%".into(), "".into(), "proj".into()], Tone::Plain));
+    assert_eq!(bar_of(&mut s), (vec!["idle".into(), "5h 92%".into(), "Decider off".into(), "proj".into()], Tone::Plain));
     assert_eq!(rows(&watch(&mut s, "bar:status"), "bar:status")[0].cells[1].tone, Tone::Warn);
     f.rig.clock.advance(300_000_000);
-    assert_eq!(bar_of(&mut s).0, ["idle", "", "proj"], "the window has reset");
+    assert_eq!(bar_of(&mut s).0, ["idle", "Decider off", "proj"], "the window has reset");
 }
 
 #[test]
@@ -475,7 +475,7 @@ fn the_context_gauge_and_the_threads_cost_are_the_strips_and_the_bar_has_neither
     let mut s = serve(&f);
     let bar = |s: &mut Serve| rows(&watch(s, "bar:status"), "bar:status")[0].cells.iter().map(|c| c.text.clone()).collect::<Vec<_>>();
     f.turn("go");
-    assert_eq!(bar(&mut s), ["idle", "today $0.5000", "", "proj"], "no ctx, no thread cost with its limit, no mode");
+    assert_eq!(bar(&mut s), ["idle", "today $0.5000", "Decider off", "proj"], "no ctx, no thread cost with its limit, no mode");
     let strip = j4n_proto::COMPOSER_STRIP;
     let value = watch(&mut s, strip).iter().rev().find_map(|d| match d { Down::Value { bind, value, .. } if bind == strip => Some(value.clone()), _ => None }).unwrap();
     assert_eq!((value["gauge"].as_f64(), value["cost"].as_str(), value["mode"].as_str()), (Some(0.72), Some("$0.5000 of $2.0000"), Some("write")), "the chat's own state stands once, in the composer strip");
@@ -781,14 +781,20 @@ fn on_a_plan_the_first_money_word_is_the_share_of_the_window_and_an_unpriced_pla
     // a request on a plan with no price: the share is the number, the list cost beside it, and the way to set the price under the row
     let how = "no price: Agents › Plans, ⏎ on claude sets it";
     f.rig.log.append(j4n_core::log::New::of("run.metrics", Actor::Core, json!({ "usd": 0.25, "share": 0.008, "share_of": "5h", "source": "assumed", "plan": how })).task(&task)).unwrap();
-    assert_eq!(bar(&mut s), "0.8% of 5h · $0.7500 list");
+    // the share is made from an assumed worth of the window: it is said as an estimate
+    assert_eq!(bar(&mut s), "est. 0.8% of 5h · $0.7500 list");
     let row = tasks(&mut s);
-    assert_eq!(row.cells.last().unwrap().text, "0.8% of 5h · $0.7500 list");
+    assert_eq!(row.cells.last().unwrap().text, "est. 0.8% of 5h · $0.7500 list");
     assert!(row.detail.iter().any(|c| c.text == how), "{:?}", row.detail);
     // once it has a price the plan cost follows the share, and the list cost is last
     f.rig.log.append(j4n_core::log::New::of("run.metrics", Actor::Core, json!({ "usd": 0.25, "plan_usd": 0.006, "share": 0.008, "share_of": "5h", "source": "assumed" })).task(&task)).unwrap();
-    assert_eq!(bar(&mut s), "1.6% of 5h · $0.7560 plan · $1.0000 list");
-    assert_eq!(tasks(&mut s).cells.last().unwrap().text, "1.6% of 5h · $0.7560 plan · $1.0000 list");
+    assert_eq!(bar(&mut s), "est. 1.6% of 5h · $0.7560 plan · $1.0000 list");
+    assert_eq!(tasks(&mut s).cells.last().unwrap().text, "est. 1.6% of 5h · $0.7560 plan · $1.0000 list");
+    // the provider's own reading of the window comes with the next request: it is said first, and the estimate stays said as one
+    f.rig.log.append(j4n_core::log::New::of("run.window", Actor::Doer("alpha".into()), json!({ "window": "five_hour", "utilization": 0.26, "resets_at": 4_000_000_000_i64 })).task(&task)).unwrap();
+    f.rig.log.append(j4n_core::log::New::of("run.metrics", Actor::Core, json!({ "usd": 0.25, "plan_usd": 0.006, "share": 0.008, "share_of": "5h", "source": "assumed" })).task(&task)).unwrap();
+    assert_eq!(f.front.window_read("alpha", "", "5h"), Some(0.26));
+    assert_eq!(bar(&mut s), "5h 26% · est. 2.4% of 5h · $0.7620 plan · $1.2500 list");
 }
 
 struct Follows(std::sync::atomic::AtomicUsize);

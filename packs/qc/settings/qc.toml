@@ -5,6 +5,7 @@ api = 1
 [[setting]]
 id = "qc.on"
 doc = "Whether changes are checked by themselves before anything has been said with `:qc on` or `:qc off`."
+brief = "Check changes on their own, without being asked."
 ty = "bool"
 default = false
 full = true

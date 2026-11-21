@@ -342,6 +342,87 @@ fn the_decider_turned_on_from_its_row_is_on_for_every_project_and_this_project_o
     elsewhere.close();
 }
 
+/// The status bar's cells, as the core sends them.
+fn status(world: &World) -> String {
+    let mut serve = Serve::new(world.front.clone());
+    serve.up(Up::Hello { api: j4n_proto::API });
+    let (downs, _) = serve.up(Up::Watch { bind: "bar:status".into() });
+    downs.iter().rev().find_map(|d| if let Down::Rows { bind, rows, .. } = d { (bind == "bar:status").then(|| rows.first().map(says).unwrap_or_default()) } else { None }).unwrap_or_default()
+}
+
+/// The Decider step and the status bar read one state and say it in the same words: off in a fresh home, on from the next start after
+/// `o`, and `⏎` on a Decider whose key is there turns it on (the card asks first).
+#[test]
+fn the_decider_step_and_the_status_bar_say_the_same_thing() {
+    let d = Dirs::bare("setup-decider-bar");
+    let w = open(&d, &claude(&d, true));
+    assert!(step(&w, "Decider").contains("off ·"), "{}", step(&w, "Decider"));
+    assert!(status(&w).contains("Decider off"), "{}", status(&w));
+    let mut op = Operator::sit(&w);
+    setup_page(&mut op);
+    to_row(&mut op, "Span through");
+    op.press(vec![press(KeyCode::Char('o'))]);
+    op.until("the card", |s| s.contains("widens what J4n may do") && s.contains("y yes"));
+    op.press(vec![press(KeyCode::Char('y'))]);
+    wait("the pack on", &mut op, || decider_on(&d.j4n_home()) == Some(true));
+    op.until("the step says it waits for the next start", |s| s.contains("on from the next start · ⟳"));
+    assert!(step(&w, "Decider").contains("on from the next start · ⟳"), "{}", step(&w, "Decider"));
+    assert!(status(&w).contains("Decider on from the next start ⟳"), "the bar says what the step says: {}", status(&w));
+    drop(op);
+    w.close();
+}
+
+/// The accounts kept in the J4n home are choices under their agent in Agents › Setup, in a project that has no row for them: with the
+/// accounts pack off the row turns it on; with it on, `⏎` runs the main lane as the account (one edit: `lane.doer`, `lane.account`, and a
+/// copy of the account's row here), the main chat is bound to that login, and the chat's empty state names it before the first line.
+#[test]
+fn an_account_kept_in_the_home_is_a_choice_under_its_agent_and_enter_runs_the_main_lane_as_it() {
+    let d = Dirs::bare("setup-account");
+    let program = claude(&d, true);
+    let home = d.j4n_home();
+    // an account made in another project of this home: its folder, and its row in that project's folder
+    fs::create_dir_all(home.join("accounts/claude-1/home")).unwrap();
+    fs::create_dir_all(home.join("projects/0123456789abcdef/account")).unwrap();
+    fs::write(home.join("projects/0123456789abcdef/account/claude-1.toml"), "api = 1\n\n[[account]]\nid = \"claude-1\"\nconnector = \"claude\"\nplan = \"max5\"\n").unwrap();
+    let w = open(&d, &program);
+    let row = step(&w, "claude · claude-1");
+    assert!(row.contains("its pack, accounts, is off · ⏎ turns it on"), "{row}");
+    assert!(steps(&w).iter().find(|r| r.key == "claude · claude-1").is_some_and(|r| r.actions.iter().any(|a| a.risk >= 50)), "turning the pack on asks on the card");
+    w.close();
+    drop(w);
+    // the pack on for the home: the account is a choice, and ⏎ on it picks it
+    fs::write(home.join("harness.toml"), "api = 1\n\n[[enable]]\nid = \"accounts\"\non = true\n").unwrap();
+    let w = open(&d, &program);
+    let here = j4n_core::gate::grant::here_dir(&home, &d.project());
+    assert!(step(&w, "claude · claude-1").contains("⏎ runs this project's tasks as it"), "{}", step(&w, "claude · claude-1"));
+    assert!(step(&w, "claude · default").contains("its own sign-in"));
+    let mut op = Operator::sit(&w);
+    setup_page(&mut op);
+    // the step is done, so it is one line: ⏎ opens it to its agents and their accounts
+    to_row(&mut op, "Agent");
+    op.press(vec![press(KeyCode::Enter)]);
+    op.until("the accounts under claude", |s| s.contains("claude · claude-1") && s.contains("claude · default"));
+    to_row(&mut op, "claude · claude-1");
+    op.press(vec![press(KeyCode::Enter)]);
+    wait("lane.account set", &mut op, || setting(&w, "lane.account") == "claude-1");
+    assert_eq!(setting(&w, "lane.doer"), "claude");
+    let copied = fs::read_to_string(here.join("account/claude-1.toml")).unwrap_or_default();
+    assert!(copied.contains("connector = \"claude\"") && copied.contains("max5"), "the account's row is copied here: {copied}");
+    // the setting is written first and the main chat is bound right after it, so a loaded machine can be read between
+    wait("the main chat bound as the account", &mut op, || {
+        w.front.binding("main").is_some_and(|b| b.account.as_deref() == Some("claude-1"))
+    });
+    let b = w.front.binding("main").expect("the main chat is bound");
+    assert_eq!((b.doer.as_str(), b.account.as_deref()), ("claude", Some("claude-1")), "the main chat runs as the account");
+    op.until("the row in use", |s| s.lines().any(|l| l.contains("claude · claude-1") && l.contains("in use")));
+    // `u` takes the whole pick back
+    to_row(&mut op, "claude · claude-1");
+    op.press(vec![press(KeyCode::Char('u'))]);
+    wait("lane.account taken back", &mut op, || setting(&w, "lane.account").is_empty());
+    drop(op);
+    w.close();
+}
+
 /// What sends the operator out of the TUI: a command, a path, a file, a shell. Lower case.
 pub const OUT: [&str; 13] = ["`", "~/", "/home", ".toml", "file:", "env:", "a file", "terminal", "shell", "export ", "by hand", "start j4n again", "j4n doctor"];
 
@@ -460,9 +541,12 @@ fn the_test_says_ok_per_part_from_what_its_runs_wrote_with_time_and_cost_and_don
     assert!(turn.state == j4n_core::task::State::Done { ok: true } && turn.spec.thread.as_deref() == Some("setup-test") && turn.spec.tune.mode == Mode::Read, "a turn that ended well, on its own thread, in read mode: {:?}", turn.state);
     let log = events(&w);
     assert_eq!((decider["id"].as_str(), decider["ok"].as_bool()), (Some("decider:jev"), Some(true)), "{t:#}");
-    let probe = log.iter().rev().find(|(_, k, d)| k == "probe.result" && d["answerer"] == "decider:jev").map(|(_, _, d)| d.clone()).unwrap();
+    // the run at start puts the Decider's other points beside the test's, each its own `probe.result`: the part's is the one of its point
+    let point = decider["point"].as_str().unwrap_or_else(|| panic!("the part names its point: {t:#}"));
+    let results: Vec<String> = log.iter().filter(|(_, k, d)| k == "probe.result" && d["answerer"] == "decider:jev").map(|(_, _, d)| format!("{} {}", d["point"], d["usd"])).collect();
+    let probe = log.iter().rev().find(|(_, k, d)| k == "probe.result" && d["answerer"] == "decider:jev" && d["point"] == point).map(|(_, _, d)| d.clone()).unwrap_or_else(|| panic!("no probe.result at {point}: {results:?}"));
     assert!(probe["passed"] == true && probe["usd"].as_f64().is_some_and(|u| u > 0.0), "the cases' cost, as the gateway said it: {probe}");
-    assert_eq!(decider["usd"], probe["usd"]);
+    assert_eq!(decider["usd"], probe["usd"], "the part's cost is its point's ({point}); the Decider's results: {results:?}");
     assert!(jev.seen().len() > asked, "the Decider was asked by the test");
     // the rows say it: ok, the time, and the cost where the part said one (the `test` doer says none, so none is shown)
     let a = step(&w, "Test · agent");

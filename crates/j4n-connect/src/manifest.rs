@@ -678,6 +678,15 @@ impl Connector {
 
     /// [`Connector::api_key`], and when there is no key, why: `Err(None)` when no place holds one, `Err(Some(why))` when one does and the
     /// reader refused it (a file others can read, a value too short to keep out of the Log), in the reader's words, which never hold the value.
+    /// Whether a place the row names for its key holds something (the environment, J4n's key file, the file it names); the value is not read.
+    pub fn has_key(&self) -> bool {
+        let Some(reference) = self.key.as_deref() else { return false };
+        let home = std::env::var("HOME").unwrap_or_default();
+        reference.strip_prefix("env:").is_some_and(|var| std::env::var(var).is_ok_and(|v| !v.trim().is_empty()))
+            || [self.kept.as_ref(), self.kept_for.as_ref()].into_iter().flatten().any(|p| p.is_file())
+            || reference.strip_prefix("file:").is_some_and(|p| p.strip_prefix("~/").map_or_else(|| std::path::PathBuf::from(p), |rest| std::path::Path::new(&home).join(rest)).is_file())
+    }
+
     pub fn read_key(&self, secret: &dyn Fn(&str, &str) -> Result<String, String>) -> Result<String, Option<String>> {
         let Some(reference) = self.key.as_deref() else { return Err(None) };
         let name = j4n_core::keys::marker(&self.id);

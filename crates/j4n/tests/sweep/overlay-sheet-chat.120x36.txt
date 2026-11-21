@@ -29,7 +29,7 @@
                             │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
                             │ ⌥←→      sub-tabs  The sub-tab before or after.              │
                             │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
- 󰄰 no doer yet · the first l│ F1–F9              Tab n, as ⌥n.                             │
+ 󰄰 test · the first line goe│ F1–F9              Tab n, as ⌥n.                             │
 ╭───────────────────────────│                                               any key closes │───────────────────────────╮
 │                           ╰──────────────────────────────────────────────────────────────╯                           │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

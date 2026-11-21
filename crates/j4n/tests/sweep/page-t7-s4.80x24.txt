@@ -21,4 +21,4 @@ Features Look This Session All Keys Loop Gates 󰏖 Packs Commands
 │   a rule of yours asks. The Log says who said yes: rule:gate ("inside the
 │   project: …") or decider:<id> ("inside, harmless: …"). A run that denies
 │   every ask keeps it off.
- 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys
+ 1 waits for you  today $0.1200  󰗑 Decider on · no key  project         ⌃g keys

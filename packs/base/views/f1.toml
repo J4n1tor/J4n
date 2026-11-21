@@ -128,11 +128,11 @@ acts = [{ key = "x", label = "take back", run = ":grant back {id}", when = "gran
 
 [[view]]
 id = "settings-features"
-doc = "The switches an operator changes (the settings marked `basic`), each with one line on what it does (its `brief`), and the ones `packs.full` turned on, marked `full` in the column `by`: the colours and the marks, the agent and the model a new chat starts with, the check after edits, the money shown, what the Gate takes by itself, chats, lanes, J4n full and every tab (`tabs.all`); every other setting is under All. `space` flips one, `⏎` changes it, `u` takes the change back; one that waits for the next start says `⟳`."
+doc = "The switches an operator changes (the settings marked `basic`), each with one line on what it does (its `brief`), and the ones `packs.full` turned on, marked `full` in the column `by`: the colours and the marks, the agent and the model a new chat starts with, the check after edits, the money shown, what the Gate takes by itself, chats, lanes, J4n full and every tab (`tabs.all`); every other setting is under All. The row the keys are on says its one line whole and its default, not its whole text: that is under All, where the row says it all. `space` flips one, `⏎` changes it, `u` takes the change back; one that waits for the next start says `⟳`."
 from = { from = "table:setting", filter = "basic == true or via == 'full'", order = "id" }
 cells = ["{id}", "{now}", "{via}", "{brief}"]
 titles = ["switch", "now", "by", "what it does"]
-detail = ["{doc}", "{says}", "default {default}"]
+detail = ["{brief}", "{says}", "default {default} · the whole text: Settings › All"]
 data = "{edit}"
 acts = [
   { key = "enter", label = "change", set = "setting:{id}.value" },

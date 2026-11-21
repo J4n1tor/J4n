@@ -6,6 +6,7 @@ api = 1
 [[setting]]
 id = "offload.on"
 doc = "On: a light chore (a read, a search, a test, lint or build run, a digest of a log or a diff) goes by rule to a cheaper doer and comes back as a row under the turn, told to the main lane in its next Brief; a review of the main lane's change asks first. The main lane is the only writer: nothing offloaded writes. Off: every line is the main lane's."
+brief = "Send light chores (reads, searches, test runs) to a lighter agent; nothing sent away writes."
 ty = "bool"
 default = true
 full = true
