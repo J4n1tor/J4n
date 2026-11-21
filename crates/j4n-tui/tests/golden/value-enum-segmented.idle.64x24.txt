@@ -1,0 +1,24 @@
+├ title                                                   inside
+├ title                                                inside 󰍁
+├ title                                                   top 󰗖
+│ not offered
+╰ title                                      inside │border│none
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

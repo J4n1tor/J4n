@@ -1,0 +1,72 @@
+doc = "The multi field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "risk", field = { kind = "multi", bind = "cfg:multi.a", props = { options = ["read", "write", "net", "exec"], min = 1 } } },
+  { id = "off", title = "risk", field = { kind = "multi", bind = "cfg:multi.off", props = { options = ["read", "write", "net", "exec"], min = 1, disabled = "read only" } } },
+  { id = "bad", title = "risk", field = { kind = "multi", bind = "cfg:multi.bad", props = { options = ["read", "write", "net", "exec"], min = 1 } } },
+  { id = "b", title = "risk", field = { kind = "multi", bind = "cfg:multi.b", props = { options = ["read", "write", "net", "exec"], min = 1 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:multi.a"
+value = ["read", "write"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:multi.off"
+value = ["read", "write"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:multi.bad"
+value = []
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:multi.b"
+value = ["read", "write"]
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "right"
+
+[[step]]
+key = "right"
+
+[[step]]
+key = "space"

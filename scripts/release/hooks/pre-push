@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# pre-push — nothing private leaves this machine by a push.
+# 1. Every commit being pushed is authored and committed under a noreply address (a commit under a real address is
+#    refused, so a history made under one is never pushed anywhere).
+# 2. The tree being pushed passes the leak scan, with the private deny list when this machine has it.
+set -euo pipefail
+root=$(git rev-parse --show-toplevel)
+zero=0000000000000000000000000000000000000000
+bad=0
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  if [ "$remote_sha" = "$zero" ]; then range=$local_sha; else range="$remote_sha..$local_sha"; fi
+  while read -r sha ae ce; do
+    for e in "$ae" "$ce"; do
+      case "$e" in *@users.noreply.github.com|*noreply*) ;; *) echo "pre-push: $sha has the address $e, not a noreply one" >&2; bad=1 ;; esac
+    done
+  done < <(git log --format='%h %ae %ce' "$range")
+  tmp=$(mktemp -d)
+  git archive "$local_sha" | tar -x -C "$tmp"
+  deny_file=$(cat "$root/.git/j4n-deny-path" 2>/dev/null || true)
+  if [ -n "$deny_file" ] && [ -f "$deny_file" ]; then export J4N_DENY=$deny_file; fi
+  if [ -f "$tmp/scripts/release/leakscan.py" ]; then
+    python3 -I "$tmp/scripts/release/leakscan.py" --tree "$tmp" || bad=1
+  else
+    echo "pre-push: the pushed tree has no scripts/release/leakscan.py" >&2; bad=1
+  fi
+  rm -rf "$tmp"
+done
+[ "$bad" = 0 ] || { echo "pre-push: refused" >&2; exit 1; }

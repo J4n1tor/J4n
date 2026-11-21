@@ -1,0 +1,11 @@
+api = 1
+
+[[need]]
+id = "ledger-prose"
+doc = "A report's paragraph (`ledger.prose = mixed`) is written by the small chat model `ledger.model`, which needs the key of `light`."
+kind = "key"
+connector = "light"
+feature = "ledger.prose"
+when = "mixed"
+covers = ["ledger.model"]
+without = "the paragraph is dropped and the facts stand"

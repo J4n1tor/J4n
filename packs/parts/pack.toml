@@ -1,0 +1,7 @@
+api = 1
+id = "parts"
+version = "0.0.0"
+summary = "the parts of a document you name run one at a time as plan items: each part's gate, then a commit of only what it changed, never pushed; off by default, so a plan runs as it always did"
+use_when = "the operator names the parts of a document or a spec to be built one at a time, each with its own check and commit"
+needs = ["base"]
+stability = "experimental"

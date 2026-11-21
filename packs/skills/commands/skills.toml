@@ -1,0 +1,14 @@
+api = 1
+
+[[command]]
+id = "skill"
+doc = "The skill library: `:skill` lists the skills, `:skill tests` searches them, `:skill show <name>` reads one, `:skill on|off <name>` switches one, as `x` on Connect › Skills does (`:undo` takes it back)."
+words = [":skill"]
+args = ["what to do"]
+core = "skill"
+
+[[command]]
+id = "skills"
+doc = "Open the Skills page: every skill, where it came from, and whether it is on."
+words = [":skills"]
+open = "skills"

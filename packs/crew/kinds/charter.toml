@@ -1,0 +1,23 @@
+api = 1
+
+# A charter: the operator's order to a chat, made concrete. A row of this kind is the record of what the signing card showed; it signs nothing. What counts is the
+# signing the operator's key writes to the Log, so a row put in a file by anything else answers no approval.
+[[kind]]
+id = "charter"
+doc = "What a chat may do without asking: the folders it may read and write, the verbs it may say yes to, what the whole tree may spend and when it ends."
+untrusted = "ignore"
+examples = [
+  { id = "docs-pass", goal = "tidy the docs", paths = ["docs"], may = ["read", "write", "checks"], usd = 2.0, thread = "e1" },
+]
+
+[kind.fields]
+goal = { ty = "text", required = true, doc = "What the work is, in the operator's words first." }
+watch = { ty = "str", default = "", doc = "The name of one check of the project to run while J4n is open; when it fails the envoy sends Main a request under this charter." }
+watch_every_min = { ty = "int", default = 10, min = 1, max = 1440, doc = "How often the watched check runs, in minutes." }
+paths = { ty = "list<str>", required = true, doc = "Where work may read and write: folders or files inside the project. A charter with no path covers nothing, and two charters may not share one." }
+may = { ty = "list<str>", required = true, doc = "What it says yes to: `read`, `write`, `shell` (a plain command that only reads), `checks` (the project's own checks), `spawn`." }
+doers = { ty = "list<str>", default = [], doc = "The doers a `spawn` may name." }
+usd = { ty = "num", required = true, doc = "The most the whole tree may spend, in dollars." }
+until_ms = { ty = "int", doc = "When it ends, in milliseconds since the epoch. Left out: the operator ends it." }
+thread = { ty = "str", required = true, doc = "The thread whose tasks, and those started from it, it answers for." }
+verbatim = { ty = "list<str>", default = [], doc = "The operator's own lines, word for word: a destructive step that is in none of them is never answered." }

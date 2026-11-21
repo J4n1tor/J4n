@@ -1,0 +1,49 @@
+api = 1
+
+# tmux, said in data (terminal apps are tools, not code). A model that
+# has `*` in its `tools` (the own agent has) is given these as functions when the pack is on; each call is one command line, its
+# arguments separate words, a format in tmux's short forms (`#D #S:#I.#P #W #T`: a `#{name}` would read as a hole of the template), and the Gate reads it like any command: what only looks is `risk = "read"`, what types into a pane
+# that something else is running in is `exec`. A pane is named as tmux names it (`%3`, `work:1.0`).
+
+[[connector]]
+id = "tmux_panes"
+doc = "List the tmux panes: id, where it is, its window's name (the command it runs, unless the window was renamed) and its title."
+is = "tool"
+dialect = "text"
+program = "tmux"
+probe = { argv = ["tmux", "-V"] }
+argv = ["tmux", "list-panes", "-a", "-F", "#D #S:#I.#P #W #T"]
+risk = "read"
+
+[[connector]]
+id = "tmux_capture"
+doc = "Read what a tmux pane shows now (the last lines, 60 unless more are asked for)."
+is = "tool"
+dialect = "text"
+program = "tmux"
+probe = { argv = ["tmux", "-V"] }
+args = [{ name = "pane", required = true }, { name = "lines", default = "60" }]
+argv = ["tmux", "capture-pane", "-p", "-t", "{pane}", "-S", "-{lines}"]
+risk = "read"
+
+[[connector]]
+id = "tmux_type"
+doc = "Type text into a tmux pane, as it stands, without pressing Enter."
+is = "tool"
+dialect = "text"
+program = "tmux"
+probe = { argv = ["tmux", "-V"] }
+args = [{ name = "pane", required = true }, { name = "text", required = true }]
+argv = ["tmux", "send-keys", "-t", "{pane}", "-l", "{text}"]
+risk = "exec"
+
+[[connector]]
+id = "tmux_key"
+doc = "Press a named key in a tmux pane: Enter, Escape, C-c, Up, Tab."
+is = "tool"
+dialect = "text"
+program = "tmux"
+probe = { argv = ["tmux", "-V"] }
+args = [{ name = "pane", required = true }, { name = "key", required = true }]
+argv = ["tmux", "send-keys", "-t", "{pane}", "{key}"]
+risk = "exec"

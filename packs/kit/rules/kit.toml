@@ -1,0 +1,14 @@
+api = 1
+
+# The fold `kit_use` (crates/j4n-connect/src/kituse.rs) counts what the cells of the Log used of the kit's
+# library; when a part has been unused over the last 100 cells (in at least 5 tasks) and has not been asked about, the rule puts it to the operator as a
+# Proposal, once. Accepting writes the part's name into `kit.off`; nothing is deleted, and taking the name out of the setting turns the part on again.
+# It acts only while `kit.mode` is `on`, and only a part named by the fold (`next`): at most one Proposal at a task's end.
+
+[[rule]]
+id = "kit-part-unused"
+doc = "A part of the kit's library, or a recipe, that no cell has used over the last 100 cells (in at least 5 tasks): put the removal to the operator."
+on = "task.settled"
+when = "set.kit.mode == 'on' and fold.kit_use.next.part"
+then = "propose"
+propose = { key = "kit-off:{fold.kit_use.next.part}", title = "Turn off {quote(fold.kit_use.next.part)} in the kit", why = "no cell used it in the last {fold.kit_use.next.idle} cells ({fold.kit_use.next.seen} tasks); in all, {fold.kit_use.next.uses} uses in {fold.kit_use.next.tasks} tasks, {fold.kit_use.next.fails} in failed cells. It would be refused in cells and left out of help(j4n), recipes() and the offer line from the next start; nothing is deleted, and taking it out of kit.off turns it on again", evidence = "fold.kit_use.next.idle", kind = "setting", id = "kit.off", file = "kit.toml", set = { value = "{fold.kit_use.next.value}" } }

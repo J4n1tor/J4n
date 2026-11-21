@@ -1,0 +1,21 @@
+api = 1
+
+# An account: one login of a harness, kept in a folder of its own under `~/.j4n/accounts/<id>/` with a browser
+# window of its own. The row says whose login it is and by which route it leaves; what J4n learns about it (signed in, as whom, when it
+# was last looked at) is in the Log and the fold `accounts`, never here.
+[[kind]]
+id = "account"
+doc = "One login of a harness, kept apart from the others."
+untrusted = "ignore"
+examples = [
+  { id = "claude-work", doc = "The work subscription.", connector = "claude", remark = "work subscription", proxy = "system", view = "window", keeps = "home", plan = "max5" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the account is for." }
+connector = { ty = "ref:connector", required = true, doc = "Whose login this is: the connector that is signed in to." }
+remark = { ty = "str", doc = "A few words for the operator: which subscription, which person." }
+proxy = { ty = "str", default = "system", doc = "`system` (the proxy the process was started with, if any) or a URL, `http://host:port` or `socks5://host:port`, which the account's window, its children and J4n's own calls for it all use." }
+view = { ty = "enum:window", default = "window", doc = "How the operator looks at the account: a window of its own." }
+keeps = { ty = "enum:home|token|yours", default = "home", doc = "What the login is kept as: the harness's config folder (`home`); `yours`, the operator's own login on this machine, named and not copied (`:account use`): a task as it runs on the default login, and removing it takes the row only; `token` waits for the scraping of a terminal." }
+plan = { ty = "ref:plan", doc = "The `plan` row this account's requests are paid by (`max5`, `pro`, or one of yours): its windows and its price. Left out: the connector's own plan." }

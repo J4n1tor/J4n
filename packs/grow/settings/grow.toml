@@ -1,0 +1,17 @@
+api = 1
+
+# What J4n notices about itself and proposes. A proposal changes
+# nothing until the operator accepts it (`:accept`), and an accepted one can be undone (`:undo`).
+[[setting]]
+id = "grow.tips"
+doc = "Whether J4n proposes changes to itself from what it sees (the same yes given again and again, a machine answerer's confidence). Off: it proposes nothing; proposals already made stay."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "grow.allow_after"
+doc = "How many times the operator has to allow exactly the same action before J4n proposes to remember it for this project."
+ty = "int"
+default = 3
+min = 2
+max = 50

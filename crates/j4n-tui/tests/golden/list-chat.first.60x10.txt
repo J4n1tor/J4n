@@ -1,0 +1,10 @@
+  setting  now
+├ doer     test
+├ model    (the doer's own)
+├ how      pinned
+╰ mode     write
+
+
+
+
+

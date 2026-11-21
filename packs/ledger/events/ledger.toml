@@ -1,0 +1,12 @@
+api = 1
+
+# A report is written by J4n from the events of its window (`from`, `to`], so `:report` makes it again from the Log.
+[[event]]
+id = "ledger.report"
+doc = "What came of a thread since its last report, read from the Log by J4n: the window, the counts, the head row and the card as it was said."
+fields = { rid = { ty = "str", required = true }, thread = { ty = "str", required = true }, from = { ty = "int", required = true }, to = { ty = "int", required = true }, prose = { ty = "enum:off|facts|mixed", required = true }, mark = { ty = "str" }, head = { ty = "str", required = true }, card = { ty = "str", required = true }, tasks = { ty = "int" }, lines = { ty = "int" }, files = { ty = "int" }, usd = { ty = "num" } }
+
+[[event]]
+id = "ledger.prose"
+doc = "The paragraph `mixed` asked a model for, with the report it is about (copied as J4n wrote it): kept, or dropped with the words the facts do not hold."
+fields = { rid = { ty = "str", required = true }, thread = { ty = "str", required = true }, from = { ty = "int" }, to = { ty = "int" }, prose = { ty = "str" }, mark = { ty = "str" }, head = { ty = "str" }, card = { ty = "str" }, tasks = { ty = "int" }, lines = { ty = "int" }, files = { ty = "int" }, usd = { ty = "num" }, kept = { ty = "bool", required = true }, unknown = { ty = "list<str>" }, why = { ty = "str" }, by = { ty = "str" } }

@@ -1,0 +1,24 @@
+  ┆ 󰲶  parser.rs                                                       +12 −3 ▾
+  ┆    229 − if self.eat(Comma) { continue }
+  ┆    229 + if self.eat(Comma) && self.at(RParen) { break }
+  ┆ 󰞷  cargo test parser                                               󰗡 3.1s ▾
+  ┆    running 14 tests
+  ┆    test args::case_1 ... ok
+  ┆    test args::case_2 ... ok
+  ┆    test args::case_3 ... ok
+  ┆    test args::case_4 ... ok
+  ┆    test args::case_5 ... ok
+  ┆    test args::case_6 ... ok
+  ┆    test args::case_7 ... ok
+  ┆    test args::case_8 ... ok
+  ┆    test args::case_9 ... ok
+  ┆    test args::case_10 ... ok
+  ┆    test args::case_11 ... ok
+  ┆    test args::trailing_comma ... ok
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ 󰧮 parser.rs ~88%  󰧮 syntax.md ~81%  󰙁 plan-work-check ~72%                   │
+│ ~󰙁 claude ━━──── 41%                                                         │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ also run clippy before you commit                                 → B claude │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.14  󰘥 B                                          ⇥ 1  F1

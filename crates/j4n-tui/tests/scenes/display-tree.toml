@@ -1,0 +1,48 @@
+doc = "The tree field: rows on pipes, a fold that ▸ shows when it is shut."
+sizes = [[64, 12], [40, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "tasks", title = "", field = { kind = "tree", bind = "tasks:open" } }] }
+
+[[step]]
+down = "rows"
+bind = "tasks:open"
+total = 7
+rev = 1
+rows = [{ key = "fix", cells = [{ text = "fix trailing commas", icon = "working" }, { text = "3:12", tone = "dim" }] }, { key = "plan", cells = [{ text = "plan", icon = "done" }, { text = "omp", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "fix" }, { key = "work", cells = [{ text = "work", icon = "working" }, { text = "claude", tone = "dim" }, { text = "1:04", tone = "dim" }], parent = "fix" }, { key = "commit", cells = [{ text = "commit?", icon = "ask" }, { text = "you", tone = "dim" }], parent = "work" }, { key = "check", cells = [{ text = "check", icon = "queued" }, { text = "pi", tone = "dim" }], parent = "fix" }, { key = "t1", cells = [{ text = "check", icon = "queued" }, { text = "pi", tone = "dim" }], parent = "check" }, { key = "t2", cells = [{ text = "lint", icon = "queued" }, { text = "pi", tone = "dim" }], parent = "check" }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "left"
+
+[[step]]
+shot = "folded"
+
+[[step]]
+key = "left"
+
+[[step]]
+shot = "parent"
+

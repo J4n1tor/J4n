@@ -1,0 +1,14 @@
+api = 1
+
+[[view]]
+id = "reflexes"
+doc = "Every reflex: its id, whether it is on, the command, and when it fires; under the selected one its check and the sentence."
+from = { from = "table:rule", filter = "then == 'ask'", order = "id" }
+key = "{id}"
+cells = ["{id}", "{not off}", "{do}", "{text}"]
+titles = ["reflex", "on", "does", "when"]
+detail = ["{doc}", "checked {on}: {when}", "every {limit.within} at most"]
+acts = [
+  { key = "o", label = "on", run = ":reflex on {id}" },
+  { key = "x", label = "off", run = ":reflex off {id}" },
+]

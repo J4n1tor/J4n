@@ -1,0 +1,39 @@
+api = 1
+
+# The loop's own reactions (kind `rule`). A task is a task; what happens around it — carrying on,
+# shrinking, waiting out a limit, stopping at a cap — is a rule over what was written, so a project can change it by a file.
+
+[[rule]]
+id = "followups"
+doc = "A task that ended with work left is carried on in its own session, a few times, and then ends honestly. A turn of a plan's inline item is not: the plan sends the item again."
+on = "task.settled"
+when = "ev.data.ok and ev.data.todo_left > 0 and fold.tasks[task].session and fold.tasks[task].auto < set.loop.followups and not (task in fold.plan[fold.tasks[task].thread].inline) and not (ev.data.window > set.compact.at and fold.tasks[task].compactions < set.compact.max)"
+then = "start"
+follow = true
+text = "{ev.data.todo_left} item(s) are still open. Carry on and finish them."
+
+[[rule]]
+id = "followups-compact"
+doc = "The same, when the doer's context is nearly full: its session is shrunk first, at this settled boundary, keeping the goal, what is left, what was decided and what changed."
+on = "task.settled"
+when = "ev.data.ok and ev.data.todo_left > 0 and fold.tasks[task].session and fold.tasks[task].auto < set.loop.followups and not (task in fold.plan[fold.tasks[task].thread].inline) and ev.data.window > set.compact.at and fold.tasks[task].compactions < set.compact.max"
+then = "start"
+follow = true
+compact = true
+text = "{ev.data.todo_left} item(s) are still open. Carry on and finish them."
+
+[[rule]]
+id = "soft-cap"
+doc = "A task that has spent past its soft cap is parked, with its session, and the menu offers to carry on. Far past it, the loop kills it, whatever any rule says."
+on = "task.cap_reached"
+then = "control"
+control = "park"
+
+[[rule]]
+id = "cool-on-limit"
+doc = "A provider that says not now is waited out, not retried into: the task goes on by itself when the limit has passed."
+on = "run.error"
+when = "ev.data.class == 'rate-limit' and ev.data.wait_ms"
+then = "cool"
+cool_for = "ev.data.wait_ms"
+limit = { per = "task", max = 3 }

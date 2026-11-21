@@ -1,0 +1,16 @@
+api = 1
+
+# A case of a reflex: at this state the reflex should fire, or should not. `:reflex case <id> fire|hold <words>`
+# adds one; `:probe` puts every case to the judge. A reflex whose judge fails its cases does not fire.
+[[kind]]
+id = "reflex_case"
+doc = "A state at which a reflex should fire, or should not, put to its judge by `:probe`."
+untrusted = "ignore"
+examples = [
+  { id = "compact-junk-yes", reflex = "compact-junk", fire = true, state = "held 120k of 200k; the last turns read long build logs that nothing used again" },
+]
+
+[kind.fields]
+reflex = { ty = "str", required = true, doc = "The id of the reflex the case is for." }
+fire = { ty = "bool", required = true, doc = "Whether the reflex should fire at this state." }
+state = { ty = "text", required = true, doc = "The state in words, as the digest would say it." }

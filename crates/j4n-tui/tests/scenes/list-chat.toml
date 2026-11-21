@@ -1,0 +1,40 @@
+doc = "Settings › Chat: the same pipe list as the other sub-tabs, with titles; the row is changed with ⏎, which the keys row says, not the row."
+sizes = [[60, 10], [80, 12], [120, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "list", bind = "form:thread", props = { titles = ["setting", "now"] } } }] }
+
+[[step]]
+down = "rows"
+bind = "form:thread"
+total = 4
+rev = 1
+rows = [
+  { key = "doer", cells = [{ text = "doer", tone = "dim" }, { text = "test" }], actions = [{ key = "enter", label = "change", intent = { intent = "run", command = "x", args = [] }, risk = 0 }] },
+  { key = "model", cells = [{ text = "model", tone = "dim" }, { text = "(the doer's own)" }], actions = [{ key = "enter", label = "change", intent = { intent = "run", command = "x", args = [] }, risk = 0 }] },
+  { key = "how", cells = [{ text = "how", tone = "dim" }, { text = "pinned" }] },
+  { key = "mode", cells = [{ text = "mode", tone = "dim" }, { text = "write" }] },
+]
+
+[[step]]
+shot = "first"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "last"

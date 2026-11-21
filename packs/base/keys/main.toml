@@ -1,0 +1,332 @@
+api = 1
+
+# The keys of the screen as the screen reads them (kind `key`). Each row says, in `native`, the keys the TUI's own
+# code takes for it; with no `keys` of a layer above, those are the keys that do it. Not here yet: the keys that edit a line or a value
+# (the cursor, the word, the letters of a value), a row's own letters (they come from the rows), `⌃o`, `p`, `c`, `y`, `u`, `d` and the digits
+# that open a tab, which wait for what they act on. What each key of the tabs does is also the table `KEYS` of the
+# screen's `leader.rs`, which the keys row and the sheet read. Tab moves no tab.
+
+# ---- global: every screen ----
+
+[[key]]
+id = "global/palette"
+doc = "Find anything: the commands and the tree."
+native = ["C-k"]
+
+[[key]]
+id = "global/bar"
+doc = "Turn the bottom row over: the keys, or the state of the whole screen. It turns by itself too: the state while work runs or something waits, the keys while idle or while a line is typed."
+native = ["C-g"]
+
+[[key]]
+id = "global/quit"
+doc = "Leave J4n."
+native = ["C-c", "C-d"]
+
+[[key]]
+id = "global/tab-alt"
+doc = "Open tab 1–9; the open tab's own number again opens its next sub-tab, and on Chat the next chat."
+native = ["M-1", "M-2", "M-3", "M-4", "M-5", "M-6", "M-7", "M-8", "M-9"]
+
+[[key]]
+id = "global/tab-numbers"
+doc = "Show the numbers of the tabs for a moment."
+native = ["M-0"]
+
+[[key]]
+id = "global/tab1"
+doc = "Open tab 1."
+native = ["F1"]
+
+[[key]]
+id = "global/tab2"
+doc = "Open tab 2."
+native = ["F2"]
+
+[[key]]
+id = "global/tab3"
+doc = "Open tab 3."
+native = ["F3"]
+
+[[key]]
+id = "global/tab4"
+doc = "Open tab 4."
+native = ["F4"]
+
+[[key]]
+id = "global/tab5"
+doc = "Open tab 5."
+native = ["F5"]
+
+[[key]]
+id = "global/tab6"
+doc = "Open tab 6."
+native = ["F6"]
+
+[[key]]
+id = "global/tab7"
+doc = "Open tab 7."
+native = ["F7"]
+
+[[key]]
+id = "global/tab8"
+doc = "Open tab 8."
+native = ["F8"]
+
+[[key]]
+id = "global/tab9"
+doc = "Open tab 9."
+native = ["F9"]
+
+[[key]]
+id = "global/subtab-next"
+doc = "The next sub-tab."
+native = ["M-Right"]
+
+[[key]]
+id = "global/subtab-prev"
+doc = "The sub-tab before."
+native = ["M-Left"]
+
+[[key]]
+id = "global/scroll-up"
+doc = "Scroll half a screen up (a short glide; a jump with `theme.motion` off)."
+native = ["PgUp"]
+
+[[key]]
+id = "global/scroll-down"
+doc = "Scroll half a screen down (a short glide; a jump with `theme.motion` off)."
+native = ["PgDn"]
+
+[[key]]
+id = "global/back"
+doc = "Close what is open, else go to Chat."
+native = ["Esc"]
+
+# ---- composer: the line under a chat ----
+
+[[key]]
+id = "composer/send"
+doc = "Send the line."
+native = ["Enter"]
+
+[[key]]
+id = "composer/newline"
+doc = "A new line in the draft (⇧⏎ where the terminal tells it from ⏎; ⌃j everywhere)."
+native = ["S-Enter", "C-j"]
+
+[[key]]
+id = "composer/older"
+doc = "An older line of the history."
+native = ["Up"]
+
+[[key]]
+id = "composer/newer"
+doc = "A newer line of the history."
+native = ["Down"]
+
+[[key]]
+id = "composer/aim"
+doc = "Steer the next lane that works."
+native = ["C-t"]
+
+[[key]]
+id = "composer/clear"
+doc = "Clear the line."
+native = ["C-u"]
+
+[[key]]
+id = "composer/home"
+doc = "The start of the line."
+native = ["C-a", "Home"]
+
+[[key]]
+id = "composer/end"
+doc = "The end of the line."
+native = ["C-e", "End"]
+
+[[key]]
+id = "composer/scroll-line-up"
+doc = "Scroll the chat a line up; the keys stay in the line."
+native = ["S-Up"]
+
+[[key]]
+id = "composer/scroll-line-down"
+doc = "Scroll the chat a line down; the keys stay in the line."
+native = ["S-Down"]
+
+[[key]]
+id = "composer/to-transcript"
+doc = "Put the keys on the newest turn."
+native = ["C-Up"]
+
+# ---- transcript: the keys, once they are on it ----
+
+[[key]]
+id = "transcript/prev-turn"
+doc = "The turn before."
+native = ["C-Up"]
+
+[[key]]
+id = "transcript/next-turn"
+doc = "The next turn."
+native = ["C-Down"]
+
+[[key]]
+id = "transcript/prev-line"
+doc = "The line above, a wrapped line or a line of output too; the view follows."
+native = ["Up"]
+
+[[key]]
+id = "transcript/next-line"
+doc = "The line below; past the last the keys go back to the line."
+native = ["Down"]
+
+[[key]]
+id = "transcript/page-up"
+doc = "Half a screen up."
+native = ["PgUp"]
+
+[[key]]
+id = "transcript/page-down"
+doc = "Half a screen down."
+native = ["PgDn"]
+
+[[key]]
+id = "transcript/toggle"
+doc = "Fold or open the row."
+native = ["Enter", "Space"]
+
+[[key]]
+id = "transcript/fold-all"
+doc = "Open everything that folds, or shut it all."
+native = ["z"]
+
+[[key]]
+id = "transcript/leave"
+doc = "Give the keys back to the line."
+native = ["Esc", "G"]
+
+# ---- list: lists, forms, tables, trees, cards, logs ----
+
+[[key]]
+id = "list/up"
+doc = "The row above."
+native = ["Up"]
+
+[[key]]
+id = "list/down"
+doc = "The row below."
+native = ["Down"]
+
+[[key]]
+id = "list/left"
+doc = "To the left; shut a branch; the value before."
+native = ["Left"]
+
+[[key]]
+id = "list/right"
+doc = "To the right; open a branch; the value after."
+native = ["Right"]
+
+[[key]]
+id = "list/page-up"
+doc = "A page up."
+native = ["PgUp"]
+
+[[key]]
+id = "list/page-down"
+doc = "A page down."
+native = ["PgDn"]
+
+[[key]]
+id = "list/first"
+doc = "The first row."
+native = ["Home", "g"]
+
+[[key]]
+id = "list/last"
+doc = "The last row."
+native = ["End", "G"]
+
+[[key]]
+id = "list/open"
+doc = "Open, edit or press the row; fold a section."
+native = ["Enter", "Space"]
+
+[[key]]
+id = "list/find"
+doc = "Find in the rows, as you type."
+native = ["/"]
+
+[[key]]
+id = "list/sort"
+doc = "Sort by the next column."
+native = ["s"]
+
+[[key]]
+id = "list/sort-back"
+doc = "Sort the other way."
+native = ["S"]
+
+[[key]]
+id = "list/fold-all"
+doc = "Open every section, or shut them all."
+native = ["z"]
+
+[[key]]
+id = "list/tab-next"
+doc = "The next tab."
+native = ["]"]
+
+[[key]]
+id = "list/tab-prev"
+doc = "The tab before."
+native = ["["]
+
+[[key]]
+id = "list/subtab-next"
+doc = "The next sub-tab."
+native = ["}"]
+
+[[key]]
+id = "list/subtab-prev"
+doc = "The sub-tab before."
+native = ["{"]
+
+# ---- ask: a question that waits ----
+
+[[key]]
+id = "ask/pick"
+doc = "Answer with the option of that number, 1–9."
+native = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+[[key]]
+id = "ask/recommended"
+doc = "Take the answer the core recommends: ⇥ on an empty line, → at the end of the line, ⌃→ wherever the cursor is. ⇥ never types."
+native = ["C-Right", "Right", "Tab"]
+
+[[key]]
+id = "ask/change"
+doc = "Open the change an approval would make."
+native = ["Enter"]
+
+[[key]]
+id = "ask/why"
+doc = "Say why the risk is what it is."
+native = ["?"]
+
+[[key]]
+id = "ask/prev"
+doc = "The question before."
+native = ["Up"]
+
+[[key]]
+id = "ask/next"
+doc = "The next question."
+native = ["Down"]
+
+[[key]]
+id = "ask/later"
+doc = "Put the question off; it holds."
+native = ["Esc"]

@@ -1,0 +1,10 @@
+api = 1
+
+[[need]]
+id = "shape"
+doc = "The shaper and the judge of the notes under your line are small chat models (`shape.model`, `shape.judge`) on the key of `light`."
+kind = "key"
+connector = "light"
+feature = "shape.on"
+covers = ["shape.model", "shape.judge"]
+without = "no note is made under your line"

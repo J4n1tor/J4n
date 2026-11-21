@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
+ ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧭 Kit   󰧮 Skills   󰒓 Reflexes
+────────────────────────────────────━━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+├   connector  claude             Claude Code, a live session kept between turns; its questions come back in-band.
+├   name       claude-1           the next free name
+├   plan       none               the plan its requests are paid by
+├   proxy      system             optional: system, or http://host:port, socks5://host:port
+╰ add account  claude-1 · claude  ⏎ adds it and opens the sign-in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

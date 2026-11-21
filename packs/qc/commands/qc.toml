@@ -1,0 +1,21 @@
+api = 1
+
+[[command]]
+id = "qc"
+doc = "Check the quality of what a path holds or a git range changed: `:qc src/`, `:qc HEAD~2..HEAD`. `:qc on` and `:qc off` are the switch; `:qc dismiss m1a2b3c4` and `:qc keep m1a2b3c4` label a mark; a dismissal may say why: `:qc dismiss m1a2b3c4 because intended` (`intended`, `pre-existing`, `wrong`, `later`; only `wrong` counts against the pattern)."
+words = [":qc", "/qc"]
+flow = "qc"
+args = ["path | git range | on | off | dismiss <mark> [because <reason>] | keep <mark>"]
+
+[[command]]
+id = "quality"
+doc = "Show the checks, the marks, the patterns and how they were labelled."
+words = [":quality"]
+open = "quality"
+
+[[command]]
+id = "refactor"
+doc = "Do a task that must keep what the project lists (public names, tests, doc headings and links) and be told what is gone after: `:refactor split parse.rs in two`."
+words = [":refactor", "/refactor"]
+flow = "refactor"
+args = ["what to do"]

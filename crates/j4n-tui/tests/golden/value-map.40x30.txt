@@ -1,0 +1,30 @@
+├ env
+│ ├ RUST_LOG = info
+│ ├ TOKEN = xyz▏
+│ ╰ 󰐕  d 󰍴
+├ env
+│ 2 keys 󰍁
+├ env
+│ 1 key 󰗖
+│ bad name "a b"
+╰ env
+  2 keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

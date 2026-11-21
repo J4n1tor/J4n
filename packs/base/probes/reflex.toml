@@ -1,0 +1,22 @@
+api = 1
+
+# What the judge of the reflexes must get right before it may fire one (`reflex`). The digest is as code makes it;
+# each case has a twin of the same shape whose right answer is the other.
+
+[[probe]]
+id = "reflex-junk"
+doc = "Most of what the chat holds is output nothing read again: the sentence about junk is true."
+point = "reflex"
+slices = { line = "reflex: compact-junk", when = "the context holds more than a twentieth of junk", held = "120k of 200k", turns = "you: build it → the build failed, here is the log, 900 lines · you: build it again → failed again, the same 900 lines · you: and again → failed, the same log" }
+offered = ["fire", "hold"]
+expect = "fire"
+pair = "reflex-clean"
+
+[[probe]]
+id = "reflex-clean"
+doc = "The same shape, with nothing in it that is junk: the sentence is not true."
+point = "reflex"
+slices = { line = "reflex: compact-junk", when = "the context holds more than a twentieth of junk", held = "120k of 200k", turns = "you: design the cache → a design, each part building on the one before · you: now the eviction rule → one rule, argued from the design · you: and the tests for both → eleven cases, each cited" }
+offered = ["fire", "hold"]
+expect = "hold"
+pair = "reflex-junk"

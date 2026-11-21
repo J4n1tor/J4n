@@ -1,0 +1,46 @@
+api = 1
+
+# How words are drawn (kind `setting`). The core sends these words to the screen with the look (`Down::Theme`);
+# nothing here goes into any prompt: the reader draws the doer's words as they were written. A layer above the pack says its `value`.
+[[setting]]
+id = "read.style"
+basic = true
+doc = "How prose is drawn: `calm` leaves a blank row between paragraphs, before headings and folds long code; `full` is denser, with no extra blank rows and code not folded."
+ty = "str"
+default = "calm"
+words = ["calm", "full"]
+
+[[setting]]
+id = "read.width"
+doc = "Where prose wraps, in columns (a narrower screen wraps sooner)."
+ty = "int"
+default = 76
+min = 30
+max = 200
+
+[[setting]]
+id = "read.fold_code"
+doc = "A fenced code block longer than this many lines is folded after them in `calm` (0 never folds)."
+ty = "int"
+default = 12
+min = 0
+max = 1000
+
+[[setting]]
+id = "read.links"
+doc = "What a link is: `osc8` makes the words open their address on a click in a terminal that takes it (kitty, Ghostty, WezTerm, iTerm2, foot, Alacritty); `plain` says the address in words after them."
+ty = "str"
+default = "osc8"
+words = ["osc8", "plain"]
+
+[[setting]]
+id = "read.big_heads"
+doc = "Draw a level-1 heading larger with kitty's text sizing (kitty 0.40 and later only; other terminals ignore it)."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "read.terms"
+doc = "Whether an id of the project's docs in an answer (`ADR-12`, `BUG-7`, `UX3`) is drawn with a few faint words saying what it is, the first time it is named. The words are the first sentence of the table row in the docs that defines the id, read once and again when a doc changes; an id the docs do not define is left alone. ⏎ on the line opens the row."
+ty = "bool"
+default = true

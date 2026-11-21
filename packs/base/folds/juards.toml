@@ -1,0 +1,26 @@
+api = 1
+
+# What the watchers (rules/juards.toml) count, per task.
+[[fold]]
+id = "explored"
+doc = "Places a task has read or searched."
+on = "run.tool_call"
+reduce = "count"
+key = "{task}"
+when = "lower(ev.data.name) in ['ls', 'cat', 'find', 'head', 'tail'] or contains(lower(ev.data.name), 'read') or contains(lower(ev.data.name), 'grep') or contains(lower(ev.data.name), 'glob') or contains(lower(ev.data.name), 'search')"
+
+[[fold]]
+id = "writes"
+doc = "Times a task said it changed something."
+on = "run.changed"
+reduce = "count"
+key = "{task}"
+
+[[fold]]
+id = "failing"
+doc = "Commands in a row that failed, per task; one that worked starts again from nothing. A line the Gate refused and the first run of the tests before the task changed anything are marked `uncounted` and left out: they neither count nor start again."
+on = "run.shell"
+reduce = "streak"
+of = "ev.data.exit != 0"
+when = "not ev.data.uncounted"
+key = "{task}"

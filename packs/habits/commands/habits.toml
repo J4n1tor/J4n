@@ -1,0 +1,8 @@
+api = 1
+
+[[command]]
+id = "habit"
+doc = "How the habit detectors have done: `:habit list` says each rule's labels and precision; `:habit keep h4521` says a row was right, `:habit wrong h4521` that it was not."
+words = [":habit"]
+flow = "habit"
+args = ["what to do"]

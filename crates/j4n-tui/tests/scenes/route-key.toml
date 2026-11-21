@@ -1,0 +1,47 @@
+doc = "A key on the route question is marked on the option it chose in the frame of the key, and goes when the core has taken the answer."
+sizes = [[100, 24], [60, 20]]
+theme = { marks = "icons", you = "mark", corners = "square", title_place = "border", fill = "terminal" }
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "rename the helper in lexer.rs" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] }, { key = "r1", cells = [{ text = "→ c1 · same files · lexer.rs", tone = "dim" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "n1", cells = [{ text = "claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "9.8s", tone = "dim" }], parent = "t1" }]
+
+[[step]]
+down = "asks"
+open = [{ ask = "route:1", asker = "main", question = "which chat takes this: fix the parser?", shape = "choice", options = [{ id = "c1", label = "c1 · lexer.rs" }, { id = "c2", label = "c2 · parser.rs" }, { id = "new", label = "a new chat", recommended = true }] }]
+
+[[step]]
+shot = "asked"
+
+[[step]]
+key = "2"
+
+[[step]]
+shot = "sent"
+
+[[step]]
+wait = 750
+
+[[step]]
+shot = "sent-later"
+
+[[step]]
+down = "asks"
+open = []
+
+[[step]]
+shot = "taken"

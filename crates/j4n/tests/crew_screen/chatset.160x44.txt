@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ─────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰗡 Habits   󰏖 Catalogue   Seats   Links   Charters   Chat settings   Opinions   Refusals
+────────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━━━━─────────────────────────────────────────────────────────────────────
+  setting        holds    set by
+├   model        not set  —
+│   the model this chat's own turns use
+├   effort       not set  —
+├   tools.allow  not set  —
+├   tools.deny   not set  —
+╰   personality  not set  —
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⏎ sets it · u takes the last change back
+ • ⏎ set  ⌥1–9 tabs  ↑↓ move  ? keys  ⌃k find  ⌃g state

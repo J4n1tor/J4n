@@ -1,0 +1,24 @@
+├ quick look  off   off · ⏎ turns it on: a line goes to Main as typed
+├ code        on    the line is ordinary coding work: change code, fix a bug, run the checks
+├ kit         off   not told to Main: the list is over its cap
+├ qc          off   the operator asks for the quality of code, hotspots or marks on risky places
+╰ claude      doer  haiku, sonnet, opus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

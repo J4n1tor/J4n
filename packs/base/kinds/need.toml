@@ -1,0 +1,29 @@
+api = 1
+
+# What a feature needs to act, and how J4n finds it. A feature that lacks a need says so once, with what it found and four answers: use it, pick
+# another, go on without it, turn the feature off (`front/needs.rs`). A need is met when the settings it names hold a value, or the operator went on
+# without it (`need.waived`). The parts are lists of the same length: one model for each part, found by its `suggest`.
+[[kind]]
+id = "need"
+doc = "What a feature needs, in settings, and how to find a value for it."
+untrusted = "ignore"
+examples = [
+  { id = "orchestrate", doc = "A cheap model for the look, a model for Main.", feature = "lanes", when = "orchestrate", off = "single", parts = ["the quick look", "Main"], doers = ["orchestrate.look_doer", "lane.doer"], models = ["orchestrate.look_model", "lane.model"], suggest = ["tier:cheap", "tier:standard"], without = "lines go to Main as typed, with no chats" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why the feature needs it, in a line." }
+feature = { ty = "str", required = true, doc = "The setting that turns the feature on (`lanes`)." }
+when = { ty = "str", default = "true", doc = "The value of `feature` that means on (`orchestrate`; `true` for a switch; `!off` for any value but `off`)." }
+off = { ty = "str", default = "false", doc = "The value that turns the feature off (`single`, `false`)." }
+parts = { ty = "list<str>", default = [], doc = "What each model is for, in the words the card uses (`the quick look`, `Main`)." }
+doers = { ty = "list<str>", default = [], doc = "The setting that holds the doer of each part; empty: none (the model setting's doer is the thread's)." }
+models = { ty = "list<str>", default = [], doc = "The setting that holds the model of each part. A part is met when it holds a value." }
+suggest = { ty = "list<str>", default = [], doc = "How a value is found for each part: `tier:cheap`, `tier:standard`, or `doer:ready` (the first doer that is ready; no model)." }
+without = { ty = "str", default = "", doc = "What going on without it means, in the words of the card." }
+kind = { ty = "enum:setting|key|login|decider|git", default = "setting", doc = "What is needed. `setting`: a model in the settings named by `models`. `key`: the key of the connector `connector`. `login`: the doer `doer` signed in. `decider`: an ask point `point` that a Decider or a model answers, or that you pick at yourself. `git`: the project's folder has a git commit, which a chat's worktree is cut from; the card offers to make a first one." }
+connector = { ty = "str", default = "", doc = "For a `key` need: the connector whose key is needed; J4n only tests that it is there, never reads it." }
+doer = { ty = "str", default = "", doc = "For a `login` need: the doer that must be installed and signed in." }
+point = { ty = "str", default = "", doc = "For a `decider` need: the ask point that needs a Decider; the card offers to pick at it yourself (`pick.hand`)." }
+covers = { ty = "list<str>", default = [], doc = "The settings that name a model, a doer or a Decider that this row speaks for, besides `doers` and `models`. Every such setting of every pack is in one row." }
+optional = { ty = "bool", default = false, doc = "Never asks: the row says what the feature does with the settings empty." }

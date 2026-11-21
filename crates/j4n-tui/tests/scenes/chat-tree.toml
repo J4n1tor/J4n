@@ -1,0 +1,58 @@
+doc = "The tree under the operator's line, the default look (round pipes, bracket). One turn of each kind: a lone lane with steps and an answer, two lanes, a lone answer, a session row with a lane and a note, a wrapped line, and a branch chat's first row."
+sizes = [[120, 44], [80, 44], [60, 44]]
+
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 23
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the parser so trailing commas work, update the docs, then check it" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "la", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }, { text = "2:01", tone = "dim" }, { text = "$0.19", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } },
+  { key = "la0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la" },
+  { key = "la1", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "dim" }], parent = "la" },
+  { key = "la2", cells = [{ text = "Trailing commas now parse, and the docs say so." }, { text = "", tone = "dim" }], parent = "la", by = "doer" },
+  { key = "t2", cells = [{ text = "now both at once" }, { text = "", tone = "dim" }, { text = "12:41", tone = "dim" }] },
+  { key = "lb", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }, { text = "0:40", tone = "dim" }], parent = "t2", data = { lane = { doer = "claude", own = true } } },
+  { key = "lb0", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb" },
+  { key = "lc", cells = [{ text = "B review", icon = "working" }, { text = "", tone = "dim" }, { text = "0:22", tone = "dim" }], parent = "t2", data = { lane = { doer = "claude", own = true } } },
+  { key = "lc0", cells = [{ text = "README.md", icon = "read" }, { text = "", tone = "dim" }], parent = "lc" },
+  { key = "t3", cells = [{ text = "thanks" }, { text = "", tone = "dim" }, { text = "12:46", tone = "dim" }] },
+  { key = "a3", cells = [{ text = "You are welcome; the next step is the tests." }, { text = "", tone = "dim" }], parent = "t3", by = "doer" },
+  { key = "t4", cells = [{ text = "go on with the tests" }, { text = "", tone = "dim" }, { text = "12:50", tone = "dim" }] },
+  { key = "k4", cells = [{ text = "claude-7c1 · resumes 4f2a", icon = "session" }, { text = "", tone = "dim" }], parent = "t4", by = "core" },
+  { key = "l4", cells = [{ text = "A work", icon = "working" }, { text = "", tone = "dim" }, { text = "0:09", tone = "dim" }], parent = "t4", data = { lane = { doer = "claude", own = true } } },
+  { key = "l40", cells = [{ text = "cargo test", icon = "run" }, { text = "", tone = "dim" }, { text = "", tone = "dim", icon = "no" }], parent = "l4" },
+  { key = "n4", cells = [{ text = "claude · 80% of the 5-hour limit used · resets 14:20", tone = "warn", icon = "notice" }, { text = "", tone = "dim" }], parent = "t4", by = "doer" },
+  { key = "t5", cells = [{ text = "fix the retry in the claude doer and add a test for the second case, the one that dropped the first answer" }, { text = "", tone = "dim" }, { text = "12:58", tone = "dim" }] },
+  { key = "l5", cells = [{ text = "A work", icon = "working" }, { text = "", tone = "dim" }, { text = "0:05", tone = "dim" }], parent = "t5", data = { lane = { doer = "claude", own = true } } },
+  { key = "l50", cells = [{ text = "retry.rs", icon = "edit" }, { text = "", tone = "dim" }], parent = "l5" },
+  { key = "t6", cells = [{ text = "from main: the parser work, resumed on sonnet" }, { text = "", tone = "dim" }, { text = "13:02", tone = "dim" }], data = { from = "main" } },
+  { key = "l6", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }, { text = "0:30", tone = "dim" }], parent = "t6", data = { lane = { doer = "claude", own = true } } },
+  { key = "l60", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "l6" },
+]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ icon = "tasks", text = "lanes single" }], gauge = 0.18, route = "claude · claude-haiku-5-5", route_by = "core" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "write", tone = "plain" }, { text = "$0.33", tone = "dim" }, { text = "demo", tone = "dim" }] }]

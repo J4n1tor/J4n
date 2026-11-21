@@ -1,0 +1,26 @@
+api = 1
+
+[[event]]
+id = "draft"
+doc = "The composer holds a line that may be shaped: its words, who it is for and its hash. Seen by the rule `shape-draft`, never written."
+ephemeral = true
+
+[[event]]
+id = "shape.card"
+doc = "The card above the composer changed: a row was kept or dropped, a question answered, or a result came. Never written."
+ephemeral = true
+
+[[event]]
+id = "shape.switch"
+doc = "`:shape on` or `:shape off` was said."
+fields = { on = { ty = "bool", required = true } }
+
+[[event]]
+id = "shape.result"
+doc = "What the shaper came to for a draft: its verdict, the rows that held and why the others were dropped, or why it did not run."
+fields = { draft_hash = { ty = "str", required = true }, verdict = { ty = "str", required = true }, rounds = { ty = "int" }, ms = { ty = "int" }, tokens = { ty = "int" }, usd = { ty = "num" }, by = { ty = "str" }, judge = { ty = "str" }, reason = { ty = "str" }, items = { ty = "any" }, dropped = { ty = "any" } }
+
+[[event]]
+id = "shape.kept"
+doc = "The rows the operator kept went with a line."
+fields = { result = { ty = "str", required = true }, keys = { ty = "any" } }

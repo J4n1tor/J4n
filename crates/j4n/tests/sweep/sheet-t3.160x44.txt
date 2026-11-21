@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
+ ─────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Models   Providers   Plans   Trust
+━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  task time  • median  • slowest
+  • 0s  median
+  • 0s  slowest
+  model                     had through  now            price       window  used  last
+├ deepseek-v4.1-flash-1017  own          no key         not priced  131072  0     —
+│   own · no key · sends deepseek/deepseek-v4.1-flash-1017
+│   not used yet
+├ gpt-oss-20b               light        no key ╭─ keys · Models ──────────────────────────────────────────────╮
+├ haiku                     claude       not ins│                                                              │
+├ jev-latest                jev          no key │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+├ opus                      claude       not ins│                    Option as Meta or Alt.                    │
+├ sonnet                    claude       not ins│ ↑↓       move      The row above or below.                   │
+╰ span 01                   span         no key │ ⏎        open      Open, edit or press the row; fold a       │
+                                                │                    section.                                  │
+                                                │ ?        keys      All the keys of this page.                │
+                                                │ ⌃k       find      Find anything: the commands and the tree. │
+                                                │ ⌃g       state     Turn the bottom row over: the keys, or    │
+                                                │                    what the whole screen is doing (tasks,    │
+                                                │                    what waits for you, today's spend, a      │
+                                                │                    window that runs low).                    │
+                                                │                                                              │
+                                                │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                                                │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                                                │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                                                │ F1–F9              Tab n, as ⌥n.                             │
+                                                │                                               any key closes │
+                                                ╰──────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

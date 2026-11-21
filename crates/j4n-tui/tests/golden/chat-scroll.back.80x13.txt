@@ -1,0 +1,13 @@
+     │     - let b = 1;
+     │     + let b = 2;
+     ╰─ Done: the parser reads trailing commas and the docs say so, which is a
+        sentence long enough to wrap.
+
+▌ thanks, one more question                                              12:41 ▐
+  ╰─ 󰼛  B work                                                             0:22
+     ├─ 󰛐  README.md
+     ╰─ 󰛐  lexer.rs
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ B working  write                                                   $0.33  demo

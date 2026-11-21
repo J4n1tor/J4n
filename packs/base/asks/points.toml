@@ -1,0 +1,279 @@
+api = 1
+
+# The ask points of the base pack. Fields:
+#   shape     yesno · choice · approval · text
+#   impact    low · mid · gate: a wrong answer is cosmetic · costly · unsafe
+#   data      public · project · private · secret: the most sensitive class the question carries
+#   chain     who is asked, in order; `human` is last; an approval never has a decider or a model
+#   fallback  what stands when no one answers (rank · safe · pick:<id> · text:<line>); every point has one, so a run with no
+#             model and no key still answers every question
+#   options   the fixed option ids of a closed vocabulary; the other choices are offered by the asker
+
+[[ask_point]]
+id = "intake"
+doc = "What a first line is: an answer to give, a command, a setting to change, a task for a doer, or a flow. A bound thread never asks."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["answer", "command", "setting", "task", "flow"]
+says = { answer = "the line asks to be told something, and no work is done", command = "the line is a command of the tool itself", setting = "the line asks to change a setting of the tool", task = "the line asks for one piece of work, which a doer does in one go", flow = "the line asks for a plan first and then the work in several steps, or lists the steps" }
+chain = ["rule:intake", "decider:jev?min_conf=0.6", "human"]
+fallback = "pick:task"
+
+[[ask_point]]
+id = "weigh"
+doc = "Where a line goes before it is sent, when the setting `weigh.on` is on: answered with no tool and no project by a cheap model, put to a lean session on the cheap tier, or sent as a task to the doer of the chat. The line's weight chooses the place; it never changes the model of a session that is bound. Nobody is asked in the middle of a line: Jev is not there, or has not passed its cases, and the line is a task, as it was."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["answer", "light", "task"]
+says = { answer = "a greeting, thanks, or a general question that needs no file, no tool and nothing from this project", light = "a short question about this project, read from its files or its Log, that changes nothing", task = "work: change, run or build something, a long or many-part line, or any line that is not plainly one of the other two" }
+chain = ["rule:weigh", "decider:jev?min_conf=0.6"]
+fallback = "pick:task"
+
+[[ask_point]]
+id = "librarian"
+doc = "Which of several skills that fit a task equally to take first, when the setting `librarian.on` is on and there is room for fewer than fit. Code picks by the words, the files and the kind of the task; this is asked only for the tie, and only the options a tie offers (a skill's name and its first line, and `none`). Jev is not there, has not passed its cases, or is not sure: code's order stands and the Log says so."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["decider:jev?min_conf=0.6"]
+fallback = "pick:none"
+
+[[ask_point]]
+id = "chats"
+doc = "Which chat a line typed in the orchestrator belongs to, when the setting `chats.on` is on: one of the chats offered (each with its first line), or `new` to open a chat of its own. Code matches first (a file in common, words in common); this is asked when code finds none and there are chats, and, with more than one match, for the hint on the question the operator is asked. Jev is not there, has not passed its cases, or is not sure: code's match or a new chat stands and the Log says why."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["new"]
+says = { new = "the line is not about any of the chats listed: it opens a chat of its own" }
+chain = ["decider:jev?min_conf=0.6"]
+fallback = "pick:new"
+
+[[ask_point]]
+id = "fold"
+doc = "A line typed while a plan is open: added to the plan, changing it, an answer that touches no item, or a plan to replace it (the operator says yes to that)."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["add", "change", "answer", "replace"]
+says = { add = "the line is more work, to be added to the plan next to what is planned", change = "the line takes part of the plan back or puts another step in its place; the rest of the plan stands", answer = "the line asks to be told something and asks for no work", replace = "the line is for another job altogether: the plan is dropped and a new one made" }
+chain = ["rule:fold", "decider:jev?min_conf=0.6", "human?after=60s"]
+fallback = "pick:add"
+
+[[ask_point]]
+id = "plan"
+doc = "Whether a line is plan-shaped by its words alone: it asks for a plan, or lists three steps. A rule answers, yes or no, and no model; the front tests the same words before it asks `intake`."
+shape = "yesno"
+impact = "low"
+data = "project"
+chain = ["rule:plan"]
+fallback = "safe"
+
+[[ask_point]]
+id = "who:work"
+doc = "Which doer does the work: the one the line names, else the one a decider reads the line for, else the best-ranked."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rule:named", "decider:jev?min_conf=0.6", "rank", "human?after=60s"]
+fallback = "rank"
+
+[[ask_point]]
+id = "who:main"
+doc = "Which doer is Main, the chat that works the operator's lines itself, when `lanes` is `orchestrate`: the doer the operator bound, else the one a decider reads the line for, else the best-ranked: the most reliable, and of those the cheaper."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rule:named", "decider:jev?min_conf=0.6", "rank", "human?after=60s"]
+fallback = "rank"
+
+[[ask_point]]
+id = "who:plan"
+doc = "Which doer makes the plan."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rule:named", "decider:jev?min_conf=0.6", "rank", "human?after=60s"]
+fallback = "rank"
+
+[[ask_point]]
+id = "who:review"
+doc = "Which doer reviews."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rule:named", "decider:jev?min_conf=0.6", "rank", "human?after=60s"]
+fallback = "rank"
+
+[[ask_point]]
+id = "who:validate"
+doc = "Which doer validates the work; the worker is not offered, and an empty offer skips the step."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rank", "human?after=60s"]
+fallback = "rank"
+
+# Not asked yet: no caller puts `pick` (a doer's choice goes to `question`, `task/engine.rs` `default_point`); it waits for a design.
+[[ask_point]]
+id = "pick"
+doc = "One of the options a doer offers: the recommended one, else the operator, who is out of time after a minute."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["rule:recommended", "decider:jev?min_conf=0.6", "model:light?min_conf=0.7", "human?after=60s"]
+fallback = "rank"
+
+[[ask_point]]
+id = "retry"
+doc = "After a failure that will not mend itself: try the same doer again, escalate to another, or stop."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["retry", "escalate", "stop"]
+says = { retry = "the failure was a hiccup that may not come again: try the same doer once more", escalate = "the doer failed for want of skill: another doer may do better", stop = "the same failure came again, or it is one no doer can mend (a refusal, a missing right): stop" }
+chain = ["rule:retry", "decider:jev?min_conf=0.7"]
+fallback = "pick:stop"
+
+[[ask_point]]
+id = "approval"
+doc = "Permission for one effect the Gate asked about: a rule or a grant or the operator answers it, never a model. Under `approval.inside` the Gate also says yes to what stays inside the project, and a line it cannot read is put to a Decider on the point `inside`, never on this one."
+shape = "approval"
+impact = "gate"
+data = "private"
+chain = ["rule:gate", "human"]
+fallback = "safe"
+
+# `approval.inside`: a line the approval's chain left to the operator, which code read as inside the project but for the paths of some Python,
+# built while it runs. The Decider says `inside` (J4n lets it run) or `ask` (the operator is asked); no answer, an unsure one or none at all is `ask`.
+# Code reads the line again on the answer: a Decider is never put a line outside the project, on the network, with credentials, a push, a deploy or a
+# remote shell, and its `inside` never stands for one. Only there while `approval.inside` is on.
+[[ask_point]]
+id = "inside"
+doc = "Whether a shell line that code read as inside the project, all but the paths of some Python built while it runs, stays inside the project folder and does nothing else: `inside` lets it run, `ask` asks the operator. Put only under `approval.inside`."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["inside", "ask"]
+says = { inside = "every file the line reads or writes is inside the project folder, and it does nothing else: J4n lets it run", ask = "a path may lead outside the project, or it is not clear: the operator is asked" }
+chain = ["decider:jev?min_conf=0.8"]
+fallback = "pick:ask"
+
+[[ask_point]]
+id = "question"
+doc = "A doer's own question, put to the operator as it is."
+shape = "text"
+impact = "low"
+data = "project"
+chain = ["human"]
+fallback = "text:No one answered; use your own judgment and say what you assumed."
+
+[[ask_point]]
+id = "look"
+doc = "The look's pass: which look fits a kind of event, a field or a line the look file does not cover yet. The options are the families, renderers and lines that exist; the samples are masked by the guard's redactor. No answer leaves the miss as it is: the fallback is never written."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["decider:jev?min_conf=0.5"]
+fallback = "rank"
+
+# `complete`: which of the suggestions code found for what is typed comes first. Code makes every candidate; the Decider only picks one, and
+# no answer, an unsure one or none at all leaves code's order. Asked after a pause in typing, one ask at a time, at most `complete.decider_day`
+# times a day; never with `complete.decider` off, when its cases are not put to Jev either. Its failures are its own: three in a row stop
+# its asks for ten minutes and leave Jev's breaker, which intake and every other point share, as it was.
+[[ask_point]]
+id = "complete"
+doc = "Which of the suggestions code found for what is being typed the operator most likely means: a whole line, the next line, or a word whose best two are close. The options are code's candidates, at most 8, numbered; the question is the typed line, the candidates, the heads of the last three turns of the chat and the slot, all redacted, never a file's text. No answer leaves code's order."
+shape = "choice"
+impact = "low"
+data = "project"
+chain = ["decider:jev?min_conf=0.6"]
+fallback = "rank"
+breaker = false
+
+[[ask_point]]
+id = "reflex"
+doc = "Whether a reflex fires, when the setting `reflexes.on` is on and the reflex's check held: `fire` when the operator's sentence is true at the state the digest says, `hold` when it is not or when it is not clear. The digest is made by code (the numbers of /context, the heads of the last turns, the sentence), redacted, and sent only with `reflexes.judge` on for the project. The row's own rule (`rule:reflex`, which holds when the chat holds no session) first, then Jev; where Jev is not there, has not passed its cases or is not sure, the fallback stands: do not fire. An approval is never put to it."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["fire", "hold"]
+says = { fire = "the operator's sentence is true at this state: run the command", hold = "the sentence is not true at this state, or it is not clear: do not run the command" }
+chain = ["rule:reflex", "decider:jev?min_conf=0.7"]
+fallback = "pick:hold"
+
+# The read of a plain line under the one switch: four closed questions, each its own point, the same chain. A Decider answers the ones it is sure of
+# (`min_conf`), a quick model is asked only the ones left open (code, not a chain step: it is a task of the cheap tier), and what nothing settles is
+# open: the line goes to Main as typed, and the row says why. The fallbacks are those "as typed" values and are never taken as an answer.
+
+[[ask_point]]
+id = "read:kind"
+doc = "What a plain line is: a reply to give (`answer`), one lane of work (`one`), or work in parts that chats could each do beside Main (`split`). A Decider that is not sure leaves it to the quick model; a `split` line always reaches the model, for its parts. Nothing settled: the line goes to Main as one."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["answer", "one", "split"]
+says = { answer = "the line needs no work in the project: a reply, a thanks, a question about J4n or the session", one = "one piece of work, or steps of one change, an investigation and its fix: one lane", split = "two or more parts, each real work of its own, that separate chats could each do in their own files, faster or with a smaller context; a part may use what another makes when a brief can say it" }
+chain = ["decider:jev?min_conf=0.7"]
+fallback = "pick:one"
+
+[[ask_point]]
+id = "way"
+doc = "How a plain line is worked, when the read is unsure (it said split and named no parts): one lane, Main works it, or split into chats, Main writes a brief for each part. The operator picks on one row before any work starts, the read's way marked recommended with its reason, or types their own way; `orchestrate.way` `decide` takes the read's way with no question. Nobody to ask, Esc, or no key in two minutes: one lane, and the Log says who decided."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["one", "split"]
+says = { one = "one lane: Main works it", split = "split into chats: Main writes a brief for each part" }
+chain = ["human?after=120s"]
+fallback = "pick:one"
+
+[[ask_point]]
+id = "read:goes_on"
+doc = "Whether a plain line goes on from what the last turn said (a yes, a no, `and the second one?`, `go on`) and so belongs to the session that said it, or stands alone. Nothing settled: the line stands alone."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["yes", "no"]
+says = { yes = "the line goes on from what was just said: it answers it, confirms it, or asks for more of it", no = "the line stands alone: a new thing to do or to ask" }
+chain = ["decider:jev?min_conf=0.7"]
+fallback = "pick:no"
+
+[[ask_point]]
+id = "read:chat"
+doc = "Which open chat a plain line belongs to, by the chats' titles (offered with the line), or `none`: it is not about any of them. Nothing settled: Main works the line."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["none"]
+says = { none = "the line is not about any of the chats listed: Main works it" }
+chain = ["decider:jev?min_conf=0.7"]
+fallback = "pick:none"
+
+[[ask_point]]
+id = "read:asked"
+doc = "Which doer the operator asks for in a plain line (`ask codex what this does`, `have pi do the tests`), among the doers J4n has, or `none`: the line asks for no doer by name. A word that is a doer's name inside a sentence about something else (`compute pi`) is none. Nothing settled: the line asks for none."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["none"]
+says = { none = "the line does not ask for a doer: it is about something else, or the name is part of what is being said" }
+chain = ["decider:jev?min_conf=0.7"]
+fallback = "pick:none"
+
+# The access of a chat of a split (`orchestrate.access`): whether a chat is given a read-only copy of a file it does not write. Code asks the plan first
+# (`rule:access`); the Deciders answer what the plan does not name, a request a chat made by itself; what none settles is Main's (`access <id>: yes|no`). The
+# guard is above every rung and is not a step: a secret, a key, a doer's own state, a path outside the project or in `.git` is refused before anyone is asked.
+
+[[ask_point]]
+id = "access"
+doc = "Whether a chat of a split is given a read-only copy of a file it does not write, from another chat's part or from the folder: `yes` when the file is part of what the chat's task uses (an interface it calls, a module it imports, the build files its tests need), `no` when it is not. The plan answers first; a Decider that is not sure leaves it to Main, and a request no one settles is Main's. The guard refuses secrets, keys and transcripts whatever is said."
+shape = "choice"
+impact = "mid"
+data = "project"
+options = ["yes", "no"]
+says = { yes = "the file is part of what the chat's task uses: a module it imports, an interface it calls, a file its tests or build need", no = "the file is not part of the chat's task, or the reason given does not say why the task needs it" }
+chain = ["rule:access", "decider:jev?min_conf=0.7", "decider:span?min_conf=0.7"]
+fallback = "pick:no"

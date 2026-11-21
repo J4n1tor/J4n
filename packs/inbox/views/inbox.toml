@@ -1,0 +1,16 @@
+api = 1
+
+[[view]]
+id = "inbox"
+doc = "The lines typed over a working task, newest first, each with its tag, its receipt and the keys that re-tag it."
+from = { from = "fold:inbox", order = "-at_ms" }
+key = "{item}"
+cells = ["{mark}", "{item}", "{tag}", "{state}", "{text:short}"]
+detail = ["{why}", "{rule} · {over}"]
+acts = [
+  { key = "s", label = "steer", run = ":inbox tag {item} steer" },
+  { key = "x", label = "side", run = ":inbox tag {item} side" },
+  { key = "n", label = "note", run = ":inbox tag {item} note" },
+  { key = "h", label = "hold", run = ":inbox tag {item} hold" },
+  { key = "p", label = "pin", run = ":inbox pin {item}" },
+]

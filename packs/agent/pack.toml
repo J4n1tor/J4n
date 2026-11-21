@@ -1,0 +1,7 @@
+api = 1
+id = "agent"
+version = "0.0.0"
+summary = "the own agent: react and work flows, builtin tool connectors"
+use_when = "the operator wants J4n's own agent on a cheap model to do a piece of work instead of an outside tool"
+needs = ["base"]
+stability = "experimental"

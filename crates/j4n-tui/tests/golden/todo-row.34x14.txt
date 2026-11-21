@@ -1,0 +1,14 @@
+
+
+▌ add the trailing comma   12:29 ▐
+▌ to the parser, with            ▐
+▌ tests and docs                 ▐
+  ╰─ 󰗡  A claude      1:04  $0.12
+     ├─ 󰛐  parser.rs
+     ├─ 󰲶  parser.rs
+     ├─ 󰄲  5 done
+     ╰─ 󰞷  cargo test          󰗡
+╭────────────────────────────────╮
+│                                │
+╰────────────────────────────────╯
+

@@ -1,0 +1,14 @@
+api = 1
+
+# Connect › Overview `t`: the canary of the Connect flow, on a connector that is already there. The goal is the connector's row as TOML,
+# which the front writes; the step is the flow's own, so it runs in the box, in read mode, and asks the Gate as it does there. Nothing is written.
+[[flow]]
+id = "connect-test"
+doc = "Run a connection's canary once, in the box, and say how it went."
+in = { goal = "text" }
+steps = [
+  { id = "canary", do = "connect-canary", place = "box", mode = "read", soft = true, goal = "Run the connector once.", with = { manifest = "{in.goal}" }, out = { verdict = "verdict", result = "json" } },
+  { id = "worked", kind = "branch", on = "steps.canary.out.verdict.pass", yes = "passed", no = "failed" },
+  { id = "passed", kind = "end", answer = "The canary passed.\n{steps.canary.out.result.transcript}" },
+  { id = "failed", kind = "end", answer = "The canary did not pass. {steps.canary.out.verdict.concerns}\n{steps.canary.out.result.transcript}" },
+]

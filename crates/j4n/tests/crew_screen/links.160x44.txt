@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ─────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰗡 Habits   󰏖 Catalogue   Seats   Links   Charters   Chat settings   Opinions   Refusals
+─────────────────────────────────────────────────────────━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────
+  link         from  to        carries          hops
+├ brief        main  reviewer  brief            —
+╰ report-back  chat  main      report, opinion  2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a message no link carries is refused, and Refusals says so
+ ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

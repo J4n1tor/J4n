@@ -1,0 +1,61 @@
+api = 1
+
+# The five attacks (checked 2026-10-24), each as a pattern on the events the guard writes. They
+# match what the Gate and the pins already stopped: the alert says which known attack it looks like, and every one is `blocked` because
+# the event it reads is a block. A rule id before the colon is how `gate.verdict` says who stopped it (`why` is `<rule>: <reason>`). The
+# words are the row's own; the tool and the path a run named reach them only through `quote(…)`.
+
+[[incident]]
+id = "s1ngularity"
+doc = "Nx, Aug 2025: malicious npm packages used the installed Claude, Gemini and Q CLIs to search the machine for secrets, took them, and put a shutdown line in the shell startup files. Here: a run that read untrusted content, or any line, goes for keys or startup files. The Gate's `secrets-are-handed-over` block is a real read, copy, upload or print of a credentials file or login, so the alert fires on that and not on a line that only names a file (a deploy script given `.env.production` is asked, not blocked)."
+like = "s1ngularity"
+class = "exfil"
+on = "gate.verdict"
+when = "ev.data.verdict == 'block' and (ev.data.why matches 'taint-write-secret:*' or ev.data.why matches 'taint-write-login:*' or ev.data.why matches 'taint-shell-write-login:*' or ev.data.why matches 'secrets-are-handed-over:*' or ev.data.why matches 'egress-secret:*')"
+done = "blocked"
+text = "a key or a login was read, copied or changed: {quote(ev.data.target)}"
+source = "https://blog.gitguardian.com/the-nx-s1ngularity-attack-inside-the-credential-leak/"
+
+[[incident]]
+id = "github-mcp"
+doc = "GitHub MCP, May 2025: a public issue got the agent to leak private repositories into a public pull request (Invariant Labs call it architectural). Here: after untrusted content, a tool that writes, or a gh line."
+like = "GitHub MCP"
+class = "inject"
+on = "gate.verdict"
+when = "ev.data.verdict == 'block' and (ev.data.why matches 'taint-shell-egress:*' or (ev.data.why matches 'taint-mcp-write:*' and not (lower(ev.data.target) matches '*sql*' or lower(ev.data.target) matches '*query*' or lower(ev.data.target) matches '*database*')))"
+done = "blocked"
+text = "content from outside told a run to send something out: {quote(ev.data.target)}"
+source = "https://invariantlabs.ai/blog/mcp-github-vulnerability"
+
+[[incident]]
+id = "postmark-mcp"
+doc = "postmark-mcp, Sep 2025: the first malicious MCP server seen in the wild, a one-line copy of every mail to the attacker, in a later version. Here: a server changed a tool after the operator pinned it."
+like = "postmark-mcp"
+class = "rug-pull"
+on = "guard.alert"
+when = "ev.data.kind == 'pin'"
+done = "blocked"
+text = "{ev.data.of} changed a tool after it was pinned"
+source = "https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/"
+
+[[incident]]
+id = "supabase-mcp"
+doc = "Supabase MCP, Jul 2025: a support ticket made the agent run SQL with a privileged key. Here: after untrusted content, a database tool that writes, or a call to a connected endpoint."
+like = "Supabase MCP"
+class = "inject"
+on = "gate.verdict"
+when = "ev.data.verdict == 'block' and (ev.data.why matches 'taint-endpoint:*' or (ev.data.why matches 'taint-mcp-write:*' and (lower(ev.data.target) matches '*sql*' or lower(ev.data.target) matches '*query*' or lower(ev.data.target) matches '*database*')))"
+done = "blocked"
+text = "content from outside led a run to a database or an endpoint: {quote(ev.data.target)}"
+source = "https://simonwillison.net/2025/Jul/6/supabase-mcp-lethal-trifecta/"
+
+[[incident]]
+id = "amazon-q"
+doc = "Amazon Q extension, Jul 2025: a wiper prompt shipped in a signed release (it was malformed and did not run). Here: a line that wipes a disk or a home folder."
+like = "Amazon Q"
+class = "wipe"
+on = "gate.verdict"
+when = "ev.data.verdict == 'block' and ev.data.why matches 'wipe-is-never:*'"
+done = "blocked"
+text = "a line that wipes the filesystem was refused: {quote(ev.data.target)}"
+source = "https://cyberinsider.com/amazons-ai-coding-assistant-for-vsc-infected-with-data-wiper/"

@@ -1,0 +1,33 @@
+api = 1
+
+# Watchers, as rules over counts. They say things made of counts and of the
+# operator's own words, never of what the doer wrote, and they only steer or tell: no kill, no gate, no spend. The ones that
+# need a decider to tell a question from a task (anchor, intent, scale) come with the deciders.
+
+[[rule]]
+id = "rabbit"
+doc = "A task that has read a great many places and changed nothing is asked to say what it has found."
+on = "run.tool_call"
+when = "task and fold.explored[task] > set.rabbit.reads and not fold.writes[task]"
+then = "steer"
+text = "You have read {fold.explored[task]} places and changed nothing. The task was: {quote(fold.tasks[task].origin)} Say what you have found so far, then make the change or name the one thing still missing."
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "stuck"
+doc = "A task whose last commands have all failed is asked to step back."
+on = "run.shell"
+when = "task and fold.failing[task] >= set.stuck.fails"
+then = "steer"
+text = "The last {fold.failing[task]} commands have failed. Step back: say what the failure is, then change the approach."
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "quiet"
+doc = "Nothing was heard of a running task for five minutes: a note to the operator, once the quiet has lasted. Time spent waiting for an answer is not quiet: the wait starts again when the task resumes."
+on = "run.*"
+when = "task and not (by matches 'rule:*') and fold.tasks[task].state == 'running'"
+then = "notice"
+text = "Nothing has been heard from this task for 5 minutes."
+after = "5m"
+limit = { per = "task", max = 3 }

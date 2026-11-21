@@ -1,0 +1,22 @@
+api = 1
+
+# Read when J4n starts. The switch is `ledger.mode` (a setting cannot also be the front of another).
+[[setting]]
+id = "ledger.mode"
+doc = "Whether a thread that settles is reported: `on` (the default) writes one report from the Log each time nothing of the thread is open and a task of it has ended (a chat card, and Spend › Report); `off` says nothing new, as before. An unknown word is `off`."
+ty = "str"
+default = "on"
+words = ["on", "off"]
+
+[[setting]]
+id = "ledger.prose"
+doc = "What a report says beside its facts: `off` the facts and receipts only; `facts` (the default) also the doers' answers, quoted under the line they answer and merged; `mixed` also one paragraph of the model `ledger.model`, kept only when every path, sha, number and test name in it is in the facts."
+ty = "str"
+default = "facts"
+words = ["off", "facts", "mixed"]
+
+[[setting]]
+id = "ledger.model"
+doc = "For `ledger.prose = mixed`: a doer, a colon and the model it is asked for (`light:anthropic/claude-haiku-5.5`, `light` is the small model of the pack jev). With no such doer the paragraph is dropped and says why; the facts stand."
+ty = "str"
+default = "light:anthropic/claude-haiku-5.5"

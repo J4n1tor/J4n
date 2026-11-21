@@ -1,0 +1,22 @@
+
+  󰍩 Chat   󰝖 Tasks   󰏖 Packs                     j4n 0.0.0
+ ━━━━━━━━──────────────────────────────────────────────────
+  ├─ 󰛐  README.md
+  ╰─ 󰻭  writing /w/chess.py         23.9 kB  6.1k tok  8:01
+╭──────────────────────────────────────────────────────────╮
+│ 󰘥 j4n                                                    │
+│ lanes needs the quick look and Main                      │
+│ the quick look: claude is signed in; its cheapest mo…    │
+│ Main: claude is signed in; its newest Sonnet is sonn…    │
+│                                                          │
+│ ⇥ 1  󰐾 use the suggestion: the quick look claude · ha…   │
+│   2  󰐽 pick another                                      │
+│   3  󰐽 go on without it: lines go to Main as typed, n…   │
+│   4  󰐽 turn lanes off                                    │
+│                                                          │
+│ 1–4 · ? why · esc later                                  │
+╰──────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────╮
+│                                                  → 󰘥 j4n │
+╰──────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.33  F1

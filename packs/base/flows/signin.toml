@@ -1,0 +1,12 @@
+api = 1
+
+# A program's own sign-in, in its own folder, with no account: Connect › Setup's `s` says `:signin <program>`. The doer `account`
+# runs the program's `[connector.signin]` and asks before it starts it.
+[[flow]]
+id = "signin"
+doc = "Sign a program in with its own login: its sign-in is started, its link is shown, and it is asked who it is when it ends."
+in = { goal = "text" }
+steps = [
+  { id = "do", do = "account", goal = "login {in.goal}", out = { done = "text" } },
+  { id = "done", kind = "end", answer = "{steps.do.answer}" },
+]

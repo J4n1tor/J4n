@@ -1,0 +1,26 @@
+ roles · paper
+ bg     #f3f0e8      input
+ raise  #e5e7e3      mix bg→accent 7%
+ sel    #d3dbdd      mix bg→accent 16%
+ text   #2a2e35  Aa  input
+ dim    #5c5e62  Aa  text→bg ≤41% · ≥4.5       4.6:1  ✓
+ faint  #787a7b  Aa  text→bg ≤60% · ≥3.0       3.1:1  ✓
+ edge   #bbbab6  Aa  mix text→bg 72%
+ accent #2c6295  Aa  input · ≥4.5              4.5:1  ✓
+ soft   #2c5f8f  Aa  accent→bg ≤26% · ≥4.7     4.8:1  ✓
+ ok     #2e6b47  Aa  input · ≥4.5              4.5:1  ✓
+ warn   #785b17  Aa  input · ≥4.5              4.5:1  ✓
+ error  #a73b35  Aa  input · ≥4.5              4.5:1  ✓
+ route  #7048a8  Aa  input · else accent↻60°   4.7:1  ✓
+ run    #8c5022  Aa  input · else warn↻−20°    4.5:1  ✓
+ fetch  #226969  Aa  input · else accent⇄ok    4.5:1  ✓
+ you    #2c6295  Aa  = accent, bold
+ made   #787a7b  Aa  = faint (the ~ mark)
+ add    #2e6b47  Aa  = ok
+ del    #a73b35  Aa  = error
+ focus  #2c6295  Aa  = accent, bold
+ strong #2a2e35  Aa  = text, bold
+ code   #2c6295  Aa  = accent
+ link   #226969  Aa  = fetch, underlined
+ head   #2c6295  Aa  = accent, bold
+

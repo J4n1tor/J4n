@@ -1,0 +1,7 @@
+api = 1
+id = "habits"
+version = "0.0.0"
+summary = "show-only detectors of waste the tools make that J4n can see: tiny steps, a cold cache, rereads, big outputs, a chore typed again, a late compaction; off by default, so nothing is said that was not"
+use_when = "the operator wants to see where tool calls waste money: tiny steps, rereads, a cold cache, big outputs"
+needs = ["base"]
+stability = "experimental"

@@ -1,0 +1,25 @@
+api = 1
+
+# The own agent's loops, as flows. The loop itself — think, call tools, think — is the
+# model's turns, which the connector `own` runs: every call of a reply is run, each by the Gate, and the results go back. What a
+# flow says is how many turns, and whether it may change anything: a lane that only reads takes ten turns, and one that works takes
+# a hundred, because spend and the unchanged-reply stop are what bound a run that goes nowhere, not the steps. On its last turn
+# a model answers from what it gathered.
+
+[[flow]]
+id = "react"
+doc = "The own agent for a question: it reads, it may not change anything, and it answers in ten turns at most."
+in = { goal = "text" }
+steps = [
+  { id = "think", do = "own", role = "work", mode = "read", turns = 10, goal = "{in.goal}", out = { answer = "text" } },
+  { id = "done", kind = "end", answer = "{steps.think.answer}" },
+]
+
+[[flow]]
+id = "work"
+doc = "The own agent for a task: it reads, changes and looks again, a hundred turns at most."
+in = { goal = "text" }
+steps = [
+  { id = "think", do = "own", role = "work", mode = "write", turns = 100, goal = "{in.goal}", out = { answer = "text" } },
+  { id = "done", kind = "end", answer = "{steps.think.answer}" },
+]

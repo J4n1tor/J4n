@@ -1,0 +1,64 @@
+api = 1
+
+# What cannot wait for the digest: a release that breaks something J4n uses, a word of security, a set of
+# names that lost one, a scripted run that failed or said it differently, a source that moved. Each says one line and where to read
+# more; none changes anything. What a release or a tool said is untrusted text and reaches these words only through `quote(…)`.
+
+[[rule]]
+id = "watch-breaks"
+doc = "A release whose notes name something J4n uses and say it was removed or changed: said at once, with the first such line."
+on = "watch.release"
+when = "ev.data.class == 'breaks'"
+then = "notice"
+text = "{ev.data.source} {ev.data.version} breaks something J4n uses: {quote(ev.data.lead)} (the Updates tab under Grow has the rest)"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "watch-security"
+doc = "A release that says CVE, security advisory or vulnerability: said at once."
+on = "watch.release"
+when = "ev.data.security and ev.data.class != 'breaks'"
+then = "notice"
+text = "{ev.data.source} {ev.data.version} speaks of a security matter: {quote(ev.data.link)}"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "watch-gone"
+doc = "A tool a connected server offered, or a model a provider sold, is gone or changed."
+on = "watch.diff"
+when = "ev.data.class == 'breaks'"
+then = "notice"
+text = "{ev.data.of}: {len(ev.data.gone)} gone, {len(ev.data.changed)} changed ({quote(ev.data.lead)})"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "watch-canary"
+doc = "The scripted run of a new release failed, or said it differently from the good run."
+on = "watch.canary"
+when = "ev.data.outcome == 'failed' or ev.data.outcome == 'differs'"
+then = "notice"
+text = "{ev.data.source} {ev.data.version}: the scripted run {ev.data.outcome}: {quote(ev.data.lead)}"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "watch-moved"
+doc = "A source answered that it lives elsewhere: said once, and proposed as the new address."
+on = "watch.moved"
+then = "notice"
+text = "{ev.data.source} has moved: {quote(ev.data.to)} (a proposal to follow it waits in the Grow tab)"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "watch-digest"
+doc = "The digest, on the day `watch.digest` says: how many releases touch what J4n uses."
+on = "watch.digest"
+then = "notice"
+text = "{ev.data.items} release(s) of the tools J4n follows touch what it uses: the Updates tab under Grow"
+
+[[rule]]
+id = "watch-issue"
+doc = "An issue the operator tracks changed state (closed, or reopened): a workaround may no longer be needed, or a fix may have been undone."
+on = "watch.issue"
+then = "notice"
+text = "{ev.data.source}: issue #{ev.data.number} is now {ev.data.state}: {quote(ev.data.title)} ({quote(ev.data.link)})"
+limit = { per = "all", max = 10, within = "1h" }

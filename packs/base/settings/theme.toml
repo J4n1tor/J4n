@@ -1,0 +1,74 @@
+api = 1
+
+# The look of the screen (kind `setting`). The core sends these words to the screen when it says hello
+# (`Down::Theme`); the screen checks them and keeps the look it has, with a toast, for a word it cannot read. A layer above the pack
+# says its `value`. `NO_COLOR` is the terminal's, and not here.
+[[setting]]
+id = "theme.palette"
+basic = true
+doc = "The colours: `jjj`, `dusk`, `paper`, `ember`, `mono` or `contrast`."
+ty = "str"
+default = "jjj"
+words = ["jjj", "dusk", "paper", "ember", "mono", "contrast"]
+
+[[setting]]
+id = "theme.marks"
+doc = "What the marks are drawn with: `icons` (a Nerd Font), `unicode`, `ascii` or `words`."
+ty = "str"
+default = "icons"
+words = ["icons", "unicode", "ascii", "words"]
+
+[[setting]]
+id = "theme.frame"
+doc = "How the trees and the chat are drawn: `round` (a tree of pipes with rounded corners, the default), `pipes` (the same tree with square corners), `airy` (no lines, a dot and an arrow), `gutter` (one word a row in a column) or `hang` (a lane with no tree, its steps hung from a rail)."
+ty = "str"
+default = "round"
+words = ["pipes", "gutter", "hang", "round", "airy"]
+
+[[setting]]
+id = "theme.corners"
+doc = "The corners of a box: `round` or `square`."
+ty = "str"
+default = "round"
+words = ["round", "square"]
+
+[[setting]]
+id = "theme.title_place"
+doc = "Where the title of a box goes: `inside`, `border` or `none`."
+ty = "str"
+default = "inside"
+words = ["inside", "border", "none"]
+
+[[setting]]
+id = "theme.density"
+doc = "How much room a row takes: `compact`, `normal` or `roomy`."
+ty = "str"
+default = "normal"
+words = ["compact", "normal", "roomy"]
+
+[[setting]]
+id = "theme.fill"
+doc = "What paints the background: `match` sets the terminal's own background to the palette's while J4n runs (so its padding is the same colour) and gives it back on the way out, `terminal` paints none, `paint` paints every cell."
+ty = "str"
+default = "match"
+words = ["match", "terminal", "paint"]
+
+[[setting]]
+id = "theme.motion"
+doc = "Whether the name of a doer that works breathes, and whether the track under a line that is being taken (sent, routed, a chat opened, a doer started) draws its line to the next mark. Off, they stand still."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "theme.you"
+doc = "How the operator's own line is drawn in the chat: `bracket` is the words plain between two caps in the accent colour, the head of the tree under it; `band` is the words on a raised band across the width with the time at its right and no icon; `mark` has no band and no icon on the pipes or the hang: the words start at the left edge in your colour, closer to the border than the rows under them."
+ty = "str"
+default = "bracket"
+words = ["bracket", "band", "mark"]
+
+[[setting]]
+id = "theme.mouse"
+doc = "Whether the wheel (and the touchpad) scrolls the chat and the pages: `on` asks the terminal to report the mouse, so ⇧-drag selects text (the terminal's own selection needs ⇧ held); `off` leaves the mouse to the terminal, which may turn the wheel into ↑↓."
+ty = "str"
+default = "on"
+words = ["on", "off"]

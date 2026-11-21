@@ -1,0 +1,72 @@
+doc = "The num field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "temperature", field = { kind = "num", bind = "cfg:num.a", props = { min = 0, max = 2, step = 0.1 } } },
+  { id = "off", title = "temperature", field = { kind = "num", bind = "cfg:num.off", props = { min = 0, max = 2, step = 0.1, disabled = "read only" } } },
+  { id = "bad", title = "temperature", field = { kind = "num", bind = "cfg:num.bad", props = { min = 0, max = 2, step = 0.1 } } },
+  { id = "b", title = "temperature", field = { kind = "num", bind = "cfg:num.b", props = { min = 0, max = 2, step = 0.1 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:num.a"
+value = 0.7
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:num.off"
+value = 0.7
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:num.bad"
+value = 2.5
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:num.b"
+value = 0.7
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "left"
+
+[[step]]
+key = "left"
+
+[[step]]
+key = "left"

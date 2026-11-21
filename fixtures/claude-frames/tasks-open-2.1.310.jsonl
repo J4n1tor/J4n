@@ -1,0 +1,10 @@
+# synthetic, in the shape of 2.1.310: three TaskCreate, one TaskUpdate completed; the list is not finished, so the turn ends with two open. A second turn finishes it.
+{"type":"system","subtype":"init","cwd":"/work","session_id":"00000000-0000-4000-8000-0000000000c1","model":"claude-haiku-5-5","permissionMode":"default","tools":["TaskCreate","TaskUpdate"]}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu1","name":"TaskCreate","input":{"subject":"one","description":"first"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu2","name":"TaskCreate","input":{"subject":"two","description":"second"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu3","name":"TaskCreate","input":{"subject":"three","description":"third"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu4","name":"TaskUpdate","input":{"taskId":"1","status":"completed"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"result","subtype":"success","is_error":false,"result":"did the first","session_id":"00000000-0000-4000-8000-0000000000c1","total_cost_usd":0.01,"usage":{"input_tokens":3,"output_tokens":9}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu5","name":"TaskUpdate","input":{"taskId":"2","status":"completed"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu6","name":"TaskUpdate","input":{"taskId":"3","status":"completed"}}]},"session_id":"00000000-0000-4000-8000-0000000000c1"}
+{"type":"result","subtype":"success","is_error":false,"result":"all done","session_id":"00000000-0000-4000-8000-0000000000c1","total_cost_usd":0.02,"usage":{"input_tokens":3,"output_tokens":9}}

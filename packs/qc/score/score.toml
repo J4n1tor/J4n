@@ -1,0 +1,11 @@
+api = 1
+
+# What a mark costs in the display score, which nothing decides by.
+[[qc_score]]
+id = "weights"
+doc = "Start at 10; each mark of at least half a chance costs its weight times its chance; the rubrics cap the score, and a failed project check holds it under 3."
+high = 2.0
+mid = 1.0
+low = 0.5
+min_p = 0.5
+failed_cap = 3.0

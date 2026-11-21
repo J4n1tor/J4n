@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ╰─ ◆ ledger · main · 1 tasks · ✓ 1
+     ├─ ± 0 files · ❱ 0 ran · $0.0000
+     ╰─ ❯ #1 “say - one - two” → t2 ✓
+        ╰─ t2 - two
+
+▌ who                                                                                                                                                0s  HH:MM ▐
+  ├─ child 1 turn 3
+  ╰─ ◆ ledger · main · 1 tasks · ✓ 1
+     ├─ ± 0 files · ❱ 0 ran · $0.0000
+     ╰─ ❯ #1 “who” → t3 ✓
+        ╰─ t3 child 1 turn 3
+
+▌ write notes.txt hello                                                                                                                           0s  󰅚  HH:MM ▐
+  ├─ 󰅖  write notes.txt? no
+  ├─ 󰗖  it ended with no answer and no sign of work: nothing was said, run or changed
+  ╰─ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1
+     ├─ ± 0 files · ❱ 0 ran · $0.0000
+     ├─ ❯ #1 “write notes.txt hello” → t4 ✗ it ended with no answer and no sign of
+     │  work: nothing was said, run or changed
+     ╰─ ◇ needs you: t4 ✗ it ended with no answer and no sign of work: nothing was
+        said, run or changed
+
+ 󰂜  not allowed: write notes.txt
+
+▌ ask Which of the two colours do you want the border to be, and should it change with the palette?                                                  0s  HH:MM ▐
+  ╰─ 󰘥  Which of the two colours do you want the border to be, and should it change with the palette?                                                         󰨖
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 A work                                                                                  󰔛 0:00 │
+│                                                                                                  │
+│ Which of the two colours do you want the border to be, and should it change with the palette?    │
+│                                                                                                  │
+│ type the answer and send it                                                                      │
+│                                                                                                  │
+│ ⏎ send · esc later                                                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                           $0.1200   󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                                                                                                                        → 󰘥 A │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

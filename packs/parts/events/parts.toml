@@ -1,0 +1,17 @@
+api = 1
+
+# The Draft, the runs and the steps of each part; a restart reads where each part was from these.
+[[event]]
+id = "parts.draft"
+doc = "The operator's document read into parts (`parts`), or the Draft edited: the ids kept, in order."
+fields = { doc = { ty = "str", required = true }, parts = { ty = "any" }, order = { ty = "list<str>", required = true } }
+
+[[event]]
+id = "parts.run"
+doc = "`:parts go`: the parts a run took and the plan items they are, in order."
+fields = { run = { ty = "str", required = true }, doc = { ty = "str", required = true }, items = { ty = "list<str>", required = true }, parts = { ty = "list<str>", required = true }, max = { ty = "int" }, boundary = { ty = "str" } }
+
+[[event]]
+id = "parts.step"
+doc = "Where a part is: its gate running, green and waiting for `:parts next`, its commit running, done (with the sha) or the run stopped at it."
+fields = { run = { ty = "str", required = true }, part = { ty = "str", required = true }, phase = { ty = "enum:gate|ready|go|commit|done|stopped", required = true }, task = { ty = "str" }, sha = { ty = "str" }, why = { ty = "str" }, paths = { ty = "list<str>" }, decisions = { ty = "list<str>" }, prompts = { ty = "list<str>" } }

@@ -1,0 +1,14 @@
+▾ ready  3
+├ 󰗡 claude  sonnet
+├ 󰗡 omp     opus
+╰ 󰗡 pi      pi-rpc
+▾ off  2
+├ 󰄰 clef    not found
+╰ 󰄰 gemini  no key
+
+
+
+
+
+
+

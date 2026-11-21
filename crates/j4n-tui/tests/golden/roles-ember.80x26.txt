@@ -1,0 +1,26 @@
+ roles · ember
+ bg     #1b1613      input
+ raise  #29201a      mix bg→accent 7%
+ sel    #3b2d22      mix bg→accent 16%
+ text   #dccfc2  Aa  input
+ dim    #a0968c  Aa  text→bg ≤41% · ≥4.5       4.6:1  ✓
+ faint  #817870  Aa  text→bg ≤60% · ≥3.0       3.1:1  ✓
+ edge   #514a44  Aa  mix text→bg 72%
+ accent #e2a373  Aa  input · ≥4.5              6.1:1  ✓
+ soft   #c68f66  Aa  accent→bg ≤26% · ≥4.7     4.7:1  ✓
+ ok     #9cc58a  Aa  input · ≥4.5              6.8:1  ✓
+ warn   #e0c070  Aa  input · ≥4.5              7.5:1  ✓
+ error  #e47f6f  Aa  input · ≥4.5              4.8:1  ✓
+ route  #c79ad8  Aa  input · else accent↻60°   5.7:1  ✓
+ run    #e8b48a  Aa  input · else warn↻−20°    7.1:1  ✓
+ fetch  #86c3b8  Aa  input · else accent⇄ok    6.6:1  ✓
+ you    #e2a373  Aa  = accent, bold
+ made   #817870  Aa  = faint (the ~ mark)
+ add    #9cc58a  Aa  = ok
+ del    #e47f6f  Aa  = error
+ focus  #e2a373  Aa  = accent, bold
+ strong #dccfc2  Aa  = text, bold
+ code   #e2a373  Aa  = accent
+ link   #86c3b8  Aa  = fetch, underlined
+ head   #e2a373  Aa  = accent, bold
+

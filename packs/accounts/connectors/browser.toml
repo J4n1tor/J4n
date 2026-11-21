@@ -1,0 +1,37 @@
+api = 1
+
+# The window of an account: a Chromium-family browser with a data dir of the account's own, so its own process,
+# its own cookies and, when the account has one, its own proxy. It is a service, started by `account` and not by a thread.
+# The browser is the first of `candidates` that is on this machine, Linux or macOS: the real binaries before the distro
+# launchers (Arch's `/usr/bin/chromium` adds `~/.config/chromium-flags.conf` to every start), then Chrome, Brave and Edge.
+# `sh -c` lets the window outlive the call: `setsid -f` where there is one (Linux), else `nohup … &` (macOS). The three
+# `--disable-*` flags stop Chromium's own calls to Google. The link opens in a window with its tabs and its address bar
+# (`--new-window`, not `--app`, which is a bare window): the person signing in has to be able to follow the page and open
+# another. `--` stands before the link, so that a link that begins with `-` is not a flag; the shims of the account
+# (`bin/open`, `bin/xdg-open`) refuse what is not an http(s) link before they start the browser. Another browser is
+# this row with another candidate first (copy it to `~/.j4n/connectors/browser.toml`). Chromium cannot chain proxies: a
+# route that must also pass the system's is another inbound port of the local proxy client, not a proxy behind a proxy.
+[[connector]]
+id = "browser"
+doc = "A Chromium window with a data dir and a proxy of an account's own."
+is = "service"
+dialect = "text"
+program = "sh"
+candidates = [
+  "/usr/lib/chromium/chromium",
+  "/usr/lib/chromium-browser/chromium-browser",
+  "/usr/lib64/chromium-browser/chromium-browser",
+  "/opt/google/chrome/chrome",
+  "chromium",
+  "chromium-browser",
+  "google-chrome-stable",
+  "google-chrome",
+  "brave-browser",
+  "microsoft-edge",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
+  "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+]
+probe = { argv = ["{found}", "--version"] }
+start = ["-c", "if command -v setsid >/dev/null 2>&1; then exec setsid -f \"$0\" \"$@\"; else nohup \"$0\" \"$@\" </dev/null >/dev/null 2>&1 & fi", "{found}", "--user-data-dir={account.browser}", "--proxy-server={account.proxy}", "--no-first-run", "--disable-background-networking", "--disable-component-update", "--disable-sync", "--new-window", "--", "{url}"]

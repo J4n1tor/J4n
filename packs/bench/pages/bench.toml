@@ -1,0 +1,13 @@
+api = 1
+
+[[page]]
+id = "bench"
+doc = "How the cases of the bench went."
+parent = "home"
+title = "Bench"
+icon = "run"
+group = "quality"
+order = 50
+field = "list"
+view = "bench"
+chart = { id = "bench-pass", title = "pass", field = "line", bind = "chart:bench", props = { style = "wave", rows = 7, series = [{ name = "pass", unit = "pct" }] } }

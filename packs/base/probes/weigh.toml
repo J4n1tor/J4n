@@ -1,0 +1,97 @@
+api = 1
+
+# What a decider or a model must get right before it answers `weigh`. Each case has a twin of the same shape whose
+# right answer is another.
+
+[[probe]]
+id = "weigh-thanks"
+doc = "A thanks that ends the talk needs nothing read or run."
+point = "weigh"
+slices = { line = "thanks, that is all for now" }
+offered = ["answer", "light", "task"]
+expect = "answer"
+pair = "weigh-thanks-work"
+
+[[probe]]
+id = "weigh-thanks-work"
+doc = "The same opening, which asks for work."
+point = "weigh"
+slices = { line = "thanks, now add a --verbose flag to the cli" }
+offered = ["answer", "light", "task"]
+expect = "task"
+pair = "weigh-thanks"
+
+[[probe]]
+id = "weigh-general"
+doc = "A general question needs no file of the project."
+point = "weigh"
+slices = { line = "what is a hash chain?" }
+offered = ["answer", "light", "task"]
+expect = "answer"
+pair = "weigh-project"
+
+[[probe]]
+id = "weigh-project"
+doc = "The same shape of question, about this project's own files."
+point = "weigh"
+slices = { line = "what does the hash chain in the log module of this project do?" }
+offered = ["answer", "light", "task"]
+expect = "light"
+pair = "weigh-general"
+
+[[probe]]
+id = "weigh-read"
+doc = "A short question about a file of the project is read, not worked."
+point = "weigh"
+slices = { line = "what does the --verbose flag do in src/main.rs?" }
+offered = ["answer", "light", "task"]
+expect = "light"
+pair = "weigh-change"
+
+[[probe]]
+id = "weigh-change"
+doc = "The same file and flag, a change to it: work."
+point = "weigh"
+slices = { line = "add a --verbose flag to src/main.rs and run the tests" }
+offered = ["answer", "light", "task"]
+expect = "task"
+pair = "weigh-read"
+
+# A line that only goes on from what a doer just said is a task for that doer's own session: a model that is given the bare line must not take it
+# for something it can answer alone.
+
+[[probe]]
+id = "weigh-yes-go"
+doc = "A yes that answers the doer's question needs the doer's session."
+point = "weigh"
+slices = { line = "yes, go ahead and apply it" }
+offered = ["answer", "light", "task"]
+expect = "task"
+pair = "weigh-patch-concept"
+
+[[probe]]
+id = "weigh-patch-concept"
+doc = "The same words about a general thing, which stands alone."
+point = "weigh"
+slices = { line = "what does it mean to apply a patch in git?" }
+offered = ["answer", "light", "task"]
+expect = "answer"
+pair = "weigh-yes-go"
+
+[[probe]]
+id = "weigh-and-second"
+doc = "A question that begins with `and` goes on from the last answer."
+point = "weigh"
+slices = { line = "and the second one?" }
+offered = ["answer", "light", "task"]
+expect = "task"
+pair = "weigh-second-law"
+
+[[probe]]
+id = "weigh-second-law"
+doc = "A general question that stands alone."
+point = "weigh"
+slices = { line = "what is the second law of thermodynamics?" }
+offered = ["answer", "light", "task"]
+expect = "answer"
+pair = "weigh-and-second"

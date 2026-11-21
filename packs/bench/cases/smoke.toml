@@ -1,0 +1,18 @@
+api = 1
+
+# Two small cases in the plain domains of the live suite, to show the format and to try a doer with. They are not the full scenarios
+# (those live in a separate test harness) and neither is a hold-out.
+[[case]]
+id = "note-appended"
+title = "a line is appended to a file, and the answer says so"
+files = { "notes.txt" = "one\n" }
+check = "grep -qx two notes.txt && grep -qx one notes.txt"
+turns = [{ say = "Append the line `two` to notes.txt and tell me when it is done.", expect = "contains(lower(answer), 'two') or contains(lower(answer), 'done')" }]
+
+[[case]]
+id = "port-fixed"
+title = "a config port is changed so that its check passes"
+git = true
+files = { "config.txt" = "port=80\n", "check.sh" = "grep -qx 'port=8080' config.txt\n" }
+check = "sh check.sh"
+turns = [{ say = "The check in check.sh fails. Change config.txt so that it passes, and do not edit check.sh." }, { say = "Which port is it now?", expect = "contains(answer, '8080')" }]

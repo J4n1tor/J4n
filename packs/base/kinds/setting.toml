@@ -1,0 +1,27 @@
+api = 1
+
+# A number or a switch that the loop and the rules read. The pack that needs one declares it with
+# its type and its default; a layer above says its `value`. Rules read them as `set.loop.followups`, the dots being part of the
+# id. A value that does not fit the type, or is outside `min` and `max`, is a problem and the default stands. A project nobody
+# trusted does not set any.
+[[kind]]
+id = "setting"
+doc = "A named number or switch with a default, which a layer above the pack may change."
+untrusted = "ignore"
+examples = [
+  { id = "loop.followups", doc = "How many times a task that ended with work left is carried on by itself.", ty = "int", default = 3, min = 0, max = 20 },
+  { id = "cool.window", doc = "How long a task waits after a limit that says nothing of when it ends.", ty = "dur", default = "30m" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it changes." }
+ty = { ty = "enum:int|num|bool|dur|str", required = true, doc = "What it holds." }
+default = { ty = "any", required = true, doc = "What stands when no layer says a value; it must fit `ty`." }
+value = { ty = "any", doc = "What a layer above the pack says." }
+min = { ty = "num", doc = "For `int` and `num`: the least." }
+max = { ty = "num", doc = "For `int` and `num`: the most." }
+words = { ty = "list<str>", doc = "For `str`: the words it may hold; an edit of another word is refused and a screen offers these." }
+live = { ty = "bool", doc = "False when it decides what is wired at the start: an edit waits for the next start, and its row says `⟳ next start`. Left out, it is live." }
+basic = { ty = "bool", doc = "True for the few settings J4n basic shows first: Settings › Features lists these, and Settings › All the rest." }
+auto = { ty = "str", doc = "For a `str` row whose words are `auto`, `on` and `off`: `setting=word`, the one switch `auto` follows (`lanes=orchestrate`: on while that setting holds that word, off else). `on` and `off` that you set win, and a `true` or `false` an older file holds reads as `on` and `off`. Every reader of the row sees a switch." }
+full = { ty = "any", doc = "What it holds under `packs.full`: a pack's own switch for its feature, turned on by the switch of J4n full. The operator's own row still wins. Left out: `packs.full` leaves it as it is." }

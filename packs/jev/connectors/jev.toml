@@ -1,0 +1,37 @@
+api = 1
+
+# The deciders and the small model that the base pack's ask points name (`decider:jev`, `model:light`): turn the pack on and give each
+# its key in Library › Providers (`typesafe` for jev, `openrouter` for span and light), or in the environment. With no key a connector below is
+# not made, and every point answers by its rule, its rank or its fallback, as it does without this file. An answerer here acts
+# for an ask point only after it has passed that point's probe cases (`:probe`; at start for what has not been proved).
+
+[[connector]]
+id = "jev"
+doc = "A Decider (System One): typed judgment, a probability for a yes/no and for each option of a choice, in about a second."
+is = "decider"
+dialect = "systemone"
+url = "https://api.typesafe.ai"
+key = "env:TYPESAFE_API_KEY"
+models = ["jev-latest"]
+
+[[connector]]
+id = "span"
+doc = "Respan Span-01 through OpenRouter's decisions endpoint: yes/no (`noul`) questions only, a choice is asked once for each option."
+is = "decider"
+dialect = "decisions"
+url = "https://openrouter.ai"
+key = "env:OPENROUTER_API_KEY"
+models = ["respan/span-01"]
+
+[[connector]]
+id = "light"
+doc = "A small chat model for the questions no decider settles: it answers one closed JSON object."
+is = "model"
+dialect = "openai"
+url = "https://openrouter.ai/api/v1"
+key = "env:OPENROUTER_API_KEY"
+models = ["openai/gpt-oss-20b"]
+effort = "low"
+# a chat model with no tools: it answers the ask points' questions (`model:light`) and, with the setting `weigh.on`, a line weighed `answer` as a task with no tools (`weigh.answer`). A doer with no roles is good for any, so the
+# one role here is a word only `weigh` asks for, as `test` has `scripted`: no election for `work` falls to it, and `j4n doctor` does not call it the default.
+roles = ["answer"]

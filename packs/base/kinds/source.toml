@@ -1,0 +1,25 @@
+api = 1
+
+# A thing J4n follows for changes: a tool's releases, a library's version, the binary installed here. The
+# rows of the base pack are the catalog of the harnesses J4n drives; a row of the operator's follows anything else.
+[[kind]]
+id = "source"
+doc = "Where a change of a tool shows, and how to ask for it quietly."
+examples = [
+  { id = "claude-code", doc = "Claude Code's releases.", of = "connector:claude", adapter = "atom", url = "https://github.com/anthropics/claude-code/releases.atom", tier = "hot" },
+  { id = "claude-bin", doc = "The claude installed here.", of = "connector:claude", adapter = "probe", program = "claude" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the source follows." }
+of = { ty = "str", required = true, doc = "The thing it follows: `connector:<id>` (followed only while that connector is declared) or a free name." }
+adapter = { ty = "enum:atom|npm|pypi|crates|models|page|gh-rest|probe", required = true, doc = "How a change is asked for: an Atom feed, npm's `latest`, PyPI's releases feed, the crates.io index, a list of models (models.dev), a docs page as a set of lines (`llms.txt`), one issue of GitHub's REST, or the local binary's `--version` (no network)." }
+url = { ty = "str", doc = "Where, for every adapter but `probe`. A 301 is followed once and said (`watch.moved`); the row is not rewritten." }
+program = { ty = "str", doc = "For `probe`: the binary whose `--version` is asked." }
+channel = { ty = "enum:stable|pre|nightly", default = "stable", doc = "Which versions count: `stable` leaves out prereleases, nightlies and moving tags." }
+tier = { ty = "enum:hot|warm|cold", default = "warm", doc = "How often: `watch.hot_min`, `watch.warm_min` or `watch.cold_min` minutes." }
+install = { ty = "list<str>", doc = "For the canary: how the new release is put in a folder of its own (`{version}` and `{dir}` are filled in). It runs only with `watch.canary` on, and never over the install here." }
+canary = { ty = "list<str>", doc = "For the canary: the scripted run of the new release, whose output is JSON lines. Its shape (event kinds, field names and types) is compared with the good run's; it runs only with `watch.canary` on." }
+record = { ty = "str", doc = "For the canary: a file of JSON lines from a run known to be good. Left out, the shape of the last run that was the same is kept in the Log." }
+tested = { ty = "str", doc = "The version the operator accepted as tested (what the proposal \"mark it tested\" sets); shown by `:watch`." }
+watch = { ty = "str", doc = "What of the answer is watched: `ids:<provider>,<provider>` for `models` (the models J4n holds of those providers), `issue:<n>` for `gh-rest` (with `url` the repository, https://github.com/<owner>/<repo>)." }

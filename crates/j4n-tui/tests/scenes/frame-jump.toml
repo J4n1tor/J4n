@@ -1,0 +1,45 @@
+doc = "The frame: the `⌃k` jump opens under the tab rows, not over them, as a round box titled `find`, its hits grouped under their parent (a dim head once, the children under it with their icons), and a command group of its own."
+sizes = [[120, 36], [80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "auto", children = [
+  { id = "tasks", title = "Tasks", icon = "tasks", field = { kind = "list", bind = "tasks:all" } },
+  { id = "asks", title = "Asks", icon = "ask", count = 2, field = { kind = "list", bind = "asks:all" } },
+  { id = "connectors", title = "Connectors", icon = "connector", present = "auto", children = [
+    { id = "all", title = "All", field = { kind = "list", bind = "all:rows" } },
+    { id = "agents", title = "Agents", field = { kind = "list", bind = "agents:all" } },
+    { id = "tools", title = "Tools", field = { kind = "list", bind = "tools:all" } },
+    { id = "services", title = "Services", field = { kind = "list", bind = "services:all" } },
+  ] },
+  { id = "settings", title = "Settings", icon = "compact", present = "auto", children = [
+    { id = "look", title = "Look", field = { kind = "list", bind = "look:theme" } },
+    { id = "loop", title = "Loop", field = { kind = "list", bind = "loop:all" } },
+  ] },
+] }
+
+[[step]]
+down = "rows"
+bind = "commands:all"
+total = 1
+rev = 1
+rows = [{ key = "c1", cells = [{ text = "connect agent" }, { text = "add a doer" }], actions = [] }]
+
+[[step]]
+key = "ctrl+k"
+
+[[step]]
+shot = "empty"
+
+[[step]]
+text = "o"
+
+[[step]]
+shot = "typed"

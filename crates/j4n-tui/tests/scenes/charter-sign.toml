@@ -1,0 +1,33 @@
+doc = "The signing of a charter: the first press of the accept key puts the whole scope in words, made by code from the fields, before the second press signs it. What it says yes to, where, what it may spend and until when lead, then what it never answers, then the goal in the operator's words; the second press says the charter is signed and who answers where."
+sizes = [[120, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [
+  { key = "t0", cells = [{ text = ":accept" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] },
+  { key = "t0a", cells = [{ text = "this widens what J4n may do (answers yes, without asking you, to what e1 does inside: docs, says yes to: read, write, spends at most $2.00, until you end it, never answers a block, a path outside the project, a destructive step, a line that is not one plain command, or a task that read from outside; those ask you, goal: tidy the docs): `:accept` again to confirm", tone = "warn" }, { text = "", tone = "dim" }], parent = "t0" },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"

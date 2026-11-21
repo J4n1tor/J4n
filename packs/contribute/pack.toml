@@ -1,0 +1,7 @@
+api = 1
+id = "contribute"
+version = "0.0.0"
+summary = "every J4n finds what is wrong with J4n and keeps the fixes it makes; in this version nothing leaves the machine"
+use_when = "the operator wants J4n to report or keep fixes to J4n itself"
+needs = ["base"]
+stability = "experimental"

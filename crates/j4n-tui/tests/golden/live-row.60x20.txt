@@ -1,0 +1,20 @@
+
+
+
+
+
+▌ write the chess game in one file, then run it      11:01 ▐
+  ├─ 󰼛  A claude sonnet               8:02  6.1k tok  $0.21
+  │  ├─ 󰛐  README.md
+  │  ╰─ 󰻭  writing /w/chess.py      23.9 kB  6.1k tok  8:01
+  ├─ 󰼛  B pi haiku                            0:09  310 tok
+  │  ╰─ 󰌶  thinking                           310 tok  0:04
+  ╰─ 󰼛  C claude haiku                                 2:40
+     ├─ 󰞷  python3 chess.py
+     ╰─ 󰞷  running python3 chess.py          1.2k tok  2:31
+╭──────────────────────────────────────────────────────────╮
+│                                     ~󰙁 claude ━───── 18% │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                          │
+╰──────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet                                $0.33  F1

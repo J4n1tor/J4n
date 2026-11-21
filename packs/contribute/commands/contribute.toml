@@ -1,0 +1,14 @@
+api = 1
+
+[[command]]
+id = "wrong"
+doc = "Say what J4n got wrong, in your own words: kept as a finding on this machine, with a fingerprint and a count. `:wrong <words>`."
+words = [":wrong"]
+args = ["what was wrong"]
+core = "wrong"
+
+[[command]]
+id = "contribute"
+doc = "Show what this J4n found wrong with J4n."
+words = [":contribute"]
+open = "contribute-found"

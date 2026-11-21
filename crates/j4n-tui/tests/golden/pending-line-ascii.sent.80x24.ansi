@@ -1,0 +1,24 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[0;1mrename the helper in lexer.rs[0m                                             [0;2m12:21[0m
+[0;2m|- → c1 · same files · lexer.rs[0m
+[0;2m`- [0mv [0;1mclaude[0;2m sonnet[0m                                                         [0;2m9.8s[0m
+
+[0;1mfix the parser so trailing commas work in every list[0m
+[0;2m`- [0;1m==[0;2m----[0m [0;1msending[0;2m · “fix the parser so trailing commas w…”[0m
+[0;1m+------------------------------------------------------------------------------+[0m
+[0;1m|[0m                                                                              [0;1m|[0m
+[0;1m+------------------------------------------------------------------------------+[0m
+

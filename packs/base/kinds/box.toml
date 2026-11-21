@@ -1,0 +1,35 @@
+api = 1
+
+# A wall a program can be run behind. A task in the place `box` has
+# its program put behind the wall as `<pre> <paths…> -- program args`, and the order of the words is the order of the fields: `pre`,
+# every read-only path (`ro`), `mounts` (devices, /proc, a private /tmp), every hidden one (`hide_dir`, `hide_file`), every writable
+# path (`rw`: the task's folder, the folders its program keeps its login and its state in), the network switch when the task may not
+# use it, then `end`. A later word wins over an earlier one, which is why hiding comes before the writable paths: a folder of the task's
+# that lives under a hidden one is bound back. `{p}` is a path as the program sees it. A path that does not exist is left out, because
+# a bind of nothing is an error to the wall. Only a row whose command line has been run belongs here: nothing in this file is guessed.
+# A project that was cloned from a stranger may not bring a wall of its own: it could make it say whatever it likes.
+[[kind]]
+id = "box"
+doc = "The command words that put a program behind a wall, and what the wall shows."
+untrusted = "ignore"
+examples = [
+  { id = "bwrap", doc = "bubblewrap: the host read-only, the task's folder writable, credentials hidden.", probe = ["bwrap", "--ro-bind", "/", "/", "true"], pre = ["bwrap", "--die-with-parent", "--new-session", "--unshare-pid"], ro = ["--ro-bind", "{p}", "{p}"], rw = ["--bind", "{p}", "{p}"], hide_dir = ["--tmpfs", "{p}"], hide_file = ["--ro-bind", "/dev/null", "{p}"], end = ["--"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the wall is." }
+probe = { ty = "list<str>", required = true, doc = "A command that runs a trivial program behind the wall. A wall that starts and cannot boot (no user namespaces, as in a container) fails here, before the task, and not inside it." }
+pre = { ty = "list<str>", required = true, doc = "The words before everything else: the wall's own program and the options that hold for every task." }
+ro = { ty = "list<str>", required = true, doc = "The words that show one path read-only; `{p}` is the path." }
+rw = { ty = "list<str>", required = true, doc = "The words that make one path writable." }
+mounts = { ty = "list<str>", default = [], doc = "Words that come once, after the read-only paths: devices, /proc, a private /tmp." }
+hide_dir = { ty = "list<str>", required = true, doc = "The words that make a folder empty." }
+hide_file = { ty = "list<str>", required = true, doc = "The words that make a file empty." }
+cwd = { ty = "list<str>", default = [], doc = "The words that start the program in a folder; `{p}` is the folder. Left out, the wall's own default stands." }
+no_net = { ty = "list<str>", default = [], doc = "The words that cut the network, for a task that may not use it. Without them the wall cannot run such a task, and says so." }
+end = { ty = "list<str>", required = true, doc = "The words between the wall and the program." }
+read_only = { ty = "list<str>", default = ["/"], doc = "What the program sees read-only (`~` is the home)." }
+hide = { ty = "list<str>", default = [], doc = "Folders and files that are empty to the program whatever it asks: credentials and keys (`~/.ssh`), and J4n's own home." }
+write_home = { ty = "list<str>", default = [], doc = "Folders of the home that are writable besides the task's own: caches the tools keep there. What a connector's program needs for its login is its own business (`login` of the connector)." }
+view = { ty = "list<str>", default = [], doc = "The words that show the view of a secret file read-only: `{src}` is the copy of the file with its secrets replaced by placeholders, `{p}` the real file it covers. They come last, after every writable path, so no later bind can cover them; the wall is checked after mounting. Without them the wall cannot cover a secret file, and a task with one is refused while the pack `guard` is on." }
+view_rw = { ty = "list<str>", default = [], doc = "The same, writable, for a task that may write: what the program wrote into the copy is put back into the real file at the end, placeholder for value, and only when no placeholder was touched." }

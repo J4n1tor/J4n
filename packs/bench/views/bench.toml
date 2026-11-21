@@ -1,0 +1,9 @@
+api = 1
+
+[[view]]
+id = "bench"
+doc = "The last run of each case for each doer."
+from = { from = "fold:bench", order = "id" }
+cells = ["{id}", "{pass}", "{usd:usd}", "{ms:dur}"]
+detail = ["{folder}"]
+acts = [{ key = "r", label = "again", run = ":bench {case} doer={doer} again" }]

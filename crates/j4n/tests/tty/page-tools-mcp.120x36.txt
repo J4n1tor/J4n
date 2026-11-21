@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
+───────────────────────────────────────────────────────────━━━━━━━──────────────────────────────────────────────────────
+  tool     dialect  risk  program
+╰ builtin  builtin  exec  —
+    The tools J4n carries: list, read, grep, edit, write, run and git, the same set on every turn whatever the mode.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

@@ -1,0 +1,12 @@
+┃ ◆ ledger · main · 1 tasks · ✓ 1                           r17
+  ├─ ❯ #1 “say Release work (docs/TESTING.md §5): open
+  │  loose ends and see what is left” → t1 ✓
+  │ ╰─ t1  Release work (docs/TESTING.md §5): open loose
+  │    ends X-101 and B12.
+  ╰─ needs you: one long answer that goes past the edge of
+     the page
+
+
+
+
+

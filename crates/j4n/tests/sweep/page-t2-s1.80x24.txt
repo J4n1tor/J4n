@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ─────────━━━━━━━──────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰛐 Inbox   󰗡 Habits
+━━━━━━━━━───────────────────────────────────────────────────────────────────────
+├ t6  waiting  test  ask Which of the two colours do you want the bord…
+├ t4  done     test  write notes.txt hello
+├ t3  done     test  who
+├ t2  done     test  say - one - two
+╰ t1  done     test  say Release work (docs/TESTING.md §5): open loose…  $0.1200
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

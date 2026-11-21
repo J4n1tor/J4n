@@ -1,0 +1,7 @@
+api = 1
+
+[[command]]
+id = "offload"
+doc = "Say whether light chores (reads, searches, test runs, digests) go to a cheaper doer on their own, or turn it `on` or `off`; `yes` sends the review that waits. A proposal like any other: `:undo` takes it back."
+words = [":offload"]
+core = "offload"

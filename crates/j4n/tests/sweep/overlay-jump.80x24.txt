@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ ━━━━━━────────────────────────────────────────────────────────────────────────
+        ╭─ find ───────────────────────────────────────────────────────╮
+        │ › ▏                                                          │
+        │                                                              │
+        │ ▸ 󰍩 Chat                                                     │
+        │   󰧑 Library                                                  │
+        │   󰚥 Connect                                                  │
+        │ Tasks                                                        │
+        │   󰝖 Tasks                                                    │
+        │   󰘥 Decisions                                                │
+        │   󰛐 Inbox                                                    │
+        │   󰗡 Habits                                                   │
+        │ Library                                                      │
+        │   󰧑 Models                                                   │
+        │   󰧑 Providers                                                │
+        │   󰧑 Plans                                                    │
+        │   󰧑 Trust                                                    │
+ 󰄰 no do│ Library › Models                                             │
+╭───────│   󰧑 task time                                                │───────╮
+│       │                                                              │       │
+╰───────│ ⏎ jump   esc close                                           │───────╯
+ ⌥1–9 ta╰──────────────────────────────────────────────────────────────╯ scroll

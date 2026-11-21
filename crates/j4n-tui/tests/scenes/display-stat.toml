@@ -1,0 +1,20 @@
+doc = "The stat field: big numbers with their labels and what changed. Narrow, one row."
+sizes = [[64, 12], [24, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "spend", title = "", field = { kind = "stat", bind = "fold:spend.today" } }] }
+
+[[step]]
+down = "value"
+bind = "fold:spend.today"
+value = [{ v = "$1.24", label = "today", delta = 12 }, { v = "38", label = "tasks", delta = -3 }, { v = "4.1s", label = "p50", delta = 0 }]
+rev = 1
+

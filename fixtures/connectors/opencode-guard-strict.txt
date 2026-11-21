@@ -1,0 +1,276 @@
+deny *
+allow ls *
+allow cat *
+allow pwd *
+allow cd *
+allow stat *
+allow jq *
+allow realpath *
+allow readlink *
+allow basename *
+allow dirname *
+allow echo *
+allow rg *
+allow grep *
+allow egrep *
+allow fgrep *
+allow find *
+allow wc *
+allow head *
+allow tail *
+allow man *
+allow which *
+allow du *
+allow df *
+allow free *
+allow ps *
+allow sort *
+allow uniq *
+allow cut *
+allow tr *
+allow diff *
+allow cmp *
+allow tree *
+allow file *
+allow nl *
+allow column *
+allow od *
+allow xxd *
+allow strings *
+allow sha256sum *
+allow sha1sum *
+allow md5sum *
+allow b2sum *
+allow printf *
+allow true *
+allow false *
+allow test *
+allow sleep *
+allow date *
+allow uname *
+allow hostname *
+allow whoami *
+allow id *
+allow uptime *
+allow less *
+allow more *
+allow tac *
+allow rev *
+allow paste *
+allow comm *
+allow join *
+allow fold *
+allow expand *
+allow seq *
+allow expr *
+allow tput *
+allow lsblk *
+allow lscpu *
+allow whereis *
+allow locale *
+allow nproc *
+allow getconf *
+allow stty *
+allow tty *
+allow groups *
+allow who *
+allow last *
+allow ldd *
+allow readelf *
+allow nm *
+allow objdump *
+allow hexdump *
+allow bat *
+allow eza *
+allow fd *
+allow lsof *
+allow pgrep *
+allow journalctl *
+allow sed *
+allow awk *
+allow git status *
+allow git --no-pager status *
+allow git -c core.pager=cat status *
+allow git -C * status *
+allow git log *
+allow git --no-pager log *
+allow git -c core.pager=cat log *
+allow git -C * log *
+allow git diff *
+allow git --no-pager diff *
+allow git -c core.pager=cat diff *
+allow git -C * diff *
+allow git show *
+allow git --no-pager show *
+allow git -c core.pager=cat show *
+allow git -C * show *
+allow git blame *
+allow git --no-pager blame *
+allow git -c core.pager=cat blame *
+allow git -C * blame *
+allow git grep *
+allow git --no-pager grep *
+allow git -c core.pager=cat grep *
+allow git -C * grep *
+allow git ls-files *
+allow git --no-pager ls-files *
+allow git -c core.pager=cat ls-files *
+allow git -C * ls-files *
+allow git ls-tree *
+allow git --no-pager ls-tree *
+allow git -c core.pager=cat ls-tree *
+allow git -C * ls-tree *
+allow git rev-parse *
+allow git --no-pager rev-parse *
+allow git -c core.pager=cat rev-parse *
+allow git -C * rev-parse *
+allow git rev-list *
+allow git --no-pager rev-list *
+allow git -c core.pager=cat rev-list *
+allow git -C * rev-list *
+allow git describe *
+allow git --no-pager describe *
+allow git -c core.pager=cat describe *
+allow git -C * describe *
+allow git shortlog *
+allow git --no-pager shortlog *
+allow git -c core.pager=cat shortlog *
+allow git -C * shortlog *
+allow git cat-file *
+allow git --no-pager cat-file *
+allow git -c core.pager=cat cat-file *
+allow git -C * cat-file *
+allow git diff-tree *
+allow git --no-pager diff-tree *
+allow git -c core.pager=cat diff-tree *
+allow git -C * diff-tree *
+allow git name-rev *
+allow git --no-pager name-rev *
+allow git -c core.pager=cat name-rev *
+allow git -C * name-rev *
+allow git merge-base *
+allow git --no-pager merge-base *
+allow git -c core.pager=cat merge-base *
+allow git -C * merge-base *
+allow git check-ignore *
+allow git --no-pager check-ignore *
+allow git -c core.pager=cat check-ignore *
+allow git -C * check-ignore *
+allow git check-attr *
+allow git --no-pager check-attr *
+allow git -c core.pager=cat check-attr *
+allow git -C * check-attr *
+allow pytest *
+allow py.test *
+allow python -m pytest *
+allow python3 -m pytest *
+allow python -m unittest *
+allow python3 -m unittest *
+allow python3 -I -m pytest *
+allow python3 -I -m unittest *
+allow python -I -m pytest *
+allow python -I -m unittest *
+allow npm test *
+allow npm run test *
+allow pnpm test *
+allow pnpm run test *
+allow yarn test *
+allow yarn run test *
+allow make test *
+allow make check *
+allow node --test *
+allow go test *
+allow cargo test *
+allow cargo build *
+allow cargo check *
+allow python3 -m py_compile *
+allow python -m py_compile *
+allow python3 --version *
+allow python3 -V *
+allow python --version *
+allow python -V *
+allow node --version *
+allow node -v *
+allow npm --version *
+allow pytest --version *
+allow make --version *
+allow go version *
+allow cargo --version *
+allow git config --get *
+allow git --no-pager config --get *
+allow git -c core.pager=cat config --get *
+allow git -C * config --get *
+allow git config --get-all *
+allow git --no-pager config --get-all *
+allow git -c core.pager=cat config --get-all *
+allow git -C * config --get-all *
+allow git config --get-regexp *
+allow git --no-pager config --get-regexp *
+allow git -c core.pager=cat config --get-regexp *
+allow git -C * config --get-regexp *
+allow git config --list *
+allow git --no-pager config --list *
+allow git -c core.pager=cat config --list *
+allow git -C * config --list *
+allow git config -l *
+allow git --no-pager config -l *
+allow git -c core.pager=cat config -l *
+allow git -C * config -l *
+deny sed -i*
+deny sed * -i*
+deny sed --in-place*
+deny sort -o*
+deny sort * -o*
+deny sort --output*
+deny find * -delete*
+deny find * -exec*
+deny find * -execdir*
+deny find * -ok*
+deny find * -fprint*
+deny find * -fls*
+deny rg --pre*
+deny awk *system*
+deny awk *getline*
+deny cd ..*
+deny cd /*
+deny cd ~*
+deny cd $HOME*
+deny *>/home*
+deny *> /home*
+deny *>/tmp*
+deny *> /tmp*
+deny *>/var*
+deny *> /var*
+deny *>/run*
+deny *> /run*
+deny *>/mnt*
+deny *> /mnt*
+deny *>/media*
+deny *> /media*
+deny *>/srv*
+deny *> /srv*
+deny *>/opt*
+deny *> /opt*
+deny *>/root*
+deny *> /root*
+deny *>/etc*
+deny *> /etc*
+deny *>/usr*
+deny *> /usr*
+deny *>/boot*
+deny *> /boot*
+deny *>/dev/tcp*
+deny *> /dev/tcp*
+deny *>/dev/udp*
+deny *> /dev/udp*
+deny *>~*
+deny *> ~*
+deny *>$*
+deny *> $*
+deny *>..*
+deny *> ..*
+deny *>"/*
+deny *> "/*
+deny *>'/*
+deny *> '/*
+deny *>*/../*

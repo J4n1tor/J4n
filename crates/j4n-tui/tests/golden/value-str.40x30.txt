@@ -1,0 +1,30 @@
+├ name
+│ claude-2▏
+│ ⏎ 󰄬  esc 󰅖
+├ name
+│ claude 󰍁
+├ name
+│ — 󰗖
+│ needed
+╰ name
+  claude
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

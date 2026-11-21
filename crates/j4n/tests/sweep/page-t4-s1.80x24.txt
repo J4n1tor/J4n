@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ───────────────────────────━━━━━━━━━──────────────────────────────────────────
+Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮
+━━━━━───────────────────────────────────────────────────────────────────────────
+┃ 󰄬 Agent                test · ready · pinned at start                ⏎ cha… ▸
+  󰄬 Model                default · the agent picks                     ⏎ pick
+  󰄰 Decider              on · its key is not typed yet                 ⏎ set…
+  ├─ 󰐽 Span through      not set                                       one k…
+  │    OpenRouter
+  ├─ 󰐽 Jev · System One  not set                                       needs…
+  ╰─ 󰐽 none              —                                             every…
+  󰄰 Test                 not run · one short call to each part above   ⏎ run…
+  Custom                 any other program, a key of your own, every…  ⏎ ope…
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

@@ -1,0 +1,5 @@
+├ model                                                              —
+├ wall                                                               —
+├ soft cap                                                           —
+├ stream                                                            󰔢
+├ width                                                          ‹ — ›

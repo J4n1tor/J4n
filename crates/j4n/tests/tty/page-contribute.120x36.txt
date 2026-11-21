@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ─────────────────────────────────────────────────────━━━━━━━━─────────────────────────────────────────────────────────
+ 󰹦 Grow   󰐕 Contribute   󰏖 Packs   Updates   TODO
+─────────━━━━━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────
+▾ Found
+• nothing here
+
+
+
+
+
+
+
+
+
+
+
+
+findings are counted by fingerprint and stay on this machine; `:wrong <words>` adds one of your own
+▾ Fixes
+• nothing here
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ⌥1–9 tabs  ? keys  ⌃k find  ⌃g state

@@ -1,0 +1,12 @@
+┃ 08:11:40 󰞷 run.shell     ca… ×3 t3 ▾
+  ├ cmd         cargo test -p parser
+  ├ exit        0
+  ├ task        t3
+  ├ seq         4
+  ├ by          doer:claude
+  ├ class       project
+  ├ at_ms       2025-11-06 08:11:40.000
+  ├ repeats     3
+  ├ last_seq    6                      ┃
+  ╰ last_at_ms  2025-11-06 08:11:52.500
+ 999,994 of 1,000,000 · G follow

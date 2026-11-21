@@ -1,0 +1,20 @@
+
+  󰧑 Models 1                                                         j4n 0.0.0
+ ━━━━━━━━━━━━──────────────────────────────────────────────────────────────────
+
+        ╭─ keys · Models ──────────────────────────────────────────────╮
+        │                                                              │
+        │ ⌥1–9     tabs                                                │
+        │ ⌃k       find                                                │
+        │                                                              │
+        │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+        │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+        │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+        │ F1–F9              Tab n, as ⌥n.                             │
+        │                                               any key closes │
+        ╰──────────────────────────────────────────────────────────────╯
+
+
+
+
+

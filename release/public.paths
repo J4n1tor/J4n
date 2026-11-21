@@ -1,0 +1,26 @@
+# The paths the public J4n repository takes from this one. An allowlist: a new top-level file or folder is private
+# until it is named here. `!` lines take paths back out. Globs are fnmatch: `*` also crosses `/`.
+.github/*
+.gitignore
+.gitleaks.toml
+Cargo.toml
+Cargo.lock
+rust-toolchain.toml
+rustfmt.toml
+LICENSE
+README.md
+assets/*
+AGENTS.md
+CHANGELOG.md
+CONTRIBUTING.md
+SECURITY.md
+install.sh
+release/*
+scripts/*
+crates/*
+packs/*
+fixtures/*
+docs/*
+# private: development notes, decision and bug logs, pilots, the deny list
+!docs/dev/*
+!fixtures/read-pilot/*

@@ -1,0 +1,33 @@
+doc = "The transcript's grammar: lane states, prose with bullets, a quote and code, a diff, the folding rules and the control rows."
+sizes = [[100, 56], [60, 48]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 30
+rev = 1
+rows = [{ key = "s", cells = [{ text = "lane states: the name breathes while working" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "s0", cells = [{ text = "A omp", icon = "queued" }, { text = "", tone = "dim" }, { text = "queued", tone = "dim" }], parent = "s" }, { key = "s1", cells = [{ text = "A omp", icon = "working" }, { text = "", tone = "dim" }, { text = "0:22", tone = "dim" }, { text = "$0.02", tone = "dim" }], parent = "s" }, { key = "s2", cells = [{ text = "A omp", icon = "ask" }, { text = "", tone = "dim" }, { text = "A", tone = "warn", icon = "ask" }], parent = "s" }, { key = "s3", cells = [{ text = "A omp", icon = "cooling" }, { text = "", tone = "dim" }, { text = "0:40", tone = "warn", icon = "cooling" }], parent = "s" }, { key = "s4", cells = [{ text = "A omp", icon = "done" }, { text = "", tone = "dim" }, { text = "21s", tone = "dim" }, { text = "$0.03", tone = "dim" }], parent = "s" }, { key = "s5", cells = [{ text = "A omp", icon = "failed" }, { text = "", tone = "dim" }, { text = "9s", tone = "dim" }, { text = "$0.01", tone = "dim" }], parent = "s" }, { key = "s6", cells = [{ text = "A omp", icon = "stopped" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim", icon = "you" }], parent = "s" }, { key = "p", cells = [{ text = "prose · code · diff" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim" }] }, { key = "pl", cells = [{ text = "B claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "1:04", tone = "dim" }], parent = "p" }, { key = "p0", cells = [{ text = "The comma branch now eats the separator first.\n- parse_args accepts f(a, b,)\n> a quoted aside\n```rs\nif self.eat(Comma) { break }\n```" }, { text = "", tone = "dim" }], parent = "pl" }, { key = "p1", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "accent" }], parent = "pl", detail = [{ text = "229 − if self.eat(Comma) { continue }" }, { text = "229 + if self.eat(Comma) && self.at(RParen) { break }" }] }, { key = "p2", cells = [{ text = "a model's guess about the next step" }, { text = "", tone = "dim" }], parent = "pl", by = "model" }, { key = "f", cells = [{ text = "folding: newer folds older, failed stays" }, { text = "", tone = "dim" }, { text = "12:31", tone = "dim" }] }, { key = "fa", cells = [{ text = "A omp", icon = "done" }, { text = "", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "f" }, { key = "fa0", cells = [{ text = "a.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fa", merge = true }, { key = "fa1", cells = [{ text = "b.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fa", merge = true }, { key = "fa2", cells = [{ text = "c.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fa", merge = true }, { key = "fa3", cells = [{ text = "x", icon = "search" }, { text = "", tone = "dim" }], parent = "fa", merge = true }, { key = "fc", cells = [{ text = "C pi", icon = "failed" }, { text = "", tone = "dim" }, { text = "3s", tone = "dim" }], parent = "f" }, { key = "fc0", cells = [{ text = "clippy: 2 errors", icon = "error" }, { text = "", tone = "dim" }], parent = "fc" }, { key = "fb", cells = [{ text = "B claude", icon = "working" }, { text = "", tone = "dim" }, { text = "0:10", tone = "dim" }], parent = "f" }, { key = "fb0", cells = [{ text = "a.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fb", merge = true }, { key = "fb1", cells = [{ text = "b.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fb", merge = true }, { key = "fb2", cells = [{ text = "c.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "fb", merge = true }, { key = "fb3", cells = [{ text = "6s", icon = "think" }, { text = "", tone = "dim" }], parent = "fb" }, { key = "fk1", cells = [{ text = "claude-7c1 · resumes 4f2a", icon = "session" }, { text = "", tone = "dim" }], parent = "f", by = "core" }, { key = "fk2", cells = [{ text = "reads · this session · you", icon = "grant" }, { text = "", tone = "dim" }], parent = "f", by = "core" }, { key = "fk3", cells = [{ text = "A at 70% · kept brief + 6 turns", icon = "compact" }, { text = "", tone = "dim" }], parent = "f", by = "core" }, { key = "fk4", cells = [{ text = "C read 9 files, wrote none", icon = "notice" }, { text = "", tone = "dim" }], parent = "f", by = "core" }]
+
+[[step]]
+key = "ctrl+up"
+
+[[step]]
+shot = "focus"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"
+

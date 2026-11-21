@@ -1,0 +1,30 @@
+├ goal
+│ fix the parser so trailing commas work
+│ and add tests▏
+│ ⇧⏎ line  ⏎ 󰄬
+├ goal
+│ fix the parser so trailing commas … 󰍁
+├ goal
+│ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx… 󰗖
+│ ≤ 240 chars
+╰ goal
+  fix the parser so trailing commas work
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

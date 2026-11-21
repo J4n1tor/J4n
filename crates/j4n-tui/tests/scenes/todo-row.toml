@@ -1,0 +1,33 @@
+doc = "One turn, one lane; the doer's own list is one quiet row among its steps (a box, how many are left, the item in progress) and, once every item is closed, the same row folded to `5 done`. Pipes, icons."
+sizes = [[80, 24], [50, 18], [34, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 7
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "add the trailing comma to the parser, with tests and docs" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "t2", cells = [{ text = "A claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "1:04", tone = "dim" }, { text = "$0.12", tone = "dim" }], parent = "t1" }, { key = "s1", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "t2", merge = true }, { key = "s2", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }], parent = "t2" }, { key = "s3", cells = [{ text = "2 of 5 left · writing tests", icon = "todo", tone = "dim" }, { text = "", tone = "dim" }], parent = "t2", by = "doer" }, { key = "s4", cells = [{ text = "cargo test", icon = "run" }, { text = "", tone = "dim" }, { text = "", tone = "good", icon = "done" }], parent = "t2" }]
+
+[[step]]
+shot = "open"
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 7
+rev = 2
+rows = [{ key = "t1", cells = [{ text = "add the trailing comma to the parser, with tests and docs" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "t2", cells = [{ text = "A claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "1:04", tone = "dim" }, { text = "$0.12", tone = "dim" }], parent = "t1" }, { key = "s1", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "t2", merge = true }, { key = "s2", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }], parent = "t2" }, { key = "s3", cells = [{ text = "5 done", icon = "todo-done", tone = "dim" }, { text = "", tone = "dim" }], parent = "t2", by = "doer" }, { key = "s4", cells = [{ text = "cargo test", icon = "run" }, { text = "", tone = "dim" }, { text = "", tone = "good", icon = "done" }], parent = "t2" }]
+
+[[step]]
+shot = "done"

@@ -1,0 +1,22 @@
+api = 1
+
+# A host: a program that runs agents and binds each child it starts to itself. It does that through environment
+# variables: a socket and a token to its session mesh, the id of its own session, the account it is signed in as. A child that J4n starts
+# inherits whatever J4n has, so J4n run inside such a program would hand it to every doer, shell line and tool it starts, and the doer would
+# join the host's mesh as a peer: list its sessions, message them, read the token. A host row names what to take out of the environment of
+# every child J4n starts, in one place (`proc::spawn_with`, the lab, the relay). What J4n sets itself for a child (a connector's `env`, an
+# account's token, `J4N_*`) is put in after, so it stays. The operator's ordinary variables (PATH, the locale, project variables, the keys and
+# base URLs of their own config) are not named here and are kept.
+[[kind]]
+id = "host"
+doc = "A program that runs agents and binds its children to itself by environment variables: the names J4n takes out of every child's environment."
+untrusted = "ignore"
+examples = [
+  { id = "acme", doc = "Acme's agent runner binds a child by its socket and its session id.", drop = ["ACME_SESSION_ID"], drop_prefix = ["ACME_SOCKET_"], source = "acme --help" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is and how it binds a child." }
+drop = { ty = "list<str>", default = [], doc = "Variable names taken out, written exactly." }
+drop_prefix = { ty = "list<str>", default = [], doc = "Prefixes: every variable that starts with one is taken out. Only where nothing of the operator's own config starts so (`CLAUDE_CODE_HOST_`, not `CLAUDE_CODE_`)." }
+source = { ty = "text", required = true, doc = "Where the names were read: a file and line or a quote of the program, so a name is never a guess." }

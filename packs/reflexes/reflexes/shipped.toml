@@ -1,0 +1,49 @@
+api = 1
+
+# The two reflexes J4n ships (rules with `then = "ask"` since reflexes became rules), both off: the operator's own are the point. Each carries a pair of cases for `:probe`; a
+# reflex's precision is measured before it is advised on. The check is what costs nothing; the judge is asked only when it holds.
+[[rule]]
+id = "compact-junk"
+doc = "Shrink the session when much of it is junk (tool output nothing reads again, failed tries, repeats)."
+on = "task.settled"
+when = "ctx.grew >= 0.01"
+then = "ask"
+text = "the context holds more than a twentieth of junk"
+do = ":compact junk"
+limit = { per = "thread", max = 1, within = "10m" }
+off = true
+
+[[rule]]
+id = "new-session"
+doc = "Start a session of its own when the next line would be cold and the subject of the chat has changed."
+on = "chat.say"
+when = "ctx.cold"
+then = "ask"
+text = "the next line is about something other than what this chat has been about"
+do = ":fresh"
+limit = { per = "thread", max = 1, within = "10m" }
+off = true
+
+[[reflex_case]]
+id = "compact-junk-fires"
+reflex = "compact-junk"
+fire = true
+state = "held 120k of 200k; the last turns read three long build logs and a failed try, and nothing after them used what they said"
+
+[[reflex_case]]
+id = "compact-junk-holds"
+reflex = "compact-junk"
+fire = false
+state = "held 120k of 200k; the last turns are the design of one change, each building on the one before, nothing read twice"
+
+[[reflex_case]]
+id = "new-session-fires"
+reflex = "new-session"
+fire = true
+state = "the next line would be cold; the chat was about the parser's tests and the line says: write the release notes for 0.3"
+
+[[reflex_case]]
+id = "new-session-holds"
+reflex = "new-session"
+fire = false
+state = "the next line would be cold; the chat was about the parser's tests and the line says: now run the tests for the lexer too"

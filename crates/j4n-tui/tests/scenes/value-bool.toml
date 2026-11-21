@@ -1,0 +1,63 @@
+doc = "The bool field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "stream", field = { kind = "bool", bind = "cfg:bool.a" } },
+  { id = "off", title = "stream", field = { kind = "bool", bind = "cfg:bool.off", props = { disabled = "read only" } } },
+  { id = "bad", title = "stream", field = { kind = "bool", bind = "cfg:bool.bad", props = { error = "needs a model" } } },
+  { id = "b", title = "stream", field = { kind = "bool", bind = "cfg:bool.b" } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:bool.a"
+value = true
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:bool.off"
+value = true
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:bool.bad"
+value = true
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:bool.b"
+value = true
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"

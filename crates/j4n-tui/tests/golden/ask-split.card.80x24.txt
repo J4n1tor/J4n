@@ -1,0 +1,24 @@
+
+
+
+▌ check the three services and update the docs for them                  12:21 ▐
+  ╰─ 󰙁  split · c1: read the services                                      0.4s
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 j4n                                                                        │
+│                                                                              │
+│ Start 2 chats?                                                               │
+│                                                                              │
+│ ▕░░░░░░░░▏ 0   check the three services and u…                               │
+│ docs writes in a worktree, api writes in a worktree · Main works the rest    │
+│ ├ docs  pi · haiku                                                     $0.25 │
+│ ╰ api  claude · sonnet                                                 $0.25 │
+│                                                                              │
+│ ⇥ 1  󰄬 start                                                                 │
+│   2  󰅖 not now                                                               │
+│                                                                              │
+│ 1–2 · ⏎ diff · ? why · esc not now                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ fix the failing test in parser.rs                                    → 󰘥 j4n │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

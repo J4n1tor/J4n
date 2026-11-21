@@ -1,0 +1,23 @@
+api = 1
+
+# A case of the bench (`docs/TESTING.md`): a folder to start from, lines to say to a doer one after another, what each answer must
+# hold, and a check of the folder at the end. Plain task domains, as data: a case is run offline against a script
+# and live against a real agent, and what came of it is in the Log.
+[[kind]]
+id = "case"
+doc = "A scenario the bench runs a doer through."
+untrusted = "ignore"
+examples = [
+  { id = "note", title = "a note is saved", files = { "notes.txt" = "one\n" }, check = "grep -q two notes.txt", turns = [{ say = "append the line two to notes.txt", expect = "contains(lower(answer), 'two')" }] },
+]
+
+[kind.fields]
+title = { ty = "str", doc = "What the case is, in a line." }
+doc = { ty = "text", doc = "Why the case is there." }
+holdout = { ty = "bool", default = false, doc = "Scored once for a doer: it is not run again unless the run says `again`." }
+git = { ty = "bool", default = false, doc = "The folder is a git repository with one commit when the case starts." }
+files = { ty = "map<text>", default = {}, doc = "The files of the folder to start from, by relative path." }
+setup = { ty = "text", doc = "A shell script run in the folder before the first line is said." }
+check = { ty = "text", doc = "A shell script run in the folder after the last line: exit 0 is a world as asked." }
+brief = { ty = "bool", default = true, doc = "The doer is given the Brief a line of a normal run gets (skills, recall, the project card), so the packs on are measured; false benches the bare doer." }
+turns = { ty = "list", required = true, doc = "The lines to say, in order; the doer carries on in its session between them.", of = { ty = "obj", fields = { say = { ty = "str", required = true }, expect = { ty = "str", doc = "An expression over `answer`, true when the answer of this line is right." } } } }

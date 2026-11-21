@@ -1,0 +1,15 @@
+api = 1
+
+# Gemini CLI over the Agent Client Protocol: nothing but how to start it in that mode (dialect `acp`). Its
+# login is its own (`gemini` once, in a terminal); a turn without one fails with the agent's words.
+[[connector]]
+id = "gemini"
+doc = "Google's Gemini CLI, over ACP."
+is = "agent"
+dialect = "acp"
+program = "gemini"
+login = ["~/.gemini"]
+# the key J4n keeps for Google, only while the setting `doer.keys` names `gemini` (see the claude row)
+secrets = { GEMINI_API_KEY = "kept:google" }
+probe = { argv = ["gemini", "--version"], signed = ["~/.gemini/oauth_creds.json", "~/.gemini/.env", "$GEMINI_API_KEY", "$GOOGLE_API_KEY", "$GOOGLE_GENAI_USE_VERTEXAI"] }
+start = ["--acp"]

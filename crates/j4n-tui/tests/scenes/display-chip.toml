@@ -1,0 +1,26 @@
+doc = "The chip field: a mark and a word in the colour of what they say."
+sizes = [[64, 8], [30, 8]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "a", title = "", field = { kind = "chip", bind = "chip:a" } }, { id = "b", title = "", field = { kind = "chip", bind = "chip:b" } }] }
+
+[[step]]
+down = "value"
+bind = "chip:a"
+value = [{ icon = "done", text = "ready", tone = "good" }, { icon = "cooling", text = "0:40", tone = "warn" }, { icon = "failed", text = "failed", tone = "bad" }, { icon = "queued", text = "off", tone = "dim" }]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "chip:b"
+value = [{ icon = "ask", text = "3", tone = "warn" }, { icon = "working", text = "2", tone = "accent" }, { icon = "route", text = "b-claude" }, { icon = "connector", text = "acp", tone = "dim" }]
+rev = 1
+

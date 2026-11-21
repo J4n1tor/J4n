@@ -1,0 +1,7 @@
+api = 1
+id = "terminal"
+version = "0.0.0"
+summary = "tmux panes as tools of a model: list, read, type into, press a key in (each command asked about, as any command is)"
+use_when = "the work needs a terminal pane read or typed into, such as a running server or a long job"
+needs = ["base"]
+stability = "experimental"

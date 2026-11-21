@@ -1,0 +1,29 @@
+api = 1
+
+[[view]]
+id = "qc-runs"
+doc = "The checks, newest first."
+from = { from = "fold:qc_runs", order = "-n", limit = 100 }
+cells = ["{scope}", "{score}", "{status}", "{coverage}", "{marks}", "{ms:dur}"]
+detail = ["{trigger} · parts {parts} · {tokens} tokens"]
+
+[[view]]
+id = "qc-marks"
+doc = "The marks that are open."
+from = { from = "fold:qc_marks", filter = "state == 'open'", order = "file", limit = 200 }
+key = "{id}"
+cells = ["{pattern}", "{file}:{line}", "{severity}", "{p}"]
+detail = ["{title}"]
+acts = [{ key = "d", label = "dismiss", run = ":qc dismiss {id}" }, { key = "k", label = "keep", run = ":qc keep {id}" }]
+
+[[view]]
+id = "qc-patterns"
+doc = "The patterns, by what finds them."
+from = { from = "table:pattern", order = "id" }
+cells = ["{id}", "{kind}", "{severity}", "{stability}", "{title}"]
+
+[[view]]
+id = "qc-labels"
+doc = "How the marks of each pattern were labelled."
+from = { from = "fold:qc_labels", order = "id" }
+cells = ["{id}", "{value}"]

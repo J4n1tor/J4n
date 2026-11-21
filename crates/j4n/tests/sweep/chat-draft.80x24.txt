@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ ━━━━━━────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 󰄰 no doer yet · the first line picks one
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ a long line of the operator's own words that goes past the end of the        │
+│ composer at sixty columns and on, so that it wraps                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ⌃j newline  ↑ history  ⌃t lane  ? keys  ⌃k find  ⇧↑↓ scroll

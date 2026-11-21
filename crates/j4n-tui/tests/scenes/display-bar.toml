@@ -1,0 +1,27 @@
+doc = "The bar: chips at the left, the asks and the hint at the right; what does not fit goes, last first."
+sizes = [[100, 4], [60, 4], [30, 4]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "note", title = "", field = { kind = "chip", bind = "chip:a" } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:status", props = { right = 3 } } }] }
+
+[[step]]
+down = "value"
+bind = "chip:a"
+value = [{ text = "the bar is the last row", tone = "dim" }]
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:status"
+total = 1
+rev = 1
+rows = [{ key = "status", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.33", tone = "dim" }, { text = "B", icon = "ask" }, { text = "1", icon = "route" }, { text = "F1", tone = "dim" }] }]
+

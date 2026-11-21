@@ -1,0 +1,45 @@
+api = 1
+
+# Codex CLI, connected in data only (not a built-in agent). Its `exec --json` prints one JSON event per
+# line; this reads them with the shapes of codex-rs `exec_events.rs`, checked against a real failure and a transcript written from
+# the source (`fixtures/connectors/codex-*.jsonl`). It cannot carry on in a session (`codex exec resume <id>` puts the id before
+# the prompt: a second manifest, `codex-resume`, would say that), and a change of folder is in the file-change event's first path.
+[[connector]]
+id = "codex"
+doc = "OpenAI's Codex CLI, one turn per run."
+is = "agent"
+dialect = "jsonl-map"
+program = "codex"
+probe = { argv = ["codex", "--version"], auth = ["codex", "login", "status"] }
+start = ["exec", "--json", "--skip-git-repo-check", "{prompt}"]
+model = ["--model", "{model}"]
+login = ["~/.codex"]
+# the key J4n keeps for OpenAI, only while the setting `doer.keys` names `codex` (see the claude row)
+secrets = { OPENAI_API_KEY = "kept:openai" }
+# the key variables codex reads by itself
+pass = ["OPENAI_API_KEY", "CODEX_API_KEY"]
+modes = { read = ["--sandbox", "read-only"], write = ["--sandbox", "workspace-write"] }
+
+# As an account (pack `accounts`): the callback is a fixed port, 127.0.0.1:1455, so one codex sign-in runs at a time. `login status`
+# exits 1 when signed out, so a yes is an exit of 0.
+[connector.signin]
+argv = ["codex", "login"]
+env = { CODEX_HOME = "{account.home}" }
+page = "https://chatgpt.com/"
+share = ["config.toml", "AGENTS.md"]
+
+[connector.signin.check]
+argv = ["codex", "login", "status"]
+
+[connector.map]
+session = "/thread_id"
+end = "/type == 'turn.completed'"
+events = [
+  { when = "/type == 'item.completed' and /item/type == 'reasoning'", emit = "reasoning", text = "/item/text" },
+  { when = "/type == 'item.started' and /item/type == 'command_execution'", emit = "tool", name = "'shell'", detail = "/item/command" },
+  { when = "/type == 'item.completed' and /item/type == 'command_execution'", emit = "shell", cmd = "/item/command", out = "/item/aggregated_output", exit = "/item/exit_code" },
+  { when = "/type == 'item.completed' and /item/type == 'file_change'", emit = "changed", text = "/item/changes/0/path" },
+  { when = "/type == 'item.completed' and /item/type == 'agent_message'", emit = "text", text = "/item/text" },
+  { when = "/type == 'turn.failed'", emit = "error", text = "/error/message" },
+  { when = "/type == 'error'", emit = "notice", text = "/message" },
+]

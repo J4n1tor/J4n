@@ -1,0 +1,74 @@
+doc = "⌥1–9 go to a tab and the open tab's own number again steps its sub-tabs; ⌥0 shows the numbers. For a moment after a key of the tabs each top tab's number is drawn over a cell that is blank already, so no tab moves: small beside a spaced strip (60 columns here), in the rule under a close one (100 columns). The keys row is the keys of the tabs while they show. Tab moves no tab."
+sizes = [[100, 12], [60, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "pages", title = "", present = "tabs", children = [
+    { id = "chat", title = "Chat", icon = "chat", field = { kind = "list", bind = "chat:rows" } },
+    { id = "tasks", title = "Tasks", icon = "tasks", present = "tabs", children = [
+      { id = "tasks.own", title = "Tasks", field = { kind = "list", bind = "tasks:all" } },
+      { id = "asks", title = "Asks", field = { kind = "list", bind = "asks:all" } },
+      { id = "inbox", title = "Inbox", field = { kind = "list", bind = "inbox:all" } },
+    ] },
+    { id = "library", title = "Library", icon = "models", field = { kind = "list", bind = "models:all" } },
+    { id = "connect", title = "Connect", icon = "connector", field = { kind = "list", bind = "connect:all" } },
+    { id = "spend", title = "Spend", icon = "spend", field = { kind = "list", bind = "spend:all" } },
+    { id = "quality", title = "Quality", icon = "done", field = { kind = "list", bind = "quality:all" } },
+    { id = "grow", title = "Grow", icon = "grow", field = { kind = "list", bind = "grow:all" } },
+    { id = "log", title = "Log", icon = "log", field = { kind = "list", bind = "log:rows" } },
+    { id = "settings", title = "Settings", icon = "settings", field = { kind = "list", bind = "settings:all" } },
+  ] },
+  { id = "keysrow", title = "", field = { kind = "bar", bind = "keys:row" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 3
+rev = 1
+rows = [
+  { key = "global/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }] },
+  { key = "list/move", cells = [{ text = "↑↓" }, { text = "move" }] },
+  { key = "global/keys", cells = [{ text = "?" }, { text = "keys" }] },
+]
+
+[[step]]
+shot = "start"
+
+[[step]]
+key = "alt+2"
+
+[[step]]
+shot = "after-alt"
+
+[[step]]
+key = "alt+2"
+
+[[step]]
+shot = "sub-tab-stepped"
+
+[[step]]
+wait = 1300
+
+[[step]]
+shot = "numbers-gone"
+
+[[step]]
+key = "alt+0"
+
+[[step]]
+shot = "alt-zero"
+
+[[step]]
+key = "tab"
+
+[[step]]
+shot = "tab-moves-nothing"

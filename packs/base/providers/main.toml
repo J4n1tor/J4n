@@ -1,0 +1,54 @@
+api = 1
+
+# The providers J4n knows by name, so Library › Providers lists them whether or not a connector for one is on. A connector that none of these
+# takes is a row of its own there (pi, omp, codex, opencode, a decider, a connector of yours).
+
+[[provider]]
+id = "anthropic"
+doc = "Claude: the claude program on a subscription of an account (Connect › Accounts), or an API key."
+family = "subscription"
+url = "https://api.anthropic.com"
+key = "env:ANTHROPIC_API_KEY"
+connectors = ["claude"]
+hosts = ["api.anthropic.com"]
+
+[[provider]]
+id = "openrouter"
+doc = "A router that resells the models of many makers and says which host serves each; one key."
+family = "router"
+url = "https://openrouter.ai/api/v1"
+key = "env:OPENROUTER_API_KEY"
+hosts = ["openrouter.ai"]
+
+[[provider]]
+id = "openai"
+doc = "OpenAI: Codex on a sign-in, or an API key."
+family = "api"
+url = "https://api.openai.com/v1"
+key = "env:OPENAI_API_KEY"
+connectors = ["codex"]
+hosts = ["api.openai.com"]
+
+[[provider]]
+id = "google"
+doc = "Google: the Gemini program on a sign-in, or an API key."
+family = "api"
+url = "https://generativelanguage.googleapis.com"
+key = "env:GEMINI_API_KEY"
+connectors = ["gemini"]
+hosts = ["generativelanguage.googleapis.com"]
+
+[[provider]]
+id = "typesafe"
+doc = "TypeSafe: the Decider System One (jev), on an API key of its own."
+family = "api"
+url = "https://api.typesafe.ai"
+key = "env:TYPESAFE_API_KEY"
+connectors = ["jev"]
+hosts = ["api.typesafe.ai"]
+
+[[provider]]
+id = "local"
+doc = "A model server on this machine (Ollama, LM Studio, llama.cpp): an openai-shaped endpoint at localhost, with no key."
+family = "local"
+hosts = ["localhost", "127.0.0.1"]

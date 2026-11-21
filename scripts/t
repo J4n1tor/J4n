@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# t <cargo args…> — one cargo command with an empty HOME, no agent CLIs on PATH, a dead proxy and a memory cap.
+# A run that writes into HOME fails (docs/TESTING.md). Runs from the repository root, so
+# paths in the arguments are relative to it, and the exit status is cargo's unless HOME was written (then 1) or no
+# run directory could be made (then 2).
+# In:  J4N_T_ROOT  the directory the run directory is made in (default $HOME/.cache; not /tmp, which is often a small tmpfs)
+#      J4N_BLESS   passed on to the run when set
+#      CARGO_INCREMENTAL  passed on; 0 (no incremental cache) when unset
+#      J4N_SWEEP   passed on to the run when set: the folder the screen sweep writes its pages in (with J4N_SWEEP_ONLY)
+# Out: J4N_CAP     "on" when the run is under the 5G memory cap, "off" when no systemd user manager is there
+#      J4N_HERMETIC  1, so a test can tell that it runs under this script
+#      TZ           UTC, so the time of day on a turn (otherwise the machine's zone) is the same on every machine and the goldens keep their ##:##
+set -uo pipefail
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." || exit 2
+REAL_HOME="$HOME"
+T_ROOT="${J4N_T_ROOT:-$REAL_HOME/.cache}"
+mkdir -p "$T_ROOT" && RUN="$(mktemp -d "$T_ROOT/j4n-t.XXXXXX")" || {
+  echo "t: cannot create a run directory in $T_ROOT" >&2
+  exit 2
+}
+trap 'chmod -R u+rwX "$RUN" 2>/dev/null; rm -rf "$RUN"' EXIT   # a test may leave a read-only directory in TMPDIR
+REAL_CARGO_HOME="${CARGO_HOME:-$REAL_HOME/.cargo}"
+mkdir -p "$RUN/home" "$RUN/tmp" "$RUN/bin" "$RUN/cargo/bin"
+# rustup puts $CARGO_HOME/bin on the PATH of every tool it starts, and that directory can hold an agent CLI:
+# the run gets a CARGO_HOME that is the real one (registry, git, config, locks) with an empty bin.
+mirror=()
+shopt -s nullglob dotglob
+for f in "$REAL_CARGO_HOME"/*; do
+  [ "${f##*/}" = bin ] || mirror+=("$f")
+done
+shopt -u nullglob dotglob
+[ "${#mirror[@]}" -gt 0 ] && ln -s -t "$RUN/cargo" "${mirror[@]}"
+# One `ln` per directory: a link per file costs a fork each (about 6 s for the 4,000 tools of /usr/bin).
+for d in /usr/local/bin /usr/bin /bin "$REAL_CARGO_HOME/bin"; do
+  [ -d "$d" ] || continue
+  tools=()
+  for f in "$d"/*; do
+    case "${f##*/}" in claude|omp|codex|opencode|pi|gemini|msb|j4n) continue ;; esac
+    [ -f "$f" ] && [ -x "$f" ] && tools+=("$f")
+  done
+  [ "${#tools[@]}" -gt 0 ] && ln -sf -t "$RUN/bin" "${tools[@]}" 2>/dev/null
+done
+CAP=()
+capped=off
+if command -v systemd-run >/dev/null 2>&1 && systemd-run --user --scope -q true >/dev/null 2>&1; then
+  CAP=(systemd-run --user --scope -q -p MemoryMax=5G)
+  capped=on
+else
+  echo "t: no systemd user manager, running without the 5G cap" >&2
+fi
+ENVV=(
+  HOME="$RUN/home" PATH="$RUN/bin" TMPDIR="$RUN/tmp" J4N_HERMETIC=1 J4N_CAP="$capped" TZ=UTC
+  CARGO_HOME="$RUN/cargo" RUSTUP_HOME="${RUSTUP_HOME:-$REAL_HOME/.rustup}"
+  CARGO_BUILD_JOBS=2 CARGO_PROFILE_DEV_DEBUG=0
+  # off unless the caller asks: the incremental cache grows by gigabytes per build
+  CARGO_INCREMENTAL="${CARGO_INCREMENTAL:-0}"
+  CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target}"
+  http_proxy=http://127.0.0.1:9 https_proxy=http://127.0.0.1:9 all_proxy=http://127.0.0.1:9
+  HTTP_PROXY=http://127.0.0.1:9 HTTPS_PROXY=http://127.0.0.1:9 ALL_PROXY=http://127.0.0.1:9
+  HISTFILE=/dev/null LANG="${LANG:-C.UTF-8}" TERM="${TERM:-xterm-256color}" USER="${USER:-j4n}" LOGNAME="${USER:-j4n}"
+)
+[ -n "${J4N_BLESS:-}" ] && ENVV+=(J4N_BLESS="$J4N_BLESS")
+[ -n "${J4N_SWEEP:-}" ] && ENVV+=(J4N_SWEEP="$J4N_SWEEP" J4N_SWEEP_ONLY="${J4N_SWEEP_ONLY:-}")   # the sweep writes its pages there (tests/laws/sweep.rs)
+"${CAP[@]}" env -i "${ENVV[@]}" cargo "$@"
+rc=$?
+h=$(find "$RUN/home" -mindepth 1 | wc -l)
+if [ "$h" -ne 0 ]; then
+  echo "t: WROTE $h entries into HOME" >&2
+  find "$RUN/home" -mindepth 1 | sed "s|$RUN/home|HOME|" | head -20 >&2
+  rc=1
+fi
+exit $rc

@@ -1,0 +1,23 @@
+api = 1
+
+# What a decider must get right before it chooses the doer for `who:work`. The `doers` slice says what the
+# offered doers say they are, as the options carry it when the front asks; each case has a twin of the same shape whose right
+# answer is the other doer.
+
+[[probe]]
+id = "who-work-small-edit"
+doc = "A small mechanical edit goes to the cheap quick doer."
+point = "who:work"
+slices = { line = "rename the variable foo to bar in utils.py", doers = "claude: a coding agent that reads a whole repository and does large changes; pi: a quick small agent for short, mechanical edits" }
+offered = ["claude", "pi"]
+expect = "pi"
+pair = "who-work-large-change"
+
+[[probe]]
+id = "who-work-large-change"
+doc = "A change across a repository goes to the doer that reads it whole."
+point = "who:work"
+slices = { line = "redesign the module layout of the whole repository and move every caller", doers = "claude: a coding agent that reads a whole repository and does large changes; pi: a quick small agent for short, mechanical edits" }
+offered = ["claude", "pi"]
+expect = "claude"
+pair = "who-work-small-edit"

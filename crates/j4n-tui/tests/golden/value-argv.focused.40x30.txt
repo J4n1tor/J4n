@@ -1,0 +1,30 @@
+├ argv
+│ rg -n {pat}
+├ argv
+│ rg -n {pat} 󰍁
+├ argv
+│ rg {pt} 󰗖
+│ no arg "pt"
+╰ argv
+  rg -n {pat}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

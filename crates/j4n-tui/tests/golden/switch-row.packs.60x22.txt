@@ -1,0 +1,22 @@
+
+  󰍩 Chat   󰝖 Tasks   󰏖 Packs                     j4n 0.0.0
+ ───────────────────━━━━━━━━━──────────────────────────────
+├ base  on · 1 unmet  0.1.0  9 settings, 4 pages
+│   what J4n does on its own
+│   needs lanes needs the quick look and Main
+├ crew  on            0.1.0  3 kinds, 5 pages     ready
+╰ qc    on · 1 unmet  0.1.0  2 pages
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 󰼛 claude ▸ sonnet  $0.33  F1

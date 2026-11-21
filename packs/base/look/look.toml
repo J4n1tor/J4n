@@ -1,0 +1,740 @@
+api = 1
+
+# The built-in look file (the kind `look`, `kinds/look.toml`): how the Log shows each kind of event J4n
+# writes, and its fields. It is the look table as data, with a family for every kind the code and the packs write today, so no
+# kind of J4n's own falls to the bare look (`family/`). Over it: what the look's pass made, then the operator's `~/.j4n/ui/look.toml`.
+
+# ---- families: a kind prefix → its glyph slot and colour role; the longest prefix wins ----
+
+[[look]]
+id = "family/"
+doc = "A kind no family has."
+glyph = "control"
+role = "faint"
+
+[[look]]
+id = "family/task."
+glyph = "working"
+role = "accent"
+
+[[look]]
+id = "family/thread."
+glyph = "session"
+role = "dim"
+
+[[look]]
+id = "family/ask."
+glyph = "ask"
+role = "warn"
+
+[[look]]
+id = "family/answerer."
+glyph = "models"
+role = "route"
+
+[[look]]
+id = "family/model."
+glyph = "models"
+role = "route"
+
+[[look]]
+id = "family/trust."
+glyph = "models"
+role = "route"
+
+[[look]]
+id = "family/account."
+glyph = "models"
+role = "route"
+
+[[look]]
+id = "family/gate."
+glyph = "done"
+role = "ok"
+
+[[look]]
+id = "family/probe."
+glyph = "done"
+role = "ok"
+
+[[look]]
+id = "family/bench."
+glyph = "done"
+role = "ok"
+
+[[look]]
+id = "family/tool."
+glyph = "tool"
+role = "fetch"
+
+[[look]]
+id = "family/run."
+glyph = "run"
+role = "run"
+
+[[look]]
+id = "family/run.tool_"
+glyph = "tool"
+role = "fetch"
+
+[[look]]
+id = "family/run.reasoning"
+glyph = "think"
+role = "faint"
+
+[[look]]
+id = "family/run.message"
+glyph = "output"
+role = "text"
+
+[[look]]
+id = "family/run.error"
+glyph = "error"
+role = "error"
+
+[[look]]
+id = "family/chat."
+glyph = "chat"
+role = "dim"
+
+[[look]]
+id = "family/chat.message"
+glyph = "message"
+role = "route"
+
+[[look]]
+id = "family/plan."
+glyph = "route"
+role = "route"
+
+[[look]]
+id = "family/rule."
+glyph = "control"
+role = "faint"
+
+[[look]]
+id = "family/timer."
+glyph = "cooling"
+role = "faint"
+
+[[look]]
+id = "family/log."
+glyph = "log"
+role = "dim"
+
+[[look]]
+id = "family/cost."
+glyph = "spend"
+role = "dim"
+
+[[look]]
+id = "family/spend."
+glyph = "spend"
+role = "dim"
+
+[[look]]
+id = "family/guard."
+glyph = "grant"
+role = "warn"
+
+[[look]]
+id = "family/grant."
+glyph = "grant"
+role = "warn"
+
+[[look]]
+id = "family/watch."
+glyph = "search"
+role = "fetch"
+
+[[look]]
+id = "family/shape."
+glyph = "output"
+role = "made"
+
+[[look]]
+id = "family/draft"
+doc = "The shaper's draft (the pack `shape`)."
+glyph = "output"
+role = "made"
+
+[[look]]
+id = "family/report."
+glyph = "output"
+role = "dim"
+
+[[look]]
+id = "family/inbox."
+glyph = "notice"
+role = "dim"
+
+[[look]]
+id = "family/ledger."
+glyph = "spend"
+role = "dim"
+
+[[look]]
+id = "family/proposal."
+glyph = "grow"
+role = "accent"
+
+[[look]]
+id = "family/change."
+glyph = "grow"
+role = "accent"
+
+[[look]]
+id = "family/contribute."
+glyph = "grow"
+role = "accent"
+
+[[look]]
+id = "family/pack."
+glyph = "packs"
+role = "accent"
+
+[[look]]
+id = "family/look."
+glyph = "settings"
+role = "accent"
+
+[[look]]
+id = "family/complete."
+glyph = "settings"
+role = "dim"
+
+[[look]]
+id = "family/connector."
+glyph = "connector"
+role = "fetch"
+
+[[look]]
+id = "family/branch."
+glyph = "worktree"
+role = "dim"
+
+[[look]]
+id = "family/lane."
+glyph = "worktree"
+role = "dim"
+
+[[look]]
+id = "family/lanes."
+glyph = "worktree"
+role = "dim"
+
+[[look]]
+id = "family/intake."
+doc = "What a first line was taken for."
+glyph = "route"
+role = "route"
+
+[[look]]
+id = "family/brief."
+doc = "What a doer was given."
+glyph = "read"
+role = "dim"
+
+[[look]]
+id = "family/flow."
+glyph = "route"
+role = "route"
+
+[[look]]
+id = "family/parts."
+glyph = "worktree"
+role = "dim"
+
+[[look]]
+id = "family/qc."
+glyph = "done"
+role = "ok"
+
+[[look]]
+id = "family/map."
+glyph = "models"
+role = "route"
+
+[[look]]
+id = "family/box."
+glyph = "grant"
+role = "warn"
+
+# ---- summaries: a kind → its line ----
+
+[[look]]
+id = "summary/run.tool_call"
+text = "{data.name} {data.detail}"
+
+[[look]]
+id = "summary/run.tool_result"
+text = "{data.name} {data.detail}"
+
+[[look]]
+id = "summary/run.shell"
+text = "{data.cmd}"
+
+[[look]]
+id = "summary/complete.ranked"
+text = "{data.slot} {data.top} {data.by}"
+
+[[look]]
+id = "summary/chat.note"
+text = "{data.text}"
+
+[[look]]
+id = "summary/chat.message"
+text = "{data.from} → {data.to} {data.step} {data.text}"
+
+[[look]]
+id = "summary/chat.message.delivered"
+text = "{data.from} → {data.to} delivered with {data.turn}"
+
+[[look]]
+id = "summary/chat.view"
+text = "{data.view}"
+
+[[look]]
+id = "summary/brief.skills"
+text = "{data.line}"
+
+[[look]]
+id = "summary/task.started"
+text = "{data.doer}"
+
+[[look]]
+id = "summary/task.queued"
+text = "{data.spec.goal}"
+
+[[look]]
+id = "summary/log.broken"
+text = "after {data.after}, {data.lines} lines"
+
+# ---- fields: a name, or `_suffix` for every name that ends so → its renderer ----
+
+[[look]]
+id = "field/at_ms"
+show = "time"
+
+[[look]]
+id = "field/_at_ms"
+show = "time"
+
+[[look]]
+id = "field/_ms"
+show = "duration"
+
+[[look]]
+id = "field/ms"
+show = "duration"
+
+[[look]]
+id = "field/usd"
+show = "money"
+
+[[look]]
+id = "field/_usd"
+show = "money"
+
+[[look]]
+id = "field/cost"
+show = "money"
+
+[[look]]
+id = "field/bytes"
+show = "bytes"
+
+[[look]]
+id = "field/_bytes"
+show = "bytes"
+
+[[look]]
+id = "field/size"
+show = "bytes"
+
+[[look]]
+id = "field/path"
+show = "path"
+
+[[look]]
+id = "field/_path"
+show = "path"
+
+[[look]]
+id = "field/file"
+show = "path"
+
+[[look]]
+id = "field/cwd"
+show = "path"
+
+[[look]]
+id = "field/dir"
+show = "path"
+
+[[look]]
+id = "field/cmd"
+show = "cmd"
+
+[[look]]
+id = "field/command"
+show = "cmd"
+
+[[look]]
+id = "field/diff"
+show = "diff"
+
+[[look]]
+id = "field/patch"
+show = "diff"
+
+# words J4n writes for a person to read: the Log reads them as Markdown; any other string is shown as written
+[[look]]
+id = "field/reason"
+show = "prose"
+
+[[look]]
+id = "field/why"
+show = "prose"
+
+[[look]]
+id = "field/summary"
+show = "prose"
+
+[[look]]
+id = "field/text"
+show = "prose"
+
+[[look]]
+id = "field/note"
+show = "prose"
+
+# the numbers J4n writes that are plain counts: shown as they are, and not a miss
+[[look]]
+id = "field/seq"
+show = "text"
+
+[[look]]
+id = "field/exit"
+show = "text"
+
+# a row that stands for a run of the same line: how many, and where the run ends
+[[look]]
+id = "field/repeats"
+show = "text"
+
+[[look]]
+id = "field/last_seq"
+show = "text"
+
+[[look]]
+id = "field/conf"
+show = "text"
+
+[[look]]
+id = "field/tokens"
+show = "text"
+
+[[look]]
+id = "field/_tokens"
+show = "text"
+
+[[look]]
+id = "field/tokens_in"
+show = "text"
+
+[[look]]
+id = "field/tokens_out"
+show = "text"
+
+[[look]]
+id = "field/input"
+show = "text"
+
+[[look]]
+id = "field/output"
+show = "text"
+
+[[look]]
+id = "field/cached"
+show = "text"
+
+[[look]]
+id = "field/window"
+show = "text"
+
+[[look]]
+id = "field/utilization"
+show = "text"
+
+[[look]]
+id = "field/resets_at"
+show = "text"
+
+[[look]]
+id = "field/changed"
+show = "text"
+
+[[look]]
+id = "field/failed"
+show = "text"
+
+[[look]]
+id = "field/wrote"
+show = "text"
+
+[[look]]
+id = "field/more"
+show = "text"
+
+[[look]]
+id = "field/polls"
+show = "text"
+
+[[look]]
+id = "field/quiet"
+show = "text"
+
+[[look]]
+id = "field/todo_left"
+show = "text"
+
+[[look]]
+id = "field/visits"
+show = "text"
+
+[[look]]
+id = "field/step"
+show = "text"
+
+[[look]]
+id = "field/turn"
+show = "text"
+
+[[look]]
+id = "field/count"
+show = "text"
+
+[[look]]
+id = "field/_count"
+show = "text"
+
+[[look]]
+id = "field/n"
+show = "text"
+
+[[look]]
+id = "field/_n"
+show = "text"
+
+[[look]]
+id = "field/pid"
+show = "text"
+
+[[look]]
+id = "field/attempt"
+show = "text"
+
+[[look]]
+id = "field/tries"
+show = "text"
+
+[[look]]
+id = "field/total"
+show = "text"
+
+[[look]]
+id = "field/left"
+show = "text"
+
+[[look]]
+id = "field/max"
+show = "text"
+
+[[look]]
+id = "field/score"
+show = "text"
+
+[[look]]
+id = "field/rate"
+show = "text"
+
+[[look]]
+id = "field/pct"
+show = "text"
+
+[[look]]
+id = "field/asked"
+show = "text"
+
+# a yes or no: a result is the tier's tick, a switch is `on` or `off`; another yes or no stays `true` or `false`. A yes or no
+# is a miss as a number is, so each one the Log shows is here, as a result, a switch, or `text` (read, and left as it is)
+[[look]]
+id = "field/ok"
+show = "tick"
+
+[[look]]
+id = "field/pass"
+show = "tick"
+
+[[look]]
+id = "field/kept"
+show = "tick"
+
+[[look]]
+id = "field/on"
+show = "onoff"
+
+[[look]]
+id = "field/live"
+show = "onoff"
+
+[[look]]
+id = "field/passed"
+show = "tick"
+
+[[look]]
+id = "field/steerable"
+show = "onoff"
+
+[[look]]
+id = "field/pinned"
+show = "onoff"
+
+[[look]]
+id = "field/grantable"
+show = "onoff"
+
+[[look]]
+id = "field/auto"
+show = "text"
+
+[[look]]
+id = "field/resumed"
+show = "text"
+
+[[look]]
+id = "field/restarted"
+show = "text"
+
+[[look]]
+id = "field/cooled"
+show = "text"
+
+[[look]]
+id = "field/queued"
+show = "text"
+
+[[look]]
+id = "field/final"
+show = "text"
+
+[[look]]
+id = "field/narration"
+show = "text"
+
+[[look]]
+id = "field/partial"
+show = "text"
+
+[[look]]
+id = "field/holdout"
+show = "text"
+
+[[look]]
+id = "field/cut"
+show = "text"
+
+[[look]]
+id = "field/told"
+show = "text"
+
+[[look]]
+id = "field/done"
+show = "text"
+
+[[look]]
+id = "field/in_session"
+show = "text"
+
+[[look]]
+id = "field/security"
+show = "text"
+
+[[look]]
+id = "field/refused"
+show = "text"
+
+[[look]]
+id = "field/clear"
+show = "text"
+
+[[look]]
+id = "field/unproven"
+show = "text"
+
+# ---- tones: the last word of a kind that makes its line bad, or a warning ----
+
+[[look]]
+id = "tone/error"
+tone = "bad"
+
+[[look]]
+id = "tone/failed"
+tone = "bad"
+
+[[look]]
+id = "tone/fail"
+tone = "bad"
+
+[[look]]
+id = "tone/refused"
+tone = "bad"
+
+[[look]]
+id = "tone/declined"
+tone = "bad"
+
+[[look]]
+id = "tone/revoked"
+tone = "bad"
+
+[[look]]
+id = "tone/alert"
+tone = "bad"
+
+[[look]]
+id = "tone/denied"
+tone = "bad"
+
+[[look]]
+id = "tone/timeout"
+tone = "bad"
+
+[[look]]
+id = "tone/lost"
+tone = "bad"
+
+[[look]]
+id = "tone/broken"
+tone = "bad"
+
+[[look]]
+id = "tone/warn"
+tone = "warn"
+
+[[look]]
+id = "tone/wall_warn"
+tone = "warn"
+
+[[look]]
+id = "tone/cap_reached"
+tone = "warn"
+
+[[look]]
+id = "tone/stopped"
+tone = "warn"
+
+[[look]]
+id = "tone/skip"
+tone = "warn"

@@ -1,0 +1,55 @@
+doc = "Settings › Look: a header of column titles, the description column sharing the window's width (gone under 64 columns), the elbows kept on the row the keys are on, its band, and its detail hanging from a blank under the last row."
+sizes = [[60, 18], [80, 22], [120, 26]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "look", title = "", field = { kind = "list", bind = "view:look", props = { titles = ["setting", "now", "what it does"] } } }] }
+
+[[step]]
+down = "rows"
+bind = "view:look"
+total = 7
+rev = 1
+rows = [
+  { key = "theme.corners", cells = [{ text = "theme.corners" }, { text = "round" }, { text = "The corners of a box: `round` or `square`." }], detail = [{ text = "The corners of a box: `round` or `square`.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "theme.density", cells = [{ text = "theme.density" }, { text = "normal" }, { text = "How much room there is between things: `compact`, `normal` or `roomy`." }], detail = [{ text = "How much room there is between things: `compact`, `normal` or `roomy`.", tone = "dim" }, { text = "default normal", tone = "dim" }] },
+  { key = "theme.frame", cells = [{ text = "theme.frame" }, { text = "pipes" }, { text = "How the screen is drawn: with `pipes`, in a `gutter`, or hung from the left edge (`hang`)." }], detail = [{ text = "How the screen is drawn: with `pipes`, in a `gutter`, or hung from the left edge (`hang`).", tone = "dim" }, { text = "default pipes", tone = "dim" }] },
+  { key = "theme.marks", cells = [{ text = "theme.marks" }, { text = "icons" }, { text = "The marks in front of things: `icons`, `unicode`, `ascii` or `words`; the tier falls back on its own." }], detail = [{ text = "The marks in front of things: `icons`, `unicode`, `ascii` or `words`; the tier falls back on its own.", tone = "dim" }, { text = "default icons", tone = "dim" }] },
+  { key = "theme.motion", cells = [{ text = "theme.motion" }, { text = "true" }, { text = "Whether the screen glides and breathes; off, it jumps and stands still." }], detail = [{ text = "Whether the screen glides and breathes; off, it jumps and stands still.", tone = "dim" }, { text = "default true", tone = "dim" }] },
+  { key = "theme.palette", cells = [{ text = "theme.palette" }, { text = "jjj" }, { text = "The colours: `jjj`, `dusk`, `paper`, `ember`, `mono` or `contrast`." }], detail = [{ text = "The colours: `jjj`, `dusk`, `paper`, `ember`, `mono` or `contrast`.", tone = "dim" }, { text = "default jjj", tone = "dim" }] },
+  { key = "theme.title_place", cells = [{ text = "theme.title_place" }, { text = "inside" }, { text = "Where the title of a box goes: `inside`, `border` or `none`." }], detail = [{ text = "Where the title of a box goes: `inside`, `border` or `none`.", tone = "dim" }, { text = "default inside", tone = "dim" }] }
+]
+
+[[step]]
+shot = "first"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "middle"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "last"

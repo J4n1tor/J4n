@@ -1,0 +1,41 @@
+api = 1
+
+# What a decider or a model must get right before it routes a line among the chats (`chats`). The `chats` slice says
+# what the chats are, as the options carry them when the front asks (`c1: the first line of the chat`); each case has a twin of the same shape whose
+# right answer is the other one, and a line that belongs to none of them answers `new`.
+
+[[probe]]
+id = "chats-parser"
+doc = "A line about the parser goes to the chat that was about the parser."
+point = "chats"
+slices = { line = "make the parser accept a trailing comma in arrays", chats = "c1: fix the parser so trailing commas work; c2: rename the helper in ui.rs" }
+offered = ["c1", "c2", "new"]
+expect = "c1"
+pair = "chats-ui"
+
+[[probe]]
+id = "chats-ui"
+doc = "The same shape of line about the screen's helper goes to the other chat."
+point = "chats"
+slices = { line = "rename the helper in ui.rs again to draw_row", chats = "c1: fix the parser so trailing commas work; c2: rename the helper in ui.rs" }
+offered = ["c1", "c2", "new"]
+expect = "c2"
+pair = "chats-parser"
+
+[[probe]]
+id = "chats-new"
+doc = "A line about something none of the chats is about opens a new chat."
+point = "chats"
+slices = { line = "what does the budget gate check", chats = "c1: fix the parser so trailing commas work; c2: rename the helper in ui.rs" }
+offered = ["c1", "c2", "new"]
+expect = "new"
+pair = "chats-same"
+
+[[probe]]
+id = "chats-same"
+doc = "The same shape of question about a chat's own subject goes to that chat."
+point = "chats"
+slices = { line = "does the parser handle a trailing comma in objects", chats = "c1: fix the parser so trailing commas work; c2: rename the helper in ui.rs" }
+offered = ["c1", "c2", "new"]
+expect = "c1"
+pair = "chats-new"

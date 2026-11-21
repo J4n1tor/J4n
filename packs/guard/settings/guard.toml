@@ -1,0 +1,9 @@
+api = 1
+
+# Read when J4n starts; the pack `guard` off, nothing below runs.
+[[setting]]
+id = "guard.files"
+doc = "The names of the files that a task behind a box (`box`, `worktree-box`) sees only as their view, with each secret in them replaced by a placeholder: words separated by spaces, `*` for any run of characters and `?` for one, matched against the file's name wherever it is in the task's folder. A file such a name picks is covered only if the redactor finds a secret in it (so `.env.example` stays as it is), and never if it is binary or over 1 MiB."
+ty = "str"
+default = ".env .env.* *.env *.pem *.key id_rsa id_ed25519 id_ecdsa credentials.json *-credentials.json service-account*.json *.tfvars .npmrc .pypirc .netrc .pgpass"
+live = false

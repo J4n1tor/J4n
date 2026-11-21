@@ -1,0 +1,140 @@
+api = 1
+
+# The rows of the F1 pages the base pack adds to the tabs: the connectors by what they are, the providers, the
+# points where a decision is made, what was spent, and the settings, the keys and the gates in the groups the Settings tab shows.
+
+[[view]]
+id = "ask-points"
+doc = "Every place where a decision is made: what is asked, what a wrong answer costs, who is asked in what order, and what stands when no one answers."
+from = { from = "table:ask_point", order = "id" }
+cells = ["{id}", "{shape}", "{impact}", "{chain:rungs}", "{fallback:fallback}"]
+titles = ["point", "shape", "impact", "asked", "fallback"]
+detail = ["{doc}", "asked {chain}"]
+
+[[view]]
+id = "connector-agents"
+doc = "The agents: the programs a thread can be bound to."
+from = { from = "table:connector", filter = "is == 'agent'", order = "id" }
+cells = ["{id}", "{dialect}", "{roles}", "{models:short}"]
+titles = ["agent", "dialect", "roles", "models"]
+detail = ["{doc}", "runs {program}"]
+acts = [{ key = "s", label = "switch", run = ":switch {id}" }]
+
+[[view]]
+id = "connector-tools"
+doc = "The tools: the programs run for their output, and what each may do."
+from = { from = "table:connector", filter = "is == 'tool'", order = "id" }
+cells = ["{id}", "{dialect}", "{risk}", "{program}"]
+titles = ["tool", "dialect", "risk", "program"]
+detail = ["{doc}"]
+
+[[view]]
+id = "connector-services"
+doc = "The services: what J4n reaches over the network."
+from = { from = "table:connector", filter = "is == 'service'", order = "id" }
+cells = ["{id}", "{dialect}", "{url}"]
+titles = ["service", "dialect", "url"]
+detail = ["{doc}"]
+
+[[view]]
+id = "connector-deciders"
+doc = "The deciders: the machines that answer a question at a point, and the models they ask; with none, one row that says why (the pack jev is off, or its key is missing) and whose ⏎ mends it."
+from = { from = "fold:deciders", order = "id" }
+cells = ["{id}", "{dialect}", "{url}"]
+titles = ["decider", "dialect", "url"]
+tone = "tone"
+detail = ["{doc}"]
+acts = [
+  { key = "enter", label = "turn on", run = ":pack on jev", when = "kind == 'pack-off'" },
+  { key = "enter", label = "type the key", run = ":providers", when = "kind == 'no-key'" },
+]
+
+[[view]]
+id = "connector-mcp"
+doc = "The MCP servers: the tools a server offers."
+from = { from = "table:connector", filter = "is == 'mcp'", order = "id" }
+cells = ["{id}", "{dialect}", "{program}"]
+titles = ["server", "dialect", "program"]
+detail = ["{doc}"]
+
+[[view]]
+id = "providers"
+doc = "Every provider: a subscription (Anthropic's claude), an API, a router (OpenRouter), a server on this machine, and each harness's own; whether its key is set or its account signed in (never the key), how many models it gives, and the connectors it is spoken to through. `⏎` types a key, which J4n keeps in its own key file, `x` removes it on the card, `s` switches the thread to a model connector."
+from = { from = "fold:providers", order = "id" }
+cells = ["{id}", "{kind}", "{state}", "{key}", "{accounts}", "{models:n}", "{through}"]
+titles = ["provider", "kind", "now", "key", "accounts", "models", "through"]
+tone = "tone"
+detail = ["{doc}", "{url}"]
+data = "{edit}"
+acts = [
+  # the key is sent once and never a Change: no undo, typing it again replaces it
+  { key = "enter", label = "type the key", set = "key:{keyid}.value", when = "keyid != ''" },
+  { key = "x", label = "remove the key", run = ":key remove {keyid}", risk = 60, when = "kept" },
+  { key = "s", label = "switch", run = ":switch {switch}", when = "switch != ''" },
+]
+
+[[view]]
+id = "spend"
+doc = "What each task cost this week: what it took of the plan, when it ran on one, and the list cost beside it (`cost.show`)."
+from = { from = "fold:spend", order = "-value" }
+cells = ["{id}", "{money}"]
+titles = ["task", "cost"]
+
+[[view]]
+id = "settings-look"
+doc = "The look of the screen: the palette, the marks, the frame, the corners, the title, the density, the motion. `⏎` changes a row, `n` takes the next word, `u` takes the change back."
+from = { from = "table:setting", filter = "contains(id, 'theme.')", order = "id" }
+cells = ["{id}", "{now}", "{doc}"]
+titles = ["setting", "now", "what it does"]
+detail = ["{doc}", "default {default}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "change", set = "setting:{id}.value" },
+  { key = "n", label = "next", run = ":look {id} next" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+]
+
+[[view]]
+id = "settings-loop"
+doc = "How a task is carried on, compacted, cooled and stopped."
+from = { from = "table:setting", filter = "contains(id, 'loop.') or contains(id, 'compact.') or contains(id, 'cool.') or contains(id, 'rabbit.') or contains(id, 'stuck.') or contains(id, 'work.') or contains(id, 'check.')", order = "id" }
+cells = ["{id}", "{now}", "{doc}"]
+titles = ["setting", "now", "what it does"]
+detail = ["{doc}", "default {default}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "change", set = "setting:{id}.value" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+]
+
+[[view]]
+id = "settings-keys"
+doc = "Every key of the screen: where it is read, the keys that do it."
+from = { from = "table:key", order = "id" }
+cells = ["{id}", "{keys:runs}", "{native:runs}", "{doc}"]
+titles = ["key", "keys", "native", "what it does"]
+detail = ["{doc}"]
+
+[[view]]
+id = "settings-gates"
+doc = "The grants you gave that still count (once, this task, this session, always here), first, then every gate: which effects it applies to, and what it says. `x` takes a grant back."
+from = { from = "fold:gates" }
+cells = ["{id}", "{on}", "{verdict}", "{grant}", "{why}"]
+titles = ["gate", "on", "verdict", "grant", "why"]
+detail = ["{doc}", "{why}"]
+acts = [{ key = "x", label = "take back", run = ":grant back {id}", when = "grant != ''", risk = 10 }]
+
+[[view]]
+id = "settings-features"
+doc = "The switches J4n basic shows (the settings marked `basic`) and the ones `packs.full` turned on, marked `full` in the column `by`: the work, the box, the checks, the cost line, the session, retry, the profile, the web, the palette, the reading style, the completion (`complete.on`: Tab completes what you type; `complete.decider` and `complete.decider_day`: the Decider's order and its asks a day), and J4n full; every other setting is under All. `space` flips one, `⏎` changes it, `u` takes the change back; one that waits for the next start says `⟳`."
+from = { from = "table:setting", filter = "basic == true or via == 'full'", order = "id" }
+cells = ["{id}", "{now}", "{via}", "{doc}"]
+titles = ["switch", "now", "by", "what it does"]
+detail = ["{doc}", "{says}", "default {default}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "change", set = "setting:{id}.value" },
+  { key = " ", label = "flip", set = "setting:{id}.value", value = "{flip}" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+  { key = "r", label = "restart", run = ":restart", when = "waits" },
+]

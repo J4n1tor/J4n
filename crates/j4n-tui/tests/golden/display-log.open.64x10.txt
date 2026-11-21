@@ -1,0 +1,10 @@
+┃ 08:12:05 󰼛 task.settled  state failed  why the parser … t3 ▾
+  ├ spent
+  │ ├ tokens  18234
+  │ ╰ usd     $0.0412
+  ├ state  failed
+  ├ why    the parser tests failed after the second try; the
+  │        doer stopped and asked for a person
+  ├ task   t3                                                  ┃
+  ├ seq    11
+ 999,999 of 1,000,000 · G follow · / find

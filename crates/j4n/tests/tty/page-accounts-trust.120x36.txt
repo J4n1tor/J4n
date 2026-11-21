@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ───────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────
+ Models   Providers   Plans   Trust
+─────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────
+  provider      kind          now            key      accounts     models  through
+├   anthropic   subscription  not installed  not set  plan claude  3       claude
+│   Claude: the claude program on a subscription of an account (Connect › Accounts), or an API key.
+│   https://api.anthropic.com
+├   google      api           not installed  not set  —            0       gemini
+├ local         local         no connector   —        —            0       —
+├ omp           harness       not checked    —        —            0       omp
+├   openai      api           not installed  not set  —            0       codex
+├ opencode      harness       not installed  —        —            0       opencode
+├ opencode-acp  harness       not checked    —        —            0       opencode-acp
+├   openrouter  router        no key         not set  —            3       light, own, span
+├ pi            harness       not installed  —        —            0       pi
+╰   typesafe    api           no key         not set  —            1       jev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J4n keeps a key and never shows it
+ • ⏎ type the key  ⌥1–9 tabs  ↑↓ move  ? keys  ⌃k find  ⌃g state

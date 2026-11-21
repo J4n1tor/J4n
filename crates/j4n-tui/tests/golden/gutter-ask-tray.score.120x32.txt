@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      you  plan two ways to speed up the build, try the better one, review it                                     14:02
+    route  omp ▸ claude ▸ gemini
+    A omp  sonnet                                                                                      ask  0:48  $0.03
+ B claude  sonnet                                                                         ask  wt b-claude  0:12  $0.01
+ C gemini  2.5-pro                                                                                        ✓  41s  $0.04
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ask 4                                                                                                 ↑↓ · 1–9 · esc │
+│   A omp     which plan should claude build?                                                                   pick 2 │
+│   B claude  cargo build --release?                                                          ▕██▍░░░▏ 40  1 yes  2 no │
+│   C gemini  how useful was this review?                                                              score 1 2 3 4 5 │
+│   j4n       name the new connector?                                                                             text │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ fix the failing test in parser.rs                                                                            → ask C │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ● claude ▸ sonnet  $0.14  ask B                                                                                ⇥ 1  F1

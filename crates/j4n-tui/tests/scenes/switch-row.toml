@@ -1,0 +1,73 @@
+doc = "The one switch and what hangs on it: its row on the Tasks page (the word, what it turns on, the needs, the crew's ready switch), the Packs row that counts its unmet needs, the needs card and the pick row as ask cards of the library, and the read's note under a line with the live row of the lane at work, readable at 80 columns."
+sizes = [[120, 24], [80, 24], [60, 22]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "pages", title = "", present = "tabs", children = [{ id = "chat", title = "Chat", icon = "chat", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "tasks", title = "Tasks", icon = "tasks", field = { kind = "list", bind = "tasks:all" } }, { id = "packs", title = "Packs", icon = "packs", field = { kind = "list", bind = "packs:all" } }] }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 5
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "write the chess game in one file, then run it" }, { text = "", tone = "dim" }, { text = "11:01", tone = "dim" }] }, { key = "n1", cells = [{ text = "read as one task · a Decider · $0.0004 · 0.6s · one file, one job", tone = "dim" }, { text = "", tone = "dim" }], parent = "t1" }, { key = "la", cells = [{ text = "A claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "8:02", tone = "dim" }, { text = "6.1k tok", tone = "dim" }, { text = "$0.21", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } }, { key = "la0", cells = [{ text = "README.md", icon = "read" }, { text = "", tone = "dim" }], parent = "la" }, { key = "w:la", cells = [{ text = "writing /w/chess.py", icon = "new", tone = "accent" }, { text = "after README.md", tone = "dim" }, { text = "23.9 kB", tone = "dim" }, { text = "6.1k tok", tone = "dim" }, { text = "8:01", tone = "dim" }], parent = "la" }]
+
+[[step]]
+down = "rows"
+bind = "tasks:all"
+total = 2
+rev = 1
+rows = [{ key = "switch:lanes", cells = [{ text = "switch", tone = "dim" }, { text = "orchestrate", tone = "accent" }, { text = "" }, { text = "1 unmet · look crew envoys · crew ready", tone = "dim" }, { text = "", tone = "dim" }], tone = "accent", actions = [{ key = "enter", label = "turn orchestrate off", intent = { intent = "set", kind = "setting", id = "lanes", field = "value", value = "single" }, risk = 0 }] }, { key = "t1", cells = [{ text = "t1", tone = "dim" }, { text = "working", tone = "accent" }, { text = "claude", tone = "dim" }, { text = "write the chess game in one file" }, { text = "$0.21", tone = "dim" }] }]
+
+[[step]]
+down = "rows"
+bind = "packs:all"
+total = 3
+rev = 1
+rows = [{ key = "base", cells = [{ text = "base" }, { text = "on · 1 unmet", tone = "warn" }, { text = "0.1.0", tone = "dim" }, { text = "9 settings, 4 pages", tone = "dim" }], detail = [{ text = "what J4n does on its own", tone = "dim" }, { text = "needs lanes needs the quick look and Main", tone = "warn" }] }, { key = "crew", cells = [{ text = "crew" }, { text = "on", tone = "good" }, { text = "0.1.0", tone = "dim" }, { text = "3 kinds, 5 pages", tone = "dim" }, { text = "ready", tone = "good" }], detail = [{ text = "seats, links, charters", tone = "dim" }] }, { key = "qc", cells = [{ text = "qc" }, { text = "on · 1 unmet", tone = "warn" }, { text = "0.1.0", tone = "dim" }, { text = "2 pages", tone = "dim" }], detail = [{ text = "needs the key of light is not set", tone = "warn" }] }]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.33", tone = "dim" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "chat"
+
+[[step]]
+key = "f2"
+
+[[step]]
+shot = "tasks"
+
+[[step]]
+key = "f3"
+
+[[step]]
+shot = "packs"
+
+[[step]]
+key = "f1"
+
+[[step]]
+down = "asks"
+open = [{ ask = "need:1", asker = "j4n", question = "lanes needs the quick look and Main", shape = "choice", options = [{ id = "use", label = "use the suggestion: the quick look claude · haiku, Main claude · sonnet", recommended = true, by = "core" }, { id = "pick", label = "pick another", by = "core" }, { id = "without", label = "go on without it: lines go to Main as typed, no chats", by = "core" }, { id = "off", label = "turn lanes off", by = "core" }], facts = [{ text = "the quick look: claude is signed in; its cheapest model is haiku", tone = "dim" }, { text = "Main: claude is signed in; its newest Sonnet is sonnet", tone = "dim" }], why = "orchestrate reads each line before it goes to Main" }]
+
+[[step]]
+shot = "needs-card"
+
+[[step]]
+down = "asks"
+open = [{ ask = "hand:1", asker = "j4n", question = "read: you pick", shape = "choice", options = [{ id = "one", label = "one task", recommended = true, by = "core" }, { id = "split", label = "split into chats", by = "operator" }, { id = "answer", label = "answer, no task", by = "operator" }], facts = [{ text = "write the chess game in one file, then run it", tone = "dim" }], why = "you answer this point yourself: ⏎ takes the first, a digit picks, Esc takes the fallback" }]
+
+[[step]]
+shot = "pick-row"

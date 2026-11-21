@@ -1,0 +1,18 @@
+  setting            now
+├ theme.corners      round
+├ theme.density      normal
+├ theme.frame        pipes
+├ theme.marks        icons
+├ theme.motion       true
+├ theme.palette      jjj
+╰ theme.title_place  inside
+    Where the title of a box goes: inside, border or none.
+    default inside
+
+
+
+
+
+
+
+

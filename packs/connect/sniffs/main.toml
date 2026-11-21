@@ -1,0 +1,53 @@
+api = 1
+
+# The rules that say how a program speaks, from the most certain to the plainest. Each is tried on what the
+# program said about itself; the first that holds wins. The last row holds for anything, so a program that says nothing of
+# protocols is a command run for its text.
+
+[[sniff]]
+id = "acp"
+doc = "It offers the Agent Client Protocol."
+rank = 10
+when = "contains(text, '--acp') or contains(text, 'agent client protocol')"
+is = "agent"
+dialect = "acp"
+start = ["--acp"]
+note = "dialect `acp`: JSON-RPC over the program's stdio. `start` holds only the flag that switches the program into that mode (here `--acp`), never a prompt."
+
+[[sniff]]
+id = "claude-stream"
+doc = "It streams Claude Code's `stream-json` frames."
+rank = 20
+when = "contains(text, 'stream-json')"
+is = "agent"
+dialect = "claude-stream"
+note = "dialect `claude-stream`: a live session of the frames `claude -p --output-format stream-json` prints. `modes` says the flags for a task that reads and one that writes."
+
+[[sniff]]
+id = "mcp"
+doc = "It is a Model Context Protocol server."
+rank = 30
+when = "(contains(text, 'mcp') or contains(text, 'model context protocol')) and (contains(text, 'stdio') or contains(text, 'serve'))"
+is = "mcp"
+dialect = "mcp"
+note = "dialect `mcp`: `is = \"mcp\"`, `program` and `start` (the arguments that make it serve on stdio). Its tools are read from the server; do not list them."
+
+[[sniff]]
+id = "jsonl"
+doc = "It prints one JSON event per line."
+rank = 40
+when = "contains(text, 'jsonl') or contains(text, 'ndjson') or contains(text, '--json') or contains(text, 'output-format json') or contains(text, 'stream-json')"
+is = "agent"
+dialect = "jsonl-map"
+ask = true
+note = "dialect `jsonl-map`: `start` is the arguments with `{prompt}` where the goal goes, and a `[connector.map]` that turns each JSON line into events by JSON pointers: `session`, `end`, `answer`, `cost`, `error`, and `events = [{ when = \"/type == 'text'\", emit = \"text\", text = \"/text\" }]`. Use only fields the help or examples show."
+
+[[sniff]]
+id = "text"
+doc = "It writes text; nothing says more."
+rank = 90
+when = "true"
+is = "tool"
+dialect = "text"
+ask = true
+note = "dialect `text`: for a tool, `argv` is the whole command line with `{name}` for each of its `args` (`{ name = \"pattern\", required = true }`), `risk` is read, write, net or exec; for an agent, `start` has `{prompt}` where the goal goes. A tool also needs `canary = { goal = \"…\" }`, a harmless example."

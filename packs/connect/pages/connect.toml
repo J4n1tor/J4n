@@ -1,0 +1,25 @@
+api = 1
+
+# The Connect tab: the first two sub-tabs of tab 4 (the page `connectors`). Connect: an add
+# line, the programs found on this machine that are not connected, and one row per connection. Lab: the runs the lab left.
+
+[[page]]
+id = "connect"
+doc = "What J4n is connected to, the programs on this machine that it is not, and a line to add one: a program or a path."
+parent = "home"
+group = "connectors"
+title = "Overview"
+order = 1
+field = "tree"
+view = "connect"
+
+[[page]]
+id = "lab"
+doc = "The runs of the connect lab: when, how many harnesses, how many connected and chatted (seen families · held-out families), and the table of each."
+parent = "home"
+group = "connectors"
+title = "Lab"
+order = 2
+field = "tree"
+view = "lab"
+help = "the lab is run from the command line and never from here"

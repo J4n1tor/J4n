@@ -1,0 +1,138 @@
+api = 1
+
+# The rows of the pages the base pack draws from a collection.
+
+[[view]]
+id = "trust"
+doc = "How far each machine answerer is trusted at each ask point: its state, the model whose probes it passed, how many of its answers are labelled and how many of those were wrong."
+from = { from = "fold:answerers", order = "id" }
+cells = ["{id}", "{point}", "{state}", "{model}", "{n:n} labelled", "{wrong:pct} wrong"]
+titles = ["answerer", "point", "state", "model", "labelled", "wrong"]
+tone = "tone"
+detail = ["{why}"]
+
+[[view]]
+id = "settings"
+doc = "Every setting, what it holds, and what it is for."
+from = { from = "table:setting", order = "id" }
+cells = ["{id}", "{now}", "{doc}"]
+titles = ["setting", "now", "what it does"]
+detail = ["{doc}", "{says}", "default {default}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "change", set = "setting:{id}.value" },
+  # a switch is flipped here as it is in Features: the rows that are not switches have no space
+  { key = " ", label = "flip", set = "setting:{id}.value", value = "{flip}", when = "ty == 'bool' or id matches '*.mode' or id == 'lanes' or 'off' in words" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+  { key = "r", label = "restart", run = ":restart", when = "waits" },
+]
+
+[[view]]
+id = "proposals"
+doc = "What J4n has proposed for itself: nothing is changed until it is accepted, and an accepted change can be taken back."
+from = { from = "fold:proposals" }
+cells = ["{id}", "{state}", "{title}", "{evidence:n}"]
+titles = ["proposal", "state", "what", "evidence"]
+tone = "tone"
+detail = ["{why}", "by {by}", "widens {widens}"]
+acts = [
+  { key = "a", label = "accept", run = ":accept {id} yes", when = "state == 'open'", risk = 60 },
+  { key = "d", label = "decline", run = ":decline {id}", when = "state == 'open'" },
+  { key = "u", label = "undo", run = ":undo {id}", when = "state == 'accepted'", risk = 20 },
+]
+
+[[view]]
+id = "roster"
+doc = "Every connector there is: what it is, how it is spoken to, which roles it is good for and which models it serves."
+from = { from = "table:connector", order = "id" }
+cells = ["{id}", "{is}", "{dialect}", "{roles}", "{models:short}"]
+titles = ["connector", "is", "dialect", "roles", "models"]
+detail = ["{doc}", "runs {program}"]
+acts = [{ key = "s", label = "switch", run = ":switch {id}", when = "is == 'agent' or is == 'model'" }]
+
+[[view]]
+id = "library"
+doc = "Every model J4n has used, is using or can use, once: the ways it is had (a connector, an account and its plan, a router), what it costs, how large its window is, how often it was used and when last, how it went and how fast, and whether it can be used now."
+from = { from = "fold:library", order = "-seen" }
+cells = ["{id}", "{via}", "{state}", "{price}", "{context:n}", "{seen:n}", "{ago:dur}"]
+titles = ["model", "had through", "now", "price", "window", "used", "last"]
+tone = "tone"
+detail = ["{routes}", "{used}"]
+
+[[view]]
+id = "upstream-news"
+doc = "The releases of the tools J4n follows that touch or break something it uses, newest first."
+from = { from = "fold:watch_items", order = "-at_ms" }
+cells = ["{source}", "{version}", "{class}", "{lead}"]
+titles = ["tool", "version", "class", "what"]
+detail = ["{link}", "{counts}"]
+acts = [{ key = "p", label = "plan it", run = ":watch plan {id}" }, { key = "r", label = "ask now", run = ":watch once" }]
+
+[[view]]
+id = "upstream-todo"
+doc = "What a yes to \"plan it\" put on the list."
+from = { from = "table:todo", order = "id" }
+cells = ["{state}", "{title}"]
+titles = ["state", "what"]
+detail = ["{why}", "{of} {version}"]
+
+[[view]]
+id = "setup-flow"
+doc = "Connect › Setup: Agent, Model, Decider, Test and Custom, each step with its mark and where it stands, its choices under it. `⏎` uses an agent, picks the model or types a key in the masked editor; `s` signs a program in with its own login, `r` looks again, `o` turns the Decider on for every project (and `r` restarts J4n while that waits for the next start), `u` takes an edit back. `⏎` on Test makes one short call to each part that is set, and each part's row says ok or failed, its time and its cost; a failed part's row mends it."
+from = { from = "fold:setup", filter = "step" }
+cells = ["{label}", "{now}", "{note}"]
+tone = "tone"
+icon = "{mark}"
+parent = "{parent}"
+data = "{edit}"
+folded = "done"
+acts = [
+  { key = "enter", label = "use", set = "setting:lane.doer.value", value = "{doer}", when = "kind == 'agent' and declared and not using and not picked" },
+  # a pack that widens what J4n may do asks on the card, and its yes is the whole of it, as on Grow › Packs
+  { key = "enter", label = "turn on, which widens what J4n may do", run = ":pack on {pack} yes all", risk = 60, when = "kind == 'agent' and not declared and not waits" },
+  { key = "s", label = "sign in", run = ":signin {doer}", when = "kind == 'agent' and signin and not ready" },
+  { key = "r", label = "look again", run = ":setup again", when = "kind == 'agent'" },
+  { key = "enter", label = "sign in", run = ":signin {doer}", when = "kind == 'signin'" },
+  { key = "enter", label = "look again", run = ":setup again", when = "kind == 'look'" },
+  # a key is typed in the row's secret editor and goes to J4n's key file by its own road
+  { key = "enter", label = "type the key", set = "key:{keyid}.value", when = "(kind == 'key' or kind == 'decider') and keyid != ''" },
+  { key = "enter", label = "give or take back the key", set = "setting:doer.keys.value", value = "{keys}", when = "kind == 'bind'" },
+  { key = "enter", label = "pick", set = "setting:lane.model.value", when = "kind == 'model'" },
+  { key = "o", label = "turn the Decider on for every project, which widens what J4n may do", run = ":pack on jev yes all", risk = 60, when = "kind == 'decider' and not on" },
+  { key = "enter", label = "turn the Decider off for every project", run = ":pack off jev yes all", when = "kind == 'none' and on" },
+  { key = "enter", label = "turn the Decider on for this project, which widens what J4n may do", run = ":pack on jev yes", risk = 60, when = "kind == 'here'" },
+  # the Decider turned on or off while J4n runs acts from the next start: the step and its rows say ⟳, and `r` restarts now
+  { key = "r", label = "restart now", run = ":restart", when = "restart" },
+  # the proof call: one short call to each part that is set; a part that failed is drawn as the row that mends it
+  { key = "enter", label = "run the test", run = ":setup test", when = "kind == 'test' and not running" },
+  { key = "enter", label = "open Connect › Overview", run = ":connections", when = "kind == 'custom'" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+]
+
+[[view]]
+id = "setup"
+doc = "The pre-flight: each doer found, signed in or missing, the plans and their prices, the key of the gateway, and the safety defaults in words; the same lines as the doctor's."
+from = { from = "fold:setup", filter = "not step" }
+cells = ["{id}", "{what}", "{fix}"]
+titles = ["", "state", "to mend it"]
+tone = "tone"
+detail = ["{fix}"]
+acts = [
+  { key = "p", label = "set price", run = ":plans", when = "kind == 'plan' and what == 'no price'" },
+  { key = "a", label = "add account", run = ":account add {id}", when = "account == 'yes'" },
+  # each mend leads to the row of Connect › Setup that does it
+  { key = "enter", label = "open Setup", run = ":setup", when = "contains(fix, 'Setup')" },
+]
+
+[[view]]
+id = "plans"
+doc = "The plan rows: what each costs for a period and what it is worth before J4n has measured it. `⏎` sets a price, `u` takes it back."
+from = { from = "table:plan", order = "id" }
+cells = ["{id}", "{connector}", "{price}", "{assume}", "{windows}"]
+titles = ["plan", "connector", "price", "assume", "windows"]
+detail = ["{doc}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "set price", set = "plan:{id}.price" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+]

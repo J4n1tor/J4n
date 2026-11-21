@@ -1,0 +1,14 @@
+api = 1
+id = "crew"
+version = "0.0.0"
+summary = "seats: a role, a way of working and an access for each chat Main starts"
+use_when = "Main briefs chats and each should work in a set role, such as a reviewer that only reads or a scout that finds and reports"
+needs = ["base"]
+stability = "experimental"
+
+# Enabling the crew with ready to go on turns the one switch on: Main, the chats, the seats and the envoys.
+[ready]
+default = true
+
+[ready.set]
+lanes = "orchestrate"

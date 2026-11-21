@@ -1,0 +1,65 @@
+api = 1
+
+# What a failure's words say (kind `failure`). The first row by `order` whose words occur wins; a
+# failure none of them knows is `transient`, which is the answer that keeps work going.
+
+# A run that ended on a tool: what stopped it is the program's own tool, not the provider and not the network, so it is not `transient`
+# (which `retry.auto` tries again and the host's error count reads as the host's). A refusal says so in the words the program gave.
+[[failure]]
+id = "tool-refused"
+doc = "The run ended on a tool the program was not allowed to use (a permission it refused, or a rule that forbids the call)."
+class = "refused"
+order = 6
+any = ["auto-rejecting", "rejected permission", "specified a rule which prevents", "guard refused"]
+
+[[failure]]
+id = "tool-failed"
+doc = "The run ended on a tool that failed."
+class = "tool"
+order = 7
+any = ["the run ended on a tool that failed"]
+
+# The agent's own stop codes name the cause; a `limit reached` in their text is not a rate limit, so this comes first.
+[[failure]]
+id = "agent-stop"
+doc = "The agent said it spent its own turns or budget."
+class = "permanent"
+order = 10
+any = ["error_max_"]
+
+[[failure]]
+id = "overloaded"
+doc = "The provider is busy; a short wait is enough."
+class = "rate-limit"
+order = 15
+any = ["overloaded"]
+wait = "2m"
+
+[[failure]]
+id = "limit"
+doc = "The provider said not now. Trying at once only makes it worse: the task waits it out."
+class = "rate-limit"
+order = 20
+any = ["rate limit", "rate-limit", "rate_limit", "ratelimit", "429", "too many requests", "quota", "usage limit", "session limit", "limit reached", "hit your limit", "resource_exhausted", "resource exhausted"]
+wait = "30m"
+
+[[failure]]
+id = "gone"
+doc = "Trying again cannot cure it: a login, a model that is gone, a program that is not there, a window that is full."
+class = "permanent"
+order = 30
+any = [
+  "invalid api key", "invalid x-api-key", "incorrect api key", "unauthorized", "401", "403", "forbidden", "not logged in",
+  "please run /login", "authentication", "model not found", "unknown model", "invalid model", "does not exist",
+  "api key is missing", "no api key", "not installed", "command not found", "no such file", "permission denied", "context length", "context window",
+  "prompt is too long", "unsupported",
+]
+
+# A flow says which of its steps failed. The step was a task of its own: what it could retry or wait out it did, as that task, so a
+# flow that reports it does not start over (and its words, which may quote a limit, are not read as one).
+[[failure]]
+id = "flow-step"
+doc = "A flow stopped because one of its steps did."
+class = "permanent"
+order = 5
+any = ["flow step `"]

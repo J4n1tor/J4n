@@ -1,0 +1,66 @@
+doc = "The ref field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "doer", field = { kind = "ref", bind = "cfg:ref.a", props = { options = ["claude", "omp", "pi", "clef"] } } },
+  { id = "off", title = "doer", field = { kind = "ref", bind = "cfg:ref.off", props = { options = ["claude", "omp", "pi", "clef"], disabled = "read only" } } },
+  { id = "bad", title = "doer", field = { kind = "ref", bind = "cfg:ref.bad", props = { options = ["claude", "omp", "pi", "clef"], error = "not connected" } } },
+  { id = "b", title = "doer", field = { kind = "ref", bind = "cfg:ref.b", props = { options = ["claude", "omp", "pi", "clef"] } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:ref.a"
+value = "omp"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:ref.off"
+value = "omp"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:ref.bad"
+value = "codex"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:ref.b"
+value = "omp"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+text = "cl"

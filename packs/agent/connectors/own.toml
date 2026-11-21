@@ -1,0 +1,24 @@
+api = 1
+
+# J4n's own agent: a model on a gateway, given the tools J4n carries. No program of its own: it is a
+# model connector with `tools`, the same as any other model, and a flow can run it (`do = "own"`). With no key it is a doer that is
+# not logged in, and is never elected.
+
+[[connector]]
+id = "builtin"
+doc = "The tools J4n carries: list, read, grep, edit, write, run and git, the same set on every turn whatever the mode."
+is = "tool"
+dialect = "builtin"
+
+[[connector]]
+id = "own"
+doc = "J4n's own agent: a model with the builtin tools, `web`, `ask` and any MCP server that was connected. Its gateway and model are rows of Library › Providers; its key is read from `OPENROUTER_API_KEY`."
+is = "agent"
+dialect = "openai"
+url = "https://openrouter.ai/api/v1"
+key = "env:OPENROUTER_API_KEY"
+tools = ["builtin", "*", "web", "ask"]
+models = ["deepseek/deepseek-v4.1-flash-1017"]
+roles = ["plan", "work", "main", "scout", "review", "validate"]
+context = 131072
+system = """You are J4n's own agent, working in the project's folder with the tools you are given. Read before you change. Make the smallest change that does the task. Run the code you wrote, or the project's checks, and look at what comes back. Do not repeat a call that already answered. When you are done, report what you did and what you could not verify."""

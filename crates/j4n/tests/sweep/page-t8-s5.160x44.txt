@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
+ ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
+ Features   Look   This Session   Keys   Loop   Gates   All   Commands
+────────────────────────────────────────━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  setting           now    what it does
+├ 󰔢 check.after     off
+│   Whether the project's own check (kind check) is run after a task that changed files, where it worked. On by default: the project's tests run unasked and
+│   may take long, so turn it off here when they do.
+│   default on
+├   compact.at      0.7    How full a doer's context may be (0 to 1) before the session is shrunk at the next boundary.
+├   compact.max     3      How many times one chain of tasks may have its session shrunk.
+├   cool.max        6h00m  The longest a task is let wait out a limit; a limit that ends later stops the task, and it can be carried on from the menu.
+├   loop.followups  3      How many times in a row a task that ended with work left is carried on by itself, in its own session.
+├   rabbit.reads    30     How many places a task may read without changing anything before it is asked to say what it has found.
+├   stuck.fails     4      How many commands in a row may fail before a task is asked to step back.
+╰   work.apply      auto   What happens to the change of a task that worked in a worktree when it is over: auto lays it into your folder at once if it applies …
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

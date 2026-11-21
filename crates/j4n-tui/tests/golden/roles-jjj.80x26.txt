@@ -1,0 +1,26 @@
+ roles · jjj
+ bg     #161a20      input
+ raise  #1d242d      mix bg→accent 7%
+ sel    #26323e      mix bg→accent 16%
+ text   #cdd2d8  Aa  input
+ dim    #94999f  Aa  text→bg ≤41% · ≥4.5       4.5:1  ✓
+ faint  #757a80  Aa  text→bg ≤60% · ≥3.0       3.0:1  ✓
+ edge   #494e54  Aa  mix text→bg 72%
+ accent #7caede  Aa  input · ≥4.5              5.6:1  ✓
+ soft   #73a1cd  Aa  accent→bg ≤26% · ≥4.7     4.8:1  ✓
+ ok     #83c795  Aa  input · ≥4.5              6.6:1  ✓
+ warn   #d8bf7a  Aa  input · ≥4.5              7.2:1  ✓
+ error  #e07e79  Aa  input · ≥4.5              4.6:1  ✓
+ route  #b199d7  Aa  input · else accent↻60°   5.2:1  ✓
+ run    #e2a373  Aa  input · else warn↻−20°    6.0:1  ✓
+ fetch  #7dc5c4  Aa  input · else accent⇄ok    6.6:1  ✓
+ you    #7caede  Aa  = accent, bold
+ made   #757a80  Aa  = faint (the ~ mark)
+ add    #83c795  Aa  = ok
+ del    #e07e79  Aa  = error
+ focus  #7caede  Aa  = accent, bold
+ strong #cdd2d8  Aa  = text, bold
+ code   #7caede  Aa  = accent
+ link   #7dc5c4  Aa  = fetch, underlined
+ head   #7caede  Aa  = accent, bold
+

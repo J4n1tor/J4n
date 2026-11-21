@@ -1,0 +1,21 @@
+doc = "The card field: a title with its state, what is known on pipes, and the keys of what can be done."
+sizes = [[64, 10], [40, 10]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "agent", title = "claude", field = { kind = "card", bind = "agent:claude" } }] }
+
+[[step]]
+down = "rows"
+bind = "agent:claude"
+total = 4
+rev = 1
+rows = [{ key = "claude", cells = [{ text = "claude", icon = "done" }, { text = "ready", tone = "good" }], actions = [{ key = "r", label = "probe", intent = { intent = "run", command = "probe", args = ["claude"] }, risk = 0 }, { key = "p", label = "pin", intent = { intent = "run", command = "pin", args = ["claude"] }, risk = 0 }, { key = "o", label = "off", intent = { intent = "run", command = "off", args = ["claude"] }, risk = 0 }, { key = "e", label = "edit", intent = { intent = "run", command = "edit", args = ["claude"] }, risk = 0 }] }, { key = "dialect", cells = [{ text = "dialect" }, { text = "claude-stream" }] }, { key = "models", cells = [{ text = "models" }, { text = "haiku · sonnet · opus" }] }, { key = "can", cells = [{ text = "can" }, { text = "live", icon = "yes" }, { text = "resume", icon = "yes" }, { text = "asks", icon = "yes" }, { text = "cost", icon = "yes" }] }]
+

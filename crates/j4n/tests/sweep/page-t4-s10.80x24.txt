@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ───────────────────────────━━━━━━━━━──────────────────────────────────────────
+Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮 󰒓
+────────────────────────────────────────────────────────────━━━━━━━━────────────
+  decider  dialect    url
+├ jev      systemone  https://api.typesafe.ai
+│   A Decider (System One): typed judgment, a probability for a yes/no and for
+│   each option of a choice, in about a second.
+╰ span     decisions  https://openrouter.ai
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

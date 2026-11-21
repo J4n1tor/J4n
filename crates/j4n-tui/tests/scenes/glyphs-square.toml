@@ -1,0 +1,6 @@
+doc = "Corners square: the rounded corners of boxes take the square ones; popups always have them."
+sizes = [[100, 24]]
+theme = { corners = "square" }
+
+[[step]]
+preview = "glyphs"

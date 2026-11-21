@@ -1,0 +1,27 @@
+api = 1
+
+# bubblewrap (kind `box`; the one row that has been run). The host is read-only; devices, /proc and a
+# private /tmp are made; credentials and J4n's own folder are empty; the task's folder, its git directory and the places its program
+# keeps its login in are writable; the pid, ipc and uts namespaces are the wall's own. The network is shared: the agents are API
+# clients. `--die-with-parent` takes the program down with J4n.
+[[box]]
+id = "bwrap"
+doc = "bubblewrap: the host read-only, the task's folder writable, secrets hidden, its own pid/ipc/uts namespaces."
+probe = ["bwrap", "--ro-bind", "/", "/", "true"]
+pre = ["bwrap", "--die-with-parent", "--new-session", "--unshare-pid", "--unshare-ipc", "--unshare-uts"]
+ro = ["--ro-bind", "{p}", "{p}"]
+mounts = ["--dev", "/dev", "--proc", "/proc", "--tmpfs", "/tmp"]
+rw = ["--bind", "{p}", "{p}"]
+hide_dir = ["--tmpfs", "{p}"]
+hide_file = ["--ro-bind", "/dev/null", "{p}"]
+cwd = ["--chdir", "{p}"]
+no_net = ["--unshare-net"]
+# the view of a secret file: a copy of the file with its secrets replaced by placeholders, mounted over it, last
+view = ["--ro-bind", "{src}", "{p}"]
+view_rw = ["--bind", "{src}", "{p}"]
+end = ["--"]
+read_only = ["/"]
+# credentials and keys: never visible inside, whatever the program asks
+hide = ["~/.ssh", "~/.gnupg", "~/.aws", "~/.netrc", "~/.config/gh", "~/.password-store", "~/.mozilla", "~/.config/chromium"]
+# caches the tools keep in the home; what a program needs for its own login is the connector's `login`
+write_home = ["~/.cache", "~/.local/state"]

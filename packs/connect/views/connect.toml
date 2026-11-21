@@ -1,0 +1,33 @@
+api = 1
+
+# The rows of Connect › Overview and Connect › Lab. Both are folds the core builds (`front/connect.rs`): the Table's connectors, the
+# folders of this machine, the Log's canaries and the lab's two files per run.
+
+[[view]]
+id = "connect"
+doc = "The add line, what is found here and not connected, and one row per connection: its kind, state, limit and last canary; its page hangs under it."
+from = { from = "fold:connect" }
+key = "{id}"
+cells = ["{label}", "{is}", "{state}", "{limit}", "{canary}", "{now}", "{note}"]
+tone = "tone"
+data = "{edit}"
+children = "{tree}"
+folded = "kind == 'conn'"
+acts = [
+  { key = "enter", label = "type", set = "draft:connect.program", when = "kind == 'add'" },
+  { key = "enter", label = "connect", run = ":connect {said}", when = "kind == 'go' or kind == 'found'" },
+  { key = "t", label = "test", run = ":connector test {id}", when = "kind == 'conn' and not off" },
+  { key = "r", label = "learn again", run = ":connect {program}", when = "kind == 'conn'" },
+  { key = "o", label = "off", run = ":connector off {id}", risk = 50, when = "kind == 'conn' and not off" },
+  { key = "o", label = "on", run = ":connector on {id}", when = "kind == 'conn' and off" },
+]
+
+[[view]]
+id = "lab"
+doc = "The runs the lab left in its folders: when, seeds, the drafter, connected and chats (seen families · held-out families) and the spend; the table of the run hangs under it."
+from = { from = "fold:lab" }
+key = "{id}"
+cells = ["{run}", "{when}", "{seeds}", "{drafter}", "{connected}", "{chats}", "{spend}"]
+titles = ["run", "when", "seeds", "drafter", "connected seen · held", "chats seen · held", "spend"]
+children = "{tree}"
+folded = "true"

@@ -1,0 +1,12 @@
+  󰼛 fix trailing commas  3:12
+  ├─ 󰗡 plan              omp     21s
+  ├─ 󰼛 work              claude  1:04
+  │ ╰─ 󰘥 commit?         you
+┃ ╰─ 󰄰 check             pi           ▸
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+doc = "A stack of fields taller than the screen: it scrolls to the field the keys are on; the elbow stays on that field and the last field ends the pipe."
+sizes = [[70, 5], [44, 9]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "f0", title = "doer", field = { kind = "str", bind = "cfg:x.f0" } },
+  { id = "f1", title = "model", field = { kind = "str", bind = "cfg:x.f1" } },
+  { id = "f2", title = "wall", field = { kind = "dur", bind = "cfg:x.f2" } },
+  { id = "f3", title = "soft cap", field = { kind = "usd", bind = "cfg:x.f3" } },
+  { id = "f4", title = "stream", field = { kind = "bool", bind = "cfg:x.f4" } },
+  { id = "f5", title = "width", field = { kind = "int", bind = "cfg:x.f5" } },
+  { id = "f6", title = "files", field = { kind = "pattern", bind = "cfg:x.f6" } },
+  { id = "f7", title = "mode", field = { kind = "enum", bind = "cfg:x.f7", props = { options = ["read", "write"] } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:x.f7"
+value = "write"
+rev = 1
+
+[[step]]
+shot = "first"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "middle"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "last"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "last-open"

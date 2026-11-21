@@ -1,0 +1,23 @@
+api = 1
+
+# One word of the keys row, the last row of the screen. The id is `<place>/<name>`: the place is the page whose
+# keys it is (`page:<id>`), the open question (`ask`), the field the page is (`chat`, `list`, `form`, `table`, `tree`, `cards`, `log`),
+# the completion at work in the line (`ghost` while a suggestion stands after the cursor, `step` while Tab steps through the list) or
+# the screen (`global`); the name is what it does. The row shows the hints of the page that is open, the nearest place first for a name
+# (a page's own `keys` hides or rewords the field's), in the order of `order`, lowest first, and drops from the right when the screen is
+# narrow. `?` opens all of them. A key of one page in the Keys table that has a `word` is a hint of that page too.
+[[kind]]
+id = "hint"
+doc = "A key and the few words it is shown with on the keys row."
+untrusted = "ignore"
+examples = [
+  { id = "list/move", doc = "Move the row.", keys = "↑↓", word = "move", order = 20 },
+  { id = "page:log/follow", doc = "Follow the end of the Log.", keys = "G", word = "follow", order = 40 },
+  { id = "ask/keys", doc = "A question takes `?` for why: no keys word.", keys = "?", word = "" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the key does, in a line (the sheet shows it)." }
+keys = { ty = "str", required = true, doc = "The keys as the row writes them, glyph first (`↑↓`, `⏎`, `⇥`, `⌃k`)." }
+word = { ty = "str", default = "", doc = "The one or two words after the keys. Empty: the hint is not shown (a page hides a field's hint this way)." }
+order = { ty = "int", default = 50, min = 0, max = 1000, doc = "Where it stands on the row, lowest first; a tie goes by id." }

@@ -1,0 +1,7 @@
+api = 1
+id = "skills"
+version = "0.0.0"
+summary = "the skill library: J4n's own skills, a page to search, read and switch them, and the few that fit a task go into that doer's brief; the pick has one switch, `skills.pick`"
+use_when = "the operator asks about skills, or a task would go better with a written playbook"
+needs = ["base"]
+stability = "experimental"

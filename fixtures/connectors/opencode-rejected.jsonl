@@ -1,0 +1,7 @@
+# stderr of the same run: `permission requested: external_directory (/tmp/*); auto-rejecting` (the line the card quotes)
+# source: synthetic — the shapes of the real capture `opencode-run.jsonl` (opencode 1.18.32), with the tool state opencode's ToolStateError has (`status: "error"`, `input`, `error`, `time`);
+# the run ends on the errored tool: no `stop` finish follows
+{"type":"step_start","timestamp":1790603900000,"sessionID":"ses_synthetic000000000000000001","part":{"type":"step-start","sessionID":"ses_synthetic000000000000000001"}}
+{"type":"text","timestamp":1790603900100,"sessionID":"ses_synthetic000000000000000001","part":{"type":"text","text":"Now verifying robustness on messy variants:","sessionID":"ses_synthetic000000000000000001"}}
+{"type":"tool_use","timestamp":1790603900200,"sessionID":"ses_synthetic000000000000000001","part":{"type":"tool","tool":"bash","callID":"call_1","state":{"status":"error","input":{"command":"ls /tmp/messy","description":"list the messy variants"},"error":"The user rejected permission to use this specific tool call.","time":{"start":1790603900150,"end":1790603900190}},"sessionID":"ses_synthetic000000000000000001"}}
+{"type":"step_finish","timestamp":1790603900300,"sessionID":"ses_synthetic000000000000000001","part":{"type":"step-finish","reason":"tool-calls","tokens":{"total":120,"input":100,"output":20,"reasoning":0,"cache":{"write":0,"read":0}},"cost":0,"sessionID":"ses_synthetic000000000000000001"}}

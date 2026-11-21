@@ -1,0 +1,34 @@
+api = 1
+
+# A place on the screen. The tree the screen is sent is made from these and from
+# the template `main` (kinds/template.toml): a page whose `parent` is `home` is a tab, a page whose `parent` is `main` stands after the
+# parts of that template, and a page whose `parent` is another page is a part of that page — a sub-tab when the page's `present` is
+# `tabs`. A page is either a group (it has children, pages or parts of its own) or a leaf (it has a `field` and the data it draws). A
+# pack that adds a page under `home` adds a tab; the screen is not changed for it. A page of a pack that is `experimental` says so.
+[[kind]]
+id = "page"
+doc = "A tab, a sub-tab or a part of the screen, and the data it draws."
+examples = [
+  { id = "chat", doc = "The conversation of the thread.", parent = "home", title = "Chat", order = 10, field = "chat", bind = "chat:{thread}" },
+  { id = "models", doc = "A tab with a sub-tab for each thing there is to see about the models: what J4n can run on and what it costs.", parent = "home", title = "Library", order = 35, present = "tabs" },
+  { id = "trust", doc = "How far each machine answerer is trusted.", parent = "models", title = "Trust", order = 10, field = "list", view = "trust" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the page is for." }
+parent = { ty = "str", default = "home", doc = "`home` (a tab), `main` (under the tabs), or the id of another page." }
+group = { ty = "str", doc = "For a page under `home`: the id of the tab it joins as a sub-tab, in place of being a tab of its own. The top row holds nine tabs at most (`1`–`9` reach each); a tenth page joins `proposals` (Grow) and is said." }
+title = { ty = "str", required = true, doc = "The words on the tab, or over the section." }
+order = { ty = "int", default = 100, min = 0, max = 10000, doc = "Where it stands among its parent's children, lowest first; a tie goes by id." }
+present = { ty = "enum:stack|tabs|subtabs|sections|split|grid|auto", default = "stack", doc = "For a group: its children one over the other, as tabs, as sub-tabs, as titled sections, side by side, in a grid, or as its depth says (`auto`)." }
+icon = { ty = "str", default = "", doc = "A glyph slot name (`ask`, `worktree`), never a codepoint: drawn by the title in the tier the operator has." }
+ratio = { ty = "int", min = 0, max = 100, default = 0, doc = "For a split: the share of the first pane, in percent (0: half)." }
+cols = { ty = "int", min = 0, max = 12, default = 0, doc = "For a grid: cells in a row (0: by width)." }
+field = { ty = "enum:chat|bar|ask|log|list|form|str|text|int|num|bool|enum|multi|ref|seq|map|dur|usd|path|argv|pattern|expr|secret|markdown|stat|meter|spark|line|bars|chip|action|table|tree|card|cards", doc = "For a leaf: how it is drawn." }
+bind = { ty = "str", doc = "For a leaf: the data it draws, by name (`chat:{thread}`, `tasks:all`, `log:all`, `asks:open`, `bar:status`, `form:settings`, `form:table:<kind>/<id>`)." }
+view = { ty = "ref:view", doc = "For a leaf: the view whose rows it draws, in place of `bind`." }
+props = { ty = "any", doc = "For a leaf: what its component is given (`tail`, `columns`, `one`, `many`…)." }
+children = { ty = "list", default = [], of = { ty = "obj", fields = { id = { ty = "str", doc = "What names the node (its open tab and folded sections are kept under it); left out, `<this id>.<field>`." }, title = { ty = "str", doc = "The words over it, where it has a title (a section)." }, field = { ty = "enum:chat|bar|ask|log|list|form|str|text|int|num|bool|enum|multi|ref|seq|map|dur|usd|path|argv|pattern|expr|secret|markdown|stat|meter|spark|line|bars|chip|action|table|tree|card|cards", doc = "A field this part draws." }, bind = { ty = "str", doc = "For a field: the data it draws (`chat:{thread}`, `asks:open`, `bar:status`, `log:all`)." }, view = { ty = "ref:view", doc = "For a field: the view whose rows it draws, in place of `bind`." }, props = { ty = "any", doc = "For a field: what its component is given (`tail`, `width`, `one`, `many`, `columns`…)." }, grow = { ty = "int", min = 0, max = 20, doc = "In a stack: its share of the room that is left; left out, the room its field asks for." }, height = { ty = "int", min = 0, max = 50, doc = "In a stack: exactly this many rows; wins over `grow`." }, when = { ty = "expr", roots = ["set"], doc = "The part is there only while this holds (`set.x.y` reads a setting)." }, use = { ty = "str", doc = "Another template, in place of a field." }, tabs = { ty = "str", doc = "The tabs of the pages whose parent is this (`home`), in place of a field." } } }, doc = "For a group: parts of its own (fields, the tabs of a parent, a template) in place of, and before, the pages under it." }
+chart = { ty = "any", doc = "For a leaf: a chart (a part with `field = \"line\"` or `\"bars\"`, its `bind` a `chart:<id>`) drawn over the leaf's field; the leaf and the pages that joined it stay as they were." }
+help = { ty = "text", doc = "A line of what the page shows." }
+when = { ty = "expr", roots = ["set"], doc = "The page is there only while this holds (`set.x.y` reads a setting)." }

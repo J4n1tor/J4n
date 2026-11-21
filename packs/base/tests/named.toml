@@ -1,0 +1,168 @@
+# Lines against `rule:named`: which doer a line names in exact syntax (`@doer` or `doer:` at the start), and the words after it that may name its model. Run by
+# `front_named` in crates/j4n-core/tests/core. A case says the `line` and either `doer` (and `words`, optional) or nothing: the line names no doer in exact syntax,
+# and a doer taken for it is a false positive. A doer's name inside a sentence (`use pi with deepseek`, `ask claude opus`) names nothing here: the read settles it.
+
+doers = ["claude", "pi", "omp", "own", "test"]
+
+[[case]]
+line = "@pi deepseek 4.1 to build a game"
+doer = "pi"
+words = "deepseek 4.1"
+
+[[case]]
+line = "@pi deepseek 4.1 latest to build a game"
+doer = "pi"
+words = "deepseek 4.1 latest"
+
+[[case]]
+line = "@claude opus to fix the failing test"
+doer = "claude"
+words = "opus"
+
+[[case]]
+line = "@claude"
+doer = "claude"
+
+[[case]]
+line = "@claude, then check it"
+doer = "claude"
+
+[[case]]
+line = "@CLAUDE opus to fix it"
+doer = "claude"
+words = "opus"
+
+[[case]]
+line = "@omp to review this diff"
+doer = "omp"
+
+[[case]]
+line = "@own for the next step"
+doer = "own"
+
+[[case]]
+line = "@test to run the suite"
+doer = "test"
+
+[[case]]
+line = "@pi to compute 50 digits"
+doer = "pi"
+
+[[case]]
+line = "@pi: build a game"
+doer = "pi"
+
+[[case]]
+line = "pi: build a game"
+doer = "pi"
+
+[[case]]
+line = "claude: fix the bug"
+doer = "claude"
+
+
+[[case]]
+line = "omp: review the diff"
+doer = "omp"
+
+[[case]]
+line = "Pi: summarize the log"
+doer = "pi"
+
+[[case]]
+line = "@claude sonnet 4 to write the tests"
+doer = "claude"
+words = "sonnet 4"
+
+[[case]]
+line = "@pi with deepseek to refactor"
+doer = "pi"
+words = "deepseek"
+
+[[case]]
+line = "@claude haiku, please"
+doer = "claude"
+words = "haiku"
+
+[[case]]
+line = "@omp deepseek 4.1 flash for this"
+doer = "omp"
+words = "deepseek 4.1 flash"
+
+[[case]]
+line = "@claude opus 5 so it is quick"
+doer = "claude"
+words = "opus 5"
+
+[[case]]
+line = "@pi kimi to build a game"
+doer = "pi"
+words = "kimi"
+
+[[case]]
+line = "@own that is the one"
+doer = "own"
+
+[[case]]
+line = "@test then run it"
+doer = "test"
+
+[[case]]
+line = "use pi with deepseek 4.1 to build a game"
+
+[[case]]
+line = "ask claude opus what this does"
+
+[[case]]
+line = "switch to claude"
+
+[[case]]
+line = "with a clean rendering of the board"
+
+[[case]]
+line = "build me a tetris clone in python with a clean screen and use the arrow keys"
+
+[[case]]
+line = "compute pi to 50 digits"
+
+[[case]]
+line = "on the pi side of the project"
+
+[[case]]
+line = "use the arrow keys"
+
+[[case]]
+line = "ask the team about it"
+
+[[case]]
+line = "via claude code"
+
+[[case]]
+line = "fix the test in test_parser.py"
+
+[[case]]
+line = "claude is slow today"
+
+[[case]]
+line = "what does the pi doer do?"
+
+[[case]]
+line = "please use claude opus for the review"
+
+[[case]]
+line = "@c3 fix the lexer"
+
+[[case]]
+line = "@nobody to fix it"
+
+[[case]]
+line = "the doer pi: is it ready?"
+
+[[case]]
+line = "email me@claude.example about it"
+
+[[case]]
+line = "look at own and test fields"
+
+[[case]]
+line = "yes, go on"

@@ -1,0 +1,7 @@
+api = 1
+id = "accounts"
+version = "0.0.0"
+summary = "several logins of one harness kept apart: each account has a folder, a browser window and, if it needs one, a proxy of its own"
+use_when = "the operator wants a second login of the same tool, or work kept apart per account, or a proxy for one account"
+needs = ["base"]
+stability = "experimental"

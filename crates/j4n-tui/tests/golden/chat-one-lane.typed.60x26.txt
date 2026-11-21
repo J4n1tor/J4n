@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+▌ fix the parser so trailing commas     2:01  $0.19  12:29 ▐
+▌ work, update the docs, then check it                     ▐
+  ├─ 󰛐  parser.rs
+  ├─ 󰲶  parser.rs                                     +3 −7
+  ╰─ Trailing commas now parse, and the docs say so.
+
+▌ now both at once                                   12:41 ▐
+  ├─ 󰗡  A work  󰛐  1                                 0:40 ▸
+  ╰─ 󰼛  B review                                       0:22
+     ╰─ 󰛐  README.md
+
+▌ ask the other doer                        1:10  󰅚  12:50 ▐
+  ╰─ 󰞷  cargo test                                       󰅖
+╭──────────────────────────────────────────────────────────╮
+│ 󰝖 lanes single    󰙁 claude · claude-haiku-5-5 ━───── 18% │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ and one more line                                        │
+╰──────────────────────────────────────────────────────────╯
+ idle  write                                    $0.33  demo

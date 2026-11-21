@@ -1,0 +1,73 @@
+api = 1
+
+# The crew's screens, sub-tabs of Tasks that show while the crew is on: the seats a chat can sit in, the links messages go by, the charters the operator signed,
+# the settings of the chat the screen is in, and what the chats and the links said (opinions, refusals).
+[[page]]
+id = "seats"
+doc = "The seats a chat can sit in: its role, whether it only reads, where it may work, and the words it works by. Main names one in a brief; a chat's seat shows in the list of chats."
+parent = "home"
+title = "Seats"
+group = "tasks"
+order = 50
+field = "list"
+view = "crew-seats"
+when = "set.crew.on"
+help = "⏎ opens a seat to read its words"
+
+[[page]]
+id = "links"
+doc = "Who may talk to whom while `crew.links` is `declared`. With `star`, the default, nothing is listed: you or an envoy to Main, Main to its chats and its envoy, a chat to Main with its report and opinion, and a question of the work to its envoy."
+parent = "home"
+title = "Links"
+group = "tasks"
+order = 51
+field = "list"
+view = "crew-links"
+when = "set.crew.on"
+help = "a message no link carries is refused, and Refusals says so"
+
+[[page]]
+id = "charters"
+doc = "The charters you signed: what an envoy may do for you, where, with how much money and until when, and what its work has spent."
+parent = "home"
+title = "Charters"
+group = "tasks"
+order = 52
+field = "list"
+view = "crew-charters"
+when = "set.crew.on and set.crew.envoys"
+help = "a charter is signed in its envoy chat; a change is signed again"
+
+[[page]]
+id = "chatset"
+doc = "The settings of the chat you are in: its model, effort, tool lists and the words it works by. A chat holds only what is set here, by you, by Main or by its seat."
+parent = "home"
+title = "Chat settings"
+group = "tasks"
+order = 53
+field = "list"
+view = "crew-chatset"
+when = "set.crew.on"
+help = "⏎ sets it · u takes the last change back"
+
+[[page]]
+id = "opinions"
+doc = "What the chats Main started would have you go by on a request: a pick and its reason. Main reads them and decides."
+parent = "home"
+title = "Opinions"
+group = "tasks"
+order = 54
+field = "list"
+view = "crew-opinions"
+when = "set.crew.on"
+
+[[page]]
+id = "refusals"
+doc = "The messages a link did not carry: who sent what to whom, and why it stopped."
+parent = "home"
+title = "Refusals"
+group = "tasks"
+order = 55
+field = "list"
+view = "crew-refusals"
+when = "set.crew.on"

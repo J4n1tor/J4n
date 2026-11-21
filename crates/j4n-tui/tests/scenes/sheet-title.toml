@@ -1,0 +1,26 @@
+doc = "The sheet of a page whose own node has no title (a list under a tab, with a chart over it) is called by the tab, not by the project (`keys · j4n`)."
+sizes = [[80, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "tabs", children = [{ id = "models", title = "Models", icon = "models", present = "stack", children = [{ id = "list", title = "", field = { kind = "list", bind = "models:all" } }], count = 1 }] }
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 2
+rev = 1
+rows = [
+  { key = "global/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }] },
+  { key = "global/find", cells = [{ text = "⌃k" }, { text = "find" }] },
+]
+
+[[step]]
+key = "?"

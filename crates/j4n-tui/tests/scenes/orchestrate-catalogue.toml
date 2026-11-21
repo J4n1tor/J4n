@@ -1,0 +1,32 @@
+doc = "The catalogue Main reads before a line, a page of its own and read only: the first row says whether the quick look reads it and has the key that turns that on or off, then a row for each feature with when to use it (one the cap leaves out says it is not told), then the doers."
+sizes = [[120, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "catalogue", title = "", field = { kind = "list", bind = "catalogue:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "catalogue:main"
+total = 5
+rev = 1
+rows = [
+  { key = "look", cells = [{ text = "quick look" }, { text = "off", tone = "dim" }, { text = "off · ⏎ turns it on: a line goes to Main as typed", tone = "dim" }], actions = [{ key = "enter", label = "turn the quick look on", intent = { intent = "set", kind = "setting", id = "orchestrate.look", field = "value", value = true }, risk = 0 }, { key = "u", label = "undo", intent = { intent = "run", command = "undo", args = [] }, risk = 0 }] },
+  { key = "pack:code", cells = [{ text = "code" }, { text = "on", tone = "good" }, { text = "the line is ordinary coding work: change code, fix a bug, run the checks" }], detail = [{ text = "J4n's way of working on code", tone = "dim" }] },
+  { key = "pack:kit", cells = [{ text = "kit" }, { text = "off", tone = "dim" }, { text = "not told to Main: the list is over its cap", tone = "warn" }] },
+  { key = "pack:qc", cells = [{ text = "qc" }, { text = "off", tone = "dim" }, { text = "the operator asks for the quality of code, hotspots or marks on risky places" }] },
+  { key = "doer:claude", cells = [{ text = "claude" }, { text = "doer", tone = "dim" }, { text = "haiku, sonnet, opus", tone = "dim" }] },
+]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "enter"

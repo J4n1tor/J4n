@@ -1,0 +1,66 @@
+doc = "The str field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "name", field = { kind = "str", bind = "cfg:str.a", props = { max = 24 } } },
+  { id = "off", title = "name", field = { kind = "str", bind = "cfg:str.off", props = { max = 24, disabled = "read only" } } },
+  { id = "bad", title = "name", field = { kind = "str", bind = "cfg:str.bad", props = { max = 24, required = true } } },
+  { id = "b", title = "name", field = { kind = "str", bind = "cfg:str.b", props = { max = 24 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:str.a"
+value = "claude"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:str.off"
+value = "claude"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:str.bad"
+value = ""
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:str.b"
+value = "claude"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+text = "-2"

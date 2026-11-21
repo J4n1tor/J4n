@@ -1,0 +1,477 @@
+api = 1
+
+# The keys row (kind `hint`): the keys of the page that is open, glyph first, a few words, the most used first. The
+# place in the id says whose they are (`global`, the field of the page, `ask` for the open question, `page:<id>` for one page); the same
+# name nearer the page wins, and an empty `word` hides it. A file of the operator's under `~/.j4n/ui/` and the look file say other orders
+# and other words. `look.keys_row` (settings) turns the row off.
+
+# ---- global ----
+
+[[hint]]
+id = "global/tabs"
+doc = "Tab n. On a Mac, let the terminal send Option as Meta or Alt."
+keys = "⌥1–9"
+word = "tabs"
+order = 10
+
+[[hint]]
+id = "global/find"
+doc = "Find anything: the commands and the tree."
+keys = "⌃k"
+word = "find"
+order = 95
+
+[[hint]]
+id = "global/bar"
+doc = "Turn the bottom row over: the keys, or what the whole screen is doing (tasks, what waits for you, today's spend, a window that runs low)."
+keys = "⌃g"
+word = "state"
+order = 97
+
+[[hint]]
+id = "global/keys"
+doc = "All the keys of this page."
+keys = "?"
+word = "keys"
+order = 90
+
+# ---- chat ----
+
+[[hint]]
+id = "chat/send"
+doc = "Send the line."
+keys = "⏎"
+word = "send"
+order = 20
+
+[[hint]]
+id = "chat/newline"
+doc = "A new line in the draft."
+keys = "⌃j"
+word = "newline"
+order = 30
+
+[[hint]]
+id = "chat/history"
+doc = "An older line of the history, while the line is empty."
+keys = "↑"
+word = "history"
+order = 40
+
+# Shown only while the chat has a turn with several lanes of which one is over (it folds), or a chat's end with a preview (`lanes`): the way
+# to a folded lane was on no screen.
+[[hint]]
+id = "lanes/open"
+doc = "Put the keys on a lane or a chat's end: `⌃↑` takes the newest, `↑` `↓` walk, `⏎` or `space` opens it, `z` opens or shuts all, `esc` gives the keys back to the line."
+keys = "⌃↑"
+word = "select · ⏎ open"
+order = 45
+
+[[hint]]
+id = "chat/scroll"
+doc = "Scroll the chat a line, from the line; PgUp and PgDn go half a screen."
+keys = "⇧↑↓"
+word = "scroll"
+order = 96
+
+[[hint]]
+id = "chat/select"
+doc = "Select the screen's text with the mouse: hold ⇧ while you drag, because the mouse is the screen's (Settings › Look › mouse gives it back to the terminal)."
+keys = "⇧drag"
+word = "select"
+order = 98
+
+[[hint]]
+id = "chat/lane"
+doc = "Steer the next lane that works."
+keys = "⌃t"
+word = "lane"
+order = 50
+
+[[hint]]
+id = "sub/main"
+doc = "Back to the orchestrator, the main chat, while the line is empty; with text `←` moves the cursor."
+keys = "←"
+word = "main"
+order = 25
+
+# ---- Tab completes: the nearest place while the rest of a suggestion stands after the cursor (`ghost`), and while Tab steps through
+# the list (`step`). Their orders put them first in the row; a `step` hint of the line's name rewords it (`⏎ keep`) or hides it (no word).
+# The `?` sheet of a chat lists both, each key once. ----
+
+[[hint]]
+id = "ghost/take"
+doc = "Take it whole; ⇥ again, the next one."
+keys = "⇥"
+word = "take"
+order = 1
+
+[[hint]]
+id = "ghost/word"
+doc = "Take one word of it."
+keys = "⌃→"
+word = "word"
+order = 2
+
+[[hint]]
+id = "step/next"
+doc = "The next suggestion."
+keys = "⇥"
+word = "next"
+order = 3
+
+[[hint]]
+id = "step/back"
+doc = "The suggestion before."
+keys = "⇧⇥"
+word = "back"
+order = 4
+
+[[hint]]
+id = "step/send"
+doc = "Keep it; ⏎ again sends."
+keys = "⏎"
+word = "keep"
+order = 5
+
+[[hint]]
+id = "step/undo"
+doc = "Put back what was typed."
+keys = "esc"
+word = "undo"
+order = 6
+
+[[hint]]
+id = "step/newline"
+keys = "⌃j"
+word = ""
+order = 7
+
+[[hint]]
+id = "step/history"
+keys = "↑"
+word = ""
+order = 8
+
+# ---- the list of the chats, while it has the keys (`↓` on an empty line; four seconds with no key hand them back) ----
+# Only these show then: the line's keys would not do what they say.
+
+[[hint]]
+id = "pick/move"
+doc = "The chat above or below; `↑` on the first one goes back to the line."
+keys = "↑↓"
+word = "move"
+order = 10
+
+[[hint]]
+id = "pick/open"
+doc = "Go into the chat."
+keys = "⏎ ⇥"
+word = "open"
+order = 20
+
+[[hint]]
+id = "pick/archive"
+doc = "Archive the chat the cursor is on, or bring it back from the archive (`:archive`, `:unarchive`)."
+keys = "a"
+word = "archive"
+order = 25
+
+[[hint]]
+id = "pick/back"
+doc = "Give the keys back to the line, opening nothing."
+keys = "esc"
+word = "back"
+order = 30
+
+# ---- the open question (the keys of the answer; `?` is why) ----
+# Its hints stand before the chat's (orders 12–18): on a narrow screen the row drops from the right, and a question's keys matter more than the line's.
+
+[[hint]]
+id = "ask/pick"
+doc = "Answer with the option of that number."
+keys = "1–9"
+word = "answer"
+order = 12
+
+[[hint]]
+id = "ask/recommended"
+doc = "Take the answer the core recommends."
+keys = "→"
+word = "hint"
+order = 14
+
+[[hint]]
+id = "ask/why"
+doc = "Say why the risk is what it is."
+keys = "?"
+word = "why"
+order = 16
+
+[[hint]]
+id = "ask/later"
+doc = "Put the question off; it holds."
+keys = "esc"
+word = "later"
+order = 18
+
+[[hint]]
+id = "ask/keys"
+doc = "While a question is open `?` says why: the sheet waits."
+keys = "?"
+word = ""
+order = 90
+
+# ---- lists, forms, tables, trees, cards, the Log ----
+
+[[hint]]
+id = "list/move"
+doc = "The row above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "list/open"
+doc = "Open, edit or press the row; fold a section."
+keys = "⏎"
+word = "open"
+order = 30
+
+[[hint]]
+id = "page:settings/open"
+doc = "Change the doer or the model of the thread."
+keys = "⏎"
+word = "change"
+order = 30
+
+[[hint]]
+id = "page:look/open"
+doc = "Change the row: pick a word, type a number."
+keys = "⏎"
+word = "change"
+order = 30
+
+[[hint]]
+id = "page:look/next"
+doc = "Take the next word of the part under the cursor (as `:look <part> next` does)."
+keys = "n"
+word = "next"
+order = 32
+
+[[hint]]
+id = "page:features/flip"
+doc = "Flip the switch, or take the next of its words; at once, as your edit."
+keys = "space"
+word = "flip"
+order = 25
+
+[[hint]]
+id = "page:features/open"
+doc = "Change the row: a switch flips, words open their picker."
+keys = "⏎"
+word = "change"
+order = 30
+
+[[hint]]
+id = "page:loop/open"
+doc = "Change the row in place: a number, a duration, words."
+keys = "⏎"
+word = "change"
+order = 30
+
+[[hint]]
+id = "page:config/open"
+doc = "Change the row in place, with the editor of its kind."
+keys = "⏎"
+word = "change"
+order = 30
+
+[[hint]]
+id = "page:features/undo"
+doc = "Take back your last change of the row (`:undo eN`)."
+keys = "u"
+word = "undo"
+order = 35
+
+[[hint]]
+id = "page:look/undo"
+doc = "Take back your last change of the row (`:undo eN`)."
+keys = "u"
+word = "undo"
+order = 35
+
+[[hint]]
+id = "page:loop/undo"
+doc = "Take back your last change of the row (`:undo eN`)."
+keys = "u"
+word = "undo"
+order = 35
+
+[[hint]]
+id = "page:config/undo"
+doc = "Take back your last change of the row (`:undo eN`)."
+keys = "u"
+word = "undo"
+order = 35
+
+[[hint]]
+id = "page:gates/back"
+doc = "Take the grant back: what it let through is asked again."
+keys = "x"
+word = "take back"
+order = 35
+
+[[hint]]
+id = "page:system/find"
+doc = "Find in the rows, as you type; ⏎ keeps it, esc clears it."
+keys = "/"
+word = "find"
+order = 40
+
+[[hint]]
+id = "form/move"
+doc = "The row above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "form/edit"
+doc = "Change the value of the row."
+keys = "⏎"
+word = "edit"
+order = 30
+
+[[hint]]
+id = "table/move"
+doc = "The row above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "table/open"
+doc = "Open or press the row."
+keys = "⏎"
+word = "open"
+order = 30
+
+[[hint]]
+id = "table/find"
+doc = "Find in the rows, as you type."
+keys = "/"
+word = "find"
+order = 40
+
+[[hint]]
+id = "table/sort"
+doc = "Sort by the next column."
+keys = "s"
+word = "sort"
+order = 50
+
+[[hint]]
+id = "tree/move"
+doc = "The row above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "tree/open"
+doc = "Open or shut the branch."
+keys = "→←"
+word = "open"
+order = 30
+
+[[hint]]
+id = "tree/find"
+doc = "Find in the rows, as you type."
+keys = "/"
+word = "find"
+order = 40
+
+[[hint]]
+id = "cards/move"
+doc = "The card above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "cards/open"
+doc = "Open or press the card."
+keys = "⏎"
+word = "open"
+order = 30
+
+[[hint]]
+id = "log/move"
+doc = "The event above or below."
+keys = "↑↓"
+word = "move"
+order = 20
+
+[[hint]]
+id = "log/open"
+doc = "Open the event into a tree, or shut it (space too); → opens a level, ← shuts one."
+keys = "⏎"
+word = "open"
+order = 30
+
+[[hint]]
+id = "log/find"
+doc = "Find in the events, as you type."
+keys = "/"
+word = "find"
+order = 40
+
+[[hint]]
+id = "log/raw"
+doc = "The raw JSON of the event."
+keys = "r"
+word = "raw"
+order = 45
+
+[[hint]]
+id = "log/kind"
+doc = "Only the events of this kind."
+keys = "k"
+word = "kind"
+order = 50
+
+[[hint]]
+id = "log/cause"
+doc = "Go to the event that caused this one."
+keys = "c"
+word = "cause"
+order = 55
+
+[[hint]]
+id = "log/follow"
+doc = "Go to the end and follow it."
+keys = "G"
+word = "follow"
+order = 60
+
+[[hint]]
+id = "log/task"
+doc = "Only the events of this task."
+keys = "t"
+word = "task"
+order = 100
+
+[[hint]]
+id = "log/copy"
+doc = "Copy the event."
+keys = "y"
+word = "copy"
+order = 110
+
+[[hint]]
+id = "log/all"
+doc = "Open every event in sight, or shut them all."
+keys = "z"
+word = "all"
+order = 120

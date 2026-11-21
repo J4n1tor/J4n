@@ -1,0 +1,22 @@
+api = 1
+
+# The words that start a flow: `/plan add a --verbose flag`. The thread keeps the doer it has; the flow's steps
+# are tasks of their own, each with its own doer and its own place.
+
+[[phrase]]
+id = "plan"
+doc = "A plan for what follows, and nothing is written: `/plan add a --verbose flag`."
+words = ["/plan"]
+flow = "plan"
+
+[[phrase]]
+id = "design"
+doc = "A design for what follows, and nothing is written: `/design a retry for the uploader`."
+words = ["/design", ":design"]
+flow = "design"
+
+[[phrase]]
+id = "build"
+doc = "Plan, build in a worktree, check, have another doer look, and bring it over on your yes: `/build add a --verbose flag`."
+words = ["/build", ":build"]
+flow = "plan-work-validate"

@@ -1,0 +1,24 @@
+├ risk
+│ 󰄲 read   󰄲 write  󰄲 net    󰄱 exec
+│ space ticks
+├ risk                                         read write 2/4 󰍁
+├ risk                                               none 0/4 󰗖
+│ pick one or more
+╰ risk                                            read write 2/4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

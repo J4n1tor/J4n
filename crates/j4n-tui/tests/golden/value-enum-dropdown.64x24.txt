@@ -1,0 +1,24 @@
+├ palette                                                  jjj ▾
+│                                                   ┌──────────┐
+│                                                   │  jjj     │
+│                                                   │▸ dusk    │
+│                                                   │  paper   │
+│                                                   │  ember   │
+│                                                   │  mono    │
+│                                                   │  contrast│
+│                                                   └──────────┘
+├ palette                                               jjj ▾ 󰍁
+├ palette                                              neon ▾ 󰗖
+│ not offered
+╰ palette                                                  jjj ▾
+
+
+
+
+
+
+
+
+
+
+

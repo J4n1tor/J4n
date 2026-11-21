@@ -1,0 +1,312 @@
+api = 1
+
+# The tabs of the screen a front has when nobody gave it another; the rest of the screen, the questions and
+# the status bar under the tabs, is the template `main` (templates/main.toml). A pack adds a tab with a page whose `parent` is `home`,
+# and a sub-tab with one whose parent is a page.
+
+[[page]]
+id = "chat"
+doc = "The conversation of the thread."
+parent = "home"
+title = "Chat"
+icon = "chat"
+order = 10
+field = "chat"
+bind = "chat:{thread}"
+
+[[page]]
+id = "tasks"
+doc = "The tasks of the thread."
+parent = "home"
+title = "Tasks"
+icon = "tasks"
+order = 20
+field = "list"
+bind = "tasks:all"
+chart = { id = "tasks-lanes", title = "branches a line", field = "bars", bind = "chart:lanes", when = "set.lanes != 'single'", props = { orient = "horizontal", rows = 6, series = [{ name = "branches", unit = "n" }] } }
+
+[[page]]
+id = "points"
+doc = "The places where a decision is made, and who is asked at each."
+parent = "home"
+title = "Decisions"
+icon = "ask"
+group = "tasks"
+order = 30
+field = "list"
+view = "ask-points"
+help = "the questions that are open are under the tabs; this is where a question can come from"
+
+[[page]]
+id = "catalogue"
+doc = "What Main is told of J4n before it looks at a line: the features and when to use each, the doers a chat can be given and the skills. Read only; the first row turns the quick look on or off."
+parent = "home"
+title = "Catalogue"
+icon = "packs"
+group = "tasks"
+order = 36
+field = "list"
+bind = "catalogue:main"
+when = "set.lanes == 'orchestrate'"
+help = "Main reads this list, cut to a size, before a line: a feature marked not told is over the cap"
+
+[[page]]
+id = "connectors"
+doc = "What J4n is connected to: the connections and the programs on this machine it is not (Connect), the lab runs, the accounts of the agents (Accounts, Add account, with the pack accounts on), and the agents, the tools, the services, the MCP servers, the deciders, and the kit, the skills and the reflexes it gives a task."
+parent = "home"
+title = "Connect"
+icon = "connector"
+order = 40
+present = "tabs"
+
+[[page]]
+id = "setup"
+doc = "The steps to a working agent, a model and a Decider, each with where it stands and the key that sets it; a key is typed on its row, masked, and J4n shows it to no one."
+parent = "connectors"
+title = "Setup"
+order = 0
+field = "tree"
+view = "setup-flow"
+help = "⏎ opens a step or does what its row says · u takes an edit back · J4n shows a key to no one"
+
+[[page]]
+id = "agents"
+doc = "The agents a thread can be bound to."
+parent = "connectors"
+title = "Agents"
+order = 10
+field = "list"
+view = "connector-agents"
+
+[[page]]
+id = "tools"
+doc = "The tools that are run for their output."
+parent = "connectors"
+title = "Tools"
+order = 20
+field = "list"
+view = "connector-tools"
+
+[[page]]
+id = "services"
+doc = "The services J4n reaches over the network."
+parent = "connectors"
+title = "Services"
+order = 30
+field = "list"
+view = "connector-services"
+
+[[page]]
+id = "deciders"
+doc = "The machines that answer a question at a point."
+parent = "connectors"
+title = "Deciders"
+order = 50
+field = "list"
+view = "connector-deciders"
+
+[[page]]
+id = "mcp"
+doc = "The MCP servers and the tools they offer."
+parent = "connectors"
+title = "MCP"
+order = 40
+field = "list"
+view = "connector-mcp"
+
+[[page]]
+id = "upstream-news"
+doc = "The releases of the tools J4n follows that touch or break something it uses."
+parent = "home"
+title = "Updates"
+group = "proposals"
+order = 62
+field = "list"
+view = "upstream-news"
+help = "a line you plan becomes a proposal, accepted in the Grow tab"
+
+[[page]]
+id = "upstream-todo"
+doc = "The notes a yes to plan it put on the list."
+parent = "home"
+title = "TODO"
+group = "proposals"
+order = 64
+field = "list"
+view = "upstream-todo"
+
+[[page]]
+id = "plans"
+doc = "The plan rows, with their prices."
+parent = "home"
+title = "Plans"
+group = "models"
+order = 16
+field = "list"
+view = "plans"
+
+[[page]]
+id = "models"
+doc = "What J4n can run on and what it costs: the models, the providers, the plans and their prices, and how far each answerer is trusted."
+parent = "home"
+title = "Library"
+icon = "models"
+order = 35
+present = "tabs"
+
+[[page]]
+id = "library"
+doc = "The models, and the connector each is had through."
+parent = "models"
+title = "Models"
+order = 10
+field = "list"
+view = "library"
+chart = { id = "models-wall", title = "task time", field = "line", bind = "chart:wall", props = { scale = "log", window = 14, rows = 7, series = [{ name = "median", unit = "s" }, { name = "slowest", role = "run", unit = "s" }] } }
+
+[[page]]
+id = "providers"
+doc = "The connectors that speak a provider's API, and their keys."
+parent = "models"
+title = "Providers"
+order = 15
+field = "list"
+view = "providers"
+help = "J4n keeps a key and never shows it"
+
+[[page]]
+id = "trust"
+doc = "How far each machine answerer is trusted."
+parent = "models"
+title = "Trust"
+order = 17
+field = "list"
+view = "trust"
+help = "an answerer that is wrong too often at a point is shadowed there until it is trusted again"
+
+[[page]]
+id = "proposals"
+doc = "What J4n proposes for itself, to accept or decline."
+parent = "home"
+title = "Grow"
+icon = "grow"
+order = 55
+field = "list"
+view = "proposals"
+chart = { id = "grow-bench", title = "bench pass", field = "line", bind = "chart:bench", props = { style = "wave", rows = 7, series = [{ name = "pass", unit = "pct" }] } }
+help = "a proposal changes nothing until it is accepted; an accepted one can be undone"
+
+[[page]]
+id = "packs"
+doc = "The packs there are, and which are on. `⏎` or `space` turns one on or off; a pack acts from the next start."
+parent = "home"
+title = "Packs"
+icon = "packs"
+group = "proposals"
+order = 60
+field = "list"
+bind = "packs:all"
+help = "a pack acts from the next start"
+
+[[page]]
+id = "spend"
+doc = "What each task cost this week."
+parent = "home"
+title = "Spend"
+icon = "spend"
+order = 52
+field = "list"
+view = "spend"
+chart = { id = "spend-days", title = "a day", field = "line", bind = "chart:spend", props = { window = 14, series = [{ name = "usd", axis = "left", unit = "usd" }, { name = "tokens", axis = "right", role = "run", unit = "n" }] } }
+
+[[page]]
+id = "log"
+doc = "Everything the Log holds, as it comes."
+parent = "home"
+title = "Log"
+icon = "log"
+order = 80
+field = "log"
+bind = "log:all"
+
+[[page]]
+id = "system"
+doc = "How J4n itself is set up: the look, the chat, the keys, the loop, the gates, every setting, the commands."
+parent = "home"
+title = "Settings"
+icon = "settings"
+order = 90
+present = "tabs"
+
+[[page]]
+id = "features"
+doc = "The switches J4n basic shows, flipped in place; every other setting is under All."
+parent = "system"
+title = "Features"
+order = 5
+field = "list"
+view = "settings-features"
+
+[[page]]
+id = "look"
+doc = "How the screen looks."
+parent = "system"
+title = "Look"
+order = 10
+field = "list"
+view = "settings-look"
+
+[[page]]
+id = "settings"
+doc = "How the thread is bound."
+parent = "system"
+title = "This Session"
+order = 20
+field = "list"
+bind = "form:thread"
+props = { titles = ["setting", "now"] }
+
+[[page]]
+id = "keys"
+doc = "Every key of the screen."
+parent = "system"
+title = "Keys"
+order = 30
+field = "list"
+view = "settings-keys"
+
+[[page]]
+id = "loop"
+doc = "How a task is carried on."
+parent = "system"
+title = "Loop"
+order = 40
+field = "list"
+view = "settings-loop"
+
+[[page]]
+id = "gates"
+doc = "What is let through, asked or stopped."
+parent = "system"
+title = "Gates"
+order = 50
+field = "list"
+view = "settings-gates"
+
+[[page]]
+id = "config"
+doc = "Every setting."
+parent = "system"
+title = "All"
+order = 70
+field = "list"
+view = "settings"
+
+[[page]]
+id = "commands"
+doc = "What can be asked for by name."
+parent = "system"
+title = "Commands"
+order = 80
+field = "list"
+bind = "commands:all"

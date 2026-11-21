@@ -1,0 +1,28 @@
+doc = "The chart pages in the mono look: spend and models."
+sizes = [[80, 24], [120, 36]]
+
+[theme]
+palette = "mono"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "spend", title = "a day", field = { kind = "line", bind = "chart:spend", props = { window = 14, series = [{ name = "usd", axis = "left", unit = "usd" }, { name = "tokens", axis = "right", role = "run", unit = "n" }] } } }, { id = "wall", title = "task time", field = { kind = "line", bind = "chart:wall", props = { scale = "log", window = 14, rows = 7, series = [{ name = "median", unit = "s" }, { name = "slowest", role = "run", unit = "s" }] } } }] }
+
+[[step]]
+down = "value"
+bind = "chart:spend"
+value = { x = ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "11-13", "11-14"], series = { usd = [0.42, 1.1, 0.8, 2.6, 3.9, 1.2, 0.3, 0.0, 1.7, 2.2, 4.8, 3.1, 0.9, 1.4], tokens = [120000, 310000, 240000, 900000, 1300000, 410000, 90000, 0, 520000, 760000, 2100000, 1250000, 300000, 480000] } }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "chart:wall"
+value = { x = ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "11-13", "11-14"], series = { median = [12, 9, 15, 44, 38, 20, -1, -1, 30, 26, 95, 60, 18, 22], slowest = [40, 31, 66, 310, 420, 75, -1, -1, 150, 98, 1900, 600, 52, 70] } }
+rev = 1

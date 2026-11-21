@@ -1,0 +1,10 @@
+api = 1
+
+[[flow]]
+id = "habit"
+doc = "Say what a habit row was (kept or wrong), or how each detector has done."
+in = { goal = "text" }
+steps = [
+  { id = "say", do = "habit", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.say.answer}" },
+]

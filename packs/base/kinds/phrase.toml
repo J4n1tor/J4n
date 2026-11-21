@@ -1,0 +1,24 @@
+api = 1
+
+# Words that stand for a command. A line that opens with one of them is that command, in a thread
+# that has a doer and in one that has none, before any question is asked about what the line is. The command is one of the core's
+# own (`fresh`, `switch`, `stop`, `kill`, `status`, `probe`, `help`, `quit`); a phrase names no other. The words are matched whole, case
+# and a leading colon aside, and what follows them are the command's arguments.
+[[kind]]
+id = "phrase"
+doc = "Words that stand for a command when a line opens with one of them."
+examples = [
+  { id = "fresh", doc = "Start the thread again.", words = [":fresh"], command = "fresh" },
+  { id = "switch", doc = "Change the doer, and the model, of the thread.", words = [":switch"], command = "switch" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the command does." }
+words = { ty = "list<str>", doc = "The words a line opens with, each starting with a colon (a phrase that starts a flow may also use a slash). A phrase has these, or `likes`, or both." }
+likes = { ty = "list<str>", doc = "Wordings in plain language that stand for the command, tried before any model is asked: `show me the usage`. The line's words, with the filler left out, are the wording's in any order, each as typed or a typo away." }
+args = { ty = "list<str>", doc = "What follows the command's name when `likes` run it: `args = [\"spend\"]` for `chart`." }
+filler = { ty = "list<str>", doc = "Words a line may have besides a wording's, for every wording (`show`, `me`, `please`). A row with only this adds no command." }
+weight = { ty = "enum:answer|light", doc = "Instead of a command: where a line goes when it is one of these `likes` and the setting `weigh.on` is on: `answer` (a cheap model with no tools answers it) or `light` (a lean session on the cheap tier). A phrase with a `weight` has `likes` and nothing else." }
+complete = { ty = "list<str>", doc = "What each word after the phrase's own is completed from, in order, as a command's `complete` says: `[\"doer\", \"model\"]` for `:switch`." }
+command = { ty = "enum:fresh|top|switch|stop|kill|status|probe|help|quit|restart|shape|accept|decline|undo|proposals|usage|chart|ask", doc = "Which of the core's commands the words run." }
+flow = { ty = "str", doc = "Instead of a command: the id of a flow the words start. What follows them is its goal (`/plan add a flag`), and the thread's doer is not changed." }

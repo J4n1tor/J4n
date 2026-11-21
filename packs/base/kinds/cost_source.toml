@@ -1,0 +1,18 @@
+api = 1
+
+# How a connector says what a request cost and how full its limit windows are. The plan cost is only as good as
+# the windows the stream shows: a connector whose row says `none`, or that has no plan, is priced by its list cost alone.
+[[kind]]
+id = "cost_source"
+doc = "Where a connector's stream keeps the list cost of a request and the windows of its limits."
+examples = [
+  { id = "claude", doc = "The claude CLI.", connector = "claude", list = "result.total_cost_usd", windows = "rate_limit_info.unifiedWindows", cache = "5m" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the source is." }
+connector = { ty = "str", required = true, doc = "The connector (the doer) whose stream it describes." }
+list = { ty = "str", doc = "Where the list cost of a request is read from, as the provider names it (for the operator to read; the dialect knows how)." }
+windows = { ty = "str", required = true, doc = "Where the stream keeps the limit windows' `utilization`, or `none` when it shows none. A plan on a connector that says `none` makes no plan cost; one that says a path and whose runs show no window says so once." }
+ratio = { ty = "obj", fields = { read = { ty = "num", required = true }, write = { ty = "num", required = true }, out = { ty = "num", required = true } }, doc = "What a token read from the provider's cache, written to it and put out costs, each as a multiple of a fresh input token. With the list cost of a turn that J4n has seen they give the price of an input token, and so what the next line costs warm and cold (`/context`). Left out: the price of the next line is not known." }
+cache = { ty = "dur", doc = "How long the provider keeps what a call sent at the cheap read price: a turn that comes later than this finds the cache cold and pays to write the whole session again (`/context`). Left out: not known, and `/context` calls no turn warm or cold." }

@@ -1,0 +1,32 @@
+doc = "The spark field: a series in eight heights between its lowest and its highest, and the last value."
+sizes = [[64, 12], [40, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "s0", title = "$ / day", field = { kind = "spark", bind = "sp:0", props = { window = 40 } } }, { id = "s1", title = "wall / task", field = { kind = "spark", bind = "sp:1", props = { window = 40 } } }, { id = "s2", title = "fails", field = { kind = "spark", bind = "sp:2", props = { window = 40 } } }] }
+
+[[step]]
+down = "value"
+bind = "sp:0"
+value = { points = [1, 2, 2, 4, 6, 8, 5, 3, 2, 1, 2, 3, 5, 6, 4, 2], last = "$1.24" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "sp:1"
+value = { points = [3, 3, 4, 3, 2, 2, 3, 7, 8, 3, 2, 2, 3, 3, 2, 2], last = "41s" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "sp:2"
+value = { points = [1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1], last = "2" }
+rev = 1
+

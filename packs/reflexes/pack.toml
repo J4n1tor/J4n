@@ -1,0 +1,7 @@
+api = 1
+id = "reflexes"
+version = "0.0.0"
+summary = "reflexes: a command that runs by itself when a sentence of yours holds, judged by one decision model; off behind the setting reflexes.on, and both shipped reflexes are off"
+use_when = "the operator states a standing rule (from now on, whenever X, do Y), such as compacting at a size"
+needs = ["base"]
+stability = "experimental"

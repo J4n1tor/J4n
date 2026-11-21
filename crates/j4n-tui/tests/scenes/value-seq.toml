@@ -1,0 +1,72 @@
+doc = "The seq field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "models", field = { kind = "seq", bind = "cfg:seq.a", props = { min = 1 } } },
+  { id = "off", title = "models", field = { kind = "seq", bind = "cfg:seq.off", props = { min = 1, disabled = "read only" } } },
+  { id = "bad", title = "models", field = { kind = "seq", bind = "cfg:seq.bad", props = { min = 1 } } },
+  { id = "b", title = "models", field = { kind = "seq", bind = "cfg:seq.b", props = { min = 1 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:seq.a"
+value = ["haiku", "sonnet", "opus"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:seq.off"
+value = ["haiku", "sonnet", "opus"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:seq.bad"
+value = []
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:seq.b"
+value = ["haiku", "sonnet", "opus"]
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "enter"
+
+[[step]]
+text = "-2"

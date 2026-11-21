@@ -1,0 +1,41 @@
+api = 1
+
+# Read-only steps. A step the operator told to only read (`/plan`, a review or validate step) may
+# not change anything: its writes, applies and writing shell lines are blocked. A task that only looks read-only from its
+# words (`inferred`) is asked instead, so a misread costs one question, not the task. Reads and tools stay allowed.
+# A shell line the matcher cannot place counts as a write: `not (danger(cmd).writes == false)` is also true when the
+# matcher said nothing.
+
+[[gate]]
+id = "plan-no-writes"
+doc = "An explicit read-only step may not write or apply."
+on = ["write", "apply"]
+when = "action.read_only == 'explicit'"
+verdict = "block"
+why = "this step is read-only (a plan or a review): it may not change anything"
+
+[[gate]]
+id = "plan-no-shell-writes"
+doc = "An explicit read-only step may not run a line that writes."
+on = ["shell"]
+when = "action.read_only == 'explicit' and (not (danger(cmd).writes == false) or danger(cmd).class == 'unknown')"
+verdict = "block"
+why = "this step is read-only (a plan or a review): this line may change something"
+
+[[gate]]
+id = "inferred-read-only-writes"
+doc = "A task that only looks read-only asks before it writes or applies."
+on = ["write", "apply"]
+when = "action.read_only == 'inferred'"
+verdict = "ask"
+why = "this task looks read-only from its words: change something anyway?"
+risk = 40
+
+[[gate]]
+id = "inferred-read-only-shell-writes"
+doc = "A task that only looks read-only asks before it runs a line that writes."
+on = ["shell"]
+when = "action.read_only == 'inferred' and (not (danger(cmd).writes == false) or danger(cmd).class == 'unknown')"
+verdict = "ask"
+why = "this task looks read-only from its words: run a line that may change something?"
+risk = 40

@@ -1,0 +1,44 @@
+doc = "The gauges and buttons on one page, in sections."
+sizes = [[80, 24], [44, 28]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "tabs", children = [{ id = "spend", title = "Spend", icon = "compact", present = "sections", children = [{ id = "today", title = "today", present = "stack", children = [{ id = "stats", title = "", field = { kind = "stat", bind = "fold:spend.today" } }, { id = "ctx", title = "context", field = { kind = "meter", bind = "m:a" } }, { id = "cap", title = "soft cap", field = { kind = "meter", bind = "m:b" } }, { id = "day", title = "$ / day", field = { kind = "spark", bind = "sp:0" } }, { id = "now", title = "", field = { kind = "chip", bind = "chip:a" } }], count = 5 }, { id = "do", title = "do", present = "stack", children = [{ id = "probe", title = "probe", field = { kind = "action", bind = "act:probe", props = { intent = { intent = "run", command = "probe" } } } }, { id = "widen", title = "widen", field = { kind = "action", bind = "act:widen", props = { intent = { intent = "run", command = "widen" }, risk = 70 } } }], count = 2 }] }] }
+
+[[step]]
+down = "value"
+bind = "fold:spend.today"
+value = [{ v = "$1.24", label = "today", delta = 12 }, { v = "38", label = "tasks", delta = -3 }, { v = "4.1s", label = "p50", delta = 0 }]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "m:a"
+value = 0.45
+rev = 1
+
+[[step]]
+down = "value"
+bind = "m:b"
+value = 0.82
+rev = 1
+
+[[step]]
+down = "value"
+bind = "sp:0"
+value = { points = [1, 2, 2, 4, 6, 8, 5, 3, 2, 1, 2, 3, 5, 6, 4, 2], last = "$1.24" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "chip:a"
+value = [{ icon = "done", text = "ready", tone = "good" }, { icon = "cooling", text = "0:40", tone = "warn" }, { icon = "failed", text = "failed", tone = "bad" }, { icon = "queued", text = "off", tone = "dim" }]
+rev = 1
+

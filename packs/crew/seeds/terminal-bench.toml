@@ -1,0 +1,63 @@
+api = 1
+
+# Terminal-Bench 4.1 (v4.1.0, 66 tasks, run-to-run spread about 3 points), the top of the board as read on 2026-11-16. A harness with several models has a row
+# for each: a doer is given the lowest of its rows, what it can be counted on for whichever model it runs. The board has no split by kind of task, so these
+# say how good a harness is, not at what.
+[[seed]]
+id = "claude-code-opus-5-5"
+doc = "Claude Code with Opus 5.5."
+doer = "claude"
+harness = "Claude Code"
+model = "Opus 5.5"
+score = 65.8
+pm = 3.1
+board = "Terminal-Bench"
+version = "4.1.0"
+dated = "2026-11-16"
+
+[[seed]]
+id = "claude-code-fable-5-2"
+doc = "Claude Code with Fable 5.2."
+doer = "claude"
+harness = "Claude Code"
+model = "Fable 5.2"
+score = 65.8
+pm = 2.8
+board = "Terminal-Bench"
+version = "4.1.0"
+dated = "2026-11-16"
+
+[[seed]]
+id = "claude-code-sonnet-5-5"
+doc = "Claude Code with Sonnet 5.5."
+doer = "claude"
+harness = "Claude Code"
+model = "Sonnet 5.5"
+score = 63.9
+pm = 3.0
+board = "Terminal-Bench"
+version = "4.1.0"
+dated = "2026-11-16"
+
+[[seed]]
+id = "codex-gpt-6-1-sol"
+doc = "Codex with GPT-6.1 Sol."
+doer = "codex"
+harness = "Codex"
+model = "GPT-6.1 Sol"
+score = 60.9
+pm = 3.0
+board = "Terminal-Bench"
+version = "4.1.0"
+dated = "2026-11-16"
+
+[[seed]]
+id = "antigravity-gemini-4-carbon"
+doc = "Antigravity CLI with Gemini 4 Carbon. J4n has no doer for this harness (its gemini doer is the Gemini CLI), so the row counts for none."
+harness = "Antigravity CLI"
+model = "Gemini 4 Carbon"
+score = 64.5
+pm = 3.2
+board = "Terminal-Bench"
+version = "4.1.0"
+dated = "2026-11-16"

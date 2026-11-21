@@ -1,0 +1,18 @@
+# Binary files reviewed by hand and allowed in the public tree.
+# Brand art, drawn by scripts/brand/render.py (no metadata chunks), looked at by hand.
+assets/png/avatar.png
+assets/png/banner.png
+assets/png/lockup-dark.png
+assets/png/lockup-light.png
+assets/png/mark-128.png
+assets/png/mark-16.png
+assets/png/mark-192.png
+assets/png/mark-256.png
+assets/png/mark-32.png
+assets/png/mark-384.png
+assets/png/mark-48.png
+assets/png/mark-64.png
+assets/png/mark-96.png
+assets/png/shelf.png
+assets/png/wet-floor.png
+assets/demo.gif

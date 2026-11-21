@@ -1,0 +1,27 @@
+api = 1
+
+# After a task changed files, run the project's own check where the work was done (pack `code`'s `lane_check`).
+# The check is a task of its own (the doer `check`, kind `check` rows); `place = "@same"` is the place the
+# task worked in, so a worktree's change is checked before it is applied or while it waits. What a failed check does next — go back to
+# the agent once with its output, and keep the change out of the folder if it is still red — is the work flow's.
+[[rule]]
+id = "lane-check"
+doc = "A task that changed files gets the project's check run where it worked: in its worktree while the change waits there, or in your folder. Main's own part of a split is not checked while a chat's part is out (its tests may use a module a chat is still building): the turn that joins the parts is told to run the project's checks, and is checked here when it changes files."
+on = "task.settled"
+when = "ev.data.ok and set.check.after and fold.tasks[task].doer != 'check' and (len(ev.data.changed.created) > 0 or len(ev.data.changed.modified) > 0 or len(ev.data.changed.deleted) > 0) and not fold.tasks[task].applied and not fold.plan[fold.tasks[task].thread].parts_out"
+then = "start"
+doer = "check"
+place = "@same"
+text = "check what {task} changed"
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "lane-check-applied"
+doc = "A change that was laid into your folder as its task ended is checked there."
+on = "task.settled"
+when = "ev.data.ok and set.check.after and fold.tasks[task].doer != 'check' and fold.tasks[task].applied"
+then = "start"
+doer = "check"
+place = "here"
+text = "check what {task} changed"
+limit = { per = "task", max = 1 }

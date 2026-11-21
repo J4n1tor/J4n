@@ -1,0 +1,20 @@
+api = 1
+
+# Which packs are in the harness: one row per pack the operator turned on or off, in the operator's own folders
+# (`~/.j4n/harness.toml` for every project, `~/.j4n/projects/<key>/harness.toml` for one). A project's own `.j4n/` is never asked which packs
+# to load: a repository that was cloned from a stranger cannot turn a pack on. A pack that was installed (copied into `~/.j4n/packs/<id>/`)
+# is loaded only while its files hash to the `hash` the operator pinned when turning it on; a built-in pack needs no pin.
+[[kind]]
+id = "enable"
+doc = "A pack turned on or off, and for an installed one the hash of its files when it was turned on."
+examples = [
+  { id = "jev", doc = "Jev's deciders are on.", on = true },
+  { id = "widgets", doc = "An installed pack, pinned.", on = true, hash = "0f3a" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why." }
+on = { ty = "bool", default = true, doc = "Whether the pack is in the harness; a built-in pack that is on by default is turned off with `on = false`." }
+ready = { ty = "bool", doc = "Whether the pack's `[ready]` settings are written when it is enabled; left out: the manifest's own default." }
+wrote = { ty = "list<str>", doc = "The settings the pack's `[ready]` wrote, which turning ready off or the pack off takes back unless you changed them since." }
+hash = { ty = "str", doc = "The hash of an installed pack's files that the operator accepted." }

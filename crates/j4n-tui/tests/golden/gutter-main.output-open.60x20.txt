@@ -1,0 +1,20 @@
+     grep  trailing comma
+           stops at a trailing comma (parser.rs:212)
+ B claude  sonnet         working  wt b-claude  1:04  $0.11
+     read  parser.rs · lexer.rs · args.rs                 3
+     edit  parser.rs                               +12 −3 ▾
+           229 − if self.eat(Comma) { continue }
+           229 + if self.eat(Comma) && self.at(RParen) { …
+      run  cargo test parser                         ✓ 3.1s
+           test args::case_11 ... ok
+           test args::trailing_comma ... ok
+           test result: ok. 14 passed; 0 failed      +11 ▸
+     edit  syntax.md                                  +4 −4
+           Trailing commas now parse in argument lists and
+╭──────────────────────────────────────────────────────────╮
+│ tag parser.rs ~88%  tag syntax.md ~81%                   │
+│ ~route claude ━━──── 41%                                 │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ also run clippy before you commit             → B claude │
+╰──────────────────────────────────────────────────────────╯
+ ● claude ▸ sonnet  $0.14  ask B                    ⇥ 1  F1

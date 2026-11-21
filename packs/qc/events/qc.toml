@@ -1,0 +1,26 @@
+api = 1
+
+[[event]]
+id = "qc.switch"
+doc = "`:qc on` or `:qc off` was said."
+fields = { on = { ty = "bool", required = true } }
+
+[[event]]
+id = "qc.mark"
+doc = "A pattern found something: where, how likely, how bad, and the words that would steer a lane. `steerable` says the pattern has earned that in numbers; `live` that it was found while the lane worked."
+fields = { mark = { ty = "str", required = true }, run = { ty = "str" }, work = { ty = "str" }, live = { ty = "bool" }, pattern = { ty = "str", required = true }, title = { ty = "str" }, file = { ty = "str", required = true }, line = { ty = "int", required = true }, p = { ty = "num" }, severity = { ty = "str", required = true }, tier = { ty = "int" }, answer = { ty = "str" }, steer = { ty = "str" }, steerable = { ty = "bool" }, basis = { ty = "str" }, prec = { ty = "num" }, n = { ty = "int" }, state = { ty = "str" } }
+
+[[event]]
+id = "qc.mark.state"
+doc = "A mark was dismissed or kept: the mark as it was, with its new state and, for a dismissal, the reason said (`intended`, `pre-existing`, `wrong`, `later`, or none)."
+fields = { mark = { ty = "str", required = true }, state = { ty = "str", required = true }, reason = { ty = "str" } }
+
+[[event]]
+id = "qc.run"
+doc = "What a check came to: what it looked at, which tiers ran and which did not and why, the rubrics, the score for display (null when nothing could be checked) and what it cost."
+fields = { run = { ty = "str", required = true }, n = { ty = "int" }, work = { ty = "str" }, scope = { ty = "str" }, trigger = { ty = "str" }, parts = { ty = "int" }, checked = { ty = "int" }, skipped = { ty = "any" }, errors = { ty = "any" }, rubrics = { ty = "any" }, score = { ty = "num" }, status = { ty = "str" }, coverage = { ty = "int" }, ms = { ty = "int" }, tokens = { ty = "int" }, marks = { ty = "int" }, check_failed = { ty = "bool" } }
+
+[[event]]
+id = "qc.keep"
+doc = "The step `keep` took a snapshot of the surface (`items` holds every name, `cut` says the snapshot was over its cap), or compared one with the folder as it stands (`removed` names gone)."
+fields = { keep = { ty = "str", required = true }, step = { ty = "str", required = true }, files = { ty = "int" }, n = { ty = "int" }, cut = { ty = "bool" }, items = { ty = "any" }, removed = { ty = "int" } }

@@ -1,0 +1,14 @@
+api = 1
+
+[[command]]
+id = "bench"
+doc = "Run a case of the bench: `:bench note doer=claude`, `:bench all doer=own full`. `full` answers the doer's questions yes, `again` runs a hold-out once more, `bare` gives the doer no Brief (the doer alone, not what the packs add)."
+words = [":bench", "/bench"]
+flow = "bench"
+args = ["case | all", "doer=<id> [full] [again] [bare]"]
+
+[[command]]
+id = "results"
+doc = "Show how each case of the bench went for each doer."
+words = [":results"]
+open = "bench"

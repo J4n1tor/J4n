@@ -1,0 +1,22 @@
+  setting            now     what it does
+├ theme.corners      round
+│   The corners of a box: round or square.
+│   default round
+├ theme.density      normal  How much room there is between things: compact, no…
+├ theme.frame        pipes   How the screen is drawn: with pipes, in a gutter, …
+├ theme.marks        icons   The marks in front of things: icons, unicode, asci…
+├ theme.motion       true    Whether the screen glides and breathes; off, it ju…
+├ theme.palette      jjj     The colours: jjj, dusk, paper, ember, mono or cont…
+╰ theme.title_place  inside  Where the title of a box goes: inside, border or n…
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+api = 1
+
+[[view]]
+id = "ledger"
+doc = "The reports, newest first: each is its head, and its card hangs under it as rows; the newest is open and the rest start shut."
+from = { from = "fold:ledger", order = "-to" }
+key = "{rid}"
+cells = ["{head}", "{rid}"]
+children = "{tree}"
+folded = "place > 0"

@@ -1,0 +1,35 @@
+api = 1
+
+# `stop` is a line that is only a stop word (and fillers). `no wait` is two words of one phrase: "no" is a filler.
+[[inbox_rule]]
+id = "stop-line"
+doc = "A line that says to stop."
+as = "line"
+tag = "stop"
+words = ["stop", "cancel", "wait", "abort"]
+
+[[inbox_rule]]
+id = "stop-fillers"
+doc = "Words that may stand beside a stop word without making the line something else."
+as = "filler"
+words = ["no", "please", "now", "it", "that", "this", "everything", "the", "task", "right"]
+
+[[inbox_rule]]
+id = "note-openers"
+doc = "A reminder or a fact for later: kept, never sent to a model unless pinned."
+as = "opens"
+tag = "note"
+words = ["note:", "fyi", "remember", "later:", "#"]
+
+[[inbox_rule]]
+id = "side-openers"
+doc = "A separate matter."
+as = "opens"
+tag = "side"
+words = ["also", "btw", "unrelated"]
+
+[[inbox_rule]]
+id = "stopwords"
+doc = "Words that say nothing of what a line is about, and do not count when it is compared with the task."
+as = "ignore"
+words = ["a", "an", "the", "and", "or", "but", "to", "of", "in", "on", "at", "for", "with", "from", "by", "is", "are", "was", "were", "be", "been", "it", "its", "this", "that", "these", "those", "i", "you", "we", "me", "my", "your", "our", "do", "does", "did", "not", "no", "so", "if", "then", "than", "as", "please", "can", "could", "should", "would", "will", "just", "also", "too", "there", "here", "what", "how", "why", "which", "who", "when", "where", "use", "make", "need", "want", "have", "has", "had", "get", "let"]

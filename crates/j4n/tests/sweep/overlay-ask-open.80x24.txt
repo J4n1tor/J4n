@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ ━━━━━━────────────────────────────────────────────────────────────────────────
+ 󰂜  not allowed: write notes.txt
+
+▌ ask Which of the two colours do you want the border to be, and     0s  HH:MM ▐
+▌ should it change with the palette?                                           ▐
+  ╰─ 󰘥  Which of the two colours do you want the border to be, and should it c…
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 A work                                                              󰔛 0:00 │
+│                                                                              │
+│ Which of the two colours do you want the border to be, and should it change  │
+│ with the palette?                                                            │
+│                                                                              │
+│ type the answer and send it                                                  │
+│                                                                              │
+│ ⏎ send · esc later                                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                           $0.1200   󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                                        → 󰘥 A │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

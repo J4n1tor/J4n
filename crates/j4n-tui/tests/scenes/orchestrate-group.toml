@@ -1,0 +1,42 @@
+doc = "Orchestrate as group work: every block has a head, its role and who serves it (`Main · claude sonnet 5.5`, `review · omp glm 5.3`, `check`, `read · haiku 5.5 + Decider`); an approval answered yes is a word at its step's right (`allowed`, `you`); the roles that run at once are side lanes of the newest line, Main open and the review folded to its head and the step it is on, saying the line it works for."
+sizes = [[120, 26], [80, 26], [60, 26]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 15
+rev = 1
+rows = [
+  { key = "t0", cells = [{ text = "add a --json flag to the report command and say it in the docs" }, { text = "", tone = "dim" }, { text = "02:09", tone = "dim" }] },
+  { key = "m0", cells = [{ text = "Main", icon = "done" }, { text = "· claude sonnet 5.5", tone = "dim" }, { text = "11:11", tone = "dim" }, { text = "$1.92", tone = "dim" }], parent = "t0", data = { lane = { doer = "claude", own = true, role = "Main", main = true } } },
+  { key = "m0a", cells = [{ text = "report.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+9 −2", tone = "dim" }], parent = "m0" },
+  { key = "c0", cells = [{ text = "check", icon = "stopped" }, { text = "", tone = "dim" }, { text = "2:48", tone = "dim" }], parent = "t0", data = { lane = { doer = "check", own = false, code = true, role = "check", main = false } } },
+  { key = "t1", cells = [{ text = "ship it" }, { text = "", tone = "dim" }, { text = "02:23", tone = "dim" }] },
+  { key = "rd", cells = [{ text = "read", icon = "decide" }, { text = "· haiku 5.5 + Decider", tone = "dim" }, { text = "one lane", tone = "dim" }, { text = "11.6s", tone = "dim" }, { text = "$0.0051", tone = "dim" }], parent = "t1", by = "core", detail = [{ text = "one release of the change", tone = "dim" }] },
+  { key = "m1", cells = [{ text = "Main", icon = "working" }, { text = "· claude sonnet 5.5", tone = "dim" }, { text = "0:58", tone = "dim" }, { text = "$0.05", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true, role = "Main", main = true } } },
+  { key = "m1a", cells = [{ text = "docs/TESTING.md", icon = "read" }, { text = "", tone = "dim" }], parent = "m1" },
+  { key = "m1b", cells = [{ text = "git status --short", icon = "run" }, { text = "", tone = "dim" }, { text = "allowed", icon = "yes", tone = "good" }], parent = "m1" },
+  { key = "m1c", cells = [{ text = "Only the report files changed, so the release can go out." }, { text = "", tone = "dim" }], parent = "m1" },
+  { key = "m1d", cells = [{ text = "make release 2>&1 | tail -30", icon = "run" }, { text = "", tone = "dim" }, { text = "you", icon = "yes", tone = "good" }], parent = "m1" },
+  { key = "rv", cells = [{ text = "review", icon = "working" }, { text = "· omp glm 5.3", tone = "dim" }, { text = "of 02:09", tone = "dim" }, { text = "1:14", tone = "dim" }], parent = "t1", data = { lane = { doer = "omp", own = false, role = "review", main = false } } },
+  { key = "rv1", cells = [{ text = "The diff is cut short in places. I need the whole diff.", icon = "think" }, { text = "", tone = "dim" }], parent = "rv" },
+  { key = "rv2", cells = [{ text = "json_out in src and docs", icon = "search" }, { text = "", tone = "dim" }, { text = "allowed", icon = "yes", tone = "good" }], parent = "rv" },
+  { key = "rv3", cells = [{ text = "reading the report command's tests", icon = "read", tone = "accent" }, { text = "", tone = "dim" }], parent = "rv" },
+]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ icon = "tasks", text = "lanes orchestrate" }], gauge = 0.0, route = "claude · sonnet 5.5", work = [{ label = "work" }], mode = "write" }
+rev = 1

@@ -1,0 +1,24 @@
+
+  󰍩   󰝖   󰧑   󰚥   󰇁   󰹦   󰦪   󰒓                  j4n 0.1.0
+ ────────────━━━───────────────────────────────────────────
+Setup Overview Lab Agents Tools Services MCP Deciders
+━━━━━───────────────────────────────────────────────────────
+┃ 󰄬 Agent                claude · signed in        ⏎ cha… ▸
+  󰄬 Model                default · the agent pic…  ⏎ pick
+  󰄰 Decider              off · answers the small…  ⏎ set…
+  ├─ 󰐽 Span through      not set                   one k…
+  │    OpenRouter
+  ├─ 󰐽 Jev · System One  not set                   needs…
+  ├─ 󰐾 none              —                         every…
+  ╰─ this project only   —                         ⏎ tur…
+  󰄰 Test                 not run · one short cal…  ⏎ run…
+  Custom                 any other program, a ke…  ⏎ ope…
+
+
+
+
+
+
+
+
+ ⌥1–9 tabs  ↑↓ move  →← open  / find  ? keys  ⌃g state

@@ -1,0 +1,8 @@
+target/
+*.log
+.DS_Store
+# agent and tool state: never part of the repository
+.claude/
+.j4n/
+.env
+.env.*

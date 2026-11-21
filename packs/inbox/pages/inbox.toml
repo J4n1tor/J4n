@@ -1,0 +1,14 @@
+api = 1
+
+[[page]]
+id = "inbox"
+doc = "The lines typed while a task works, with the tag each was given and what became of it."
+parent = "home"
+title = "Inbox"
+icon = "read"
+group = "tasks"
+order = 32
+field = "list"
+view = "inbox"
+when = "set.inbox.mode != 'off'"
+help = "a tag says what a line is; saying the tag it has says the rule was right"

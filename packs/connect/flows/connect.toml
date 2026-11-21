@@ -1,0 +1,38 @@
+api = 1
+
+# Connect a program J4n has never seen (the Connect flow): look, draft, check, try once, propose.
+#   - `probe`: behind the box, asks the program for `--version`, `--help` and its manual, and tries the `sniff` rows on what it
+#     said. Where they cannot tell an agent from a tool it asks, at the point `connect:is`.
+#   - `learn`: behind the box, tries the program a few ways with a one-word prompt and reads what comes back: how it takes a
+#     prompt, how its answer, session and tools are read. Code only; a connector it makes is checked and run once like a draft. When
+#     it settles the program the flow goes to the Proposal (`ltab`); when the program asks for a login it ends; otherwise `draft`.
+#   - `draft`: a doer that can read writes the manifest into the closed schema. It is told what the program said, the dialect
+#     and the shape of a row in that dialect; it may not choose another program.
+#   - `check`: the draft is read into the schema, and what is wrong is the answer, so `draft` can mend it (three drafts at most).
+#   - `canary`: the connector is made and tried once, behind the same box: an agent says a word, a tool runs its harmless example.
+#   - `tab`: the Proposal that shows the manifest and what the canary said. A yes (twice, as it widens) writes the connector; a
+#     no leaves everything as it was. Nothing is written by the flow itself.
+
+[[flow]]
+id = "connect"
+doc = "Connect a program: look at it, draft how to speak to it, try it once, and propose the connector."
+in = { goal = "text" }
+steps = [
+  { id = "probe", do = "connect-probe", place = "box", mode = "read", goal = "{in.goal}", out = { facts = "json" } },
+  { id = "learn", do = "connect-learn", place = "box", mode = "read", after = ["probe"], soft = true, goal = "Try the program a few ways and learn how it speaks.", with = { program = "{steps.probe.out.facts.program}", path = "{steps.probe.out.facts.path}", dialect = "{steps.probe.out.facts.class.dialect}", help = "{steps.probe.out.facts.help}", man = "{steps.probe.out.facts.man}" }, out = { learned = "json" } },
+  { id = "login", kind = "branch", on = "steps.learn.out.learned.login", yes = "needlogin", no = "refusal" },
+  { id = "refusal", kind = "branch", on = "steps.learn.out.learned.refused", yes = "refused", no = "learned" },
+  { id = "refused", kind = "end", answer = "Not connected: {steps.learn.out.learned.why}" },
+  { id = "learned", kind = "branch", on = "steps.learn.out.learned.settled", yes = "ltab", no = "draft" },
+  { id = "ltab", do = "connect-propose", goal = "Propose the connector.", with = { program = "{steps.probe.out.facts.program}", is = "{steps.learn.out.learned.is}", dialect = "{steps.learn.out.learned.dialect}", version = "{steps.probe.out.facts.version}", manifest = "{steps.learn.out.learned.manifest}", transcript = "{steps.learn.out.learned.transcript}" } },
+  { id = "ldone", kind = "end", answer = "{steps.ltab.answer}" },
+  { id = "needlogin", kind = "end", answer = "Not connected: it asks you to sign in first, and J4n does not sign in for a program. Sign in to it yourself, then connect it again: once it is connected, Connect › Accounts keeps its logins apart. {steps.learn.out.learned.login_text}" },
+  { id = "draft", do = "who:work", mode = "read", after = ["probe"], goal = "Write a J4n connector for the program `{steps.probe.out.facts.program}`.\n\nA connector is one TOML table `[[connector]]` (no other tables around it). Put it in a ```toml fence and add nothing else.\n\nIt must have: `id` (lower case, `-` and `_`), `doc` (one sentence), `is = \"{steps.probe.out.facts.class.is}\"`, `dialect = \"{steps.probe.out.facts.class.dialect}\"`, `program = \"{steps.probe.out.facts.program}\"`, `probe = {{ argv = [\"{steps.probe.out.facts.program}\", \"--version\"] }}`, and what that dialect needs.\n\nAbout this dialect: {steps.probe.out.facts.class.note}\nArguments that make it speak so: {steps.probe.out.facts.class.start}\n\nUse only what the text below shows; do not guess a flag. Never name another program, a secret, a key or a url.\n\nVersion: {steps.probe.out.facts.version}\n\nIts help:\n{steps.probe.out.facts.help}\n\nIts manual:\n{steps.probe.out.facts.man}", redo = "Your connector for `{steps.probe.out.facts.program}` was not right yet. Write it again, whole, in a ```toml fence.\n\nWhat was wrong:\n{steps.check.out.verdict.concerns}\n\nAbout this dialect: {steps.probe.out.facts.class.note}\n\nIts help:\n{steps.probe.out.facts.help}", out = { draft = "text" } },
+  { id = "check", do = "connect-check", after = ["draft"], soft = true, goal = "Read the draft into the closed schema.", with = { program = "{steps.probe.out.facts.program}", draft = "{steps.draft.answer}", is = "{steps.probe.out.facts.class.is}", dialect = "{steps.probe.out.facts.class.dialect}" }, out = { verdict = "verdict", result = "json" } },
+  { id = "again", kind = "branch", on = "steps.check.out.verdict.pass", yes = "canary", no = "draft", max_visits = 3 },
+  { id = "canary", do = "connect-canary", place = "box", mode = "read", soft = true, goal = "Run the connector once.", with = { manifest = "{steps.check.out.result.manifest}" }, out = { verdict = "verdict", result = "json" } },
+  { id = "worked", kind = "branch", on = "steps.canary.out.verdict.pass", yes = "tab", no = "stopped" },
+  { id = "tab", do = "connect-propose", goal = "Propose the connector.", with = { program = "{steps.probe.out.facts.program}", is = "{steps.probe.out.facts.class.is}", dialect = "{steps.probe.out.facts.class.dialect}", version = "{steps.probe.out.facts.version}", manifest = "{steps.canary.out.result.manifest}", transcript = "{steps.canary.out.result.transcript}" } },
+  { id = "done", kind = "end", answer = "{steps.tab.answer}" },
+  { id = "stopped", kind = "end", answer = "Not connected: the canary did not pass. {steps.canary.out.verdict.concerns}\n{steps.canary.out.result.transcript}" },
+]

@@ -1,0 +1,55 @@
+doc = "The pre-flight list, `view:setup`: each doer found, signed in or missing with the line that mends it, the key, the plans and their prices, the safety defaults in words and the doer a first election falls to; the same lines as `j4n doctor`. The mend hangs under the row the cursor is on, and a plan with no price offers `p`."
+sizes = [[120, 24], [80, 20], [60, 18]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "setup", title = "", field = { kind = "list", bind = "view:setup", props = { titles = ["", "state", "to mend it"] } } }] }
+
+[[step]]
+down = "rows"
+bind = "view:setup"
+total = 16
+rev = 1
+rows = [
+  { key = "claude", cells = [{ text = "claude" }, { text = "found · signed in · 2.1.0" }, { text = "" }], tone = "good", actions = [{ key = "a", label = "add account", intent = { intent = "say", text = ":account add claude" }, risk = 0 }] },
+  { key = "codex", cells = [{ text = "codex" }, { text = "not found" }, { text = "install `codex` and put it on your PATH" }], tone = "bad", detail = [{ text = "install `codex` and put it on your PATH", tone = "dim" }], actions = [{ key = "a", label = "add account", intent = { intent = "say", text = ":account add codex" }, risk = 0 }] },
+  { key = "gemini", cells = [{ text = "gemini" }, { text = "found · not signed in" }, { text = "sign in: `gemini auth login`" }], tone = "warn", detail = [{ text = "sign in: `gemini auth login`", tone = "dim" }] },
+  { key = "opencode", cells = [{ text = "opencode" }, { text = "found · signed in" }, { text = "" }], tone = "good" },
+  { key = "pi", cells = [{ text = "pi" }, { text = "not found" }, { text = "install `pi` and put it on your PATH" }], tone = "bad", detail = [{ text = "install `pi` and put it on your PATH", tone = "dim" }] },
+  { key = "own", cells = [{ text = "own" }, { text = "no key" }, { text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again" }], tone = "warn", detail = [{ text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again", tone = "dim" }] },
+  { key = "light", cells = [{ text = "light" }, { text = "no key" }, { text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again" }], tone = "warn", detail = [{ text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again", tone = "dim" }] },
+  { key = "openrouter key", cells = [{ text = "openrouter key" }, { text = "not set" }, { text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again" }], tone = "warn", detail = [{ text = "export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again", tone = "dim" }] },
+  { key = "plan claude", cells = [{ text = "plan claude" }, { text = "no price" }, { text = "put price = \"$<a month>\" in a [[plan]] row with id = \"claude\" in plan.toml of your J4n home" }], tone = "warn", detail = [{ text = "put price = \"$<a month>\" in a [[plan]] row with id = \"claude\" in plan.toml of your J4n home", tone = "dim" }], actions = [{ key = "p", label = "set price", intent = { intent = "say", text = ":plans" }, risk = 0 }] },
+  { key = "plan max5", cells = [{ text = "plan max5" }, { text = "$100 a month" }, { text = "" }], tone = "good" },
+  { key = "plan pro", cells = [{ text = "plan pro" }, { text = "$20 a month" }, { text = "" }], tone = "good" },
+  { key = "writes", cells = [{ text = "writes" }, { text = "a write outside the project asks first" }, { text = "" }], tone = "good" },
+  { key = ".j4n and git", cells = [{ text = ".j4n and git" }, { text = "J4n's own folder and git's internals are blocked" }, { text = "" }], tone = "good" },
+  { key = "checkpoint", cells = [{ text = "checkpoint" }, { text = "a checkpoint is made before work, to rewind to" }, { text = "" }], tone = "good" },
+  { key = "gate", cells = [{ text = "gate" }, { text = "claude's writes and commands come to the Gate first" }, { text = "" }], tone = "good" },
+  { key = "default doer", cells = [{ text = "default doer" }, { text = "claude" }, { text = "" }], tone = "good" }
+]
+
+[[step]]
+shot = "first"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "mend"
+
+[[step]]
+key = "end"
+
+[[step]]
+shot = "last"

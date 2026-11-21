@@ -1,0 +1,74 @@
+api = 1
+
+# What an agent leaves behind that the project's own checks do not catch. A pattern says where it applies,
+# how it is found, how bad it is and the fixed words that steer a lane away from it. Its numbers (precision, labels) live in the Log,
+# never in the file. `steer` and `instructions` go to a lane or to Jev, so law 14 reads them.
+[[kind]]
+id = "pattern"
+doc = "A kind of mistake, how to find it, and what to tell an agent that made it."
+untrusted = "ignore"
+examples = [
+  { id = "dbg-left", doc = "A debugging macro left in.", title = "dbg! left in", lang = ["*.rs"], kind = "regex", match = '\bdbg!\(', severity = "low", steer = "Remove the dbg! at {file}:{line}.", bad = "dbg!(x);", good = "let y = x;" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why it matters." }
+title = { ty = "str", required = true, doc = "What the operator reads." }
+lang = { ty = "list<str>", required = true, doc = "File globs it looks at; `*` is any file, `*.rs` any file of that name, `src/**` anything under it." }
+not = { ty = "list<str>", default = [], doc = "File globs it leaves alone." }
+kind = { ty = "enum:regex|cmd|jev", required = true, doc = "`regex` over the lines a change adds, `cmd` a command over the changed files, `jev` a question put to Jev." }
+type = { ty = "enum:choice", doc = "For `jev`: the question picks one of the helpers that already exist, or none." }
+scope = { ty = "enum:added|removed", default = "added", doc = "For `regex`: matches the change adds, or matches it removes and does not add back." }
+multiline = { ty = "bool", default = false, doc = "For `regex`: match over the text of a hunk, not line by line." }
+match = { ty = "str", doc = "For `regex`: the expression." }
+argv = { ty = "list<str>", default = [], doc = "For `cmd`: the command, with `{files}` where the changed files go." }
+instructions = { ty = "text", doc = "For `jev`: the question." }
+severity = { ty = "enum:low|mid|high", required = true, doc = "Only `high` may steer, and only with numbers." }
+steer = { ty = "text", required = true, doc = "What a lane is told: `{file}`, `{line}` and, for a choice, `{answer}`." }
+bad = { ty = "text", required = true, doc = "Code that should be marked: the pattern's first test." }
+good = { ty = "text", required = true, doc = "Code that should not: its second." }
+stability = { ty = "enum:experimental|beta|stable", default = "experimental", doc = "What the numbers allow it to claim." }
+
+# A question about a whole part with ordered answers; its score caps the display score.
+[[kind]]
+id = "qc_rubric"
+doc = "A question Jev answers on a scale about a whole part of a change."
+untrusted = "ignore"
+examples = [{ id = "fit", doc = "Does the change do what was asked.", instructions = "How well does this change do what the goal asks?", levels = ["unrelated", "partly", "mostly", "exactly"] }]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it measures." }
+instructions = { ty = "text", required = true, doc = "The question." }
+levels = { ty = "list<str>", required = true, doc = "The answers, from the worst to the best (at least two)." }
+
+# What a mark costs in the display score.
+[[kind]]
+id = "qc_score"
+doc = "The weights of the display score."
+untrusted = "ignore"
+examples = [{ id = "weights", high = 2.0, mid = 1.0, low = 0.5, min_p = 0.5, failed_cap = 3.0 }]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is." }
+high = { ty = "num", required = true, doc = "A high mark costs this much at a chance of 1." }
+mid = { ty = "num", required = true, doc = "A mid mark." }
+low = { ty = "num", required = true, doc = "A low mark." }
+min_p = { ty = "num", required = true, min = 0, max = 1, doc = "A mark with less chance costs nothing." }
+failed_cap = { ty = "num", required = true, doc = "When the project's own check failed, the score is held under this." }
+
+# A kind of name the step `keep` guards across a refactor: where to look, and how a name is found. A folder row of
+# the same id replaces a seed; the setting `qc.keep` chooses which rows are used.
+[[kind]]
+id = "qc_keep"
+doc = "A surface to keep across a refactor: public names, tests, headings or links, found by an expression."
+untrusted = "ignore"
+examples = [{ id = "rust-fn", doc = "Public functions of Rust files.", lang = ["*.rs"], what = "fn", match = '^\s*pub(?:\([^)]*\))?\s+(?:async\s+|const\s+|unsafe\s+)*fn\s+(\w+)' }]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it guards." }
+lang = { ty = "list<str>", required = true, doc = "File globs it looks in." }
+not = { ty = "list<str>", default = [], doc = "File globs it leaves alone." }
+what = { ty = "str", required = true, doc = "The word the mark says: `fn`, `type`, `test`, `heading`, `link`." }
+match = { ty = "str", required = true, doc = "An expression run over the whole file, line by line anchors (`(?m)`); its first group is the name." }
+same_file = { ty = "bool", default = false, doc = "The name counts in its file only: moved to another file, it is gone. Otherwise it counts anywhere." }
+stability = { ty = "enum:experimental|beta|stable", default = "experimental", doc = "What the numbers allow it to claim." }

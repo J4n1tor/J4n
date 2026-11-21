@@ -1,0 +1,24 @@
+├ packs                                               ~/.j4n/pa▏
+│ 󰉖 ~/.j4n/packs/
+│ 󰉖 ~/.j4n/palettes/
+├ packs                                          ~/.j4n/packs 󰍁
+├ packs                                                 ~/pks 󰗖
+│ not found
+╰ packs                                             ~/.j4n/packs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

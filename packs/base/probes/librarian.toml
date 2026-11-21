@@ -1,0 +1,41 @@
+api = 1
+
+# What a decider or a model must get right before it chooses among skills that fit a task equally (`librarian`). The
+# `skills` slice says what the offered skills are, as the options carry it when the front asks; each case has a twin of the same shape whose right
+# answer is the other skill.
+
+[[probe]]
+id = "librarian-cargo"
+doc = "A line about cargo takes the skill of the crate's tests."
+point = "librarian"
+slices = { line = "run the cargo tests for the parser crate", skills = "rust-tests: run the tests of a rust crate with cargo; python-tests: run the tests of a python package with pytest" }
+offered = ["rust-tests", "python-tests", "none"]
+expect = "rust-tests"
+pair = "librarian-pytest"
+
+[[probe]]
+id = "librarian-pytest"
+doc = "The same shape of line about pytest takes the other."
+point = "librarian"
+slices = { line = "run pytest for the parser package", skills = "rust-tests: run the tests of a rust crate with cargo; python-tests: run the tests of a python package with pytest" }
+offered = ["rust-tests", "python-tests", "none"]
+expect = "python-tests"
+pair = "librarian-cargo"
+
+[[probe]]
+id = "librarian-notes"
+doc = "Release notes are not the changelog file."
+point = "librarian"
+slices = { line = "write the release notes for version 0.3", skills = "release-notes: how to write the notes of a release; changelog: how to add an entry to the CHANGELOG.md file" }
+offered = ["release-notes", "changelog", "none"]
+expect = "release-notes"
+pair = "librarian-changelog"
+
+[[probe]]
+id = "librarian-changelog"
+doc = "The same shape of line that names the file."
+point = "librarian"
+slices = { line = "add an entry to CHANGELOG.md for the fix", skills = "release-notes: how to write the notes of a release; changelog: how to add an entry to the CHANGELOG.md file" }
+offered = ["release-notes", "changelog", "none"]
+expect = "changelog"
+pair = "librarian-notes"

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# b <cargo args…> — cargo behind a memory cap, for a small machine. A proxy is the caller's: set https_proxy (or
+# HTTPS_PROXY) and it is passed on; unset, there is none. For a hermetic run use scripts/t.
+set -uo pipefail
+export CARGO_PROFILE_DEV_DEBUG=0 CARGO_BUILD_JOBS=2
+used=$(df --output=pcent / | tail -1 | tr -dc '0-9')
+[ "${used:-0}" -ge 90 ] && echo "b: / is ${used}% full — clear target/debug/incremental first" >&2
+if command -v systemd-run >/dev/null 2>&1 && systemd-run --user --scope -q true >/dev/null 2>&1; then
+  pass=(-E CARGO_PROFILE_DEV_DEBUG -E CARGO_BUILD_JOBS)
+  for v in https_proxy HTTPS_PROXY; do [ -n "${!v:-}" ] && pass+=(-E "$v"); done
+  exec systemd-run --user --scope -q -p MemoryMax=5G "${pass[@]}" cargo "$@"
+fi
+echo "b: no systemd user manager, running without the 5G cap" >&2
+exec cargo "$@"

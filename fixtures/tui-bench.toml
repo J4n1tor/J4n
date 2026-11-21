@@ -1,0 +1,17 @@
+# The speed ratchet of the screen (crates/j4n/benches/tui_speed.rs): the most a bench may take, in microseconds.
+# A ceiling only goes down (scripts/t bench -p j4n --bench tui_speed -- --ratchet); raising one is done by hand, with the reason in the commit.
+[ceiling_us]
+first_frame_main = 762
+flood_frame = 621
+frame_idle_main = 50
+frame_main_160x48 = 621
+key_main_160x48 = 309
+log_1m_find = 58404
+log_1m_first = 2403
+log_1m_key = 987
+log_1m_sort = 140757
+log_1m_window = 63
+nodes_1m_find = 49992
+nodes_1m_key = 1209
+nodes_1m_open = 23919
+resize_main = 624

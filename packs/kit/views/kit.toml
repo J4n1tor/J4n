@@ -1,0 +1,9 @@
+api = 1
+
+[[view]]
+id = "kit"
+doc = "The cells of the tool `py` and of `j4n py`, newest first: the task, the risk the Gate read, the time, the first line of the code; under the selected one its output, the kernel (how long it has been alive, its memory, the variables it holds) and the host calls it made with their time and tokens."
+from = { from = "log:py.cell", order = "-seq", limit = 200 }
+key = "e{seq}"
+cells = ["{seq}", "{task}", "{data.risk}", "{data.ms}ms", "{data.head:short}"]
+detail = ["{data.head}", "out: {data.out}", "=> {data.value}", "error: {data.error}", "kernel: up {data.up}s · {data.mem} KiB · {data.names}", "host calls: {data.calls}", "from: {data.via}"]

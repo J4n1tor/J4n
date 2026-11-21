@@ -1,0 +1,24 @@
+api = 1
+
+# A seat: what a chat is beside its task. Main's brief names one (`seat = "reviewer"`); the seat fills what the brief leaves empty, and where
+# both say something about access the narrower one wins, field by field. A seat is the operator's or the pack's: a project folder cannot add
+# one, because a seat decides what a chat may touch.
+[[kind]]
+id = "seat"
+doc = "A role for a chat: the words it works by, whether it only reads, the paths and tools it may use, and what its report holds."
+untrusted = "ignore"
+examples = [
+  { id = "reader", doc = "Reads and reports.", role = "scout", personality = "Read what the brief names and report what you find, with a path and line for each claim.", mode = "read" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the seat is for, in one line. Main is shown it beside the seat's id." }
+role = { ty = "str", required = true, doc = "The job word: `writer`, `reviewer`, `scout`, `tester`, `critic`, `envoy`, or your own. A lowercase word." }
+personality = { ty = "text", default = "", doc = "The seat's own words for the chat: how it works, what it looks for, how it reports. Read by the chat as its first section, apart from the task; at most `crew.voice_max` characters." }
+mode = { ty = "enum:read|write", doc = "Access: `read` makes the chat only read, whatever the brief says; `write` lets the brief's own mode stand (a seat never makes a read chat write). Left out: the brief's." }
+paths = { ty = "list<str>", default = [], doc = "Access: the folders or files the chat may name, inside the project. The brief's paths are cut to these, never widened; a brief with no paths of its own gets none from here." }
+tools_allow = { ty = "list<str>", default = [], doc = "Access: the tools the chat is limited to, when not empty. Recorded with the chat; no doer reads it yet." }
+tools_deny = { ty = "list<str>", default = [], doc = "Access: tools the chat is kept from. Recorded with the chat; no doer reads it yet." }
+doer = { ty = "str", default = "", doc = "A preference: the doer for a brief that names none. The brief's own doer stands over it." }
+model = { ty = "str", default = "", doc = "A preference: the model for a brief that names none, used only with this seat's own doer." }
+reports = { ty = "text", default = "", doc = "What the chat's report holds beyond the usual, added to the end of its brief." }

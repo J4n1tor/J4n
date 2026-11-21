@@ -1,0 +1,7 @@
+api = 1
+id = "jev"
+version = "0.0.0"
+summary = "decider connectors (Jev, Span-01) and a small model for the ask points the base pack names; with no key they are not made"
+use_when = "the operator wants a small model to decide the choices J4n asks, or asks about the decider"
+needs = ["base"]
+stability = "experimental"

@@ -1,0 +1,24 @@
+api = 1
+
+# the old crew
+[[keeper]]
+id = "ada"
+name = "Ada Quill"
+years = 12   # since the storm
+shift = "dawn"
+
+[[keeper]]
+id = "bo"
+name = "Bo Marsh"
+
+[[lamp]]
+id = "north"
+keeper = "ada"
+oil = "$0.40"
+burn = "9h"
+colors = ["white", "red"]
+
+[[lamp]]
+id = "south"
+keeper = "bo"
+mode = "off"

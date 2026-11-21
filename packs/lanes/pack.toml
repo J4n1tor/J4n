@@ -1,0 +1,7 @@
+api = 1
+id = "lanes"
+version = "0.0.0"
+summary = "the main lane keeps the plan and hands work to branches of its own classes"
+use_when = "the operator asks for a plan, branches, scouts or reviewers, or wants work split into parts that run side by side"
+needs = ["base"]
+stability = "experimental"

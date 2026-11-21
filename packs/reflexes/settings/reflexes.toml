@@ -1,0 +1,33 @@
+api = 1
+
+# The one switch is `reflexes.on`; `reflexes.judge`, `reflexes.cap_usd` and `reflexes.trust` sit beside it (as `kit.judge`
+# beside `kit.mode`). Read when j4n starts.
+[[setting]]
+id = "reflexes.on"
+doc = "On: the reflexes that are on are checked, at a settled boundary only (never in the middle of a turn), and when a check holds one decision model is asked, from a digest made by code, whether the operator's sentence is true; if it says yes the command runs, and the Log says why (`rule.fired`, or `reflex.checked` with the judge's reason). Off (the default): nothing is checked, nothing is asked, nothing is written. A reflex never answers an approval and never widens what J4n may do. Read at the start."
+ty = "bool"
+default = false
+full = true
+live = false
+
+[[setting]]
+id = "reflexes.judge"
+doc = "Whether the judge of the reflexes may be sent the digest of this project (the numbers of /context, the heads of the last turns, the reflex's sentence, all redacted, as kit.judge). `off` (the default): nothing is sent, and a reflex whose check holds does not fire; the Log says so. Set it per project, when its text may go to Jev. Needs reflexes.on."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "reflexes.cap_usd"
+doc = "The most the judge of the reflexes may cost in a day, in dollars; past it no reflex fires until tomorrow, and the Log says so. A call whose price the judge did not say counts as one cent."
+ty = "num"
+default = 0.25
+min = 0.0
+max = 100.0
+
+[[setting]]
+id = "reflexes.trust"
+doc = "How many of the judge's calls must have held, none overridden, before a reflex that throws context away (`:compact`, `:fresh`) stops asking the operator and runs by itself (the trust record: a yes is a call that held, a no one that was overridden)."
+ty = "int"
+default = 5
+min = 1
+max = 1000

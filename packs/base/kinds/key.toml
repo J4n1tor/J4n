@@ -1,0 +1,26 @@
+api = 1
+
+# A key of the screen. The id is `<context>/<name>`: the context is where the key is read (`global`,
+# `composer`, `transcript`, `list`, `ask`, or `page:<page id>` for a key of one page) and the name says what it does. A row of the base
+# pack lists, in `native`, the keys the screen's own code reads for it; the keys that do it are those unless a layer says `keys`, so an
+# operator's `~/.j4n/ui/keys.toml` that holds `keys` for a row changes only that, and `keys = []` frees it. A key that is not one of
+# the row's `native` is read as the first of them. A page's own key has no `native`: it sends `run`, an intent.
+# Names are those of the keys row: `C-` `M-` `S-` then Enter Tab Esc Up Down Left Right PgUp PgDn Home End Backspace Delete
+# F1–F12 Space or one character. The chords tmux takes are refused with their reason. A project nobody trusted rebinds nothing.
+[[kind]]
+id = "key"
+doc = "What a key does where it is pressed."
+untrusted = "ignore"
+examples = [
+  { id = "global/palette", doc = "Find anything.", native = ["C-k"] },
+  { id = "list/down", doc = "The next row.", native = ["Down"], keys = ["Down", "j"] },
+  { id = "page:connectors/probe", doc = "Probe the connectors.", keys = ["r"], run = { intent = "run", command = "probe" } },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it does, in a line." }
+native = { ty = "list<str>", default = [], doc = "The keys the screen itself reads for this, the first being the one another key is read as. Set by the pack that has the screen's code behind it." }
+keys = { ty = "list<str>", doc = "The keys that do it; left out, the `native` ones. `[]` frees the keys it had." }
+word = { ty = "str", default = "", doc = "For a key of a page: the one or two words it is shown with on the keys row (`hint`); left out, it is not shown there." }
+order = { ty = "int", min = 0, max = 1000, doc = "For a key of a page with a `word`: where it stands on the keys row, lowest first (35 when left out)." }
+run = { ty = "any", doc = "For a key of a page: the intent it sends (`{ intent = \"run\", command = \"probe\" }`)." }

@@ -1,0 +1,20 @@
+├─ → c1 · same files · lexer.rs
+╰─ 󰗡  claude sonnet                                    9.8s
+┌──────────────────────────────────────────────────────────┐
+│ 󰘥 main                                                   │
+│                                                          │
+│ which chat takes this: fix the parser?                   │
+│                                                          │
+│   1  󰐽 c1 · lexer.rs                                     │
+│   2  󰐽 c2 · parser.rs                            sending │
+│ ⇥ 3  󰐾 a new chat                                        │
+│   4  󰐽 custom · type your own                            │
+│   5  ├ decide yourself                                   │
+│   6  ╰ skip it                                           │
+│                                                          │
+│ 1–3 · type to answer · esc later                         │
+└──────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│                                                 → 󰘥 main │
+└──────────────────────────────────────────────────────────┘
+

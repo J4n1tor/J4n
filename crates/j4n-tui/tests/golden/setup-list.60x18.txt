@@ -1,0 +1,18 @@
+                  state
+├ claude          found · signed in · 2.1.0
+├ codex           not found
+├ gemini          found · not signed in
+│   sign in: gemini auth login
+├ opencode        found · signed in
+├ pi              not found
+├ own             no key
+├ light           no key
+├ openrouter key  not set
+├ plan claude     no price
+├ plan max5       $100 a month
+├ plan pro        $20 a month
+├ writes          a write outside the project asks first
+├ .j4n and git    J4n's own folder and git's internals are …
+├ checkpoint      a checkpoint is made before work, to rewi…
+├ gate            claude's writes and commands come to the …
+╰ default doer    claude

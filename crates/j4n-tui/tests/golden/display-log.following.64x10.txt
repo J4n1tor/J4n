@@ -1,0 +1,10 @@
+  12:29:45 󰛐 B read lib.rs
+  12:29:46 󰛐 B read main.rs
+  12:29:47 󰞷 A ls src
+  08:11:40 󰞷 run.shell     cargo test -p parser        ×3 t3 ▸
+  12:30:04 󰞷 B cargo test parser                            󰗡
+  12:30:09 󰗖 C clippy: 2 errors                              ▸
+  12:30:11 󰳈 grant reads · session
+  08:12:04 󰞷 run.shell     cargo test -p parser           t3 ▸
+  08:12:05 󰼛 task.settled  state failed  why the parser … t3 ▸
+┃ 08:12:06 󰢻 zz.unknown    a kind nobody here knows          ▸ ┃

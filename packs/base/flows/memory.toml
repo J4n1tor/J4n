@@ -1,0 +1,20 @@
+api = 1
+
+# The memory: a note is an event, and what was said and reported is found again by its words.
+[[flow]]
+id = "remember"
+doc = "Keep a note in the memory."
+in = { goal = "text" }
+steps = [
+  { id = "keep", do = "remember", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.keep.answer}" },
+]
+
+[[flow]]
+id = "recall"
+doc = "Find notes, lines and reports in the memory by their words."
+in = { goal = "text" }
+steps = [
+  { id = "find", do = "recall", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.find.answer}" },
+]

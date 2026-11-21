@@ -1,0 +1,11 @@
+api = 1
+
+# Hosts of one model that a gateway sells. A fixed row only starts the picture: what a host really cost and how
+# fast it answered comes from the Log. Off until `route.hosts` is turned on.
+[[model]]
+id = "gpt-oss-20b"
+doc = "The small model of `connector light`, and the hosts that sell it."
+connector = "light"
+name = "openai/gpt-oss-20b"
+default = true
+context = 131072

@@ -1,0 +1,7 @@
+api = 1
+id = "grow"
+version = "0.0.0"
+summary = "observers, tips and the author flow"
+use_when = "the operator asks what J4n could do better for this project, wants tips, or wants to write a part of their own"
+needs = ["base"]
+stability = "experimental"

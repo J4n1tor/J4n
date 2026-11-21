@@ -1,0 +1,21 @@
+api = 1
+
+# How a set of candidates is ordered. The numbers it weighs are columns the asker supplies for
+# each candidate (what each has actually done here: reliability, cost, speed…); a weight below zero marks a column where
+# less is better. Pins and exclusions are ids. `cost_low` weighs the `cost` column down, and only when a thread elects its
+# model — a bound thread keeps the one it has.
+[[kind]]
+id = "rank"
+doc = "How candidates are ordered: weights over columns, pins, exclusions, whether cost counts at election, and the least lead that makes the head a clear pick."
+examples = [
+  { id = "steady", doc = "Reliable first, cheap second.", weights = { reliability = 1.0, cost = -0.5 }, pins = [], exclude = ["tiny"], cost_low = true, min_gap = 0.05 },
+  { id = "plain", doc = "No numbers: the recommended option, then the smallest id." },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the spec is for." }
+weights = { ty = "map<num>", doc = "Column name to weight; the score is the sum of weight times column. Below zero: less is better. A candidate missing a weighted column gets the worst value known for it." }
+pins = { ty = "list<str>", doc = "Candidate ids. When at least one is offered, only the offered pins are ranked." }
+exclude = { ty = "list<str>", doc = "Candidate ids that are never offered. An excluded id stays out even if pinned." }
+cost_low = { ty = "bool", default = false, doc = "At election, the `cost` column counts against a candidate with a weight of at least -1 (more if the spec weighs it more)." }
+min_gap = { ty = "num", min = 0, default = 0, doc = "The least lead of the head over the second for the answerer to be confident in it." }

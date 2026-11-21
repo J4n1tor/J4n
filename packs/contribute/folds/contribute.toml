@@ -1,0 +1,17 @@
+api = 1
+
+[[fold]]
+id = "contribute_found"
+doc = "For each fingerprint: the last finding of it, with the count so far."
+on = "contribute.found"
+reduce = "last"
+of = "data"
+key = "{data.key}"
+
+[[fold]]
+id = "contribute_patch"
+doc = "For each fix of the person's own: where it stands (carried, retired, withdrawn)."
+on = "contribute.patch"
+reduce = "last"
+of = "data"
+key = "{data.key}"

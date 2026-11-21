@@ -1,0 +1,66 @@
+doc = "The enum-radio field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "frame", field = { kind = "enum", bind = "cfg:enum-radio.a", props = { options = ["pipes", "gutter", "hang"], style = "radio" } } },
+  { id = "off", title = "frame", field = { kind = "enum", bind = "cfg:enum-radio.off", props = { options = ["pipes", "gutter", "hang"], style = "radio", disabled = "read only" } } },
+  { id = "bad", title = "frame", field = { kind = "enum", bind = "cfg:enum-radio.bad", props = { options = ["pipes", "gutter", "hang"], style = "radio" } } },
+  { id = "b", title = "frame", field = { kind = "enum", bind = "cfg:enum-radio.b", props = { options = ["pipes", "gutter", "hang"], style = "radio" } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:enum-radio.a"
+value = "pipes"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-radio.off"
+value = "pipes"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-radio.bad"
+value = "rail"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-radio.b"
+value = "pipes"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"

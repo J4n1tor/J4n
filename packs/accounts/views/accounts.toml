@@ -1,0 +1,30 @@
+api = 1
+
+[[view]]
+id = "accounts"
+doc = "The accounts there are, where each stands (signed in, needs sign-in, failed; `yours` for the operator's own login) and, opened, the email it signed in as and why it stands so, with the keys to sign in, open the window, check and remove."
+from = { from = "table:account", order = "id" }
+cells = ["{id}", "{connector}", "{state}", "{plan}", "{proxy}", "{remark}"]
+tone = "tone"
+detail = ["{email}", "{reason}", "{doc}", "{view} · keeps {keeps}"]
+acts = [
+  { key = "s", label = "sign in", run = ":account signin {id}", risk = 40 },
+  { key = "o", label = "open", run = ":account open {id}" },
+  { key = "c", label = "check", run = ":account check {id}" },
+  # `s` and `x` ask the Gate themselves (the approval card names the folder), so the row adds no second ask: its risk stays under the line
+  { key = "x", label = "remove", run = ":account remove {id}", risk = 40 },
+]
+
+[[view]]
+id = "account-add"
+doc = "Connect › Add account: the fields of a new account, each changed in place with its editor; the add row, whose ⏎ says `:account add` (the line is the approval, and the sign-in card follows); and the logins found on this machine, which `u` names as an account."
+from = { from = "fold:account-add" }
+cells = ["{label}", "{now}", "{note}"]
+tone = "tone"
+data = "{edit}"
+acts = [
+  { key = "enter", label = "change", set = "draft:account.{id}", when = "kind == 'field'" },
+  { key = "t", label = "take the free name", set = "draft:account.name", value = "{free}", when = "taken" },
+  { key = "enter", label = "add", run = ":account add {said}", when = "kind == 'add' and ok" },
+  { key = "u", label = "use as an account", run = ":account use {connector}", when = "kind == 'found' and named == ''" },
+]

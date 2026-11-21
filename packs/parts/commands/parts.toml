@@ -1,0 +1,8 @@
+api = 1
+
+[[command]]
+id = "parts"
+doc = "The part runner: `:parts <document>` reads its parts into a Draft; `:parts keep 3 1 2` / `:parts drop 2` change it; `:parts go` runs the next `parts.max` of them as plan items, each gated and committed; `:parts next` commits a green part when `parts.mode` is `show`; `:parts` says the Draft again."
+words = [":parts"]
+args = ["what to do"]
+core = "parts"

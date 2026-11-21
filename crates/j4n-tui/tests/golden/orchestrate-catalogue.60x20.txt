@@ -1,0 +1,20 @@
+├ quick look  off   off · ⏎ turns it on: a line goes to Mai…
+├ code        on    the line is ordinary coding work: chang…
+├ kit         off   not told to Main: the list is over its …
+├ qc          off   the operator asks for the quality of co…
+╰ claude      doer  haiku, sonnet, opus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

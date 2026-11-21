@@ -1,0 +1,60 @@
+doc = "The name of the doer that works breathes: the accent down to its soft twin and back over eight ticks of a quarter second; without motion it is bold and still."
+sizes = [[60, 6]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [{ key = "t", cells = [{ text = "go" }, { text = "", tone = "dim" }, { text = "12:00", tone = "dim" }] }, { key = "l", cells = [{ text = "B claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "b-claude", tone = "dim", icon = "worktree" }, { text = "0:22", tone = "dim" }], parent = "t" }, { key = "s", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "l" }]
+
+[[step]]
+shot = "t0"
+
+[[step]]
+wait = 250
+
+[[step]]
+shot = "t1"
+
+[[step]]
+wait = 250
+
+[[step]]
+shot = "t2"
+
+[[step]]
+wait = 250
+
+[[step]]
+shot = "t3"
+
+[[step]]
+wait = 250
+
+[[step]]
+shot = "t4"
+
+[[step]]
+wait = 250
+
+[[step]]
+shot = "t5"
+
+[[step]]
+wait = 1000
+
+[[step]]
+shot = "t9"
+

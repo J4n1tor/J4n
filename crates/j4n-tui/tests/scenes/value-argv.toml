@@ -1,0 +1,66 @@
+doc = "The argv field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "argv", field = { kind = "argv", bind = "cfg:argv.a", props = { args = ["pat"] } } },
+  { id = "off", title = "argv", field = { kind = "argv", bind = "cfg:argv.off", props = { args = ["pat"], disabled = "read only" } } },
+  { id = "bad", title = "argv", field = { kind = "argv", bind = "cfg:argv.bad", props = { args = ["pat"] } } },
+  { id = "b", title = "argv", field = { kind = "argv", bind = "cfg:argv.b", props = { args = ["pat"] } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:argv.a"
+value = ["rg", "-n", "{pat}"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:argv.off"
+value = ["rg", "-n", "{pat}"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:argv.bad"
+value = ["rg", "{pt}"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:argv.b"
+value = ["rg", "-n", "{pat}"]
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "space"

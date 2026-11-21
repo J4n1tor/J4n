@@ -1,0 +1,23 @@
+api = 1
+
+# Read when J4n starts. The switch is `parts.mode` (a setting cannot also be the front of another).
+[[setting]]
+id = "parts.mode"
+doc = "Whether `:parts` runs the parts of a document you name: `off` (the default) is as ever; `show` gates each part and waits for `:parts next` before it commits it; `auto` commits a green part and goes on by itself, at most `parts.max` a run. A red gate always stops the run and commits nothing; nothing is ever pushed. An unknown word is `off`."
+ty = "str"
+default = "off"
+full = "show"
+words = ["off", "show", "auto"]
+
+[[setting]]
+id = "parts.max"
+doc = "How many parts one `:parts go` runs (1 to 24): a roadmap is never run to its end unattended by accident."
+ty = "num"
+default = 3
+
+[[setting]]
+id = "parts.boundary"
+doc = "How the next part starts: `compact` (the default) in the same session, shrunk first when the window is past `compact.at`; `continue` in the same session, never shrunk; `reset` in a new session whose Brief says the document, the part, what the run did so far and what must be kept."
+ty = "str"
+default = "compact"
+words = ["compact", "continue", "reset"]

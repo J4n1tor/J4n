@@ -1,0 +1,20 @@
+
+  󰍩 Chat   󰧑 Accounts   󰹦 Grow   󰒓 Settings      j4n 0.0.0
+ ─────────━━━━━━━━━━━━─────────────────────────────────────
+├ 󰗡 claude-1  claude  max5  signed in              ⏎ remove
+ ╭─ B claude ─────────────────────────────────────────────╮
+ │                                                        │
+ │ sign in account `claude-2`: run `claude auth login`    │
+ │ with the folder ~/.j4n/accounts/claude-2 as its        │
+ │ config, and open its window?                           │
+ │                                                        │
+ │ ▕███▏░░░░▏ 40   󰉖 claude-2                             │
+ │                                                        │
+ │   1  󰄬 yes                                             │
+ │   2  󰅖 no                                              │
+ │   3  󰙧 stop B                                          │
+ │                                                        │
+ │ y yes · n no · 1–3 · ? why · esc later                 │
+ ╰────────────────────────────────────────────────────────╯
+
+

@@ -1,0 +1,7 @@
+api = 1
+id = "qc"
+version = "0.0.0"
+summary = "quality control of code: marks with a place, a chance and a severity from patterns, and a score for display; a mark never decides, and only a pattern with the numbers steers a lane (off by default)"
+use_when = "the operator asks for the quality of code, hotspots or marks on risky places"
+needs = ["base"]
+stability = "experimental"

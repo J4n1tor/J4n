@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Models                                                                                j4n 0.0.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+                            ╭─ keys · Chat ────────────────────────────────────────────────╮
+                            │                                                              │
+                            │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+                            │                    Option as Meta or Alt.                    │
+                            │ ⏎        send      Send the line.                            │
+                            │ ⌃j       newline   A new line in the draft.                  │
+                            │ ↑        history   An older line of the history.             │
+                            │ ⌃k       find      Find anything: the commands and the tree. │
+                            │                                                              │
+                            │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                            │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                            │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                            │ F1–F9              Tab n, as ⌥n.                             │
+                            │                                               any key closes │
+                            ╰──────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

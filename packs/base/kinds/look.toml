@@ -1,0 +1,29 @@
+api = 1
+
+# One entry of the look file: how the Log shows a kind of event or a field. The id is `<part>/<key>`:
+# - `family/<prefix>`: the glyph slot and the colour role of every kind that starts with `<prefix>` (the longest wins; `family/`, the
+#   empty prefix, is the look of a kind no other family has);
+# - `summary/<kind>`: the line of that kind, a template of `{data.x}` holes (a kind with none shows its first short fields);
+# - `field/<name>`: how a field called so is shown (`field/_ms` for every name that ends so);
+# - `tone/<word>`: the last word of a kind that makes its line bad or a warning.
+# The keys row's order and words are the kind `hint`, in the same file if one likes. The layers: the packs, then what the look's
+# pass made (`~/.j4n/cache/look.generated.toml`), then the operator's (`~/.j4n/ui/look.toml`) and a trusted project's, which win and are
+# never written. The screen draws from the merged entries only. The words below are the theme's own (a test keeps them the same).
+[[kind]]
+id = "look"
+doc = "How the Log shows a kind of event or a field: its glyph and colour, its line, its renderer."
+untrusted = "ignore"
+examples = [
+  { id = "family/task.", glyph = "working", role = "accent" },
+  { id = "summary/run.shell", text = "{data.cmd}" },
+  { id = "field/_ms", show = "duration" },
+  { id = "tone/refused", tone = "bad" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why it looks so, in a line." }
+glyph = { ty = "enum:you|route|message|queued|working|ask|cooling|done|failed|stopped|read|search|edit|new|run|fetch|tool|output|todo|todo-done|think|error|control|session|grant|compact|notice|worktree|commit|read-only|connector|round|yes|no|hint|made|folder|tag|target|bullet|risky|chat|tasks|models|grow|packs|spend|log|settings", doc = "For a family: the glyph slot of its kinds." }
+role = { ty = "enum:text|dim|faint|accent|soft|ok|warn|error|route|run|fetch|you|made|add|del|focus|strong|code|link|head", doc = "For a family: the colour role of its kinds." }
+text = { ty = "str", doc = "For a summary: the line, with `{data.x}` holes." }
+show = { ty = "enum:text|duration|time|money|bytes|path|cmd|diff|prose|onoff|tick", doc = "For a field: its renderer." }
+tone = { ty = "enum:bad|warn", doc = "For a tone word: how a kind that ends with it reads." }

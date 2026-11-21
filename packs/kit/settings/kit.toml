@@ -1,0 +1,50 @@
+api = 1
+
+# The switch is `kit.mode`; `kit.judge`, `kit.keep` and `kit.model` sit beside it (a setting
+# cannot also be the front of others). Read when j4n starts.
+[[setting]]
+id = "kit.mode"
+doc = "Whether the own agent is given the tool `py`: Python in a kernel that keeps its variables for the task (standard library only, no network where the task is in a box, one cell is one Gate call). `off` (the default) offers nothing and starts nothing; `on` offers it, and starts a kernel at the task's first cell. An unknown word is `off`."
+ty = "str"
+default = "off"
+full = "on"
+words = ["off", "on"]
+live = false
+
+[[setting]]
+id = "kit.judge"
+doc = "Whether code in the kit's kernel may send text to the decider Jev (`j4n.judge`, `choose`, `score`). `off` (the default) sends nothing: those calls raise an error that names this setting. `on` sends the text of the items it is asked about, after the leak check: a call with a line that looks like a secret is refused, whole. Set it per project, when its text may go to Jev. Needs kit.mode on. An unknown word is `off`."
+ty = "str"
+default = "off"
+live = false
+words = ["off", "on"]
+
+[[setting]]
+id = "kit.keep"
+doc = "The line under which `j4n.keep` dismisses an item the decider judged: p below it is dropped, p at or over it is kept. 0.15 by default, so only what the decider clearly rules out is dismissed."
+ty = "num"
+default = 0.15
+live = false
+min = 0
+max = 1
+
+[[setting]]
+id = "kit.model"
+doc = "The connector (a chat model, `is = \"model\"`) that `j4n.model` asks, last, on what the decider kept. `light` in the pack jev by default; with no key, `j4n.model` says so."
+ty = "str"
+default = "light"
+live = false
+
+[[setting]]
+id = "kit.grants"
+doc = "The Python packages a task may add with `need(\"name\")` without asking, as names with spaces between (`pandas numpy`); the operator's standing yes. Any other package asks first, once, before the cell runs (a yes for this task or session is a grant too). A Block row of the Gate wins over this. Empty by default: every install asks."
+ty = "str"
+default = ""
+live = false
+
+[[setting]]
+id = "kit.off"
+doc = "The parts of the kit that are turned off, as names with spaces between: library functions (`dedup heads`) and recipes as `recipe:<name>` (`recipe:each`). A cell that calls one is refused, and it is left out of `help(j4n)`, `j4n.recipes()` and the offer line; nothing is deleted, and taking the name out turns it on again. It acts from the next start (its row says `⟳`). J4n proposes a part for this list when no cell has used it over the last 100 cells in at least 5 tasks (`kit_use`); the operator's yes writes it. Empty by default: every part is on."
+ty = "str"
+default = ""
+live = false

@@ -1,0 +1,9 @@
+api = 1
+
+# (The name is `contribute.mode`: a setting cannot also be the front of another one). Read when J4n starts.
+[[setting]]
+id = "contribute.mode"
+doc = "Whether this J4n notices what is wrong with J4n and keeps it on this machine: `ask` (the default) and `auto` find, and anything that would be public asks (in this version nothing is sent at all); `off` finds nothing."
+ty = "str"
+default = "ask"
+words = ["ask", "auto", "off"]

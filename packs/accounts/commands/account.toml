@@ -1,0 +1,15 @@
+api = 1
+
+[[command]]
+id = "account"
+doc = "Keep an account: `:account add claude work [plan=max5|pro] [proxy=<url>]`, `:account use claude` (your own login, named, nothing copied), `:account signin work`, `:account open work`, `:account check work`, `:account remove work`; `:account add` with no name opens Connect › Add account."
+words = [":account", "/account"]
+flow = "account"
+args = ["add | signin | open | check | remove", "what"]
+takes = ["add <connector> <id> ...", "add [<connector>]", "use <connector> [<id>]", "signin <id>", "sign-in <id>", "open <id> [link]", "check <id>", "remove <id>"]
+
+[[command]]
+id = "accounts"
+doc = "Show the accounts: whose login each is, its route, and where it stands."
+words = [":accounts"]
+open = "accounts"

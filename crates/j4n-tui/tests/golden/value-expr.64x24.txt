@@ -1,0 +1,24 @@
+├ when
+│ danger(cmd).class == 'push'▏
+│ 󰄬 3 of 40 last cmds
+├ when                            danger(cmd).class == 'push' 󰍁
+├ when                                                 dangr( 󰗖
+│ ( at 6 not closed
+╰ when                               danger(cmd).class == 'push'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

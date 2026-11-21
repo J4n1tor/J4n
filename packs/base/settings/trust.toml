@@ -1,0 +1,52 @@
+api = 1
+
+# When a machine's answers are no longer acted on.
+[[setting]]
+id = "trust.max_wrong"
+doc = "The share of an answerer's labelled answers for an ask point that may be wrong. Over it, with `trust.min_n` labels, the answerer is skipped for that point until the operator trusts it again."
+ty = "num"
+default = 0.25
+min = 0
+max = 1
+
+[[setting]]
+id = "trust.min_n"
+doc = "How many labelled answers an answerer needs for an ask point before its wrong share counts."
+ty = "int"
+default = 20
+min = 1
+max = 200
+
+# The cases a decider or a model must get right before it answers a point.
+[[setting]]
+id = "probe.wait"
+doc = "With no operator there (`j4n run`, piped mode, `--approval deny` or `full`), how many seconds a line waits for the probe cases of the deciders and models in the chain of the point it asks, when they have not been proved yet (a fresh home): the cases are put now, on a thread of their own, and the line goes on when they are written or the time is gone. 0 is the switch off: such an answerer is skipped until a run with time has proved it. A person at the screen never waits; the cases run beside the line."
+ty = "num"
+default = 30
+min = 0
+max = 600
+
+# What a doer started in a project can reach outside it.
+[[setting]]
+id = "doer.scope"
+doc = "What a CLI doer (claude) is started with besides the project: `project` (the default) gives it the project's own settings and the Gate, and leaves out the operator's user settings and enabled plugins, their MCP servers (the account's connectors included), the Claude in Chrome browser, and the tools that reach other sessions or the account (`ListAgents`, `SendMessage`, `PushNotification`, `RemoteTrigger`, `DesignSync`); `user` starts it as the tool loads itself. The project's `.mcp.json` is not passed (a project nobody trusted could name a program to run): servers are connectors, pinned and put to the Gate. Read at the start; a session begun before the change is carried on in a new child."
+ty = "str"
+default = "project"
+words = ["project", "user"]
+live = false
+
+# Which agent programs work on an API key that J4n keeps, in place of their own sign-in.
+[[setting]]
+id = "doer.keys"
+doc = "The agent programs given the API key J4n keeps for their provider (typed in Library › Providers) in place of their own sign-in, as connector ids with spaces between (`claude codex`). A program named here gets that key in its environment when it is started (`kept:` in its row's `secrets`), never in its arguments, and J4n refuses to start it while no key is kept; a task that runs as an account keeps the account's sign-in. A program not named here is started with its own sign-in, and a key typed for its provider reaches only J4n's own HTTP doers. Empty by default. Read at the start."
+ty = "str"
+default = ""
+live = false
+
+# Which of the operator's own key variables every agent program is given, beside those its row names.
+[[setting]]
+id = "keys.pass"
+doc = "The key variables of the environment J4n was started in that every agent program is given as they are, beside those its own row names, with spaces between (`GH_TOKEN GITHUB_TOKEN`). A variable whose name ends in _KEY, _TOKEN, _SECRET or _PASSWORD reaches no program J4n starts unless its row or this list names it; a tool, a shell line of J4n's own agent, the Python kernel and an MCP server are never given one from this list. The default keeps the GitHub sign-in that an agent's own `gh` and `git` read. Read at the start."
+ty = "str"
+default = "GH_TOKEN GITHUB_TOKEN"
+live = false

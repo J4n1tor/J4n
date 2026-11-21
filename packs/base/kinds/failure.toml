@@ -1,0 +1,21 @@
+api = 1
+
+# How a failure is told apart from another. The words a run failed with are read once, by these rows and
+# no model: the first row, by `order`, whose words occur wins; a failure no row knows is `transient`, which is the answer that
+# keeps work going. A rate limit is the provider saying "not now": the task waits it out (`wait` when the failure does not say
+# when it ends) and goes on by itself; a permanent failure is one that trying again cannot cure. An entry of digits only
+# (`429`) must stand alone, so `4290ms` is not a status code.
+[[kind]]
+id = "failure"
+doc = "A set of words that say what kind of failure a run ended with."
+examples = [
+  { id = "limit", doc = "The provider said not now.", class = "rate-limit", any = ["rate limit", "429", "usage limit"], wait = "30m", order = 20 },
+  { id = "gone", doc = "Trying again cannot help.", class = "permanent", any = ["not logged in", "model not found"], order = 30 },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the words are about." }
+class = { ty = "enum:transient|rate-limit|permanent|refused|tool", required = true, doc = "What kind of failure they say." }
+any = { ty = "list<str>", required = true, doc = "Words, any one of which in the failure (in lower case, compared without case) makes it this kind." }
+order = { ty = "int", default = 100, doc = "Rows are read from the lowest `order`; the first that matches wins." }
+wait = { ty = "dur", doc = "For `rate-limit`: how long to wait when the failure does not say when the limit ends." }

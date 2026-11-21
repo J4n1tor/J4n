@@ -1,0 +1,26 @@
+[0;1m glyphs · icons · corners round[0m
+ [0;1m❯        [0;2myou          [0m󰙁        [0;2mroute        󰄰        queued       [0m
+ [0;1m󰼛        [0;2mworking      [0;4m󰘥        [0;2mask          [0;4m󰔛        [0;2mcooling      [0m
+ 󰗡        [0;2mdone         [0;1;4m󰅚        [0;2mfailed       󰙧        stopped      [0m
+ [0;2m󰛐        read         󰍉        search       [0;1m󰲶        [0;2medit         [0m
+ [0;1m󰻭        [0;2mnew          [0m󰞷        [0;2mrun          [0m󰖟        [0;2mfetch        [0m
+ 󰯠        [0;2mtool         󰧭        output       󰄱        todo         [0m
+ 󰄲        [0;2mtodo-done    󰌶        think        [0;1;4m󰗖        [0;2merror        [0m
+ [0;2m󰢻        control      󰌹        session      󰳈        grant        [0m
+ [0;2m󰡌        compact      󰂜        notice       󰘬        worktree     [0m
+ [0;2m󰜘        commit       󰍁        read-only    [0m󰚥        [0;2mconnector    [0m
+ 󰇮        [0;2mmessage      [0;1m󰗑        [0;2mdecide       󰗑        decide-off   [0m
+ 󰑖        [0;2mround        [0m󰄬        [0;2myes          [0;1;4m󰅖        [0;2mno           [0m
+ [0;2m▸        fold-closed  ▾        fold-open    [0;1m⇥        [0;2mhint         [0m
+ [0;2m~        made         [0;1m󰯌        [0;2mpane         │        pipe-bar     [0m
+ [0;2m├─       pipe-tee     ╰─       pipe-elbow   ╭─       pipe-top     [0m
+ [0;2m└─       pipe-square  ·        airy-top     ›        airy-child   [0m
+ [0;1m▌        [0;2myou-cap-l    [0;1m▐        [0;2myou-cap-r    ├        branch-tee   [0m
+ [0;2m╰        branch-elbow └        branch-square┆        hang-bar     [0m
+ [0;1m┃        [0;2mfocus        ╭        box-tl       ╮        box-tr       [0m
+ [0;2m╰        box-bl       ╯        box-br       ┌        pop-tl       [0m
+ [0;2m┐        pop-tr       └        pop-bl       ┘        pop-br       [0m
+ [0;2m─        box-h        │        box-v        ╌        rule-dashed  [0m
+ [0;1m▔        [0;2mrule-top     [0;1m━        [0;2mrule-heavy   ▕        fill-left    [0m
+ [0;2m▏        fill-right   [0;1m█        [0;2mfill-full    [0;1m▌        [0;2mfill-half    [0m
+ [0;2m░        fill-empty   [0;1m▁▃▅█     [0;2mspark        ⏎        key-enter    [0m

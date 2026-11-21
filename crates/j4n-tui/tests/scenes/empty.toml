@@ -1,0 +1,2 @@
+doc = "Nothing has happened: no message from the core, no key. The screen the operator sees before the first frame of data."
+sizes = [[80, 24], [40, 10]]

@@ -1,0 +1,25 @@
+doc = "The reader, `read.style = full` and `read.links = plain`: denser, no blank rows, code not folded, the address said in words."
+sizes = [[80, 62]]
+
+[read]
+caps = "all"
+style = "full"
+links = "plain"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 4
+rev = 1
+rows = [{ key = "t", cells = [{ text = "explain the reader" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim" }] }, { key = "l", cells = [{ text = "A claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "t" }, { key = "p", cells = [{ text = "# Reading answers\n\nA paragraph with **strong words**, *emphasis*, `inline code`, ~~struck~~ and a [link](https://example.com/docs) plus a path src/main.rs:12 and `a ``tick`` inside`.\nA second line of the same paragraph, <b>raw html</b> shown as text.\n\n## Second level\n### Third level\n\n- bullet one that is long enough to wrap onto a second line of the answer\n  - nested bullet\n    - deeper bullet\n- bullet two\n\n8. eighth\n9. ninth\n10. tenth, with words enough to wrap round under its number\n\n- [ ] an open task\n- [x] a task that is done\n\n> a quoted aside that goes on\n> over two lines\n\nThe end.\n\nBefore the rule.\n\n---\n\n| name | role |\n|------|------|\n| ada | first |\n| grace | second |\n\n| a table with a wide first column | that cannot fit | in the room there is on a small screen at all | really |\n|---|---|---|---|\n| one | two | three | four |\n\n```rust\nfn main() {\n    println!(\"hi\");\n}\n```\n\n```\nl1\nl2\nl3\nl4\nl5\nl6\nl7\nl8\nl9\nl10\nl11\nl12\nl13\nl14\n```\n\nThe end." }, { text = "", tone = "dim" }], parent = "l" }, { key = "n", cells = [{ text = "limit: 5-hour window at **80%**, back at `18:20`", icon = "notice" }], parent = "t", by = "doer" }]

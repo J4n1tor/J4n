@@ -1,0 +1,30 @@
+├ frame
+│ pipes
+├ frame
+│ pipes 󰍁
+├ frame
+│ rail 󰗖
+│ not offered
+╰ frame
+  ‹ pipes ›
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

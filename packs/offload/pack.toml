@@ -1,0 +1,7 @@
+api = 1
+id = "offload"
+version = "0.1.0"
+summary = "light chores (reads, searches, test runs, digests) go by rule to a cheaper doer and come back as rows; the main lane stays the only writer"
+use_when = "the line is a light chore (read, search, run tests, digest a log) that a cheaper tool can do"
+needs = ["base"]
+stability = "experimental"

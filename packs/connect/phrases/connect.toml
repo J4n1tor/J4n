@@ -1,0 +1,8 @@
+api = 1
+
+# The words that start the Connect flow: `/connect gemini`. The thread keeps the doer it has.
+[[phrase]]
+id = "connect"
+doc = "Connect a program J4n has never seen, with no code: `/connect gemini`. It looks at the program, drafts how to speak to it, runs it once, and proposes the connector for your yes."
+words = ["/connect", ":connect"]
+flow = "connect"

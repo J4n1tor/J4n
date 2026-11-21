@@ -1,0 +1,20 @@
+  │  ├─ 󰛐  parser.rs · lexer.rs · args.rs
+  │  ├─ 󰲶  parser.rs                                 +12 −3
+  │  ├─ 󰞷  cargo test parser                         󰄬 3.1s
+  │  ├─ Trailing commas now parse in argument lists and
+  │  │  the docs show the new grammar.
+  │  ╰─ 󰘥  commit to b-claude?               1 󰄬  2 󰅖   ⇥ 1
+  ╰─ 󰄰  C pi sonnet                                  queued
+╭──────────────────────────────────────────────────────────╮
+│ 󰘥 B claude                                        󰔛 8:42 │
+│ commit to b-claude?                                      │
+│ ▕██▍░░░░░▏ 30   󰘬 b-claude   󰜘 4f2a1c                    │
+│ ⇥ 1  󰄬 yes                                               │
+│   2  󰅖 no                                                │
+│   3  󰄬 yes · commits in b-claude this session   󰳈 widens │
+│   4  󰙧 stop B                                            │
+╰──────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────╮
+│ fix the failing test in parser.rs                  → 󰘥 B │
+╰──────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.14  󰘥 B                      ⇥ 1  F1

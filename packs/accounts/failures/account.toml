@@ -1,0 +1,10 @@
+api = 1
+
+# What an account's failure says: an account that is not there is not there on the next try either, so no retry mends
+# it; the words that name it stand before the table's `transient` that a failure none of them knows would be.
+[[failure]]
+id = "no-account"
+doc = "The account the line named is not in the table: `:account add` makes it, a retry does not."
+class = "permanent"
+order = 25
+any = ["no account called"]

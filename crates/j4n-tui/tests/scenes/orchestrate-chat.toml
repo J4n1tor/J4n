@@ -1,0 +1,34 @@
+doc = "A chat Main started, entered: the brief is the head of its first row (the thread began with no line of the operator's), its doer, whether it only reads and what it may spend are the first note, and the chat's report is its own transcript."
+sizes = [[120, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:c1", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:c1"
+total = 3
+rev = 1
+rows = [
+  { key = "t0", cells = [{ text = "read the code and say what it does" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] },
+  { key = "t0a", cells = [{ text = "brief · reads · claude · up to $0.20", tone = "dim" }, { text = "", tone = "dim" }], parent = "t0", detail = [{ text = "read the code and say what it does", tone = "dim" }, { text = "Done when: it says what it does", tone = "dim" }] },
+  { key = "t0b", cells = [{ text = "it parses lines", icon = "done" }, { text = "", tone = "dim" }, { text = "2.1s", tone = "dim" }], parent = "t0" },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"

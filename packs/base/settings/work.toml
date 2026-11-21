@@ -1,0 +1,71 @@
+api = 1
+
+# Where a task works and what is done with what it did (kind `setting`). A layer above the pack says its
+# `value`.
+[[setting]]
+id = "work.apply"
+basic = true
+doc = "What happens to the change of a task that worked in a worktree when it is over: `auto` lays it into your folder at once if it applies cleanly and touches nothing you changed there but an empty file git does not track, where the task made that file; `off` keeps the worktree until it is taken. A change that cannot be laid down is always kept, with the reason."
+ty = "str"
+default = "auto"
+words = ["auto", "off"]
+
+[[setting]]
+id = "box.use"
+basic = true
+doc = "Which `box` row a task in the place `box` is put behind: `auto` is the first whose probe passes."
+ty = "str"
+default = "auto"
+live = false
+
+[[setting]]
+id = "box.unavailable"
+doc = "When no box can run here (a container has no user namespaces): `refuse` stops the task and says the way out; `here` runs it unboxed and says so."
+ty = "str"
+default = "refuse"
+words = ["refuse", "here"]
+live = false
+
+[[setting]]
+id = "box.net"
+basic = true
+doc = "Whether a boxed task may use the network. The agents are API clients: leave it on unless the row can cut it and the work needs none."
+ty = "bool"
+default = true
+live = false
+
+[[setting]]
+id = "check.after"
+basic = true
+doc = "Whether the project's own check (kind `check`) is run after a task that changed files, where it worked. On by default: the project's tests run unasked and may take long, so turn it off here when they do."
+ty = "bool"
+default = true
+
+# The project card: on, since it takes fewer turns and tokens to the first edit, with no fewer passes.
+[[setting]]
+id = "brief.project_card"
+doc = "Whether the first turn of a session is given the project card in its Brief: the stable facts of the folder (its manifests, the top of its tree, its scripts, the titles of its docs), derived from the files with no model, each made again when its file changes, at most 300 tokens. On by default."
+ty = "bool"
+default = true
+
+# Remembered claims: off until it is measured to help.
+[[setting]]
+id = "brief.recall"
+doc = "Whether the first turn of a task whose goal is the goal of an earlier task is shown what that task's report claimed, as the Brief section `remembered`: only claims that were checked, whose files are as they were (a claim is dropped when its file's hash changed), worded as an old report's claims and not as facts, at most 150 tokens. Off until it is measured."
+ty = "bool"
+default = false
+
+# Words for ids in answers: off until it is shown not to lower the pass rate.
+[[setting]]
+id = "brief.plain_answer"
+doc = "Whether the turn that writes your answer is asked, in one sentence, to say what a thing is in words and to add a few words when it cites an id from the project. A model doer gets the sentence in its Brief's contract; a doer that runs a program of its own gets it after its text through the wrapper that carries the kit card. Planning turns and branches never get it; nothing about formatting is ever sent. Off until it is shown not to lower the pass rate."
+ty = "bool"
+default = false
+
+# A doer that takes no Brief (claude, codex, gemini, opencode) never saw one; this puts it after its goal as text.
+[[setting]]
+id = "brief.cli"
+doc = "Whether a doer that takes no Brief is given one anyway, as text after its goal: the sections that fit (the contract and the project card on the first line of a session; the plan line, the files this line touched, notes you kept, what earlier tasks remember, messages and the reports of branches on every line), and nothing for a section with nothing in it. `claude` (the default): the doers that read a folder of skills as their own, which is claude; `all`: every doer that takes no Brief (codex, gemini, opencode, pi); `off`: none. The skills it picks are not in it: claude has them as its own folder, another doer after its goal."
+ty = "str"
+default = "claude"
+words = ["off", "claude", "all"]

@@ -1,0 +1,58 @@
+api = 1
+
+# The claude CLI's two windows (what its `rate_limit_event` carries). No price: it is the operator's. A row of theirs with the same
+# `id` is read on its own, so it names the connector and the windows again, and is laid over this one field by field: it adds
+# `price = "$24"` (`period` is `month` unless it says `week`) and may change `assume`; until then a request on it says, in words, that
+# it has no price and where to put one, and its share of the window (`0.8% of 5h`, which needs no price) stands beside its list cost.
+#
+# To set it, put this in `plan.toml` in J4n's own folder (`$J4N_HOME`, else `~/.j4n`; the file starts with `api = 1`):
+#
+#     [[plan]]
+#     id = "claude"
+#     connector = "claude"
+#     windows = ["five_hour=5h", "seven_day=7d"]
+#     price = "$100"
+#
+# The price is the plan's own. Examples, not defaults: Claude Max5 is about "$100" a month and Pro about "$20" (J4n assumes
+# these until the operator says otherwise); a second account on another tier is a row with its `account`.
+#
+# `assume` is what a month of the plan is worth in list dollars before J4n has measured it. A rough reading of the list cost of a full
+# five-hour window, over a month, is halved: an over-estimate on purpose, for the first
+# `cost.plan.min_n` pairs; after them the plan cost is measured and says so.
+[[plan]]
+id = "claude"
+doc = "The plan the claude CLI is signed in with."
+connector = "claude"
+assume = "$1000"
+windows = ["five_hour=5h", "seven_day=7d"]
+
+# The tiers of a claude subscription, for an account that names one (`:account add claude work plan=max5`, `plan = "max5"` on its
+# row). Each has the claude windows and the published list price (Max5 at
+# "$100" a month, Pro at "$20"); a row of theirs with the same `id` changes either. `assume` is the same over-estimate scaled to
+# the tier (Pro about a fifth of Max5). No account names a tier on its own: a request of an account that names none is paid by `claude`,
+# which has no price.
+[[plan]]
+id = "max5"
+doc = "A Claude Max 5x subscription."
+connector = "claude"
+price = "$100"
+assume = "$1000"
+windows = ["five_hour=5h", "seven_day=7d"]
+
+[[plan]]
+id = "pro"
+doc = "A Claude Pro subscription."
+connector = "claude"
+price = "$20"
+assume = "$200"
+windows = ["five_hour=5h", "seven_day=7d"]
+
+# Max 20x: the same two windows as Max 5x, a larger share of each; the price is the one the operator would give ("$200" a month is the
+# published one), and `assume` is the same over-estimate scaled to the tier (four times Max5's). A tier is only read by an account that names it.
+[[plan]]
+id = "max20"
+doc = "A Claude Max 20x subscription."
+connector = "claude"
+price = "$200"
+assume = "$4000"
+windows = ["five_hour=5h", "seven_day=7d"]

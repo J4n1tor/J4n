@@ -1,0 +1,30 @@
+api = 1
+
+# What to run to find out whether work holds up (pack `code`'s `lane_check`). After a
+# task that changed files, the first row below, in the order written, whose `files` exist in the folder it worked in is run there, with
+# a clock on it and a cleared environment. A check is a program with its arguments as separate words, never a line given to a shell, so
+# no word of it is read again as syntax. A project may bring rows of its own: they run code, so they count only in a project that is
+# trusted. Exit 0 is a pass and any other exit a failure; a check that cannot run here (the clock ran out, the program is not there, or
+# its output says `unrunnable`) is neither: it is no evidence either way.
+[[kind]]
+id = "check"
+doc = "A command that tells whether the work in a folder holds up, and when it applies."
+untrusted = "ignore"
+examples = [
+  { id = "cargo", doc = "A Rust project's tests.", files = ["Cargo.toml"], argv = ["cargo", "test", "--quiet"], timeout = "15m", pass_env = ["CARGO_HOME", "RUSTUP_HOME"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it checks." }
+files = { ty = "list<str>", required = true, doc = "It applies when any of these exists in the folder. A `*` in the last name of a path matches any run of characters (`test_*.py`)." }
+also = { ty = "list<str>", default = [], doc = "And every one of these must exist in the folder too: the project's own `.venv/bin/python`, its `uv.lock`. A row that names the project's own interpreter sorts before the one that uses the machine's `python3`." }
+needs = { ty = "obj", fields = { file = { ty = "str", required = true }, contains = { ty = "str", required = true } }, doc = "And, when given, this file must hold this text (a `package.json` with no `\"test\"` has no check)." }
+argv = { ty = "list<str>", required = true, doc = "The command, as separate words." }
+timeout = { ty = "dur", default = "10m", doc = "The clock. A check still running at the end of it is unrunnable." }
+pass_env = { ty = "list<str>", default = [], doc = "Names of environment variables the check may see; the rest of the environment is cleared to a base set, so the project's tests never see the machine's keys." }
+env = { ty = "map<str>", default = {}, doc = "Variables the check always gets. In a folder found above a write, below the folder the check is given, `PYTHONPATH` gets that folder's parent after its value, so the tests of a package import it by its name." }
+unrunnable = { ty = "list<str>", default = [], doc = "Words which, in its output, say the check could not run here (no network, a missing toolchain, a read-only folder) and not that the work is wrong." }
+net = { ty = "bool", doc = "`false`: the check runs with the network cut where a box can cut it (place `box`), whatever the setting `box.net` says. Left out, `box.net` decides." }
+if_found = { ty = "bool", default = false, doc = "The row applies only where its program is found: a name on the `PATH` (a `uv` row gives way to the next row when there is no `uv`), a path in the folder when it has a `/`." }
+top = { ty = "bool", default = false, doc = "The row applies only in the folder the check is given (a worktree, the project), never in a folder above a write that is looked in for a project: `test_*.py` marks the top of a folder of scripts, and a package inside a project has such files as well." }
+named = { ty = "bool", default = false, doc = "Run only when something names it (a chore of the pack `offload`): never the check a folder has by default, and not one a plan item may name." }

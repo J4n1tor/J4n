@@ -1,0 +1,7 @@
+api = 1
+id = "ledger"
+version = "0.0.0"
+summary = "one report per settled thread, read from the Log: the facts, a receipt for every line, the answers merged under their lines; off by default, so a thread ends as it always did"
+use_when = "the operator wants a report of what a thread did, line by line, with its cost"
+needs = ["base"]
+stability = "experimental"

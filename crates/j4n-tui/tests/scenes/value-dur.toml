@@ -1,0 +1,69 @@
+doc = "The dur field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "wall", field = { kind = "dur", bind = "cfg:dur.a" } },
+  { id = "off", title = "wall", field = { kind = "dur", bind = "cfg:dur.off", props = { disabled = "read only" } } },
+  { id = "bad", title = "wall", field = { kind = "dur", bind = "cfg:dur.bad" } },
+  { id = "b", title = "wall", field = { kind = "dur", bind = "cfg:dur.b" } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:dur.a"
+value = "5m"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:dur.off"
+value = "5m"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:dur.bad"
+value = "5x"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:dur.b"
+value = "5m"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "90s"

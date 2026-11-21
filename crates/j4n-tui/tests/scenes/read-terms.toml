@@ -1,0 +1,30 @@
+doc = "Codes in answers: an id the project's docs define is drawn with a few faint words the first time it is named and alone after that; an id they do not define, an id in code and one in a link are left as written."
+sizes = [[60, 22], [80, 20], [120, 18]]
+
+[read]
+caps = "all"
+root = "/work"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "value"
+bind = "terms:"
+value = { "X-101" = "some row of text", "B138" = "a made-up sample row of the docs", "K12" = "the Tab key" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [{ key = "t", cells = [{ text = "what is still open" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim" }] }, { key = "l", cells = [{ text = "A claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "t" }, { key = "p", cells = [{ text = "Open loose ends: X-101, and B138 (fixed). X-101 is the one to read first.\n\n- K12 is built; X-999 and X1 are not in the docs.\n- Code stays as written: `X-101`, and [see B138](https://example.com).\n\nNothing else is open, **K12** included." }, { text = "", tone = "dim" }], parent = "l" }]

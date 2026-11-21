@@ -1,0 +1,42 @@
+api = 1
+
+# Data leaving for a provider: `action.class` is the most sensitive class in what would be sent, and
+# `action.target` the provider's zone (local, trusted, any). Secrets never leave. Private data stays in the local zone unless
+# the operator says yes. Data of no known class is treated as private.
+
+[[gate]]
+id = "egress-secret"
+doc = "Secret data is never sent."
+on = ["egress"]
+when = "action.class == 'secret'"
+verdict = "block"
+why = "secrets never leave this machine"
+
+[[gate]]
+id = "egress-private"
+doc = "Private data leaves only to the local zone, or with a yes."
+on = ["egress"]
+when = "action.class == 'private' and action.target != 'local'"
+verdict = "ask"
+why = "this is private data and the provider is not local"
+risk = 60
+
+[[gate]]
+id = "egress-unclassified"
+doc = "Data of no known class is not sent beyond the local zone without a yes."
+on = ["egress"]
+when = "not (action.class in ['public', 'project', 'private', 'secret']) and action.target != 'local'"
+verdict = "ask"
+why = "nothing says what class this data is and the provider is not local"
+risk = 60
+
+# A message between chats: the tool `tell` is a `connect` to `chat:<id>`, and `action.inside` says whether both chats are on one
+# account. Inside one project and one account it is allowed (no rule asks); another account is another quarantine and a message does not cross it.
+
+[[gate]]
+id = "tell-across-quarantine"
+doc = "A message to a chat on another account is never sent."
+on = ["connect"]
+when = "target matches 'chat:*' and not (action.inside == true)"
+verdict = "block"
+why = "that chat is on another account, which is another quarantine: a message does not cross it"

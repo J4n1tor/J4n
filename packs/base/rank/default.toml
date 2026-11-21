@@ -1,0 +1,26 @@
+api = 1
+
+# The standing numbers (what each candidate has done here, folded from the Log) decide; with none, the recommended
+# option and then the smallest id do. `reliability` is the smoothed chance a run is done (0 to 1), `cost` the expected
+# dollars per success: unpriced is never free, so a candidate without one gets the highest price known.
+[[rank]]
+id = "default"
+doc = "Reliable first, then cheaper; a lead under 0.05 is not a clear pick."
+weights = { reliability = 1.0, cost = -0.1 }
+min_gap = 0.05
+
+# For a thread's first election: the same, with cost counting for more.
+[[rank]]
+id = "cheap"
+doc = "Election that favours the cheaper candidate: cost counts at least -1."
+weights = { reliability = 1.0, cost = -0.1 }
+cost_low = true
+min_gap = 0.05
+
+# Under `crew.goal = quality` (and only then): the pass record of a doer for the role, discounted by how unsteady it was, and nothing else; cost does not
+# count. A lead under 0.06 is inside the board's own spread and is not a clear pick.
+[[rank]]
+id = "quality"
+doc = "Best record first, steadier before unsteady; cost does not count."
+weights = { quality = 1.0 }
+min_gap = 0.06

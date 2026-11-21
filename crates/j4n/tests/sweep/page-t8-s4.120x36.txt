@@ -1,0 +1,36 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
+ ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────
+ Features   Look   This Session   Keys   Loop   Gates   All   Commands
+─────────────────────────────────━━━━━━─────────────────────────────────────────────────────────────────────────────────
+  key                        keys  native                            what it does
+├ ask/change                 —     Enter
+│   Open the change an approval would make.
+├ ask/later                  —     Esc                               Put the question off; it holds.
+├ ask/next                   —     Down                              The next question.
+├ ask/pick                   —     1–9                               Answer with the option of that number, 1–9.
+├ ask/prev                   —     Up                                The question before.
+├ ask/recommended            —     C-Right, Right, Tab               Take the answer the core recommends: ⇥ on an empty…
+├ ask/why                    —     ?                                 Say why the risk is what it is.
+├ composer/aim               —     C-t                               Steer the next lane that works.
+├ composer/clear             —     C-u                               Clear the line.
+├ composer/end               —     C-e, End                          The end of the line.
+├ composer/home              —     C-a, Home                         The start of the line.
+├ composer/newer             —     Down                              A newer line of the history.
+├ composer/newline           —     S-Enter, C-j                      A new line in the draft (⇧⏎ where the terminal tel…
+├ composer/older             —     Up                                An older line of the history.
+├ composer/scroll-line-down  —     S-Down                            Scroll the chat a line down; the keys stay in the …
+├ composer/scroll-line-up    —     S-Up                              Scroll the chat a line up; the keys stay in the li…
+├ composer/send              —     Enter                             Send the line.
+├ composer/to-transcript     —     C-Up                              Put the keys on the newest turn.
+├ global/back                —     Esc                               Close what is open, else go to Chat.
+├ global/bar                 —     C-g                               Turn the bottom row over: the keys, or the state o…
+├ global/palette             —     C-k                               Find anything: the commands and the tree.
+├ global/quit                —     C-c, C-d                          Leave J4n.
+├ global/scroll-down         —     PgDn                              Scroll half a screen down (a short glide; a jump w…
+├ global/scroll-up           —     PgUp                              Scroll half a screen up (a short glide; a jump wit…
+├ global/subtab-next         —     M-Right                           The next sub-tab.
+├ global/subtab-prev         —     M-Left                            The sub-tab before.
+├ global/tab-alt             —     M-1, M-2, M-3, M-4, M-5, M-6, M…  Open tab 1–9; the open tab's own number again open…
+├ global/tab-numbers         —     M-0                               Show the numbers of the tabs for a moment.
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

@@ -1,0 +1,64 @@
+api = 1
+
+# The switch of the pack `crew` and the one limit its seats are held to. `crew.on` and `crew.envoys` are `auto`: they follow the word `orchestrate` of
+# `lanes` (on under it, off else); `on` or `off` set by hand win. Main's brief may name a seat only while `crew.on` is on; with it off a brief is read as
+# it always was.
+[[setting]]
+id = "crew.on"
+doc = "`auto` (the default): on while `lanes` is `orchestrate`, off else; `on` and `off` that you set win. On: while chats are briefed by Main, a brief may name a seat (`seat`): the seat's words and access are given to that chat, and the narrower access of the seat and the brief wins. Off: the field is not read and a chat is started as before."
+ty = "str"
+default = "auto"
+words = ["auto", "on", "off"]
+auto = "lanes=orchestrate"
+
+[[setting]]
+id = "crew.voice_max"
+doc = "The most characters a seat's own words may hold (1200 by default). A seat with more is left out and the doctor says which."
+ty = "int"
+default = 1200
+min = 200
+max = 4000
+
+[[setting]]
+id = "crew.envoys"
+doc = "`auto` (the default): on while `lanes` is `orchestrate`, off else; `on` and `off` that you set win. On, with `crew.on` and `lanes` set to `orchestrate`: the operator may open an envoy (the command `envoy`), a chat that interviews them, drafts a charter that they sign in its chat, and sends Main their request while the charter holds. Every question of the work shows in the envoy's chat. An envoy acts only under a charter you signed in its chat. Needs a screen: a run with no one to ask has no envoy."
+ty = "str"
+default = "auto"
+words = ["auto", "on", "off"]
+auto = "lanes=orchestrate"
+
+[[setting]]
+id = "crew.chat_settings"
+doc = "The settings a chat may hold of its own, as words with a space between: `model`, `effort`, `tools.allow`, `tools.deny` and `personality` act on the chat's turns. A setting that is machine-wide, about money, or about safety is refused whatever is listed here, and so is one a chat does not act on yet."
+ty = "str"
+default = "model effort tools.allow tools.deny personality"
+
+[[setting]]
+id = "crew.goal"
+doc = "What the crew works for: `cost` (the default) leaves everything as it is; `quality` aims at a steady outcome nearest to what was asked. Under `quality`: a writing chat's review is made by the `reviewer` seat, a critic reads the whole change against your own words when a plan ends, `orchestrate.chats` is its hard 4 (writers stay as set), reviews at once are held to `crew.checkers`, and a doer is picked by its record (how often its work passed and how steady it was; the public board's scores while it has too little of one) and not by cost. Needs `crew.on`."
+ty = "str"
+default = "cost"
+words = ["cost", "quality"]
+
+[[setting]]
+id = "crew.checkers"
+doc = "Under `crew.goal = quality`: how many reviews of a plan may run at once (2 by default); a review that has no place waits for one to end. They are counted apart from `orchestrate.chats`."
+ty = "int"
+default = 2
+min = 1
+max = 4
+
+[[setting]]
+id = "crew.record_min"
+doc = "Under `crew.goal = quality`: how many results of a doer for a role make its own record count (5 by default); with fewer, the public board's score for that doer stands in for it, if the seeds have one."
+ty = "int"
+default = 5
+min = 1
+max = 50
+
+[[setting]]
+id = "crew.links"
+doc = "Who may talk to whom, while the crew is on. `star` (the default) is the routing there is: you or an envoy to Main, Main to a chat and an envoy, a chat to Main with its report and its opinion, a question of the work to its envoy. `declared` is only the `[[link]]` rows you or a pack wrote: a message no row carries is refused with the reason, a row's `hops` is the most times one thread may pass it, and a cycle of rows that no `hops` caps is left out when they load."
+ty = "str"
+default = "star"
+words = ["star", "declared"]

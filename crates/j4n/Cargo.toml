@@ -1,0 +1,36 @@
+[package]
+name = "j4n"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+j4n-proto.workspace = true
+j4n-core.workspace = true
+j4n-connect.workspace = true
+j4n-reach.workspace = true
+j4n-memory.workspace = true
+j4n-bench.workspace = true
+j4n-shape.workspace = true
+j4n-qc.workspace = true
+j4n-contribute.workspace = true
+j4n-inbox.workspace = true
+j4n-habits.workspace = true
+j4n-ledger.workspace = true
+j4n-parts.workspace = true
+j4n-tui.workspace = true
+j4n-lab.workspace = true
+
+[dev-dependencies]
+toml.workspace = true
+serde_json.workspace = true
+
+# The screen's speed: headless, release, against the ratchet in fixtures/tui-bench.toml.
+[[bench]]
+name = "tui_speed"
+harness = false

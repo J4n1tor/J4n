@@ -1,0 +1,26 @@
+ roles · contrast
+ bg     #000000      input
+ raise  #080e12      mix bg→accent 7%
+ sel    #111f29      mix bg→accent 16%
+ text   #ffffff  Aa  input
+ dim    #969696  Aa  text→bg ≤41% · ≥4.5       5.7:1  ✓
+ faint  #696969  Aa  text→bg ≤60% · ≥3.0       3.1:1  ✓
+ edge   #474747  Aa  mix text→bg 72%
+ accent #6cc4ff  Aa  input · ≥4.5              8.8:1  ✓
+ soft   #5091bd  Aa  accent→bg ≤26% · ≥4.7     4.9:1  ✓
+ ok     #5ee38f  Aa  input · ≥4.5              10.3:1 ✓
+ warn   #ffd75f  Aa  input · ≥4.5              12.1:1 ✓
+ error  #ff6e6e  Aa  input · ≥4.5              6.2:1  ✓
+ route  #d0a8ff  Aa  input · else accent↻60°   8.6:1  ✓
+ run    #ffb070  Aa  input · else warn↻−20°    9.3:1  ✓
+ fetch  #5fe0e0  Aa  input · else accent⇄ok    10.6:1 ✓
+ you    #6cc4ff  Aa  = accent, bold
+ made   #696969  Aa  = faint (the ~ mark)
+ add    #5ee38f  Aa  = ok
+ del    #ff6e6e  Aa  = error
+ focus  #6cc4ff  Aa  = accent, bold
+ strong #ffffff  Aa  = text, bold
+ code   #6cc4ff  Aa  = accent
+ link   #5fe0e0  Aa  = fetch, underlined
+ head   #6cc4ff  Aa  = accent, bold
+

@@ -1,0 +1,13 @@
+
+▌ first, a short question                                                12:29 ▐
+  ╰─ 󰗡  A work
+     ├─ 󰲶  parser.rs                                                    +3 −7 ▸
+     ╰─ Done: the parser reads trailing commas and the docs say so, which is a
+        sentence long enough to wrap.
+
+▌ thanks, one more question                                              12:41 ▐
+  ╰─ 󰼛  B work                                                             0:22
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ B working  write                                                   $0.33  demo

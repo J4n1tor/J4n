@@ -1,0 +1,6 @@
+api = 1
+
+[[event]]
+id = "bench.case"
+doc = "A case was run with a doer: whether it passed, what each line got, what the check of the folder said, and what it cost."
+fields = { case = { ty = "str", required = true }, doer = { ty = "str", required = true }, pass = { ty = "bool", required = true }, holdout = { ty = "bool" }, brief = { ty = "bool" }, usd = { ty = "num" }, ms = { ty = "int" }, folder = { ty = "str" } }

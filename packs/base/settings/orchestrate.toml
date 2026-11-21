@@ -1,0 +1,128 @@
+api = 1
+
+# The quick look of the `orchestrate` word of `lanes`: one cheap call before Main's own turn that says whether a line is answered, worked in one
+# lane, or split into chats. `auto` (the default) follows the word: on while `lanes` is `orchestrate`, off else; `on` or `off` set by hand win, and a
+# `true` or `false` in an older file reads as `on` or `off`.
+[[setting]]
+id = "orchestrate.look"
+doc = "`auto` (the default): on while `lanes` is `orchestrate`, off else; `on` and `off` that you set win. On: a plain line is first read, once: the Deciders answer what they are sure of (what the line is, whether it goes on from the last answer, which open chat it is about, which doer it asks for), a cheap model with no tools is asked only what they left open, and where nothing settles a question the line goes to Main as typed; the read is written to the Log and Main's row says what the line was taken as, by whom, and why a question stayed open. When it says split, Main's own model (read-only) writes a brief for each part and J4n opens a chat for each brief that passes its checks (a chat that writes waits for your yes, as `orchestrate.ask` says); a part that is not opened stays with Main, and the Log says why. Commands, `@c3` and `@claude` (a doer named in exact syntax, with its model after it), and a line typed while a task works are not read, and the Log says why for the last. Off: the line goes to Main as typed."
+ty = "str"
+default = "auto"
+words = ["auto", "on", "off"]
+auto = "lanes=orchestrate"
+
+[[setting]]
+id = "orchestrate.look_doer"
+doc = "The doer that makes the quick look (empty: the cheap tier's, `plan.cheap_doer`). It reads only: it is given no tool that writes."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "orchestrate.look_model"
+doc = "The model of the quick look, as a model word of its doer (`haiku` is the newest Haiku; empty: the cheap tier's, `plan.cheap_model`). A word that matches none refuses the look, and the line goes to Main as typed."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "orchestrate.read_model"
+doc = "The questions of the read that the quick model may answer, as names with spaces between: `kind` (what the line is, and the parts of a split), `goes_on` (whether it goes on from the last answer), `chat` (which open chat it is about), `asked` (which doer it asks for). The Deciders answer any question they are sure of; for a name left out of this list the model is not asked, the question stays open and the line goes to Main as typed, which the row says. The default is `kind` alone: the model is less reliable on `goes_on`, `chat` and `asked`, so they stay with the Deciders (and `@claude` names a doer exactly); `kind` made no false split and a miss leaves the line one lane, as typed."
+ty = "str"
+default = "kind"
+
+[[setting]]
+id = "orchestrate.read_big"
+doc = "How many bytes of files a line may name before reading them is worth a chat of its own: a split whose chats only read stays one lane unless the paths the line names hold more than this (200 kB by default). Counted by J4n from the files, never judged by the model."
+ty = "int"
+default = 200000
+min = 0
+max = 1000000000
+
+[[setting]]
+id = "orchestrate.catalogue"
+doc = "The most tokens the list of J4n's features, doers and skills that the quick look is shown may take (about four characters each). A list over it is shortened: commands first, then the packs' summaries, then the skills."
+ty = "int"
+default = 1500
+min = 200
+max = 20000
+
+[[setting]]
+id = "orchestrate.chats"
+doc = "The most chats one line may start when the quick look says it splits (3 by default, never more than 4). The briefs past it are worked by Main itself."
+ty = "int"
+default = 3
+min = 1
+max = 4
+
+[[setting]]
+id = "orchestrate.review"
+doc = "On (the default): under `orchestrate`, when Main works a line itself and changes files, another doer reads the change with a clean context and names its concerns; they go back to Main, at most three rounds (`plan.sends`), and what is left after that is yours to decide. The reviewer is `plan.review_doer` and `plan.review_model`, or the election. A split's chats are reviewed either way. Off: Main's own lane is not reviewed."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "orchestrate.held"
+doc = "Who decides on a chat's part that was stopped (blocked, its work held in its worktree). `main` (the default): under `--approval full`, where every yes is given, Main is asked and its answer acts: a line `held c1: lay` lays the part's held work in this folder once more, checked after, and `held c1: drop` leaves it where it is held; a line in another form leaves it held, and each part is decided once. Without `--approval full` the part waits for you either way. `operator`: Main is told of it, and laying it in is always yours."
+ty = "str"
+default = "main"
+words = ["main", "operator"]
+
+[[setting]]
+id = "orchestrate.chat_top"
+doc = "The dearest model a chat of a split is briefed on, as a model word (`sonnet`): a brief whose model costs more by `offload.prices` runs on this word instead, and the chat says so. Empty (the default): Main's brief names the model, as it planned."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "orchestrate.way"
+doc = "When the read of a line is unsure of the way of working (it said split and named no parts): `ask` (the default) shows one choice before any work starts, one lane or split into chats, with the read's way recommended and a row for your own words; `decide` takes the read's way, one lane, with no question. A run with nobody to ask always takes the read's way, and the Log says so."
+ty = "str"
+default = "ask"
+words = ["ask", "decide"]
+
+[[setting]]
+id = "orchestrate.writers"
+doc = "How many chats that write may work at once (2 by default); a brief past it is worked by Main itself. Each writes in a worktree of its own, held until its work is checked."
+ty = "int"
+default = 2
+min = 0
+max = 4
+
+[[setting]]
+id = "orchestrate.ask"
+doc = "Which chats wait for your yes before they start: `writes` (the default) the ones that write, `always` every one, `never` none, so a split starts at once. The card shows each brief, its doer, its model and what it may spend."
+ty = "str"
+default = "writes"
+words = ["writes", "always", "never"]
+
+[[setting]]
+id = "orchestrate.digest"
+doc = "The most tokens the digest of one chat may take: what it came to (done, sent back, blocked), what it cost, the claims of its report as the checks found them, the files, the checks it ran, how sure it was and what it left open. Never its transcript."
+ty = "int"
+default = 400
+min = 50
+max = 5000
+
+[[setting]]
+id = "orchestrate.digests"
+doc = "How many of the newest digests Main's next turn is shown (3 by default), with a line for each chat it started. Older ones stay in the Log, so what Main holds does not grow with the chats it starts."
+ty = "int"
+default = 3
+min = 0
+max = 20
+
+[[setting]]
+id = "orchestrate.access"
+doc = "`auto` (the default): on while `lanes` is `orchestrate`, off else; `on` and `off` that you set win. On: each chat of a split that writes is given read-only copies, in its own worktree and at the paths they have in the project, of the files of another chat that its brief reads (as that chat has them now) and of the folder's build files and the files Main's line wrote there; each copy is kept as its source is, and the chat is told when one changes. A chat asks for more with the tool `access`: the plan answers first, then the Deciders, then Main (`access <id>: yes` or `no`); the guard refuses secrets, keys, a doer's own state, paths outside the project and in `.git` whatever was said. A copy is never the chat's work: it is not laid into your folder, and J4n makes no commit in your project. Off: each chat sees the project as last committed and its own files, and tests against stand-ins."
+ty = "str"
+default = "auto"
+words = ["auto", "on", "off"]
+auto = "lanes=orchestrate"
+
+# The approvals J4n takes itself: a switch that follows the word `orchestrate`, as `orchestrate.look` does.
+[[setting]]
+id = "approval.inside"
+doc = "`auto` (the default): on while `lanes` is `orchestrate`, off else; `on` and `off` that you set win. On: an approval no rule has a say about (or that only the rule for an unreadable line asks, for invisible characters inside the text a here-document gives Python) is said yes to by the Gate when its effect stays inside the project, a chat's worktree or the task's own temporary folder: an edit, a test run (`cargo test`, `uv run pytest`, `npm test`), a linter, a script of the project named for a check (`scripts/verify.sh`), a remove of build folders, Python on the line that opens only files it names inside the project. A line that is inside but for the paths of some Python, built while it runs, is put to a Decider (the point `inside`), which may say `inside` or `ask`; no Decider, or an unsure one, asks you. You are still asked for anything outside the project, the network, credentials, a delete that is not of build folders, `git push`, a deploy and a remote line, and for what a rule of yours asks. The Log says who said yes: `rule:gate` (\"inside the project: …\") or `decider:<id>` (\"inside, harmless: …\"). A run that denies every ask keeps it off."
+ty = "str"
+default = "auto"
+words = ["auto", "on", "off"]
+auto = "lanes=orchestrate"

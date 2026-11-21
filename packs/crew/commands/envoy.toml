@@ -1,0 +1,7 @@
+api = 1
+
+[[command]]
+id = "envoy"
+doc = "Open an envoy (crew.envoys, `lanes` orchestrate): a chat that talks the work through with you, drafts the charter you sign in it, and tells Main. Every question of its work shows in its chat."
+words = [":envoy"]
+core = "envoy"

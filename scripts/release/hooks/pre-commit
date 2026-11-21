@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# pre-commit — a staged public file (release/public.paths) that holds an address, a home folder, a key shape or a
+# private term is refused before it is committed. Private files (docs/dev/) are not scanned.
+set -euo pipefail
+root=$(git rev-parse --show-toplevel)
+[ -f "$root/scripts/release/leakscan.py" ] || exit 0
+command -v python3 >/dev/null 2>&1 || { echo "pre-commit: python3 not found, leak scan skipped" >&2; exit 0; }
+exec python3 -I "$root/scripts/release/leakscan.py" --staged

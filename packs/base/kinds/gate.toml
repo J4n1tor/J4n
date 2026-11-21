@@ -1,0 +1,24 @@
+api = 1
+
+# A rule of the Gate: for which effects, when it applies, and what it says. Every effect is checked once
+# against every rule; Block beats Ask beats Allow, whichever layer a rule is in, and a grant, a mode or a layer never turns a
+# Block into anything else. The fields that decide are floors: a layer above the one that declared a rule cannot change them
+# (it can add rules of its own, and a project that is not trusted can only add rules that tighten). A layer cannot fill in a
+# field the declaring layer left out, either: write `when = "true"` to say "always". An `allow` row is the operator's: it names
+# who allowed a thing, and never overrides an `ask` or a `block`. Only the operator and the core write rows of this kind.
+[[kind]]
+id = "gate"
+doc = "A rule of the Gate: for which effects it applies, when, and what it says. Block beats Ask beats Allow."
+untrusted = "tighten"
+examples = [
+  { id = "push-is-yours", doc = "Pushing is the operator's.", on = ["shell"], when = "danger(cmd).class == 'push'", verdict = "block", why = "pushing is yours" },
+  { id = "writes-outside-ask", doc = "A write outside the project asks.", on = ["write"], when = "not (action.inside == true)", verdict = "ask", why = "this is outside the project", risk = 40 },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the rule is for." }
+on = { ty = "multi:shell|read|write|net|spend|spawn|setting|apply|egress|connect", required = true, floor = true, doc = "The kinds of effect it applies to." }
+when = { ty = "expr", roots = ["action", "cmd", "path", "host", "target"], floor = true, doc = "It applies when this holds; left out, always (but only the layer that declared the rule can leave it out: a higher layer cannot add one). `action` is the whole question (verb, actor, actor_kind, task, target, site, usd, read_only, inside, class); `target` is its target whatever the verb; `cmd`, `path`, `host` are that target for a shell line, a path and a host; `danger(cmd)` is what the matcher says of a line." }
+verdict = { ty = "enum:allow|ask|block", required = true, floor = true, widens = ["allow"], doc = "What it says: `allow` (it loosens, so an untrusted project cannot write it; it never overrides an ask or a block), `ask` (the operator must say yes; a grant may), `block` (never: no grant, layer, mode or actor changes it)." }
+why = { ty = "text", floor = true, doc = "The reason shown with an ask or a block; left out, the rule's id is shown." }
+risk = { ty = "int", min = 0, max = 100, default = 50, floor = true, doc = "How risky an Ask is, 0 to 100." }

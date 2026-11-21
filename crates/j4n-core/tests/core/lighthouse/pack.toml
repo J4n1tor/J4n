@@ -1,0 +1,5 @@
+api = 1
+id = "lighthouse"
+version = "0.1.0"
+summary = "keepers, lamps and fog signals of an imaginary coast — a pack with nothing to do with J4n's own work"
+stability = "experimental"

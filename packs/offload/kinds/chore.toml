@@ -1,0 +1,21 @@
+api = 1
+
+# A class of chore: a kind of line J4n sends to a cheaper doer on its own, and what the doer is given. The line
+# is the operator's, typed in a thread that has had a turn; the chore is a task under that turn, and what it answers is told to the main lane
+# in its next Brief, like the report of a branch. A chore never writes: a model chore runs `read` under the Gate, a `check` chore runs the
+# project's own check command and nothing else.
+[[kind]]
+id = "chore"
+doc = "A kind of light work the main lane does not need to do itself: when a line is one, how it runs and what it may take."
+untrusted = "ignore"
+examples = [
+  { id = "search", doc = "Find where something is.", starts = ["find where", "where is"], how = "model", usd = 0.1, wall = "2m" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the class is for." }
+starts = { ty = "list<str>", required = true, doc = "The words a line starts with, lower case; the line is the chore's when it starts with one of them as whole words." }
+how = { ty = "enum:check|model|review", required = true, doc = "`check`: the project's own command, no model, and only a failure comes back; `model`: a cheaper doer reads and answers; `review`: a model reads the change, and the operator is asked first." }
+check = { ty = "str", default = "", doc = "For `check`: the name of the check row to run (`lint-cargo`); empty: the one that applies to the folder." }
+usd = { ty = "num", doc = "Dollars a chore of this class may take; left out: the doer's own." }
+wall = { ty = "dur", doc = "Time a chore of this class may take, such as `2m`; left out: the doer's own." }

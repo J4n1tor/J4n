@@ -1,0 +1,63 @@
+doc = "The markdown field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "persona", field = { kind = "markdown", bind = "cfg:markdown.a", props = { rows = 3 } } },
+  { id = "off", title = "persona", field = { kind = "markdown", bind = "cfg:markdown.off", props = { rows = 3, disabled = "read only" } } },
+  { id = "bad", title = "persona", field = { kind = "markdown", bind = "cfg:markdown.bad", props = { rows = 3, required = true } } },
+  { id = "b", title = "persona", field = { kind = "markdown", bind = "cfg:markdown.b", props = { rows = 3 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:markdown.a"
+value = "# Reviewer\nReads diffs, not code.\nAsks before it edits.\nNever pushes.\nKeeps notes short.\n- one\n- two\n- three\n- four\n- five\n- six\n- seven"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:markdown.off"
+value = "# Reviewer\nReads diffs, not code.\nAsks before it edits.\nNever pushes.\nKeeps notes short.\n- one\n- two\n- three\n- four\n- five\n- six\n- seven"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:markdown.bad"
+value = ""
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:markdown.b"
+value = "# Reviewer\nReads diffs, not code.\nAsks before it edits.\nNever pushes.\nKeeps notes short.\n- one\n- two\n- three\n- four\n- five\n- six\n- seven"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"

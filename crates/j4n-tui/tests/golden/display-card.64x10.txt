@@ -1,0 +1,10 @@
+  󰗡 claude  ready
+├ dialect  claude-stream
+├ models   haiku · sonnet · opus
+╰ can      󰄬 live  󰄬 resume  󰄬 asks  󰄬 cost
+  ⏎ probe   p pin  o off  e edit
+
+
+
+
+

@@ -1,0 +1,15 @@
+api = 1
+
+# What this J4n found wrong with J4n, and the fixes it carries. Both are private: they are about the person's own runs and
+# are written by `j4n-contribute`, which sets the class itself.
+[[event]]
+id = "contribute.found"
+doc = "A finding: J4n itself failed (a floor it set, a hang, a panic it caught, a stream it could not read) or the person said something was wrong. `n` is how many times this J4n has seen the fingerprint; `words` is the person's own and stays here."
+class = "private"
+fields = { key = { ty = "str", required = true }, fp = { ty = "str", required = true }, source = { ty = "str", required = true }, what = { ty = "str" }, row = { ty = "str" }, title = { ty = "str", required = true }, n = { ty = "int", required = true }, mark = { ty = "str" }, state = { ty = "str" }, words = { ty = "str" }, at_ms = { ty = "int", required = true } }
+
+[[event]]
+id = "contribute.patch"
+doc = "A fix of the person's own to a pack row, seen (`carried`), or what became of it: `retired` when the pack now says what it said, `withdrawn` when the person's folder no longer holds it."
+class = "private"
+fields = { key = { ty = "str", required = true }, proposal = { ty = "str" }, title = { ty = "str", required = true }, state = { ty = "str", required = true }, how = { ty = "str" }, mark = { ty = "str" }, at_ms = { ty = "int", required = true } }

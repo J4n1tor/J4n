@@ -1,0 +1,23 @@
+api = 1
+
+# A fold of the Log written as data (the language is the module doc of crates/j4n-core/src/fold/decl.rs).
+[[kind]]
+id = "fold"
+doc = "A reduction of the Log: which events, what is kept for each key, and how they are combined."
+examples = [
+  { id = "calls", on = "run.tool_call", reduce = "count", key = "{task}" },
+  { id = "spend", doc = "What each task cost, this week.", on = "run.metrics", reduce = "sum", of = "data.usd", unit = "usd", key = "{task}", scope = "home", within = "7d" },
+  { id = "failing", doc = "How many in a row failed, by doer.", on = "task.settled", reduce = "streak", of = "data.ok == false", when = "kind == 'task.settled'", key = "{by}", window = 40 },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the fold answers." }
+on = { ty = "pattern", required = true, doc = "The event kinds it reads, a glob (`task.*`)." }
+reduce = { ty = "enum:count|sum|last|set|max|streak|distinct", required = true, doc = "How the events of a key are combined." }
+of = { ty = "expr", roots = ["ev", "event", "seq", "at_ms", "kind", "task", "thread", "by", "cause", "class", "data"], doc = "What is combined, from the event (not for `count`)." }
+key = { ty = "fmt", roots = ["ev", "event", "seq", "at_ms", "kind", "task", "thread", "by", "cause", "class", "data"], doc = "One answer per key, such as `{task}`; left out, one answer for all." }
+when = { ty = "expr", roots = ["ev", "event", "seq", "at_ms", "kind", "task", "thread", "by", "cause", "class", "data"], doc = "Only events for which this holds are read." }
+unit = { ty = "enum:n|usd|dur", default = "n", doc = "How a plain number in `of` is read: as it is, as dollars, or as milliseconds." }
+window = { ty = "int", min = 1, doc = "Only the last N events of a key." }
+within = { ty = "dur", doc = "Only events not older than this, as of the reading." }
+scope = { ty = "enum:home|project", default = "project", doc = "Which log it reads: the machine's or the project's." }

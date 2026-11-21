@@ -1,0 +1,30 @@
+  ├─ route omp ▸ claude ▸ pi ▸ gemini           3:12  $0.31
+  ├─ ✓ A omp sonnet  read 3  grep 1        ro  21s  $0.03 ▸
+  ├─ ✓ B claude            ro  commit 4f2a1c  2:01  $0.19 ▸
+  ├─ ✗ C pi sonnet                  wt b-claude  14s  $0.01
+  │  ├─ run cargo clippy -- -D warnings        no 101  9.2s
+  │  │      note: line 13
+  │  │      note: line 14
+  │  │      note: line 15                            +15 ▸
+  │  ╰─ fail ~two clippy errors, both in the new comma bra…
+  ├─ round claude ▸ pi                                12:32
+  ├─  B claude sonnet              wt b-claude  0:22  $0.02
+  │  ├─ read parser.rs:220–240
+  │  ├─ think 6s
+  │  │        the comma branch eats the separator first, …
+  │  ├─ grep trailing                                     7
+  │  ╰─ edit parser.rs                                +3 −7
+  ├─ cool D gemini 2.5-pro                  link  cool 0:40
+  │  ├─ fetch doc.rust-lang.org/reference/expressions   31k
+  │  ╰─ cool 429 rate limit · retry 12:33
+  ├─  E newagent                                 link  0:31
+  │  ╰─ out plain text                                  142
+  │         [newagent] scanning 41 files
+  │         [newagent] done: 2 suggestions written to not…
+  ╰─ · 5                                                  ▸
+╭──────────────────────────────────────────────────────────╮
+│                                 ~route claude ━───── 18% │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ use the same tests as the lexer               → B claude │
+╰──────────────────────────────────────────────────────────╯
+ ● claude ▸ sonnet  $0.33  ● 2              cool D 0:40  F1

@@ -1,0 +1,78 @@
+api = 1
+
+# Prompt shaping. `:shape on` and `:shape off` are the switch and are remembered in the Log; `shape.on` is only
+# what stands before either was said. The other settings are read when j4n starts.
+[[setting]]
+id = "shape.on"
+doc = "Whether lines are shaped before anything has been said with `:shape on` or `:shape off`."
+ty = "bool"
+default = false
+full = true
+
+[[setting]]
+id = "shape.style"
+doc = "`notes` adds sourced notes under the line; `rewrite` also offers a clean version of it (the typed line always goes with it)."
+ty = "str"
+default = "notes"
+live = false
+words = ["notes", "rewrite"]
+
+[[setting]]
+id = "shape.tone"
+doc = "For `rewrite`: `keep` fixes typos and grammar only, `plain`, `brief` or `detailed` also reword."
+ty = "str"
+default = "keep"
+live = false
+words = ["keep", "plain", "brief", "detailed"]
+
+[[setting]]
+id = "shape.format"
+doc = "How the kept rows are written for the doer: `list`, `plain`, `sections`, `xml`, or `auto` (the format a `shape_format` row names for the doer, else `list`)."
+ty = "str"
+default = "auto"
+live = false
+words = ["list", "plain", "sections", "xml", "auto"]
+
+[[setting]]
+id = "shape.words"
+doc = "Your own instruction to the shaper, for example `always name the test command`."
+ty = "str"
+default = ""
+live = false
+
+[[setting]]
+id = "shape.model"
+doc = "The shaper: a doer, a colon and the model it is asked for (`light:anthropic/claude-haiku-5.5`, `light` is the small model of the pack jev, on your OpenRouter key). With no such doer, shape says `not run` and why, and lines go as typed."
+ty = "str"
+default = "light:anthropic/claude-haiku-5.5"
+live = false
+
+[[setting]]
+id = "shape.judge"
+doc = "The judge, of another family than the shaper, in the same form; `off` for none."
+ty = "str"
+default = "light:deepseek/deepseek-v4.1-flash"
+live = false
+
+[[setting]]
+id = "shape.max_notes_tokens"
+doc = "The most the notes may come to, measured as characters divided by four."
+ty = "int"
+default = 120
+live = false
+min = 40
+max = 400
+
+[[setting]]
+id = "shape.skip"
+doc = "Lines that are never shaped, whole and apart from case, separated by commas (a short reply such as `continue` is never shaped anyway)."
+ty = "str"
+default = ""
+live = false
+
+[[setting]]
+id = "shape.timeout"
+doc = "How long the shaper and the judge are each given to answer."
+ty = "dur"
+default = "3s"
+live = false

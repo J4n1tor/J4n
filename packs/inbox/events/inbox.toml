@@ -1,0 +1,8 @@
+api = 1
+
+# One event is written each time an item changes (it is typed, re-tagged, pinned, settled); the fold `inbox` keeps the last of each, so an item
+# is always the whole of what is known of it, and the Log shows its history.
+[[event]]
+id = "inbox.item"
+doc = "A line typed while a task was not over: the operator's words as typed, the tag it was given, by which rule and why, and where it stands (its receipt)."
+fields = { item = { ty = "str", required = true }, thread = { ty = "str", required = true }, text = { ty = "str", required = true }, tag = { ty = "enum:stop|steer|side|note|hold", required = true }, rule = { ty = "str", required = true }, why = { ty = "str" }, state = { ty = "enum:open|kept|stopping|stopped-task|dropped|delivered|started", required = true }, turn = { ty = "str" }, task = { ty = "str" }, over = { ty = "str" }, steerable = { ty = "bool" }, prec = { ty = "num" }, n = { ty = "int" }, pinned = { ty = "bool" }, told = { ty = "bool" }, mark = { ty = "str" }, at_ms = { ty = "int", required = true } }

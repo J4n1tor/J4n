@@ -1,0 +1,24 @@
+api = 1
+
+# A command (law 11): something the operator can ask for by name — from the palette, as the words a line opens
+# with, or on the command line (`j4n <word> …`). A command does exactly one thing: it is one of the core's (`core`), it starts a flow
+# with what follows its words as the goal (`flow`), or it opens a page (`open`). A pack that adds a command adds a row of the palette and a
+# word for the command line, and the core is not changed for it.
+[[kind]]
+id = "command"
+doc = "A named thing the operator can ask for."
+examples = [
+  { id = "plan", doc = "Make a plan and write nothing.", flow = "plan", words = ["/plan"], args = ["what to plan"] },
+  { id = "trust", doc = "Show how far each machine answerer is trusted.", open = "trust" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the command does, in a line: the palette shows it." }
+words = { ty = "list<str>", doc = "The words a line opens with; left out, `:` and the id. A flow's words may start with a slash." }
+args = { ty = "list<str>", default = [], doc = "What follows the words, named for the palette (`goal`)." }
+was = { ty = "list<str>", default = [], doc = "Old words that still run the command and are listed nowhere, so a rename keeps them (`:toggle` for `:reflex`)." }
+takes = { ty = "list<str>", default = [], doc = "The forms of what follows the words that the command takes (`signin <id>`, `<name>` one word, `[name]` one that may be left out, `...` any more); a line that fits none is answered with them, and nothing is started." }
+complete = { ty = "list<str>", default = [], doc = "What each word after the command's own is completed from, in order: `doer`, `model`, `setting`, `value`, `page`, `chat`, `file`, `pack`, `word:look` (the look's parts, then the words of the part), or words written out joined by `|` (`on|off`). Left out, nothing after the words is completed." }
+core = { ty = "enum:fresh|new|envoy|clear|history|chats|top|archive|unarchive|resume|switch|stop|kill|status|probe|help|quit|restart|shape|pack|accept|decline|undo|proposals|look|lanes|offload|skill|calibrate|usage|context|compact|chart|watch|wrong|plan|inbox|report|parts|term|reflex|grant|key|connector", doc = "One of the core's own commands." }
+flow = { ty = "ref:flow", doc = "The flow it starts." }
+open = { ty = "ref:page", doc = "The page it shows." }

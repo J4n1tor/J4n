@@ -1,0 +1,124 @@
+api = 1
+
+# The agents J4n is built to speak to: Claude Code, Pi, OMP, and the scripted `test` doer. They are
+# rows like any other: a user's `~/.j4n/connectors/<id>.toml` can say a different `program` or `env` for one of them, field by
+# field, and a connector of its own needs no change here. Everything else is in the pack `connect` (samples) or the user's own files.
+
+[[connector]]
+id = "claude"
+doc = "Claude Code, a live session kept between turns; its questions come back in-band."
+is = "agent"
+dialect = "claude-stream"
+program = "claude"
+probe = { argv = ["claude", "--version"] }
+# writing is `default`, not `acceptEdits`: every write and every command then comes to the Gate as a question. Reading is `default` with the
+# tools that write denied by name, not `plan`: under `plan` the CLI runs another model than the one asked for the settings `haiku` and
+# `opusplan`.
+modes = { read = ["--permission-mode", "default", "--disallowedTools", "Edit,Write,NotebookEdit"], write = ["--permission-mode", "default"] }
+login = ["~/.claude", "~/.claude.json"]
+models = ["haiku", "sonnet", "opus"]
+roles = ["plan", "work", "main", "scout", "review", "validate"]
+# An API key in place of the sign-in: the key J4n keeps for Anthropic (typed in Library › Providers) reaches the program in its
+# environment at start, never in its arguments, and only while the setting `doer.keys` names `claude`. Otherwise it is left out, and the
+# program's own sign-in is what it uses.
+secrets = { ANTHROPIC_API_KEY = "kept:anthropic" }
+# The key variables of the operator's own environment that Claude Code reads by itself: J4n gives a program only the key variables its row
+# names. A long-lived sign-in, a gateway's token, and the three of Bedrock.
+pass = [
+  "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "CLAUDE_CODE_OAUTH_TOKEN", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN",
+]
+
+# What a child is started with for a job (the setting `profile` chooses, `full` unless the operator says another).
+# `full` is the tool as it loads itself. `lean`, for the roles in `lean_for`, is the least that still answers (read on claude 2.1.310):
+# MCP servers, slash commands, bundled skills and agents, background tasks, cron, memory files, auto memory and the git snapshot off, and
+# `Read` the only tool. A first turn holds far fewer tokens and still answers, and a read works. A chore only reads (a search, a digest of
+# a log or a diff), so it needs no more; a decider needs none.
+[connector.profile]
+lean_for = ["chore", "answer", "light", "look"]
+
+[connector.profile.lean]
+args = ["--strict-mcp-config", "--disable-slash-commands", "--tools", "Read"]
+env = { CLAUDE_AGENT_SDK_DISABLE_BUILTIN_AGENTS = "1", CLAUDE_CODE_DISABLE_BUNDLED_SKILLS = "1", CLAUDE_CODE_DISABLE_BACKGROUND_TASKS = "1", CLAUDE_CODE_DISABLE_CRON = "1", CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1", CLAUDE_CODE_DISABLE_CLAUDE_MDS = "1", CLAUDE_CODE_DISABLE_AUTO_MEMORY = "1", CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS = "1" }
+
+# The project scope (setting `doer.scope`): while it is `project` every child also gets these. Read from `claude --help` 2.1.323 and from a child's
+# `system/init` frame (tools, mcp_servers, plugins, skills, agents): `--setting-sources project,local` leaves out the user's settings and so the
+# plugins and skills they enabled, `--strict-mcp-config` leaves out every MCP server that is not given with `--mcp-config` (the account's own
+# connectors too), `--no-chrome` keeps the Claude in Chrome browser out,
+# and the five tools are those that reach other sessions (`ListAgents`, `SendMessage`: the registry `~/.claude/sessions` lists the live ones of the config folder)
+# or the account (`PushNotification`, `RemoteTrigger`, `DesignSync`). The flag `--disallowedTools` is given twice with the read mode's and the lists add up.
+[connector.profile.project]
+args = ["--setting-sources", "project,local", "--strict-mcp-config", "--no-chrome", "--disallowedTools", "ListAgents,SendMessage,PushNotification,RemoteTrigger,DesignSync"]
+
+# As an account (pack `accounts`): the login runs with the account's folder as its config, its link opens in the
+# account's own window, and `auth status` says who it is signed in as (it exits 0 when it is not, so `ok` reads the answer).
+[connector.signin]
+argv = ["claude", "auth", "login", "--claudeai"]
+again = ["--email", "{account.email}"]
+env = { CLAUDE_CONFIG_DIR = "{account.home}" }
+page = "https://claude.ai/settings"
+share = ["settings.json", "CLAUDE.md", "skills", "agents", "commands", "plugins"]
+
+[connector.signin.check]
+argv = ["claude", "auth", "status", "--json"]
+ok = "/loggedIn"
+email = "/email"
+plan = "/subscriptionType"
+
+[[connector]]
+id = "pi"
+doc = "Pi in RPC mode: a live session, steered and aborted without losing the transcript."
+is = "agent"
+dialect = "pi-rpc"
+family = "pi"
+program = "pi"
+probe = { argv = ["pi", "--version"] }
+list = { argv = ["pi", "--list-models"] }
+login = ["~/.pi"]
+start = ["--mode", "rpc"]
+model = ["--model", "{model}"]
+resume = ["--session", "{session}"]
+oneshot = ["-p", "--mode", "json", "{prompt}"]
+# pi asks nobody before it acts, so a task that only reads is given the one tool that only reads
+modes = { read = ["--tools", "read"] }
+# the key variables pi reads: every one of its provider table, the Anthropic and Copilot sign-ins, Google's and Bedrock's
+pass = [
+  "ANTHROPIC_API_KEY", "ANTHROPIC_OAUTH_TOKEN", "AI_GATEWAY_API_KEY", "ANT_LING_API_KEY", "AZURE_OPENAI_API_KEY", "BASETEN_API_KEY",
+  "CEREBRAS_API_KEY", "CLOUDFLARE_API_KEY", "DEEPSEEK_API_KEY", "FIREWORKS_API_KEY", "GEMINI_API_KEY", "GOOGLE_CLOUD_API_KEY",
+  "GROQ_API_KEY", "HF_TOKEN", "KIMI_API_KEY", "META_API_KEY", "MINIMAX_API_KEY", "MINIMAX_CN_API_KEY",
+  "MISTRAL_API_KEY", "MOONSHOT_API_KEY", "NVIDIA_API_KEY", "OPENAI_API_KEY", "OPENCODE_API_KEY", "OPENROUTER_API_KEY",
+  "RADIUS_API_KEY", "TOGETHER_API_KEY", "TYPESAFE_API_KEY", "XAI_API_KEY", "XIAOMI_API_KEY", "XIAOMI_TOKEN_PLAN_AMS_API_KEY",
+  "XIAOMI_TOKEN_PLAN_CN_API_KEY", "XIAOMI_TOKEN_PLAN_SGP_API_KEY", "ZAI_API_KEY", "ZAI_CODING_CN_API_KEY", "COPILOT_GITHUB_TOKEN", "GOOGLE_API_KEY",
+  "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN",
+]
+roles = ["plan", "work", "main", "scout", "review", "validate"]
+
+[[connector]]
+id = "omp"
+doc = "OMP in RPC mode: like Pi, and it asks leave for each tool in-band."
+is = "agent"
+dialect = "pi-rpc"
+family = "omp"
+program = "omp"
+probe = { argv = ["omp", "--version"] }
+login = ["~/.omp"]
+start = ["--mode", "rpc", "--no-title", "--approval-mode", "always-ask"]
+# the providers' key variables OMP reads (those of pi's table it has, the sign-ins, Google's and Bedrock's; a provider it adds may be missing)
+pass = [
+  "ANTHROPIC_API_KEY", "ANTHROPIC_OAUTH_TOKEN", "AI_GATEWAY_API_KEY", "AZURE_OPENAI_API_KEY", "CEREBRAS_API_KEY", "DEEPSEEK_API_KEY",
+  "GEMINI_API_KEY", "GOOGLE_CLOUD_API_KEY", "GROQ_API_KEY", "MINIMAX_API_KEY", "MISTRAL_API_KEY", "MOONSHOT_API_KEY",
+  "OPENAI_API_KEY", "OPENCODE_API_KEY", "OPENROUTER_API_KEY", "TYPESAFE_API_KEY", "XAI_API_KEY", "ZAI_API_KEY",
+  "COPILOT_GITHUB_TOKEN", "GOOGLE_API_KEY", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN",
+]
+model = ["--model", "{model}"]
+resume = ["--resume", "{session}"]
+oneshot = ["-p", "--mode", "json", "{prompt}"]
+roles = ["plan", "work", "main", "scout", "review", "validate"]
+
+[[connector]]
+id = "test"
+doc = "A scripted doer for offline tests: its goal is the script."
+is = "agent"
+dialect = "test"
+# no election ever picks it: a doer with no roles is good for anything, so the one role here is a word nothing asks for. A task
+# names it (`--doer test`), and a rig that needs it elected says `roles = ["work"]` in its own layer.
+roles = ["scripted"]

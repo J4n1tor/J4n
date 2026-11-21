@@ -1,0 +1,24 @@
+
+
+
+
+
+
+
+▌ set up the gateway                                                     12:29 ▐
+  ╰─ Paste its key in Library › Providers: ⏎ on its row.
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 j4n                                                                        │
+│                                                                              │
+│ this looks like a key, so it is held: nothing of it was sent · a line is     │
+│ kept in the Log and read by the model, a key is shown to no one              │
+│                                                                              │
+│ ⇥ 1  󰐾 keep it as a key                                                      │
+│   2  󰐽 send it as text                                                       │
+│   3  󰐽 drop it                                                               │
+│                                                                              │
+│ 1–3 · esc drops it                                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

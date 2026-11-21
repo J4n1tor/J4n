@@ -1,0 +1,69 @@
+api = 1
+
+# Each rule is a detector: it says one dim row and nothing else (never a steer, never a task), and
+# only while `habits.mode` is not `off`. The row ends with `h<seq>`, the id of the event that set it off: `:habit keep h<seq>` and `:habit wrong
+# h<seq>` are the operator's word on it, from which a rule's precision is counted. What a doer or the operator wrote reaches the words only through
+# `quote(…)`. A number is compared with `==` where a count grows by one, so a habit is said when it is reached and not again at every repeat. (A text hole may count what a doer or the operator wrote with `len`, `count` or a fold read, the rows that said the setting's number because they could not are the same numbers, since `==` says a count when it is reached.)
+
+[[rule]]
+id = "habit-tiny-steps"
+doc = "A task ended with several small items still open: the steps between them are the operator's to say, or a parts card's to run."
+on = "task.settled"
+when = "set.habits.mode != 'off' and ev.data.todo_left >= set.habits.steps"
+then = "notice"
+text = "◇ tiny steps · {ev.data.todo_left} items left after one · a parts card could run them with a commit between · h{seq}"
+limit = { per = "thread", max = 1, within = "1h" }
+
+[[rule]]
+id = "habit-cache-switch"
+doc = "A request after a model switch wrote its prompt to the cache again and read none of it, and cost enough to matter."
+on = "run.served"
+when = "set.habits.mode != 'off' and ev.data.cached == 0 and ev.data.wrote >= set.habits.cold_tokens and fold.habit_served[task] >= 2 and len(fold.habit_models[task]) >= 2 and fold.habit_cost[task] >= set.habits.rebuild_usd"
+then = "notice"
+text = "◇ cold cache · {ev.data.wrote} tokens written, none read, {fold.habit_cost[task]:usd} · the model changed · a guard before a switch could ask · h{seq}"
+limit = { per = "task", max = 2 }
+
+[[rule]]
+id = "habit-cache-cold"
+doc = "A request wrote its prompt to the cache again and read none of it with the same model as before (the cache expired or was dropped), and cost enough to matter."
+on = "run.served"
+when = "set.habits.mode != 'off' and ev.data.cached == 0 and ev.data.wrote >= set.habits.cold_tokens and fold.habit_served[task] >= 2 and len(fold.habit_models[task]) < 2 and fold.habit_cost[task] >= set.habits.rebuild_usd"
+then = "notice"
+text = "◇ cold cache · {ev.data.wrote} tokens written, none read, {fold.habit_cost[task]:usd} · the cache expired or was dropped · the cost is on the chip · h{seq}"
+limit = { per = "task", max = 2 }
+
+[[rule]]
+id = "habit-reread"
+doc = "The same file read again and again with nothing changed in the project."
+on = "run.tool_call"
+when = "set.habits.mode != 'off' and contains(lower(ev.data.name), 'read') and ev.data.detail and fold.habit_reads[ev.data.detail] == set.habits.reread and not fold.habit_changed"
+then = "notice"
+text = "◇ reread · {quote(ev.data.detail)} {set.habits.reread} times, nothing changed · `already read` could go in the next Brief · h{seq}"
+limit = { per = "task", max = 3 }
+
+[[rule]]
+id = "habit-big-output"
+doc = "A shell command put a very long output into the context."
+on = "run.shell"
+when = "set.habits.mode != 'off' and len(ev.data.out) >= set.habits.big_chars"
+then = "notice"
+text = "◇ big output · {quote(ev.data.cmd)} said {len(ev.data.out)} characters · a digest could keep the head and the tail · h{seq}"
+limit = { per = "task", max = 3 }
+
+[[rule]]
+id = "habit-manual-chore"
+doc = "The operator typed the same short line again and again: a chore, or a rule, could do it."
+on = "chat.say"
+when = "set.habits.mode != 'off' and by == 'operator' and len(ev.data.text) >= 5 and len(ev.data.text) <= 80 and not contains(ev.data.text, ':') and not contains(ev.data.text, '/') and fold.habit_lines[lower(ev.data.text)] == set.habits.chore"
+then = "notice"
+text = "◇ again · you typed {quote(ev.data.text)} {set.habits.chore} times · a chore or a rule could do it · h{seq}"
+limit = { per = "all", max = 3, within = "1d" }
+
+[[rule]]
+id = "habit-late-compact"
+doc = "A task ended with its context nearly full: the next boundary is the time to shrink it."
+on = "task.settled"
+when = "set.habits.mode != 'off' and ev.data.window >= set.habits.window"
+then = "notice"
+text = "◇ late compact · the context ended at {ev.data.window:pct} · shrinking it at the next boundary keeps the cache small · h{seq}"
+limit = { per = "thread", max = 1, within = "1h" }

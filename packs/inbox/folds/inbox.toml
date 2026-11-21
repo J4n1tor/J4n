@@ -1,0 +1,29 @@
+api = 1
+
+[[fold]]
+id = "inbox"
+doc = "For each item: the last event of it, which is the whole of what is known."
+on = "inbox.item"
+reduce = "last"
+of = "data"
+key = "{data.item}"
+
+# The labels of the tags: by the rule that tagged the item, the re-tags that kept the tag (`kept`) and
+# those that changed it (`wrong`), over the last thirty days.
+[[fold]]
+id = "inbox_kept"
+doc = "Items whose tag the operator said was right, by the rule that gave it."
+on = "label"
+reduce = "count"
+key = "{data.producer}"
+when = "ev.data.subject_kind == 'inbox_item' and ev.data.label == 'kept'"
+within = "30d"
+
+[[fold]]
+id = "inbox_wrong"
+doc = "Items whose tag the operator changed, by the rule that gave it."
+on = "label"
+reduce = "count"
+key = "{data.producer}"
+when = "ev.data.subject_kind == 'inbox_item' and ev.data.label == 'wrong'"
+within = "30d"

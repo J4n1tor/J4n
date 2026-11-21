@@ -1,0 +1,54 @@
+doc = "The table field: a header with the sort mark, a window of 1,204 rows, a scroll thumb and a footer; s sorts, / finds."
+sizes = [[64, 12], [40, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "models", title = "", field = { kind = "table", bind = "view:models", props = { columns = [{ name = "model", title = "model" }, { name = "uses", title = "uses", right = true }, { name = "cost", title = "$/run", right = true }, { name = "score", title = "score", right = true }], sort = "-cost" } } }] }
+
+[[step]]
+down = "rows"
+bind = "view:models"
+total = 1204
+rev = 1
+rows = [{ key = "haiku", cells = [{ text = "haiku" }, { text = "412" }, { text = "$0.004" }, { text = "0.71" }] }, { key = "sonnet", cells = [{ text = "sonnet" }, { text = "188" }, { text = "$0.031" }, { text = "0.86" }] }, { key = "gemini", cells = [{ text = "gemini-2.5" }, { text = "41" }, { text = "$0.022" }, { text = "0.64" }] }, { key = "opus", cells = [{ text = "opus" }, { text = "9" }, { text = "$0.210" }, { text = "—", tone = "dim" }] }, { key = "m0", cells = [{ text = "qwen3-coder" }, { text = "77" }, { text = "$0.006" }, { text = "0.69" }] }, { key = "m1", cells = [{ text = "deepseek-v3" }, { text = "64" }, { text = "$0.003" }, { text = "0.66" }] }, { key = "m2", cells = [{ text = "glm-4.6" }, { text = "52" }, { text = "$0.005" }, { text = "0.70" }] }, { key = "m3", cells = [{ text = "kimi-k2" }, { text = "33" }, { text = "$0.008" }, { text = "0.72" }] }, { key = "m4", cells = [{ text = "grok-code" }, { text = "21" }, { text = "$0.012" }, { text = "0.61" }] }, { key = "m5", cells = [{ text = "gpt-5-mini" }, { text = "18" }, { text = "$0.009" }, { text = "0.74" }] }, { key = "m6", cells = [{ text = "llama-4" }, { text = "12" }, { text = "$0.002" }, { text = "0.52" }] }, { key = "m7", cells = [{ text = "mistral-l" }, { text = "7" }, { text = "$0.014" }, { text = "0.58" }] }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "s"
+
+[[step]]
+shot = "sorted"
+
+[[step]]
+key = "s"
+
+[[step]]
+key = "S"
+
+[[step]]
+shot = "sort-other-way"
+
+[[step]]
+key = "/"
+
+[[step]]
+text = "ha"
+
+[[step]]
+shot = "finding"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "found"
+

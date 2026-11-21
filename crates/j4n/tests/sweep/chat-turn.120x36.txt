@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+▌ say **Release work** (`docs/TESTING.md` §5): open loose ends X-101, X-1020–X-1022, X-101/X-102 and  0s  $0.12  HH:MM ▐
+▌ B12.; tool Read src/lib.rs; sh cargo test => 0; spend 0.12; limits 0.5 0.92                                          ▐
+  ├─ Release work (docs/TESTING.md §5): open loose ends X-101, X-1020–X-1022,
+  │  X-101/X-102 and B12.
+  ├─ 󰛐  src/lib.rs
+  ├─ 󰞷  cargo test                                                                                                   󰗡
+  ├─ ◆ ledger · main · 1 tasks · ✓ 1
+  │  ├─ ± 0 files · ❱ 1 ran · $0.1200
+  │  ╰─ ❯ #1 “say Release work (docs/TESTING.md §5): open loose ends…” → t1 ✓
+  │     ╰─ t1 Release work (docs/TESTING.md §5): open loose ends X-101, X-1020–X-1022,
+  │        X-101/X-102 and B12.
+  ╰─ 󰢻  1                                                                                                             ▸
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                   $0.1200   󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ⌃j newline  ↑ history  ⌃t lane  ? keys  ⌃k find  ⇧↑↓ scroll  ⌃g state  ⇧drag select

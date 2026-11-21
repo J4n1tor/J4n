@@ -1,0 +1,19 @@
+api = 1
+
+# The words the inbox tags a line by. The order of the rules is code; the words are these rows, so they can be
+# changed without a build. All matches are whole words, lower-cased.
+[[kind]]
+id = "inbox_rule"
+doc = "Words the inbox reads a line by: a whole line that is one tag, an opener that is one, words that stand beside them, or words that do not count."
+untrusted = "ignore"
+examples = [
+  { id = "stop-words", doc = "A line that is only these says stop.", as = "line", tag = "stop", words = ["stop", "abort"] },
+  { id = "side-openers", doc = "A line that opens with one is a separate matter.", as = "opens", tag = "side", words = ["btw", "also"] },
+  { id = "fillers", doc = "Words that may stand beside a stop word.", as = "filler", words = ["please", "now"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why these words." }
+as = { ty = "enum:line|opens|filler|ignore", required = true, doc = "`line`: a line made of only these words and fillers (with at least one of these) is the tag. `opens`: a line that opens with one is the tag (a word that ends in `:` or is `#` is matched as a prefix of the line, any other as its first word). `filler`: may stand beside a `line` word. `ignore`: does not count when a line is compared with the task." }
+tag = { ty = "enum:stop|steer|side|note|hold", doc = "For `line` and `opens`: the tag it gives." }
+words = { ty = "list<str>", required = true, doc = "The words or phrases, lower-case." }

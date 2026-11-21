@@ -1,0 +1,135 @@
+doc = "`⇧↑` scrolls the chat a line with the keys in the composer; `⌃↑` puts them on the chat and `↓` walks it a line at a time (the lines of a wrapped row and of an opened output), the line the keys are on has the selection behind it; `PgUp` glides half a screen in steps and `PgDn` returns."
+sizes = [[80, 13], [60, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 8
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "first, a short question" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "l1", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }], parent = "t1" },
+  { key = "e1", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "dim" }], parent = "l1", detail = [{ text = "- let a = 1;" }, { text = "+ let a = 2;" }, { text = "- let b = 1;" }, { text = "+ let b = 2;" }] },
+  { key = "p1", cells = [{ text = "Done: the parser reads trailing commas and the docs say so, which is a sentence long enough to wrap." }, { text = "", tone = "dim" }], parent = "l1", by = "doer" },
+  { key = "t2", cells = [{ text = "thanks, one more question" }, { text = "", tone = "dim" }, { text = "12:41", tone = "dim" }] },
+  { key = "l2", cells = [{ text = "B work", icon = "working" }, { text = "", tone = "dim" }, { text = "0:22", tone = "dim" }], parent = "t2" },
+  { key = "s2", cells = [{ text = "README.md", icon = "read" }, { text = "", tone = "dim" }], parent = "l2" },
+  { key = "s3", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "l2" },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "B working", tone = "accent" }, { text = "write", tone = "plain" }, { text = "$0.33", tone = "dim" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "end"
+
+[[step]]
+key = "shift+up"
+
+[[step]]
+key = "shift+up"
+
+[[step]]
+key = "shift+up"
+
+[[step]]
+shot = "lined"
+
+[[step]]
+key = "shift+down"
+
+[[step]]
+key = "shift+down"
+
+[[step]]
+key = "shift+down"
+
+[[step]]
+key = "ctrl+up"
+
+[[step]]
+key = "ctrl+up"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "walk-output"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "walk-wrapped"
+
+[[step]]
+key = "esc"
+
+[[step]]
+key = "pageup"
+
+[[step]]
+shot = "glide-start"
+
+[[step]]
+wait = 40
+
+[[step]]
+wait = 40
+
+[[step]]
+wait = 40
+
+[[step]]
+shot = "glide-end"
+
+[[step]]
+key = "pagedown"
+
+[[step]]
+wait = 40
+
+[[step]]
+wait = 40
+
+[[step]]
+wait = 40
+
+[[step]]
+shot = "back"

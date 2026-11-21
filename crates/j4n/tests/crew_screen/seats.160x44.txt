@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ─────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰗡 Habits   󰏖 Catalogue   Seats   Links   Charters   Chat settings   Opinions   Refusals
+─────────────────────────────────────────────────━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────
+  seat      role      access  paths  doer
+├ critic    critic    read    —      —
+│   Reads the whole change against the operator's own words and says where it differs.
+│   You are the critic of this whole change. Hold it against the operator's own words that the brief quotes, not against the plan made from them. Ask whether
+│   the change does what was asked, whether it does something that was not asked, and whether anything the operator said is missing. Quote the operator's words
+│   next to each point you raise. Change nothing. End with one verdict: matches, or differs, and in what.
+├ envoy     envoy     read    —      —
+├ reviewer  reviewer  read    —      —
+├ scout     scout     read    —      —
+├ tester    tester    write   —      —
+╰ writer    writer    write   —      —
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⏎ opens a seat to read its words
+ ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

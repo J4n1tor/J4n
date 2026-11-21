@@ -1,0 +1,13 @@
+api = 1
+
+[[page]]
+id = "reflexes"
+doc = "The reflexes: commands that run by themselves when a sentence of yours holds."
+parent = "home"
+title = "Reflexes"
+icon = "settings"
+group = "connectors"
+order = 80
+field = "list"
+view = "reflexes"
+help = ":reflex add … makes one; they run only while reflexes.on is on (Settings), and a command that throws context away asks you the first times"

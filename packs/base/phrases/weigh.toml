@@ -1,0 +1,11 @@
+api = 1
+
+# Lines that need no tool and no project: when the setting `weigh.on` is on, a line that is one of these wordings is weighed
+# `answer` by the table alone, before Jev is asked, and a cheap model with no tools answers it. The words are matched as the other `likes` are: the
+# filler left out, in any order, each as typed or a typo away. Nothing here changes a command's meaning: a wording of a command (`ask.toml`) is tried first.
+
+[[phrase]]
+id = "weigh-answer"
+doc = "A greeting, a thanks or a ping: nothing is read, nothing is run."
+weight = "answer"
+likes = ["ping", "hello", "hi", "hey", "hello there", "good morning", "good evening", "thanks", "thank you", "thx", "are you there", "anyone there"]

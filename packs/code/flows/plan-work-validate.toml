@@ -1,0 +1,27 @@
+api = 1
+
+# Plan, then work in a worktree, then check, then validate by a doer that is not the worker; a concern sends the work back with
+# what was wrong, up to three passes; the operator is asked before the work is brought into the folder.
+#   - `go`: nothing is built without a yes. A no ends the flow, and no doer has been asked to change anything.
+#   - `check`: the project's checks, in the worktree where the work was done (`@work`). A failing check is an answer (`soft`): it
+#     is what the validator is shown, and what sends the work back.
+#   - `validate`: `optional`, because the worker may be the only doer there is, and then there is nobody else to ask.
+#   - `again`: back to `work` while something is wrong, `work` entered at most 3 times (spend is the bound).
+#   - `apply`: an approval with the change in front of the operator; a yes brings the worktree's work to the folder (`apply`), and
+#     `rewind` takes it out again.
+
+[[flow]]
+id = "plan-work-validate"
+doc = "Plan, build in a worktree, check, validate by another doer, and apply on a yes."
+in = { goal = "text" }
+steps = [
+  { id = "plan", do = "who:plan", mode = "read", goal = "Plan this task; do not do it. Read what you need in the project and change nothing. Give the steps, the files each one touches, and how to tell that it worked.\n\nTask: {in.goal}", out = { plan = "text" } },
+  { id = "go", kind = "ask", shape = "yesno", question = "Build this plan?", show = "{steps.plan.out.plan}", no = "stopped" },
+  { id = "work", do = "who:work", mode = "write", place = "worktree", hold = true, after = ["go"], goal = "Do this task in this folder.\n\nTask: {in.goal}\n\nThe plan:\n{steps.plan.out.plan}", redo = "Your work was not right yet. Fix what is wrong; do not start over.\n\nTask: {in.goal}\n\nThe checks said: {steps.check.answer}\n\nThe reviewer said: {steps.validate.out.verdict.concerns}", out = { diff = "diff" } },
+  { id = "check", do = "checks", place = "@work", soft = true, after = ["work"], goal = "Run the project's checks where the work was done.", out = { verdict = "verdict" } },
+  { id = "validate", do = "who:validate", mode = "read", place = "@work", optional = true, after = ["check"], exclude = ["{steps.work.doer}"], goal = "Check the work against the task. Read what was changed and run what you need; change nothing. Answer with one JSON object: {{\"pass\": true or false, \"concerns\": [\"what is wrong, one line each\"]}}.\n\nTask: {in.goal}\n\nThe checks said: {steps.check.answer}", out = { verdict = "verdict" } },
+  { id = "again", kind = "branch", on = "steps.check.out.verdict.pass and (steps.validate.skipped or steps.validate.out.verdict.pass)", yes = "apply", no = "work", max_visits = 3 },
+  { id = "apply", kind = "ask", shape = "approval", question = "Bring this work into your folder?", change = "{steps.work.place.diff}", apply = "work", no = "stopped" },
+  { id = "done", kind = "end", answer = "{steps.work.answer}" },
+  { id = "stopped", kind = "end", answer = "Stopped: the work was not brought into your folder." },
+]

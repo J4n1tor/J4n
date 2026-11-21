@@ -1,0 +1,14 @@
+api = 1
+
+[[page]]
+id = "habits"
+doc = "What the habit detectors said, and a key to say whether each was right."
+parent = "home"
+title = "Habits"
+icon = "done"
+group = "tasks"
+order = 34
+field = "list"
+view = "habits"
+when = "set.habits.mode != 'off'"
+help = "a row said right or wrong is a label that gives a detector its precision (:habit lists them)"

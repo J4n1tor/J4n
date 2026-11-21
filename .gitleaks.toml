@@ -1,0 +1,15 @@
+# gitleaks for the public J4n repository: the default rules, with the files whose keys are made up on purpose left out
+# (the redactor's and the gate's tests and rule tables; the same list as release/fake-secrets.txt).
+[extend]
+useDefault = true
+
+[allowlist]
+description = "synthetic secrets in tests and rule tables"
+paths = [
+  '''^crates/[^/]+/tests/''',
+  '''^crates/j4n-core/src/redact\.rs$''',
+  '''^crates/j4n-core/src/gate/''',
+  '''^packs/qc/patterns/''',
+  '''^packs/guard/''',
+  '''^packs/base/gates/''',
+]

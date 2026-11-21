@@ -1,0 +1,6 @@
+doc = "Every glyph slot in the tier `ascii`."
+sizes = [[100, 24], [60, 36]]
+theme = { marks = "ascii" }
+
+[[step]]
+preview = "glyphs"

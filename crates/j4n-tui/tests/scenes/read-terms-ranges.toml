@@ -1,0 +1,30 @@
+doc = "An id inside a range (X-101–X-103), a pair (X-101/X-102) and a possessive (X-101's) gets its words as a lone id does; the words of a first mention come once, after the token."
+sizes = [[60, 18], [80, 16], [120, 14]]
+
+[read]
+caps = "all"
+root = "/work"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "value"
+bind = "terms:"
+value = { "X-101" = "some row of text", "X-102" = "a second sample row", "X-103" = "a third sample row" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [{ key = "t", cells = [{ text = "what is still open" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim" }] }, { key = "l", cells = [{ text = "A claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "t" }, { key = "p", cells = [{ text = "See X-101–X-103 for the sample rows, X-102/X-103 for the others, and X-101's own row. (X-103) is last, and X-101." }, { text = "", tone = "dim" }], parent = "l" }]

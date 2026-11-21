@@ -1,0 +1,36 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
+ ───────────━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰛐 Inbox   󰗡 Habits
+━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+├ t6  waiting  test  ask Which of the two colours do you want the border to be, …                               ⏎ abort
+├ t4  done     test  write notes.txt hello
+├ t3  done     test  who
+├ t2  done     test  say - one - two
+╰ t1  done     test  say Release work (docs/TESTING.md §5): open loose end…        $0.1200
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

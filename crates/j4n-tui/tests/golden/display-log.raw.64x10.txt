@@ -1,0 +1,10 @@
+┃ 08:12:05 󰼛 task.settled  state failed  why the parser … t3 ▾
+  ▎ {
+  ▎   "at_ms": 1762416725300,
+  ▎   "by": "core",
+  ▎   "cause": 10,
+  ▎   "class": "project",
+  ▎   "data": {
+  ▎     "spent": {                                             ┃
+  ▎       "tokens": 18234,
+ 999,999 of 1,000,000 · G follow · / find

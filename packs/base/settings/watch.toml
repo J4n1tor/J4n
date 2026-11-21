@@ -1,0 +1,51 @@
+api = 1
+
+# J4n follows the tools it uses. Off by default: no request leaves and nothing is looked at until the operator turns it on; on, it is one quiet conditional request per source on a timer.
+[[setting]]
+id = "watch.upstream"
+doc = "Whether J4n asks, quietly and on a timer while it runs, whether the tools it uses have a new release: one conditional request per source, a 304 writes nothing, and only a change reaches the Log. Off (the default): no request leaves, and Grow › Updates `r` says so. Turn it on in Settings › All › watch.upstream."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "watch.hot_min"
+doc = "Minutes between two looks at the sources of the hot tier (a tool a running task drives)."
+ty = "int"
+default = 30
+min = 5
+max = 1440
+
+[[setting]]
+id = "watch.warm_min"
+doc = "Minutes between two looks at the sources of the warm tier."
+ty = "int"
+default = 240
+min = 5
+max = 10080
+
+[[setting]]
+id = "watch.cold_min"
+doc = "Minutes between two looks at the sources of the cold tier."
+ty = "int"
+default = 1440
+min = 5
+max = 43200
+
+[[setting]]
+id = "watch.canary"
+doc = "Whether a new release of a tool that touches or breaks what J4n uses is run once, as the source's `canary` row says, in a folder of its own, and its shape compared with a good run's. Off: no install and no run."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "watch.digest"
+doc = "When the releases that touch what J4n uses are said together as one line (the Updates tab under Grow always lists them): `weekly`, `daily`, `open` (once each time J4n starts) or `never`. What breaks something is said at once whatever this is."
+ty = "str"
+default = "weekly"
+words = ["weekly", "daily", "open", "never"]
+
+[[setting]]
+id = "watch.issues"
+doc = "Whether the issues a `gh-rest` source tracks (a workaround, a bug J4n filed) are asked for; each is one request of GitHub's REST, under the same floor as a gap in a feed. Off: none is asked."
+ty = "bool"
+default = true

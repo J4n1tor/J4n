@@ -1,0 +1,22 @@
+# synthetic, in the shape of claude 2.1.263's stream-json (`claude -p --input-format stream-json --output-format stream-json
+# --verbose --include-partial-messages`): a turn with thinking, a Bash call, a Read that fails, and the settled text.
+# The partial `stream_event` deltas are marked where they appear; the last section is the envelope of a turn that is
+# refused because the CLI is not logged in, as the CLI sends it. Ids, paths and models made up.
+{"type":"system","subtype":"init","session_id":"00000000-0000-4000-8000-0000000000e0","model":"claude-sonnet-4-5","tools":["Bash","Read","Edit"]}
+{"type":"assistant","message":{"id":"msg_01","role":"assistant","content":[{"type":"thinking","thinking":"I should list the files first.","signature":"sig"}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"assistant","message":{"id":"msg_01","role":"assistant","content":[{"type":"tool_use","id":"toolu_01","name":"Bash","input":{"command":"ls -1","description":"List files"}}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_01","content":"Cargo.toml\nsrc","is_error":false}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"assistant","message":{"id":"msg_02","role":"assistant","content":[{"type":"tool_use","id":"toolu_02","name":"Read","input":{"file_path":"/tmp/x/Cargo.toml"}}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_02","content":[{"type":"text","text":"[package]\nname = \"x\""}],"is_error":true}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"assistant","message":{"id":"msg_03","role":"assistant","content":[{"type":"text","text":"Two entries: Cargo.toml and src."}]},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"result","subtype":"success","is_error":false,"duration_ms":4200,"duration_api_ms":3900,"num_turns":3,"result":"Two entries: Cargo.toml and src.","session_id":"00000000-0000-4000-8000-0000000000e0","total_cost_usd":0.0123,"usage":{"input_tokens":120,"output_tokens":45}}
+
+# --- partial-message frames: the deltas `--include-partial-messages` streams (`stream_event` / `content_block_delta`).
+{"type":"stream_event","event":{"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"I should list the files first."}},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"stream_event","event":{"type":"content_block_delta","index":1,"delta":{"type":"text_delta","text":"Cargo.toml"}},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+{"type":"stream_event","event":{"type":"content_block_delta","index":1,"delta":{"type":"text_delta","text":" and src"}},"session_id":"00000000-0000-4000-8000-0000000000e0"}
+# --- a turn that is not logged in: init carries the session id and model, the result frame usage, total_cost_usd and terminal_reason.
+{"type":"system","subtype":"init","cwd":"/home/user/project","session_id":"00000000-0000-4000-8000-0000000000e1","tools":["Bash","Read","Edit"],"mcp_servers":[],"model":"claude-sonnet-5-5","permissionMode":"default"}
+{"type":"system","subtype":"status","status":"requesting","session_id":"00000000-0000-4000-8000-0000000000e1"}
+{"type":"assistant","message":{"id":"00000000-0000-4000-8000-0000000000e2","model":"<synthetic>","role":"assistant","stop_reason":"stop_sequence","content":[{"type":"text","text":"Not logged in · Please run /login"}]},"session_id":"00000000-0000-4000-8000-0000000000e1"}
+{"duration_api_ms":0,"stop_reason":"stop_sequence","session_id":"00000000-0000-4000-8000-0000000000e1","total_cost_usd":0,"usage":{"input_tokens":0,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"output_tokens":0},"modelUsage":{},"permission_denials":[],"terminal_reason":"api_error","type":"result"}

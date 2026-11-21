@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# selftest-t — proves scripts/t, first of all that it fails a test that writes into HOME. Runs fixtures/hermetic
+# through the runner, prints one line per check and stops at the first one that fails.
+set -uo pipefail
+ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)" || exit 2
+export CARGO_TARGET_DIR="$ROOT/target/hermetic-fixture"
+T="$ROOT/scripts/t"
+B="$ROOT/scripts/b"
+MANIFEST=(--manifest-path fixtures/hermetic/Cargo.toml --locked)
+CLEAN=(home_starts_empty writes_only_into_tmpdir agent_clis_are_not_on_the_path the_proxy_is_dead
+  inherited_variables_are_gone tmpdir_sits_next_to_home the_run_says_it_is_hermetic a_capped_run_has_at_most_5_gib)
+# The eight names scripts/t keeps off the PATH (the fixture's AGENT_CLIS), and the variables it must not let through
+# (the fixture's CANARIES).
+AGENT_CLIS=(claude omp codex opencode pi gemini msb j4n)
+CANARIES=(SSH_AUTH_SOCK XDG_CONFIG_HOME XDG_DATA_HOME ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR OPENROUTER_API_KEY)
+NO_CAP_NOTE="no systemd user manager, running without the 5G cap"
+
+# run <cmd…> — in $at (default: the repository root); sets $out (stdout and stderr together) and $rc.
+run() { out="$(cd "${at:-$ROOT}" && "$@" 2>&1)"; rc=$?; }
+ok() { echo "ok   $1"; }
+fail() { echo "FAIL $1" >&2; printf '%s\n' "$out" | sed 's/^/     /' >&2; exit 1; }
+
+# Everything this selftest makes lives in one directory under the real ~/.cache (not /tmp, which is often a small tmpfs). Its runs
+# keep their run directories in $SCRATCH/runs, so a scripts/t that someone else starts meanwhile cannot show up there.
+mkdir -p "$HOME/.cache" && SCRATCH="$(mktemp -d "$HOME/.cache/j4n-selftest.XXXXXX")" || {
+  echo "selftest-t: cannot make a scratch directory" >&2
+  exit 2
+}
+trap 'chmod -R u+rwX "$SCRATCH" 2>/dev/null; rm -rf "$SCRATCH"' EXIT
+export J4N_T_ROOT="$SCRATCH/runs"
+mkdir "$J4N_T_ROOT" "$SCRATCH/nosd" "$SCRATCH/nocap-cargo"
+for name in "${CANARIES[@]}"; do export "$name=/j4n-selftest-canary"; done
+
+# A CARGO_HOME whose bin/ holds the real toolchain (every entry of the real bin/ but the agent CLIs, whatever is
+# installed there), one fake executable for each of the eight agent CLI names, and `cargo-j4n-control`, which proves
+# that scripts/t reads this bin/ at all.
+FAKE_HOME="$SCRATCH/cargo"
+mkdir -p "$FAKE_HOME/bin"
+shopt -s nullglob
+for f in "${CARGO_HOME:-$HOME/.cargo}"/bin/*; do
+  [[ " ${AGENT_CLIS[*]} " == *" ${f##*/} "* ]] || ln -s "$f" "$FAKE_HOME/bin/${f##*/}"
+done
+shopt -u nullglob
+for name in "${AGENT_CLIS[@]}"; do printf '#!/bin/sh\nexit 0\n' >"$FAKE_HOME/bin/$name"; done
+printf '#!/bin/sh\necho control\n' >"$FAKE_HOME/bin/cargo-j4n-control"
+chmod +x "$FAKE_HOME"/bin/*
+# A systemd-run that cannot start a scope, and a cargo that only says what it was asked.
+printf '#!/bin/sh\nexit 1\n' >"$SCRATCH/nosd/systemd-run"
+printf '#!/bin/sh\necho "cargo $*"\n' >"$SCRATCH/nocap-cargo/cargo"
+chmod +x "$SCRATCH/nosd/systemd-run" "$SCRATCH/nocap-cargo/cargo"
+
+run "$T" test "${MANIFEST[@]}" --test hermetic -- --exact "${CLEAN[@]}"
+[ "$rc" -eq 0 ] && grep -q "test result: ok. ${#CLEAN[@]} passed" <<<"$out" ||
+  fail "the clean tests do not pass under the runner (exit $rc)"
+ok "clean tests pass: empty HOME, scrubbed environment, TMPDIR next to HOME, no agent CLIs on PATH, dead proxy"
+
+if systemd-run --user --scope -q true >/dev/null 2>&1; then
+  ! grep -qF "t: $NO_CAP_NOTE" <<<"$out" ||
+    fail "the run was not under the memory cap although a systemd user scope starts"
+  ok "the run was under the memory cap (at most 5 GiB in its cgroup)"
+fi
+
+run env CARGO_HOME="$FAKE_HOME" "$T" j4n-control
+[ "$rc" -eq 0 ] && grep -qx control <<<"$out" ||
+  fail "the runner does not take its tools from the bin/ of CARGO_HOME (exit $rc)"
+run env CARGO_HOME="$FAKE_HOME" "$T" test "${MANIFEST[@]}" --test hermetic -- --exact agent_clis_are_not_on_the_path
+[ "$rc" -eq 0 ] && grep -q "test result: ok. 1 passed" <<<"$out" ||
+  fail "an agent CLI that sits in the bin/ of CARGO_HOME reaches the PATH of the run (exit $rc)"
+ok "none of ${AGENT_CLIS[*]} reaches the PATH, installed or not"
+
+run "$T" test "${MANIFEST[@]}" --test hermetic -- --exact writes_into_home
+[ "$rc" -ne 0 ] && grep -q "test result: ok. 1 passed" <<<"$out" && grep -qF "t: WROTE 1 entries into HOME" <<<"$out" ||
+  fail "a test that passes but writes into HOME does not fail the run (exit $rc)"
+ok "a passing test that writes into HOME fails the run (exit $rc, WROTE 1 entries into HOME)"
+
+run "$T" test "${MANIFEST[@]}" --test no_such_test
+[ "$rc" -eq 101 ] || fail "cargo's own failure does not come through as its exit status 101 (exit $rc)"
+ok "cargo's exit status comes through when HOME stayed clean (exit $rc)"
+
+at="$ROOT/fixtures" run "$T" test "${MANIFEST[@]}" --test hermetic -- --exact "${CLEAN[@]}"
+[ "$rc" -eq 0 ] && grep -q "test result: ok. ${#CLEAN[@]} passed" <<<"$out" ||
+  fail "the runner does not work from a subdirectory of the repository (exit $rc)"
+ok "the runner works from a subdirectory of the repository"
+
+run env J4N_T_ROOT=/proc "$T" test "${MANIFEST[@]}" --test hermetic -- --exact "${CLEAN[@]}"
+[ "$rc" -eq 2 ] && grep -qF "t: cannot create a run directory" <<<"$out" && ! grep -q "test result" <<<"$out" ||
+  fail "a run directory that cannot be made does not stop the runner with exit 2 (exit $rc)"
+ok "no run directory, no run: exit $rc, and cargo never started"
+
+run "$T" test "${MANIFEST[@]}" --test hermetic -- --exact leaves_a_read_only_directory_in_tmpdir
+[ "$rc" -eq 0 ] && grep -q "test result: ok. 1 passed" <<<"$out" ||
+  fail "the read-only directory test does not pass under the runner (exit $rc)"
+out="$(ls -A "$J4N_T_ROOT")"
+[ -z "$out" ] || fail "a read-only directory left in TMPDIR keeps the run directory"
+ok "a read-only directory left in TMPDIR does not keep the run directory"
+
+run env PATH="$SCRATCH/nosd:$PATH" "$T" test "${MANIFEST[@]}" --test hermetic -- --exact "${CLEAN[@]}"
+[ "$rc" -eq 0 ] && grep -q "test result: ok. ${#CLEAN[@]} passed" <<<"$out" &&
+  [ "$(grep -cF "t: $NO_CAP_NOTE" <<<"$out")" -eq 1 ] ||
+  fail "without a systemd user manager the runner does not run uncapped and say so once (exit $rc)"
+ok "without a systemd user manager the runner says so and runs uncapped"
+
+run env PATH="$SCRATCH/nosd:$SCRATCH/nocap-cargo:$PATH" "$B" build
+[ "$rc" -eq 0 ] && grep -qxF "cargo build" <<<"$out" && [ "$(grep -cF "b: $NO_CAP_NOTE" <<<"$out")" -eq 1 ] ||
+  fail "without a systemd user manager scripts/b does not run uncapped and say so once (exit $rc)"
+ok "without a systemd user manager scripts/b says so and runs uncapped"
+
+# scripts/check.sh in a tree of its own whose stages all succeed: only the pack-test stage can fail it.
+GATE="$SCRATCH/gate"
+mkdir -p "$GATE/scripts/release" "$GATE/packs/p/tests"
+cp "$ROOT/scripts/check.sh" "$GATE/scripts/"
+printf '#!/bin/sh\nexit 0\n' >"$GATE/scripts/selftest-t"
+cp "$GATE/scripts/selftest-t" "$GATE/scripts/t"
+printf 'raise SystemExit(0)\n' >"$GATE/scripts/release/leakscan.py"
+chmod +x "$GATE"/scripts/*
+touch "$GATE/packs/p/tests/x.toml"
+run "$GATE/scripts/check.sh"
+[ "$rc" -eq 1 ] && grep -qF "packs/p/tests/x.toml" <<<"$out" && grep -qF "no pack-test runner exists yet" <<<"$out" &&
+  ! grep -qE '\bB[0-9]+\b' <<<"$out" ||
+  fail "the gate does not fail on a pack test file with a message that names no step (exit $rc)"
+rm "$GATE/packs/p/tests/x.toml"
+run "$GATE/scripts/check.sh"
+[ "$rc" -eq 0 ] && grep -qF "check: green" <<<"$out" ||
+  fail "the gate does not pass when every stage passes and no pack test exists (exit $rc)"
+ok "the gate fails on a pack test file, names no step for the runner, and passes without one"
+
+out="$(ls -A "$J4N_T_ROOT")"
+[ -z "$out" ] || fail "the runs left a run directory behind"
+ok "no run directory left behind"

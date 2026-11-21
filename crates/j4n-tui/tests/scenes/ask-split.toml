@@ -1,0 +1,27 @@
+doc = "A split waits for the operator's yes: the approval card names the chats that would write, each with its doer, model, what it may spend and its brief, and the two answers; the reason says why a chat that writes asks."
+sizes = [[120, 32], [80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "fix the failing test in parser.rs" } } }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [{ key = "t0", cells = [{ text = "check the three services and update the docs for them" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] }, { key = "t0a", cells = [{ text = "split · c1: read the services", icon = "route" }, { text = "", tone = "dim" }, { text = "0.4s", tone = "dim" }], parent = "t0" }]
+
+[[step]]
+down = "asks"
+open = [{ ask = "split:1", asker = "j4n", question = "Start 2 chats?", shape = "approval", effect = "docs writes in a worktree, api writes in a worktree · Main works the rest", why = "A chat that writes spends money, works in a worktree of its own and its work lands in the project only after it is checked. `orchestrate.ask` sets which chats ask.", facts = [{ text = "check the three services and u…", tone = "dim" }], change = [{ key = "split:1:docs", cells = [{ text = "docs" }, { text = "pi · haiku", tone = "dim" }, { text = "$0.25", tone = "dim" }], detail = [{ text = "rewrite the docs for the three services", tone = "dim" }, { text = "writes docs/guide.md", tone = "dim" }] }, { key = "split:1:api", cells = [{ text = "api" }, { text = "claude · sonnet", tone = "dim" }, { text = "$0.25", tone = "dim" }], detail = [{ text = "update the client for the new routes", tone = "dim" }, { text = "writes src/client.rs", tone = "dim" }] }], options = [{ id = "yes", label = "start", recommended = true, by = "core" }, { id = "no", label = "not now", by = "core" }] }]
+
+[[step]]
+shot = "card"

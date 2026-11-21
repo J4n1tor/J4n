@@ -1,0 +1,21 @@
+api = 1
+
+# The layout of a screen: which fields stand on it and how they share the room. The screen is the template
+# `main`; another template can be used by it (`use`), and one that `extends` another starts from it. A template with the id of one that
+# is there changes it field by field, as every row of the Table is changed, so an operator's `~/.j4n/ui/templates.toml` that holds
+# only `children` for `main` changes the children and nothing else; `children` is replaced whole.
+[[kind]]
+id = "template"
+doc = "How a screen lays out its fields."
+examples = [
+  { id = "main", doc = "The tabs, the questions under them, the status bar.", present = "stack", children = [{ id = "pages", tabs = "home", grow = 1 }, { field = "ask", bind = "asks:open" }, { field = "bar", bind = "bar:status", height = 1 }] },
+  { id = "logs", doc = "The log beside the tabs.", present = "split", ratio = 60, children = [{ tabs = "home" }, { field = "log", bind = "log:all" }] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the layout is for." }
+extends = { ty = "str", doc = "Another template whose `present`, `ratio`, `cols` and `children` this one has where it says none. The id of its own: the one it changes in the layer below, which it does anyway." }
+present = { ty = "enum:stack|tabs|subtabs|sections|split|grid", doc = "How its parts share the room: one over the other (default), as tabs, as sections, side by side, or in a grid." }
+ratio = { ty = "int", min = 0, max = 100, doc = "For a split: the share of the first pane, in percent (0: half)." }
+cols = { ty = "int", min = 0, max = 12, doc = "For a grid: cells in a row (0: by width)." }
+children = { ty = "list", default = [], of = { ty = "obj", fields = { id = { ty = "str", doc = "What names the node (its open tab and folded sections are kept under it); left out, `<this id>.<field>`." }, title = { ty = "str", doc = "The words over it, where it has a title (a section)." }, field = { ty = "enum:chat|bar|ask|log|list|form|str|text|int|num|bool|enum|multi|ref|seq|map|dur|usd|path|argv|pattern|expr|secret|markdown|stat|meter|spark|line|bars|chip|action|table|tree|card|cards", doc = "A field this part draws." }, bind = { ty = "str", doc = "For a field: the data it draws (`chat:{thread}`, `asks:open`, `bar:status`, `log:all`)." }, view = { ty = "ref:view", doc = "For a field: the view whose rows it draws, in place of `bind`." }, props = { ty = "any", doc = "For a field: what its component is given (`tail`, `width`, `one`, `many`, `columns`…)." }, grow = { ty = "int", min = 0, max = 20, doc = "In a stack: its share of the room that is left; left out, the room its field asks for." }, height = { ty = "int", min = 0, max = 50, doc = "In a stack: exactly this many rows; wins over `grow`." }, when = { ty = "expr", roots = ["set"], doc = "The part is there only while this holds (`set.x.y` reads a setting)." }, use = { ty = "str", doc = "Another template, in place of a field." }, tabs = { ty = "str", doc = "The tabs of the pages whose parent is this (`home`), in place of a field." } } }, doc = "The parts, in order: a field, the tabs of a parent, or another template." }

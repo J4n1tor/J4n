@@ -1,0 +1,24 @@
+├ packs                                             ~/.j4n/packs
+├ packs                                          ~/.j4n/packs 󰍁
+├ packs                                                 ~/pks 󰗖
+│ not found
+╰ packs                                             ~/.j4n/packs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

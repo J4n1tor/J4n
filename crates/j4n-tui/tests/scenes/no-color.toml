@@ -1,0 +1,10 @@
+doc = "NO_COLOR: no colour anywhere, the glyphs stay; each role is the attribute that keeps its meaning (sel reverse, accent bold, dim faint edge dim, warn underline, error bold and underline)."
+sizes = [[80, 26]]
+theme = { no_color = true }
+
+[[step]]
+preview = "roles"
+[[step]]
+shot = "roles"
+[[step]]
+preview = "glyphs"

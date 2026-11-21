@@ -1,0 +1,32 @@
+doc = "The meter field: ok, warn from 80 %, error over 100 %; under 60 columns the bar has a row of its own."
+sizes = [[64, 12], [40, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "a", title = "context", field = { kind = "meter", bind = "m:a", props = { warn = 0.8 } } }, { id = "b", title = "soft cap", field = { kind = "meter", bind = "m:b", props = { warn = 0.8 } } }, { id = "c", title = "limit 5h", field = { kind = "meter", bind = "m:c" } }, { id = "d", title = "no value yet", field = { kind = "meter", bind = "m:d" } }] }
+
+[[step]]
+down = "value"
+bind = "m:a"
+value = 0.45
+rev = 1
+
+[[step]]
+down = "value"
+bind = "m:b"
+value = 0.82
+rev = 1
+
+[[step]]
+down = "value"
+bind = "m:c"
+value = 1.04
+rev = 1
+

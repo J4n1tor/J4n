@@ -1,0 +1,30 @@
+├ when
+│ danger(cmd).class == 'push'
+├ when
+│ danger(cmd).class == 'push' 󰍁
+├ when
+│ dangr( 󰗖
+│ ( at 6 not closed
+╰ when
+  danger(cmd).class == 'push'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

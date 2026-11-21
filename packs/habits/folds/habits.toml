@@ -1,0 +1,63 @@
+api = 1
+
+# What the detectors of pack `habits` count. The expression language has no arithmetic and a fold key is one
+# field of one event, so each fold is the one thing a rule can then compare with a setting.
+
+[[fold]]
+id = "habit_reads"
+doc = "How many times each read (the tool's name holds `read`) was made, by the call as it was written, in the last half hour."
+on = "run.tool_call"
+when = "contains(lower(ev.data.name), 'read') and ev.data.detail"
+reduce = "count"
+key = "{data.detail}"
+within = "30m"
+
+[[fold]]
+id = "habit_changed"
+doc = "How many times a doer changed files in the project, in the last half hour: a reread is waste only when nothing was changed."
+on = "run.changed"
+reduce = "count"
+within = "30m"
+
+[[fold]]
+id = "habit_served"
+doc = "How many requests each task made to a model (the own agent's `run.served`)."
+on = "run.served"
+reduce = "count"
+key = "{task}"
+
+[[fold]]
+id = "habit_models"
+doc = "The models of the last two requests of each task: two names are a switch."
+on = "run.served"
+reduce = "set"
+of = "data.model"
+key = "{task}"
+window = 2
+
+[[fold]]
+id = "habit_cost"
+doc = "What the last request of each task cost (the list price as the doer reported it)."
+on = "run.metrics"
+reduce = "last"
+of = "data.usd"
+unit = "usd"
+key = "{task}"
+
+[[fold]]
+id = "habit_lines"
+doc = "How many times the operator typed each short line (lowercase, 5 to 80 characters, not a command or a path), in seven days."
+on = "chat.say"
+when = "by == 'operator' and len(ev.data.text) >= 5 and len(ev.data.text) <= 80 and not contains(ev.data.text, ':') and not contains(ev.data.text, '/')"
+reduce = "count"
+key = "{lower(data.text)}"
+within = "7d"
+
+[[fold]]
+id = "habit_rows"
+doc = "The rows the detectors said, by the event that set each off (`h<seq>`): what `:habit keep|wrong` checks an id against, and the page Habits."
+on = "run.notice"
+when = "contains(ev.data.rule, 'habit-')"
+reduce = "last"
+of = "ev"
+key = "{cause}"

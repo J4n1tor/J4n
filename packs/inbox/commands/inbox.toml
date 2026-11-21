@@ -1,0 +1,8 @@
+api = 1
+
+[[command]]
+id = "inbox"
+doc = "The lines typed while a task works: `:inbox` lists the open ones; `:inbox tag <id> <steer|side|note|hold>` says what a line is (the same tag says the rule was right); `:inbox pin <id>`; `:inbox show|auto|off` sets the switch until J4n ends."
+words = [":inbox"]
+args = ["what to do"]
+core = "inbox"

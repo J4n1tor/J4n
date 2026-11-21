@@ -1,0 +1,120 @@
+api = 1
+
+# The one switch (default `single`) and the numbers the plan keeper is bound by.
+[[setting]]
+id = "lanes"
+doc = "What acts on its own: `single` (a line is a task; no plan keeper, no branches), `auto` (the plan keeper is on; branches by rule are scouts and reviewers, and the main lane is the only writer), `wide` (also pieces, written in held worktrees and merged one at a time) or `orchestrate` (the one switch of the mode: Main is a chat with a doer session of its own and works each line itself; while it is the word the quick look at each plain line can open chats, and the crew's seats, the envoys, the plan keeper and the messenger are on, each by its own setting `orchestrate.look`, `crew.on` and `crew.envoys`, which are `auto` and follow the word unless you set them yourself; turning the word on or off starts Main's session fresh). `:lanes auto` says it while J4n runs."
+ty = "str"
+default = "single"
+full = "auto"
+words = ["single", "auto", "wide", "orchestrate"]
+
+[[setting]]
+id = "plan.sends"
+doc = "How many times an item of a plan is sent back before it is blocked: the next one is the block."
+ty = "int"
+default = 3
+min = 0
+max = 20
+
+[[setting]]
+id = "plan.lay_refused"
+doc = "When a checked and reviewed piece cannot be laid in, because the folder holds other changes to a file it changed: `block` (the default) blocks it at once, with its work kept where it is and named, and the main lane or you decide on it; its doer works in a copy of the project that does not hold the folder's changes, so a retry cannot clear them. `retry` sends it back to its item as a failed check is, until `plan.sends` blocks it."
+ty = "str"
+default = "block"
+words = ["block", "retry"]
+
+[[setting]]
+id = "plan.usd_line"
+doc = "What the branches of one line may take together, in dollars; past it no new branch starts (the running ones go on to their own caps)."
+ty = "num"
+default = 0.5
+min = 0
+max = 1000
+
+[[setting]]
+id = "plan.revisions"
+doc = "How often a plan's approach is revised before the operator is asked: the next revision asks and stops."
+ty = "int"
+default = 3
+min = 0
+max = 20
+
+[[setting]]
+id = "plan.grow"
+doc = "How many items a replan may add before the operator is asked (`:plan accept`, `:plan reject`)."
+ty = "int"
+default = 3
+min = 0
+max = 50
+
+# The tiers: who plans and who reviews, when that is not the doer and model the work runs on. Empty: the thread's own.
+# Example, a file in the operator's folder for the project (`~/.j4n/projects/<key>/tiers.toml`), or in `~/.j4n`: Opus plans and reviews,
+# the thread's doer (claude, sonnet) works.
+#   api = 1
+#
+#   [[setting]]
+#   id = "plan.model"
+#   value = "opus"
+#
+#   [[setting]]
+#   id = "plan.review_model"
+#   value = "opus"
+[[setting]]
+id = "plan.doer"
+doc = "The doer that makes the plan and its replans, when it is not the thread's own (empty: the thread's). Its model is `plan.model`, else the doer's default; the items keep the thread's doer and model."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "plan.model"
+doc = "The model that makes the plan and its replans, as a model word of the planning doer (`opus`, `opus 5`): the newest match is taken, and one that matches none refuses the planning turn. Empty: the thread's own model. The items keep the thread's model."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "plan.review_doer"
+doc = "The doer a review branch runs on, over the election (empty: elected, and never the one that wrote the work)."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "plan.review_model"
+doc = "The model a review branch runs on, as a model word of its doer (empty: the thread's own, or the elected one)."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "plan.cheap_doer"
+doc = "The doer the cheap branches run on, scouts and pieces, over the election (empty: the cheapest model of a doer that is signed in, the thread's own doer first, when `offload.prices` prices one of its models; else elected, or the thread's). The checker is not one: it runs the item's check command and uses no model."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "plan.cheap_model"
+doc = "The model the cheap branches (scouts and pieces) run on, as a model word of their doer: the newest match is taken (`haiku` is the newest Haiku), and one that matches none refuses the branch (empty: the cheapest model of the doer, by `offload.prices`; a tier never picks Opus or Fable)."
+ty = "str"
+default = ""
+
+# The main lane's own doer: with none, the first election takes the best-ranked of the doers that are ready, and
+# with no record yet that is the smallest id, which is `claude`. `:setup doer <id>` says it while J4n runs. A line that names a doer is the later word.
+[[setting]]
+id = "lane.doer"
+doc = "The doer a thread that is not bound yet is bound to, when it is ready (empty: the election chooses). `:setup doer codex` sets it."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "lane.model"
+doc = "The model of the doer `lane.doer`, as a model word of it (empty: under `orchestrate`, the standard tier of the doer, by `offload.prices`, never Opus or Fable; else the doer's own default)."
+ty = "str"
+default = ""
+
+# The Setup card at a start: on until it is answered once, in any project of this J4n home. Its `open Setup` writes it off in the home's own
+# layer, which every project reads, so a second project is not asked again; `later` leaves it on.
+[[setting]]
+id = "setup.card"
+doc = "Whether a start shows the Setup card while no agent works or the Decider is not set up. On until the card is answered once in this J4n home: its `open Setup` turns it off for every project, and `later` asks again at the next start. Connect › Setup is there either way."
+ty = "bool"
+default = true
+live = false

@@ -1,0 +1,79 @@
+api = 1
+
+# Once a run has read what is not the operator's (a page, an MCP server's result, an endpoint's
+# answer, a `curl` or `gh` line), `action.taint` says from where, and the rest of that run may not send anything out or write
+# where a later write is run by someone else. The run ends with the operator's next line. Every rule blocks, so no grant
+# covers it, and the rule's id starts with `taint-` (the alert rule in `rules/alert.toml` reads that). Read when J4n starts;
+# the pack `guard` off, none of this is there.
+
+[[gate]]
+id = "taint-mcp-write"
+doc = "An MCP tool that writes sends something to a third party (a comment, a pull request, a mail, a row): not after untrusted words."
+on = ["write"]
+when = "action.taint and action.target matches 'mcp:*'"
+verdict = "block"
+why = "this run has read untrusted content, and a tool of an MCP server that changes something could send it anywhere"
+
+[[gate]]
+id = "taint-endpoint"
+doc = "A connected endpoint can be a POST; the Gate cannot tell, so none is called after untrusted words (the web tool reads, and is not this)."
+on = ["net"]
+when = "action.taint and action.actor != 'web'"
+verdict = "block"
+why = "this run has read untrusted content, and a call to a connected endpoint could send data out"
+
+[[gate]]
+id = "taint-web-query"
+doc = "A page is read, not written to; a query string is how data leaves in a read."
+on = ["net"]
+when = "action.taint and action.actor == 'web' and (contains(action.target, '?') or contains(action.target, '#'))"
+verdict = "block"
+why = "this run has read untrusted content, and an address with a query or a fragment is how data leaves in a read"
+
+[[gate]]
+id = "taint-shell-egress"
+doc = "A line that sends over the network, or publishes."
+on = ["shell"]
+when = "action.taint and (danger(cmd).class == 'publish' or lower(cmd) matches '*curl *' or lower(cmd) matches '*wget *' or lower(cmd) matches 'nc *' or lower(cmd) matches '* nc *' or lower(cmd) matches '*ncat *' or lower(cmd) matches '*socat *' or lower(cmd) matches '*telnet *' or lower(cmd) matches 'ssh *' or lower(cmd) matches '* ssh *' or lower(cmd) matches 'scp *' or lower(cmd) matches '* scp *' or lower(cmd) matches '*ftp *' or lower(cmd) matches '*rsync *' or lower(cmd) matches 'gh *' or lower(cmd) matches '* gh *' or lower(cmd) matches '*/dev/tcp/*')"
+verdict = "block"
+why = "this run has read untrusted content, and this line could send it out"
+
+[[gate]]
+id = "taint-write-login"
+doc = "The files a shell, an ssh login or an environment reads at the start of everything."
+on = ["write", "apply"]
+when = "action.taint and (lower(path) matches '*.bashrc' or lower(path) matches '*.bash_profile' or lower(path) matches '*.profile' or lower(path) matches '*.zshrc' or lower(path) matches '*.zshenv' or lower(path) matches '*.zprofile' or lower(path) matches '*.config/fish/*' or lower(path) matches '*/.ssh/*' or lower(path) matches '.ssh/*' or lower(path) matches '*authorized_keys' or lower(path) matches '*.config/autostart/*' or lower(path) matches '*.config/systemd/*' or lower(path) matches '*.gitconfig')"
+verdict = "block"
+why = "this run has read untrusted content, and this file runs or opens things later, outside this run"
+
+[[gate]]
+id = "taint-write-secret"
+doc = "Where logins and keys are kept."
+on = ["write", "apply"]
+when = "action.taint and (lower(path) matches '*/.env*' or lower(path) matches '.env*' or lower(path) matches '*.pem' or lower(path) matches '*.key' or lower(path) matches '*id_rsa*' or lower(path) matches '*id_ed25519*' or lower(path) matches '*id_ecdsa*' or lower(path) matches '*/.aws/*' or lower(path) matches '.aws/*' or lower(path) matches '*.gnupg/*' or lower(path) matches '*/.netrc' or lower(path) matches '.netrc' or lower(path) matches '*/.npmrc' or lower(path) matches '.npmrc' or lower(path) matches '*/.pypirc' or lower(path) matches '.pypirc')"
+verdict = "block"
+why = "this run has read untrusted content, and this file holds a login or a key"
+
+[[gate]]
+id = "taint-write-automation"
+doc = "What a build, a hook, an editor or J4n itself runs without anyone looking."
+on = ["write", "apply"]
+when = "action.taint and (lower(path) matches '*/.github/workflows/*' or lower(path) matches '.github/workflows/*' or lower(path) matches '.gitlab-ci.yml' or lower(path) matches '*/.circleci/*' or lower(path) matches '.circleci/*' or lower(path) matches '*/.husky/*' or lower(path) matches '.husky/*' or lower(path) matches '*/.devcontainer/*' or lower(path) matches '.devcontainer/*' or lower(path) matches '*/.vscode/tasks.json' or lower(path) matches '.vscode/tasks.json' or lower(path) matches '*/.j4n/*' or lower(path) matches '.j4n/*' or lower(path) matches '*/.claude/*' or lower(path) matches '.claude/*')"
+verdict = "block"
+why = "this run has read untrusted content, and this file is run by a build, a hook, an editor or J4n later"
+
+[[gate]]
+id = "taint-shell-write-login"
+doc = "A line that writes where a login or a key is, or the files of the first rule above."
+on = ["shell"]
+when = "action.taint and danger(cmd).writes and (lower(cmd) matches '*.bashrc*' or lower(cmd) matches '*.bash_profile*' or lower(cmd) matches '*.profile*' or lower(cmd) matches '*.zshrc*' or lower(cmd) matches '*.zshenv*' or lower(cmd) matches '*.zprofile*' or lower(cmd) matches '*/.ssh/*' or lower(cmd) matches '*authorized_keys*' or lower(cmd) matches '*.config/autostart*' or lower(cmd) matches '*.config/systemd*' or lower(cmd) matches '*.gitconfig*' or lower(cmd) matches '*.env*' or lower(cmd) matches '*.pem*' or lower(cmd) matches '*id_rsa*' or lower(cmd) matches '*id_ed25519*' or lower(cmd) matches '*/.aws/*' or lower(cmd) matches '*.netrc*' or lower(cmd) matches '*.npmrc*' or lower(cmd) matches '*.pypirc*')"
+verdict = "block"
+why = "this run has read untrusted content, and this line writes where a login, a key or a startup file is"
+
+[[gate]]
+id = "taint-shell-write-automation"
+doc = "A line that writes what a build, a hook, an editor or J4n runs later."
+on = ["shell"]
+when = "action.taint and danger(cmd).writes and (lower(cmd) matches '*.github/workflows*' or lower(cmd) matches '*.gitlab-ci.yml*' or lower(cmd) matches '*.circleci*' or lower(cmd) matches '*.husky*' or lower(cmd) matches '*.devcontainer*' or lower(cmd) matches '*.vscode/tasks.json*' or lower(cmd) matches '*.j4n/*' or lower(cmd) matches '*.claude/*')"
+verdict = "block"
+why = "this run has read untrusted content, and this line writes what a build, a hook, an editor or J4n runs later"

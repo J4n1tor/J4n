@@ -1,0 +1,7 @@
+api = 1
+id = "inbox"
+version = "0.0.0"
+summary = "lines typed while a task works get a tag and a receipt instead of steering it at once; off by default, so a line steers as it always did"
+use_when = "the operator types several lines while a task works and wants each kept with a receipt instead of steering"
+needs = ["base"]
+stability = "experimental"

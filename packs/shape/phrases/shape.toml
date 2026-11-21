@@ -1,0 +1,7 @@
+api = 1
+
+[[phrase]]
+id = "shape"
+doc = "Turn prompt shaping on or off: `:shape on`, `:shape off`, `:shape` to see which."
+words = [":shape"]
+command = "shape"

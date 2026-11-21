@@ -1,0 +1,41 @@
+api = 1
+
+# Read when J4n starts (the switch is `inbox.mode`: a setting cannot also be the front of another); `:inbox show|auto|off` sets the switch until it ends.
+[[setting]]
+id = "inbox.mode"
+doc = "What happens to a line typed while a task works: `off` (the default) steers the task at once, as ever; `show` gives the line a tag and a receipt and delivers it at the task's settled boundary (steer and hold lines as the section `inbox` of the next turn, a side line as a task of its own); `auto` also steers a task at once with a `steer` line whose rule has measured precision. An unknown word is `off`."
+ty = "str"
+default = "off"
+words = ["off", "show", "auto"]
+
+[[setting]]
+id = "inbox.related"
+doc = "The share of a line's words found in the task (its goal, the paths it changed, the item in hand) at or over which the line is about the task: tag `steer`. A first guess."
+ty = "num"
+default = 0.5
+min = 0
+max = 1
+
+[[setting]]
+id = "inbox.unrelated"
+doc = "The share at or under which the line is about something else: tag `side` when it is a question or names a path the task has not touched, else `hold`. A first guess."
+ty = "num"
+default = 0.15
+min = 0
+max = 1
+
+[[setting]]
+id = "inbox.steer_precision"
+doc = "The share of a rule's tags the operator left as they were, at or over which (and with `inbox.min_labels` labels) its `steer` items are marked steerable."
+ty = "num"
+default = 0.95
+min = 0
+max = 1
+
+[[setting]]
+id = "inbox.min_labels"
+doc = "How many labels a rule needs before its precision counts."
+ty = "int"
+default = 40
+min = 1
+max = 1000

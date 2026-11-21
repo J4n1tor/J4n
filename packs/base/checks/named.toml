@@ -1,0 +1,66 @@
+api = 1
+
+# What a chore of class `lint` or `build` of the pack `offload` runs; they live in the base pack, which already holds the
+# check rows, so that the pack `offload` adds no check of its own. A row with `named = true` is run only when something names it, as a
+# chore does; it is never the check a folder has by default, and it is not one a plan item may name.
+[[check]]
+id = "8-lint-cargo"
+doc = "A Rust project's linter."
+files = ["Cargo.toml"]
+argv = ["cargo", "clippy", "--quiet", "--all-targets"]
+timeout = "10m"
+named = true
+pass_env = ["CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "CARGO_BUILD_JOBS", "RUSTFLAGS"]
+unrunnable = ["could not resolve host", "failed to download", "failed to fetch", "no matching package named", "read-only file system", "no such command: `clippy`"]
+
+[[check]]
+id = "8-build-cargo"
+doc = "A Rust project's build."
+files = ["Cargo.toml"]
+argv = ["cargo", "build", "--quiet"]
+timeout = "15m"
+named = true
+pass_env = ["CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "CARGO_BUILD_JOBS", "RUSTFLAGS"]
+unrunnable = ["could not resolve host", "failed to download", "failed to fetch", "no matching package named", "read-only file system"]
+
+[[check]]
+id = "8-lint-npm"
+doc = "A package that has a `lint` script."
+files = ["package.json"]
+needs = { file = "package.json", contains = "\"lint\"" }
+argv = ["npm", "run", "lint", "--silent"]
+timeout = "10m"
+named = true
+pass_env = ["NODE_PATH", "NPM_CONFIG_CACHE"]
+unrunnable = ["cannot find module", "read-only file system"]
+
+[[check]]
+id = "8-build-npm"
+doc = "A package that has a `build` script."
+files = ["package.json"]
+needs = { file = "package.json", contains = "\"build\"" }
+argv = ["npm", "run", "build", "--silent"]
+timeout = "10m"
+named = true
+pass_env = ["NODE_PATH", "NPM_CONFIG_CACHE"]
+unrunnable = ["cannot find module", "read-only file system"]
+
+[[check]]
+id = "8-build-go"
+doc = "A Go module's build."
+files = ["go.mod"]
+argv = ["go", "build", "./..."]
+timeout = "10m"
+named = true
+pass_env = ["GOPATH", "GOCACHE", "GOFLAGS", "GOMODCACHE"]
+unrunnable = ["dial tcp", "read-only file system"]
+
+[[check]]
+id = "8-lint-go"
+doc = "A Go module's vet."
+files = ["go.mod"]
+argv = ["go", "vet", "./..."]
+timeout = "10m"
+named = true
+pass_env = ["GOPATH", "GOCACHE", "GOFLAGS", "GOMODCACHE"]
+unrunnable = ["dial tcp", "read-only file system"]

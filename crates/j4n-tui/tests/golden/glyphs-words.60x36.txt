@@ -1,0 +1,36 @@
+ glyphs · words · corners round
+ you      you          route    route
+ queued   queued       ●        working
+ ask      ask          cool     cooling
+ ✓        done         ✗        failed
+ stopped  stopped      read     read
+ grep     search       edit     edit
+ write    new          run      run
+ fetch    fetch        tool     tool
+ out      output       todo     todo
+ ✓        todo-done    think    think
+ fail     error        ·        control
+ session  session      grant    grant
+ compact  compact      note     notice
+ wt       worktree     commit   commit
+ ro       read-only    link     connector
+ msg      message      decider  decide
+ decider  decide-off   round    round
+ yes      yes          no       no
+ ▸        fold-closed  ▾        fold-open
+ ⇥        hint         ~        made
+ pane     pane         │        pipe-bar
+ ├─       pipe-tee     ╰─       pipe-elbow
+ ╭─       pipe-top     └─       pipe-square
+ ·        airy-top     ›        airy-child
+ ▌        you-cap-l    ▐        you-cap-r
+ ├        branch-tee   ╰        branch-elbow
+ └        branch-square┆        hang-bar
+ ┃        focus        ╭        box-tl
+ ╮        box-tr       ╰        box-bl
+ ╯        box-br       ┌        pop-tl
+ ┐        pop-tr       └        pop-bl
+ ┘        pop-br       ─        box-h
+ │        box-v        ╌        rule-dashed
+ ▔        rule-top     ━        rule-heavy
+ ▕        fill-left    ▏        fill-right

@@ -1,0 +1,11 @@
+api = 1
+
+# The decisions each task has had made for it: one row per asking task, holding the asks that
+# were answered for it, and nothing of any other task.
+[[fold]]
+id = "decisions"
+doc = "The asks answered for each task."
+on = "ask.answered"
+reduce = "set"
+of = "data.ask"
+key = "{task}"

@@ -1,0 +1,14 @@
+api = 1
+
+[[view]]
+id = "contribute-found"
+doc = "What this J4n found wrong with J4n, newest first, each with how many times."
+from = { from = "fold:contribute_found", order = "-at_ms" }
+cells = ["{mark}", "{title}", "×{n}", "{state}"]
+detail = ["{source} · {what} · {row}", "{fp}"]
+
+[[view]]
+id = "contribute-fixes"
+doc = "The fixes of your own that this J4n carries, and the ones the pack has taken in."
+from = { from = "fold:contribute_patch", order = "-at_ms" }
+cells = ["{mark}", "{title}", "{state}", "{how}"]

@@ -1,0 +1,78 @@
+api = 1
+
+# Quality control. `:qc on` and `:qc off` are the switch and are remembered in the Log; `qc.on` is only what
+# stands before either was said. The other settings are read when j4n starts.
+[[setting]]
+id = "qc.on"
+doc = "Whether changes are checked by themselves before anything has been said with `:qc on` or `:qc off`."
+ty = "bool"
+default = false
+full = true
+
+[[setting]]
+id = "qc.live"
+doc = "After a write in a lane: `off` checks only at settle, `show` marks as work goes on, `steer` also tells the lane about a mark whose pattern has earned it."
+ty = "str"
+default = "show"
+words = ["off", "show", "steer"]
+
+[[setting]]
+id = "qc.jev"
+doc = "Whether the code of a change is sent to Jev to be judged (the second tier). It leaves this machine, so it is yours to turn on: Settings › All › qc.jev."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "qc.steer_precision"
+doc = "A pattern steers a lane only when this share of its labelled marks were right."
+ty = "num"
+default = 0.95
+live = false
+min = 0.8
+max = 1
+
+[[setting]]
+id = "qc.steer_labels"
+doc = "And only with this many labels."
+ty = "int"
+default = 40
+live = false
+min = 1
+max = 200
+
+[[setting]]
+id = "qc.rounds"
+doc = "How many times a lane is steered in one task."
+ty = "int"
+default = 2
+min = 0
+max = 3
+
+[[setting]]
+id = "qc.timeout"
+doc = "How long one call to Jev may take."
+ty = "dur"
+default = "5s"
+live = false
+
+[[setting]]
+id = "qc.skip"
+doc = "Patterns to leave out, by id, separated by commas (`rs-fmt, todo-left`). A pattern you never want to hear about is left out here; it is not deleted."
+ty = "str"
+default = ""
+live = false
+
+[[setting]]
+id = "qc.provenance"
+doc = "Say how sure an edge is. The callers, tests, look-alikes and file map Jev is sent are matches of words, and with this on the state says `~lexical` for them and a verdict that picks among look-alikes is shown with it. Off, Jev is sent what it always was."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "qc.keep"
+doc = "Which surfaces the step `keep` guards across a refactor, by `qc_keep` id, separated by commas (`rust-pub, md-heading`); empty is every one."
+ty = "str"
+default = ""
+live = false

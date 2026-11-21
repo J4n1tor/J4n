@@ -1,0 +1,10 @@
+api = 1
+
+# The last result of each case for each doer.
+[[fold]]
+id = "bench"
+doc = "Where each case stands for each doer: the last run of it."
+on = "bench.case"
+reduce = "last"
+of = "data"
+key = "{data.case}/{data.doer}"

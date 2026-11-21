@@ -1,0 +1,22 @@
+api = 1
+
+# The coding harness's flows. A plan only reads: the step is told so, and the Gate refuses a write
+# whatever the doer thinks it was asked, so a plan never implements.
+
+[[flow]]
+id = "plan"
+doc = "A plan for a task, and nothing else: the doer reads what it needs and changes nothing."
+in = { goal = "text" }
+steps = [
+  { id = "plan", do = "who:plan", mode = "read", goal = "Plan this task; do not do it. Read what you need in the project and change nothing. Give the steps, the files each one touches, and how to tell that it worked.\n\nTask: {in.goal}", out = { plan = "text" } },
+  { id = "done", kind = "end", answer = "{steps.plan.out.plan}" },
+]
+
+[[flow]]
+id = "design"
+doc = "A design for a task, and nothing else: the choices and what each one costs, with no code beyond a sketch."
+in = { goal = "text" }
+steps = [
+  { id = "design", do = "who:plan", mode = "read", goal = "Design this; do not build it. Read the project as you need. Say what the solution is shaped like, the choices there are and what each one gives up, and what you would build first. Change nothing, and write no code beyond a short sketch.\n\nTask: {in.goal}", out = { design = "text" } },
+  { id = "done", kind = "end", answer = "{steps.design.out.design}" },
+]

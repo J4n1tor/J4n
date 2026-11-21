@@ -1,0 +1,30 @@
+doc = "`/usage` is a row of the chat that holds a view. Under the line that asked for it the row's title, then what the field draws on the same rail: a group per login or gateway, a bar per window with its used share, and the note (reset, pace, how it ends) after it on a wide screen or under it on a narrow one."
+sizes = [[120, 24], [80, 20], [60, 18]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "/usage" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "v1", cells = [{ text = "usage", tone = "dim" }], parent = "t1", by = "core", data = { view = { id = "usage", title = "usage", field = "meter", value = [{ group = "claude · default" }, { label = "5h", f = 0.5, tone = "warn", note = "resets in 3:00 (13:00 UTC) · 25%/h · at this pace ends in 2:00" }, { label = "7d", f = 0.1, note = "resets in 3d 22h · 3%/day · lasts past reset" }, { group = "claude · work · max5 $100/mo" }, { label = "5h", f = 0.9, tone = "warn", note = "resets in 3:00 (13:00 UTC) · 45%/h · at this pace ends in 0:13" }, { label = "7d", f = 0.0, note = "resets in 5d 4h · unused" }, { group = "openrouter" }, { text = "credits: unknown (a gateway call, not made here)", tone = "dim" }, { text = "today $0.31 · 2 calls (UTC day)" }] } } },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "write", tone = "plain" }, { text = "$0.33", tone = "dim" }, { text = "demo", tone = "dim" }] }]

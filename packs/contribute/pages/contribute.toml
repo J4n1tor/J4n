@@ -1,0 +1,30 @@
+api = 1
+
+[[page]]
+id = "contribute"
+doc = "What this J4n found wrong with J4n, and the fixes it carries."
+parent = "home"
+title = "Contribute"
+icon = "add"
+group = "proposals"
+order = 58
+present = "sections"
+
+[[page]]
+id = "contribute-found"
+doc = "What this J4n found wrong with J4n."
+parent = "contribute"
+title = "Found"
+order = 20
+field = "list"
+view = "contribute-found"
+help = "findings are counted by fingerprint and stay on this machine; `:wrong <words>` adds one of your own"
+
+[[page]]
+id = "contribute-fixes"
+doc = "The fixes of your own that this J4n carries."
+parent = "contribute"
+title = "Fixes"
+order = 30
+field = "list"
+view = "contribute-fixes"

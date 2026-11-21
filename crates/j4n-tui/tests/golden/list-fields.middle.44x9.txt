@@ -1,0 +1,9 @@
+├ wall
+│ —
+├ soft cap
+├ stream
+│ 󰔢
+├ width
+├ files
+│ —
+╰ mode

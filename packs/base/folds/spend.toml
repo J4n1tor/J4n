@@ -1,0 +1,35 @@
+api = 1
+
+# What each task of this project cost, this week, as the list cost the doer reported (the Spend tab, `views/f1.toml`); `spend_plan` is
+# what it took of the plan, for the requests that ran on one (`plan_usd` on the same event). The page puts them
+# together (`Screen::spend_rows`).
+[[fold]]
+id = "spend"
+doc = "What each task cost, this week."
+on = "run.metrics"
+reduce = "sum"
+of = "data.usd"
+unit = "usd"
+key = "{task}"
+within = "7d"
+
+[[fold]]
+id = "spend_plan"
+doc = "What each task took of the plan, this week, for the requests that ran on one."
+on = "run.metrics"
+reduce = "sum"
+of = "data.plan_usd"
+unit = "usd"
+key = "{task}"
+within = "7d"
+
+[[fold]]
+id = "spend_model"
+doc = "What each model cost, this week: the model that served the task, as `run.metrics` names it."
+on = "run.metrics"
+when = "ev.data.model"
+reduce = "sum"
+of = "data.usd"
+unit = "usd"
+key = "{data.model}"
+within = "7d"

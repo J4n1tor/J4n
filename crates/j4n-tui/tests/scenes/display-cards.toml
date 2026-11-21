@@ -1,0 +1,36 @@
+doc = "The cards field: a grid of cards, the one the keys are on in a heavy frame."
+sizes = [[64, 12], [40, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "cards", title = "", field = { kind = "cards", bind = "view:cards", props = { width = 14 } } }] }
+
+[[step]]
+down = "rows"
+bind = "view:cards"
+total = 4
+rev = 1
+rows = [{ key = "claude", cells = [{ text = "claude", icon = "done" }, { text = "$0.19", tone = "dim" }], actions = [{ key = "p", label = "probe", intent = { intent = "run", command = "probe", args = ["claude"] }, risk = 0 }] }, { key = "omp", cells = [{ text = "omp", icon = "done" }, { text = "$0.03", tone = "dim" }], actions = [{ key = "p", label = "probe", intent = { intent = "run", command = "probe", args = ["omp"] }, risk = 0 }] }, { key = "gemini", cells = [{ text = "gemini", icon = "cooling" }, { text = "0:40", tone = "dim" }] }, { key = "pi", cells = [{ text = "pi", icon = "done" }, { text = "$0.00", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "right"
+
+[[step]]
+shot = "second"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "below"
+

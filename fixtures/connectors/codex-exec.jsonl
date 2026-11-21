@@ -1,0 +1,10 @@
+# synthetic, in the shape of codex 0.156.1 `codex exec --json`; shapes from codex-rs exec/src/exec_events.rs (ThreadEvent/ThreadItem)
+{"type":"thread.started","thread_id":"00000000-0000-4000-8000-0000000000c0"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"reasoning","text":"**Listing files** I should look at the repo root first."}}
+{"type":"item.started","item":{"id":"item_1","type":"command_execution","command":"bash -lc ls","aggregated_output":"","exit_code":null,"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_1","type":"command_execution","command":"bash -lc ls","aggregated_output":"Cargo.toml\nsrc\n","exit_code":0,"status":"completed"}}
+{"type":"item.started","item":{"id":"item_2","type":"file_change","changes":[{"path":"src/lib.rs","kind":"update"}],"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_2","type":"file_change","changes":[{"path":"src/lib.rs","kind":"update"}],"status":"completed"}}
+{"type":"item.completed","item":{"id":"item_3","type":"agent_message","text":"Done: updated src/lib.rs."}}
+{"type":"turn.completed","usage":{"input_tokens":2412,"cached_input_tokens":1024,"output_tokens":88}}

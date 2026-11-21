@@ -1,0 +1,7 @@
+api = 1
+id = "bench"
+version = "0.0.0"
+summary = "the case kind, the runner flow, results views"
+use_when = "the operator wants cases of J4n's own behaviour written down and run"
+needs = ["base"]
+stability = "experimental"

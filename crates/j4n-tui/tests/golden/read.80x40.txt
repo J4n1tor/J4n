@@ -1,0 +1,40 @@
+
+
+
+
+
+▌ explain the reader                                                     12:30 ▐
+  ╰─ 󰗡  A claude sonnet                                                     21s
+     ╰─ Reading answers
+        ───────────────
+
+        A paragraph with strong words, emphasis, inline code, struck and a
+        link plus a path src/main.rs:12 and a ``tick`` inside.
+        A second line of the same paragraph, <b>raw html</b> shown as text.
+
+        Second level
+
+        Third level
+
+        • bullet one that is long enough to wrap onto a second line of the
+          answer
+          ◦ nested bullet
+            ◦ deeper bullet
+        • bullet two
+
+         8. eighth
+         9. ninth
+        10. tenth, with words enough to wrap round under its number
+
+        󰄱  an open task
+        󰄵  a task that is done
+
+        ▏ a quoted aside that goes on
+        ▏ over two lines
+
+        The end.
+
+ 󰂜  limit: 5-hour window at 80%, back at 18:20
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

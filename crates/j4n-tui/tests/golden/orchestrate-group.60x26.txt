@@ -1,0 +1,26 @@
+
+
+
+
+▌ add a --json flag to the report command and say    02:09 ▐
+▌ it in the docs                                           ▐
+  ├─ 󰗡  Main · claude sonnet 5.5               11:11  $1.92
+  │  ╰─ 󰲶  report.rs                                  +9 −2
+  ╰─ 󰙧  check                                          2:48
+
+▌ ship it                                            02:23 ▐
+  ├─ 󰗑  read · haiku + Decider     one lane  11.6s  $0.0051
+  │     one release of the change
+  ├─ 󰼛  Main · claude sonnet 5.5                0:58  $0.05
+  │  ├─ 󰛐  docs/TESTING.md
+  │  ├─ 󰞷  git status --short                     󰄬 allowed
+  │  ├─ Only the report files changed, so the release can
+  │  │  go out.
+  │  ╰─ 󰞷  make release 2>&1 | tail -30               󰄬 you
+  ╰─ 󰼛  review · omp glm 5.3               of 02:09  1:14 ▸
+     ╰─ 󰛐  reading the report command's tests
+╭──────────────────────────────────────────────────────────╮
+│ 󰼛 1  󰝖 lanes orchestrate       ~󰙁 claude · sonnet 5.5 0% │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                          │
+╰──────────────────────────────────────────────────────────╯

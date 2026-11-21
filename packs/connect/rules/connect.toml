@@ -1,0 +1,16 @@
+api = 1
+
+# A connected program that changes what it says is learned again. A run whose output was read by a connector's map says how many of its lines
+# the map made something of (`run.health`); a run that spoke and none of it was understood is `drifted`, and the Connect flow is started for
+# the program, in the box. With `connect.auto` the flow swaps the row when its canary passes; without it the flow ends in a Proposal for the
+# operator's yes, and asks what the program is where it cannot tell. The row of a program that did not change is left as it is.
+[[rule]]
+id = "connect-drift"
+doc = "A connected program said nothing J4n could read: its Connect flow is run again, which swaps its row (with `connect.auto`) or proposes the new one."
+on = "run.health"
+when = "ev.data.drifted and set.connect.relearn"
+then = "start"
+doer = "flow:connect"
+detached = true
+text = "{ev.data.program}"
+limit = { per = "all", max = 2, within = "1h" }

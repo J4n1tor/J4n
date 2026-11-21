@@ -1,0 +1,38 @@
+doc = "The action field at rest, focused, disabled, risky, armed (one press of two) and applied."
+sizes = [[64, 10], [40, 10]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "probe", title = "probe", field = { kind = "action", bind = "act:probe", props = { intent = { intent = "run", command = "probe", args = ["omp"] } } } }, { id = "off", title = "probe", field = { kind = "action", bind = "act:off", props = { intent = { intent = "run", command = "probe" }, disabled = "read only" } } }, { id = "widen", title = "widen", field = { kind = "action", bind = "act:widen", props = { intent = { intent = "run", command = "widen", args = ["net"] }, risk = 70 } } }, { id = "done", title = "pin", field = { kind = "action", bind = "act:done", props = { intent = { intent = "run", command = "pin", args = ["omp"] }, undo = { intent = "run", command = "unpin", args = ["omp"] } } } }] }
+
+[[step]]
+down = "value"
+bind = "act:done"
+value = "done"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "armed"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "sent"
+

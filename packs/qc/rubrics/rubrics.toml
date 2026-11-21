@@ -1,0 +1,20 @@
+api = 1
+
+# The three rubrics, put to Jev about each part. The levels go from the worst answer to the best.
+[[qc_rubric]]
+id = "fit"
+doc = "Does the change do what the goal asks."
+instructions = "How well does this change do what the goal asks?"
+levels = ["unrelated", "partly", "mostly", "exactly"]
+
+[[qc_rubric]]
+id = "scope"
+doc = "Does it touch only what the goal needs."
+instructions = "Does this change touch only what the goal needs?"
+levels = ["much more than needed", "some extra", "only what is needed"]
+
+[[qc_rubric]]
+id = "consistency"
+doc = "Does it follow the style and use the helpers of the code around it."
+instructions = "Does this change follow the style and use the helpers of the code around it?"
+levels = ["foreign", "mixed", "matches"]

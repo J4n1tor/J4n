@@ -1,0 +1,12 @@
+api = 1
+
+# The commit of a part is allowed by this row and by nothing a model says (law 6). Only the doer `parts`, only
+# `git add -- <paths>` and `git commit -m … -- <paths>`, never a compound line. Block beats Allow: `push-is-yours` and
+# `git-internals-are-git-s` still block whatever this row says.
+[[gate]]
+id = "parts-commits-its-part"
+doc = "The part runner's own commit: the paths a part's turn changed, on the branch checked out."
+on = ["shell"]
+when = "action.actor == 'parts' and not danger(cmd).compound and (cmd matches 'git add -- *' or cmd matches 'git commit -m * -- *')"
+verdict = "allow"
+why = "the part runner commits what its part changed, after a green gate"

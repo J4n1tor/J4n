@@ -1,0 +1,62 @@
+api = 1
+
+# Quality control starts by itself only while it is on: the last `:qc on` or `:qc off` in the Log, else `qc.on`. Each run is a task of
+# its own that no lane waits for.
+
+[[rule]]
+id = "qc-live"
+doc = "A write in a lane starts a check of what it has changed so far, once the writes have stopped for three seconds."
+on = "run.changed"
+when = "set.qc.live != 'off' and (fold.qc_on or (set.qc.on and not (fold.qc_on == false))) and fold.tasks[task].doer != 'qc'"
+then = "start"
+doer = "qc"
+detached = true
+place = "@same"
+text = "@live {task}"
+after = "3s"
+cooldown = "10s"
+
+[[rule]]
+id = "qc-settle"
+doc = "A task that changed files has its whole change checked once it has settled, when no check of the project's own is coming first."
+on = "task.settled"
+when = "(fold.qc_on or (set.qc.on and not (fold.qc_on == false))) and ev.data.ok and not set.check.after and fold.tasks[task].doer != 'check' and fold.tasks[task].doer != 'qc' and fold.tasks[task].doer != 'shape' and (len(ev.data.changed.created) > 0 or len(ev.data.changed.modified) > 0 or len(ev.data.changed.deleted) > 0)"
+then = "start"
+doer = "qc"
+detached = true
+place = "@same"
+text = "@settle {task}"
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "qc-settle-checked"
+doc = "When the project's own check of a task's work has ended, the change is checked too, and what the check said is read, not run again."
+on = "task.settled"
+when = "(fold.qc_on or (set.qc.on and not (fold.qc_on == false))) and fold.tasks[task].doer == 'check' and fold.tasks[task].place matches '@*'"
+then = "start"
+doer = "qc"
+detached = true
+place = "@same"
+text = "@settle {fold.tasks[task].place}"
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "qc-settle-failed"
+doc = "The same when the project's own check failed: the score is held under 3."
+on = "task.stopped"
+when = "(fold.qc_on or (set.qc.on and not (fold.qc_on == false))) and fold.tasks[task].doer == 'check' and fold.tasks[task].place matches '@*'"
+then = "start"
+doer = "qc"
+detached = true
+place = "@same"
+text = "@settle {fold.tasks[task].place}"
+limit = { per = "task", max = 1 }
+
+[[rule]]
+id = "qc-steer"
+doc = "A mark found while a lane works, whose pattern has earned it in numbers, tells the lane in the pattern's own fixed words; never more than twice in a task."
+on = "qc.mark"
+when = "set.qc.live == 'steer' and ev.data.steerable and set.qc.rounds > 0 and not (fold.qc_steers[task] >= set.qc.rounds)"
+then = "steer"
+text = "{ev.data.steer}"
+limit = { per = "task", max = 1, within = "1m" }

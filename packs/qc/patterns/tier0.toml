@@ -1,0 +1,267 @@
+api = 1
+
+# The patterns of tier 0: found with no model, over the lines a change adds.
+
+[[pattern]]
+id = "stub-left"
+title = "a stub left where code was asked for"
+lang = ["*.rs", "*.py", "*.js", "*.ts", "*.jsx", "*.tsx"]
+kind = "regex"
+match = '''\btodo!\(|\bunimplemented!\(|raise NotImplementedError|throw new Error\(["'](not implemented|TODO)'''
+severity = "high"
+steer = "The code at {file}:{line} is a stub. Write the implementation the task asks for."
+bad = '''fn parse(s: &str) -> Config { todo!() }'''
+good = '''fn parse(s: &str) -> Config { Config::from_str(s) }'''
+
+[[pattern]]
+id = "todo-left"
+title = "a TODO or FIXME added"
+lang = ["*"]
+kind = "regex"
+match = '\b(TODO|FIXME|XXX|HACK)\b'
+severity = "low"
+steer = "Finish the TODO at {file}:{line}, or say in the report why it stays."
+bad = '''# TODO: handle the empty file'''
+good = '''if not lines: return []'''
+
+[[pattern]]
+id = "rs-dbg"
+title = "dbg! left in Rust code"
+lang = ["*.rs"]
+kind = "regex"
+match = '\bdbg!\('
+severity = "mid"
+steer = "Remove the dbg! at {file}:{line}."
+bad = '''let n = dbg!(items.len());'''
+good = '''let n = items.len();'''
+
+[[pattern]]
+id = "py-breakpoint"
+title = "a debugger stop left in Python code"
+lang = ["*.py"]
+kind = "regex"
+match = '\bbreakpoint\(\)|pdb\.set_trace\(\)|^\s*import pdb\b'
+severity = "high"
+steer = "Remove the debugger stop at {file}:{line}."
+bad = '''breakpoint()'''
+good = '''log.debug("rows=%d", len(rows))'''
+
+[[pattern]]
+id = "js-debugger"
+title = "a debugger statement left in JavaScript or TypeScript"
+lang = ["*.js", "*.ts", "*.jsx", "*.tsx"]
+kind = "regex"
+match = '^\s*debugger;?\s*$'
+severity = "high"
+steer = "Remove the debugger statement at {file}:{line}."
+bad = '''debugger;'''
+good = '''logger.debug({ rows: rows.length });'''
+
+[[pattern]]
+id = "js-console-log"
+title = "console.log added outside tests and scripts"
+lang = ["*.js", "*.ts", "*.jsx", "*.tsx"]
+not = ["**/test/**", "**/tests/**", "**/*.test.*", "**/*.spec.*", "scripts/**"]
+kind = "regex"
+match = '\bconsole\.(log|debug)\('
+severity = "low"
+steer = "Remove the console.log at {file}:{line}, or use the project's logger."
+bad = '''console.log("got here", user);'''
+good = '''logger.debug("loaded user", { id: user.id });'''
+
+[[pattern]]
+id = "rs-unwrap"
+title = "unwrap() outside tests"
+lang = ["*.rs"]
+not = ["tests/**", "**/tests/**", "**/*_tests.rs", "benches/**", "examples/**"]
+kind = "regex"
+match = '\.unwrap\(\)'
+severity = "mid"
+steer = "Replace the unwrap() at {file}:{line} with error handling that matches the rest of the file."
+bad = '''let n: u32 = s.parse().unwrap();'''
+good = '''let n: u32 = s.parse()?;'''
+
+[[pattern]]
+id = "lint-silenced"
+title = "a lint or type check switched off"
+lang = ["*.rs", "*.py", "*.js", "*.ts", "*.jsx", "*.tsx"]
+kind = "regex"
+match = '#!?\[allow\(|#\s*noqa\b|#\s*type:\s*ignore|#\s*pylint:\s*disable|eslint-disable|@ts-ignore|@ts-nocheck'
+severity = "mid"
+steer = "The change at {file}:{line} silences a check. Fix what the check reports instead."
+bad = '''#[allow(dead_code)]
+fn old_parse() {}'''
+good = '''fn parse() {}'''
+
+[[pattern]]
+id = "ts-any"
+title = "a TypeScript any added"
+lang = ["*.ts", "*.tsx"]
+kind = "regex"
+match = ':\s*any\b|\bas\s+any\b|<any>'
+severity = "low"
+steer = "Give the value at {file}:{line} a real type instead of any."
+bad = '''const cfg = JSON.parse(text) as any;'''
+good = '''const cfg: Config = parseConfig(text);'''
+
+[[pattern]]
+id = "test-skipped"
+title = "a test skipped or narrowed to one"
+lang = ["*"]
+kind = "regex"
+match = '#\[ignore\]|@pytest\.mark\.skip|@unittest\.skip|\bpytest\.skip\(|\b(it|test|describe)\.(skip|only)\(|\bx(it|describe)\('
+severity = "high"
+steer = "A test was skipped at {file}:{line}. Make it pass by fixing the code, or say in the report why it must be skipped."
+bad = '''@pytest.mark.skip(reason="flaky")
+def test_parse(): ...'''
+good = '''def test_parse(): ...'''
+
+[[pattern]]
+id = "assert-removed"
+title = "an assertion deleted from a test"
+lang = ["tests/**", "test/**", "**/tests/**", "**/test_*.py", "**/*_test.py", "**/*_tests.rs", "**/*.test.*", "**/*.spec.*"]
+kind = "regex"
+scope = "removed"
+match = '\bassert(_eq|_ne)?!?\b|\bexpect\(|\.should\b|\bself\.assert'
+severity = "high"
+steer = "An assertion was removed at {file}:{line}. Restore it and fix the code it checks."
+bad = '''-    assert parse("a,b,") == ["a", "b"]'''
+good = '''+    assert parse("a,b,c") == ["a", "b", "c"]'''
+
+[[pattern]]
+id = "js-empty-catch"
+title = "an empty catch block"
+lang = ["*.js", "*.ts", "*.jsx", "*.tsx"]
+kind = "regex"
+multiline = true
+match = 'catch\s*(\([^)]*\))?\s*\{\s*\}'
+severity = "high"
+steer = "The catch at {file}:{line} hides every error. Handle the one you expect and let the rest surface."
+bad = '''try { save(doc) } catch (e) {}'''
+good = '''try { save(doc) } catch (e) { log.error("save failed", e); throw e }'''
+
+[[pattern]]
+id = "py-except-pass"
+title = "a broad except that passes"
+lang = ["*.py"]
+kind = "regex"
+multiline = true
+match = 'except\s*((Exception|BaseException)(\s+as\s+\w+)?)?\s*:\s*\n\s*(pass|\.\.\.)\s*$'
+severity = "mid"
+steer = "The except at {file}:{line} hides the failure. Handle the error you expect, or let it raise."
+bad = '''try:
+    os.remove(tmp)
+except Exception:
+    pass'''
+good = '''try:
+    os.remove(tmp)
+except FileNotFoundError:
+    pass  # already gone is fine'''
+
+[[pattern]]
+id = "py-bare-except"
+title = "a bare except"
+lang = ["*.py"]
+kind = "regex"
+match = '^\s*except\s*:\s*$'
+severity = "mid"
+steer = "Name the exception the except at {file}:{line} expects."
+bad = '''except:'''
+good = '''except ValueError:'''
+
+[[pattern]]
+id = "rs-err-ignored"
+title = "a Rust error dropped on the floor"
+lang = ["*.rs"]
+not = ["tests/**", "**/*_tests.rs"]
+kind = "regex"
+match = 'Err\(_\)\s*=>\s*(\{\s*\}|\(\))|^\s*let _ = [^;]+\?\s*;|\.ok\(\);\s*$'
+severity = "high"
+steer = "The error at {file}:{line} is dropped. Return it or handle it the way the file does."
+bad = '''let _ = fs::remove_file(&tmp).ok();'''
+good = '''fs::remove_file(&tmp)?;'''
+
+[[pattern]]
+id = "commented-code"
+title = "code left commented out"
+lang = ["*.rs", "*.py", "*.js", "*.ts", "*.jsx", "*.tsx", "*.go", "*.java", "*.c", "*.cpp", "*.h"]
+kind = "regex"
+match = '^\s*(//|#)\s*(let|fn|def|return|if|for|while|import|use|const|var|function|class)\b.*[;{}:)]\s*$'
+severity = "low"
+steer = "Delete the commented-out code at {file}:{line}; version control keeps the old version."
+bad = '''// let total = items.iter().sum::<u32>();'''
+good = '''// totals are summed by the caller'''
+
+[[pattern]]
+id = "sleep-in-test"
+title = "a fixed sleep in a test"
+lang = ["tests/**", "test/**", "**/tests/**", "**/test_*.py", "**/*_test.py", "**/*_tests.rs", "**/*.test.*", "**/*.spec.*"]
+kind = "regex"
+match = '\bthread::sleep\(|\btime\.sleep\(|\bsleep\(|\bsetTimeout\('
+severity = "mid"
+steer = "The test at {file}:{line} waits a fixed time. Wait for the condition itself."
+bad = '''time.sleep(2)
+assert server.ready()'''
+good = '''wait_until(server.ready, timeout=5)'''
+
+[[pattern]]
+id = "hardcoded-home"
+title = "a path into one user's home"
+lang = ["*"]
+not = ["*.md", "docs/**"]
+kind = "regex"
+match = '/home/[a-z_][a-z0-9_-]*/|/Users/[A-Za-z0-9_-]+/|C:\\Users\\'
+severity = "mid"
+steer = "The path at {file}:{line} points into one user's home. Derive it from the environment or the project root."
+bad = '''CONFIG = "/home/ada/proj/config.toml"'''
+good = '''CONFIG = ROOT / "config.toml"'''
+
+[[pattern]]
+id = "chat-text-in-code"
+title = "chat text or a code fence pasted into a source file"
+lang = ["*"]
+not = ["*.md", "*.markdown", "*.txt", "*.rst", "docs/**"]
+kind = "regex"
+match = '''^\s*```|\b(Here is|Here's) (the|an?|your) (updated|complete|full|corrected|fixed)\b|\bAs an AI\b|\bI hope this helps\b'''
+severity = "high"
+steer = "Remove the chat text at {file}:{line}; the file must hold only code."
+bad = '''Here is the updated function:
+def total(xs): return sum(xs)'''
+good = '''def total(xs): return sum(xs)'''
+
+[[pattern]]
+id = "placeholder-value"
+title = "a placeholder value left in code"
+lang = ["*"]
+not = ["tests/**", "**/tests/**", "**/*.test.*", "docs/**", "*.md", "examples/**"]
+kind = "regex"
+match = '\blorem ipsum\b|YOUR_API_KEY|<your[-_ ][a-z]|\bchangeme\b|\bexample\.com\b'
+severity = "low"
+steer = "The value at {file}:{line} is a placeholder. Use the real value or read it from configuration."
+bad = '''BASE_URL = "https://example.com/api"'''
+good = '''BASE_URL = settings.base_url'''
+
+[[pattern]]
+id = "new-dependency"
+title = "a dependency added"
+lang = ["Cargo.toml", "**/Cargo.toml", "package.json", "**/package.json", "requirements*.txt", "pyproject.toml", "go.mod"]
+kind = "cmd"
+argv = ["qc-deps", "{files}"]       # pack script: dependency sets before and after, per manifest kind
+severity = "mid"
+steer = "A dependency was added in {file}. Say in the report why the standard library or an existing dependency does not do it."
+bad = '''[dependencies]
+left-pad = "1"'''
+good = '''[dependencies]'''
+
+[[pattern]]
+id = "rs-fmt"
+title = "Rust code not formatted"
+lang = ["*.rs"]
+kind = "cmd"
+argv = ["rustfmt", "--check", "--edition", "2024", "{files}"]   # probed: skipped with a notice when rustfmt is missing
+severity = "low"
+steer = "Run rustfmt on {file}."
+bad = '''fn f( a:u32 )->u32{a}'''
+good = '''fn f(a: u32) -> u32 {
+    a
+}'''

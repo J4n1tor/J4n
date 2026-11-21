@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Agents   Tools   Services   MCP   Deciders
+━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+┃ 󰄬 Agent                claude · signed in                                       ⏎ change                            ▸
+  󰄬 Model                default · the agent picks                                ⏎ pick
+  󰄰 Decider              off · answers the small questions so you are asked less  ⏎ set up
+  ├─ 󰐽 Span through      not set                                                  one key: also the small model and …
+  │    OpenRouter
+  ├─ 󰐽 Jev · System One  not set                                                  needs a TypeSafe key · o turns it …
+  ├─ 󰐾 none              —                                                        every question keeps its fixed pic…
+  ╰─ this project only   —                                                        ⏎ turns the Decider on here and in…
+  󰄰 Test                 not run · one short call to each part above              ⏎ runs it
+  Custom                 any other program, a key of your own, every setting      ⏎ opens Connect › Overview · Libra…
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ⌥1–9 tabs  ↑↓ move  →← open  / find  ? keys  ⌃g state

@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ─────────━━━━━━━──────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰛐 Inbox   󰗡 Habits
+──────────━━━━━━━━━━━━━─────────────────────────────────────────────────────────
+  point         shape     impact  asked                             fallback
+├ access        choice    mid     a rule, a decider                 picks no
+│   Whether a chat of a split is given a read-only copy of a file it does not
+│   write, from another chat's part or from the folder: yes when the file is
+│   part of what the chat's task uses (an interface it calls, a module it
+│   imports, the build files its tests need), no when it is not. The plan
+│   answers first; a Decider that is not sure leaves it to Main, and a request
+│   no one settles is Main's. The guard refuses secrets, keys and transcripts
+│   whatever is said.
+│   asked rule:access, decider:jev?min_conf=0.7, decider:span?min_conf=0.7
+├ approval      approval  gate    a rule, then you                  the safe an…
+├ chats         choice    low     a decider                         picks new
+├ complete      choice    low     a decider                         the ranking
+├ connect:is    choice    low     you                               picks tool
+├ fold          choice    mid     a rule, a decider, then you       picks add
+├ inside        choice    mid     a decider                         picks ask
+├ intake        choice    mid     a rule, a decider, then you       picks task
+the questions that are open are under the tabs; this is where a question can co…
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

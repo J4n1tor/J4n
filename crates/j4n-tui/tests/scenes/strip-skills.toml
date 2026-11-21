@@ -1,0 +1,63 @@
+doc = "While a task runs with skills, the composer strip counts them (`2 skills`) beside the work bar. It is the first thing a short row gives up, so the doer · model stays at the right edge and nothing else of the right moves for it; no skills, no count."
+sizes = [[120, 24], [80, 20], [60, 18]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the parser so trailing commas work" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "la", cells = [{ text = "A work", icon = "working" }, { text = "", tone = "dim" }, { text = "0:12", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.42, route = "claude · sonnet 5.5", route_by = "core", work = [{ label = "working" }], cost = "0.8% of 5h · $0.33 list", mode = "write", skills = 2 }
+rev = 1
+
+[[step]]
+wait = 500
+
+[[step]]
+shot = "two"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.85, route = "pi · deepseek-v4.1-flash-1017 · pinned (--doer)", route_by = "core", work = [{ label = "work" }, { label = "review" }, { label = "tests" }], cost = "$0.0120", mode = "read", skills = 1 }
+rev = 2
+
+[[step]]
+wait = 500
+
+[[step]]
+shot = "one"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.42, route = "claude · sonnet 5.5", route_by = "core", work = [], cost = "", mode = "write" }
+rev = 3
+
+[[step]]
+shot = "none"

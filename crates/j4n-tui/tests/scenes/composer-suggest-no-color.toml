@@ -1,0 +1,84 @@
+doc = "The suggestions in the strip with NO_COLOR: the one in the line bold and underlined, the ghost dim and italic and also in the list."
+sizes = [[80, 14]]
+theme = { marks = "unicode", no_color = true }
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } },
+  { id = "keysrow", title = "", field = { kind = "bar", bind = "keys:row" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the login page" }, { text = "", tone = "dim" }, { text = "02:09", tone = "dim" }] },
+  { key = "s1", cells = [{ text = "3 files changed, 12 passed", icon = "done" }, { text = "", tone = "dim" }], parent = "t1" },
+  { key = "s2", cells = [{ text = "Proposed next steps: 1. Deploy the fix to the login page. 2. Add a test for the empty password." }, { text = "", tone = "dim" }], parent = "t1" },
+]
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 13
+rev = 1
+rows = [
+  { key = "ghost/take", cells = [{ text = "⇥" }, { text = "take" }] },
+  { key = "ghost/word", cells = [{ text = "⌃→" }, { text = "word" }] },
+  { key = "step/next", cells = [{ text = "⇥" }, { text = "next" }] },
+  { key = "step/back", cells = [{ text = "⇧⇥" }, { text = "back" }] },
+  { key = "step/send", cells = [{ text = "⏎" }, { text = "keep" }] },
+  { key = "step/undo", cells = [{ text = "esc" }, { text = "undo" }] },
+  { key = "step/newline", cells = [{ text = "⌃j" }, { text = "" }] },
+  { key = "step/history", cells = [{ text = "↑" }, { text = "" }] },
+  { key = "global/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }] },
+  { key = "chat/send", cells = [{ text = "⏎" }, { text = "send" }] },
+  { key = "chat/newline", cells = [{ text = "⌃j" }, { text = "newline" }] },
+  { key = "chat/history", cells = [{ text = "↑" }, { text = "history" }] },
+  { key = "global/keys", cells = [{ text = "?" }, { text = "keys" }] },
+]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { route = "claude · sonnet 5.5", gauge = 0.15, mode = "write", cost = "$0.14", work = [{ label = "working" }], plan = { done = 2, total = 3 } }
+rev = 1
+
+[[step]]
+text = ":s"
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 6
+rev = 1
+rows = [
+  { key = "~for", cells = [{ text = "line :s" }, { text = "command", tone = "dim" }, { text = ":s", tone = "dim" }], data = { find = "line :s", slot = "command", token = ":s", on = true } },
+  { key = "command::switch", cells = [{ text = ":switch" }, { text = "", tone = "dim" }] },
+  { key = "command::status", cells = [{ text = ":status" }, { text = "", tone = "dim" }] },
+  { key = "command::stop", cells = [{ text = ":stop" }, { text = "", tone = "dim" }] },
+  { key = "command::setup", cells = [{ text = ":setup" }, { text = "", tone = "dim" }] },
+  { key = "command::search", cells = [{ text = ":search" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+shot = "command"
+
+[[step]]
+key = "tab"
+
+[[step]]
+key = "tab"
+
+[[step]]
+shot = "stepped"

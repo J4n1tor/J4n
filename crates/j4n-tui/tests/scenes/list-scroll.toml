@@ -1,0 +1,89 @@
+doc = "A long list scrolled to the bottom: the row the keys are on and all its detail stay in sight, the titles stay on top."
+sizes = [[60, 10], [100, 10]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "l", title = "", field = { kind = "list", bind = "view:s", props = { titles = ["setting", "now", "what it does"] } } }] }
+
+[[step]]
+down = "rows"
+bind = "view:s"
+total = 14
+rev = 1
+rows = [
+  { key = "s00", cells = [{ text = "theme.opt00" }, { text = "round" }, { text = "What setting 00 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 00 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s01", cells = [{ text = "theme.opt01" }, { text = "round" }, { text = "What setting 01 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 01 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s02", cells = [{ text = "theme.opt02" }, { text = "round" }, { text = "What setting 02 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 02 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s03", cells = [{ text = "theme.opt03" }, { text = "round" }, { text = "What setting 03 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 03 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s04", cells = [{ text = "theme.opt04" }, { text = "round" }, { text = "What setting 04 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 04 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s05", cells = [{ text = "theme.opt05" }, { text = "round" }, { text = "What setting 05 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 05 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s06", cells = [{ text = "theme.opt06" }, { text = "round" }, { text = "What setting 06 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 06 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s07", cells = [{ text = "theme.opt07" }, { text = "round" }, { text = "What setting 07 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 07 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s08", cells = [{ text = "theme.opt08" }, { text = "round" }, { text = "What setting 08 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 08 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s09", cells = [{ text = "theme.opt09" }, { text = "round" }, { text = "What setting 09 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 09 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s10", cells = [{ text = "theme.opt10" }, { text = "round" }, { text = "What setting 10 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 10 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s11", cells = [{ text = "theme.opt11" }, { text = "round" }, { text = "What setting 11 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 11 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s12", cells = [{ text = "theme.opt12" }, { text = "round" }, { text = "What setting 12 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 12 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] },
+  { key = "s13", cells = [{ text = "theme.opt13" }, { text = "round" }, { text = "What setting 13 is for, said in a sentence that runs on to the edge of a wide window and a bit more." }], detail = [{ text = "What setting 13 is for, said in a sentence that runs on to the edge of a wide window and a bit more.", tone = "dim" }, { text = "default round", tone = "dim" }] }
+]
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "down-9"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "last"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+shot = "up-2"

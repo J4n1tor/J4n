@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
+ ───────────━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰛐 Inbox   󰗡 Habits
+━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+├ t6  waiting  test  ask Which of the two colours do you want the border to be, …                                                                       ⏎ abort
+├ t4  done     test  write notes.txt hello
+├ t3  done     test  who
+├ t2  done     test  say - one - two
+╰ t1  done     test  say Release work (docs/TESTING.md §5): open loose end…        $0.1200
+
+                                                ╭─ keys · Tasks ───────────────────────────────────────────────╮
+                                                │                                                              │
+                                                │ a        abort     Now: a key of the row under the cursor.   │
+                                                │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+                                                │                    Option as Meta or Alt.                    │
+                                                │ ↑↓       move      The row above or below.                   │
+                                                │ ⏎        open      Open, edit or press the row; fold a       │
+                                                │                    section.                                  │
+                                                │ ?        keys      All the keys of this page.                │
+                                                │ ⌃k       find      Find anything: the commands and the tree. │
+                                                │ ⌃g       state     Turn the bottom row over: the keys, or    │
+                                                │                    what the whole screen is doing (tasks,    │
+                                                │                    what waits for you, today's spend, a      │
+                                                │                    window that runs low).                    │
+                                                │                                                              │
+                                                │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                                                │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                                                │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                                                │ F1–F9              Tab n, as ⌥n.                             │
+                                                │                                               any key closes │
+                                                ╰──────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

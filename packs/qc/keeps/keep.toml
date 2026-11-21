@@ -1,0 +1,91 @@
+api = 1
+
+# What the step `keep` guards across a refactor: the names a project's readers and tests rely on, found with no
+# parser. A name is the first group of `match`, run over the whole file with line anchors. A folder row of the same id replaces one of these.
+# The setting `qc.keep` lists the ids to use (empty: all).
+
+[[qc_keep]]
+id = "rust-pub"
+doc = "Public items of Rust files."
+lang = ["*.rs"]
+not = ["tests/**", "**/tests/**"]
+what = "fn"
+match = '^\s*pub(?:\([^)]*\))?\s+(?:async\s+|const\s+|unsafe\s+|extern\s+"[^"]*"\s+)*(?:fn|struct|enum|trait|type|mod|static|const)\s+(\w+)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "rust-test"
+doc = "Tests of Rust files."
+lang = ["*.rs"]
+what = "test"
+match = '#\[(?:\w+::)?test[^\]]*\]\s*(?:#\[[^\]]*\]\s*)*(?:pub\s+)?(?:async\s+)?fn\s+(\w+)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "py-pub"
+doc = "Public functions and classes of Python files."
+lang = ["*.py"]
+not = ["test_*.py", "*_test.py"]
+what = "fn"
+match = '^(?:async\s+)?(?:def|class)\s+([A-Za-z]\w*)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "py-test"
+doc = "Tests of Python files."
+lang = ["*.py"]
+what = "test"
+match = '^\s*(?:async\s+)?def\s+(test\w*)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "js-export"
+doc = "Exports of JavaScript and TypeScript files."
+lang = ["*.js", "*.jsx", "*.ts", "*.tsx", "*.mjs"]
+not = ["*.test.*", "*.spec.*"]
+what = "fn"
+match = '^\s*export\s+(?:default\s+)?(?:declare\s+)?(?:async\s+)?(?:function\*?|class|const|let|var|interface|type|enum)\s+([A-Za-z_$][\w$]*)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "js-test"
+doc = "Tests of JavaScript and TypeScript files."
+lang = ["*.test.*", "*.spec.*"]
+what = "test"
+match = '\b(?:it|test)(?:\.\w+)?\(\s*[\x27"`]([^\x27"`]+)[\x27"`]'
+stability = "experimental"
+
+[[qc_keep]]
+id = "go-pub"
+doc = "Exported functions and methods of Go files."
+lang = ["*.go"]
+not = ["*_test.go"]
+what = "fn"
+match = '^func\s+(?:\([^)]*\)\s*)?([A-Z]\w*)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "go-test"
+doc = "Tests of Go files."
+lang = ["*_test.go"]
+what = "test"
+match = '^func\s+(Test\w+)'
+stability = "experimental"
+
+[[qc_keep]]
+id = "md-heading"
+doc = "Headings of documents, in their file."
+lang = ["*.md"]
+what = "heading"
+match = '^#{1,6}[ \t]+(.+?)[ \t#]*$'
+same_file = true
+stability = "experimental"
+
+[[qc_keep]]
+id = "md-link"
+doc = "Link targets of documents, in their file."
+lang = ["*.md"]
+what = "link"
+match = '\]\(([^)\s]+)'
+same_file = true
+stability = "experimental"

@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+▌ what is still open                                 12:30 ▐
+  ╰─ 󰗡  A claude sonnet                                 21s
+     ╰─ Open loose ends: X-101 · some row of text, and
+        B138 · a made-up sample row of the docs (fixed).
+        X-101 is the one to read first.
+
+        • K12 · the Tab key is built; X-999 and X1 are not
+          in the docs.
+        • Code stays as written: X-101, and see B138.
+
+        Nothing else is open, K12 included.
+╭──────────────────────────────────────────────────────────╮
+│                                                          │
+╰──────────────────────────────────────────────────────────╯

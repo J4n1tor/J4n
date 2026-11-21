@@ -1,0 +1,60 @@
+api = 1
+
+# What a decider or a model must get right before it answers `intake`. Each case has a twin of the same
+# shape whose right answer is another.
+
+[[probe]]
+id = "intake-short-work"
+doc = "A short line that asks for work."
+point = "intake"
+slices = { line = "add a --verbose flag to the cli" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "task"
+pair = "intake-short-question"
+
+[[probe]]
+id = "intake-short-question"
+doc = "The same shape of line, which asks to be told something."
+point = "intake"
+slices = { line = "what does the --verbose flag do?" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "answer"
+pair = "intake-short-work"
+
+[[probe]]
+id = "intake-fix"
+doc = "A bug to be fixed is work."
+point = "intake"
+slices = { line = "the login test fails on main, find out why and fix it" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "task"
+pair = "intake-explain"
+
+[[probe]]
+id = "intake-explain"
+doc = "A request to explain is an answer."
+point = "intake"
+slices = { line = "explain why the login test would fail when the clock is wrong" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "answer"
+pair = "intake-fix"
+
+# A line that asks for a plan before the work is a flow (the word `planned` in a long task is not a plan).
+
+[[probe]]
+id = "intake-flow-plan"
+doc = "A line that asks for a plan first, then the work, is a flow."
+point = "intake"
+slices = { line = "plan how to move the log to sqlite, then build it and check it" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "flow"
+pair = "intake-flow-planned"
+
+[[probe]]
+id = "intake-flow-planned"
+doc = "The same words in a task that is only to be done: `planned` there is not a request for a plan."
+point = "intake"
+slices = { line = "move the log to sqlite the way we planned yesterday" }
+offered = ["answer", "command", "setting", "task", "flow"]
+expect = "task"
+pair = "intake-flow-plan"

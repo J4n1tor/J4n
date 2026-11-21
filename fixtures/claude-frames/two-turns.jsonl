@@ -1,0 +1,8 @@
+# synthetic, in the shape of the 2.1.309 captures; two turns of one session; the child stays between them
+{"type":"system","subtype":"init","cwd":"/work","session_id":"00000000-0000-4000-8000-0000000000b1","model":"claude-haiku-5-5","permissionMode":"default","tools":["Bash","Read","Edit"]}
+{"type":"stream_event","event":{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"one"}},"session_id":"00000000-0000-4000-8000-0000000000b1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"one"}]},"session_id":"00000000-0000-4000-8000-0000000000b1"}
+{"type":"result","subtype":"success","is_error":false,"result":"one","session_id":"00000000-0000-4000-8000-0000000000b1","total_cost_usd":0.01,"usage":{"input_tokens":3,"output_tokens":9}}
+{"type":"stream_event","event":{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"two"}},"session_id":"00000000-0000-4000-8000-0000000000b1"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"two"}]},"session_id":"00000000-0000-4000-8000-0000000000b1"}
+{"type":"result","subtype":"success","is_error":false,"result":"two","session_id":"00000000-0000-4000-8000-0000000000b1","total_cost_usd":0.03,"usage":{"input_tokens":3,"output_tokens":9}}

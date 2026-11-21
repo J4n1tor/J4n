@@ -1,0 +1,24 @@
+        ╭─ keys · Chat ────────────────────────────────────────────────╮
+ 󰍩 Chat │                                                              │ 0.1.0
+ ━━━━━━─│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │───────
+        │                    Option as Meta or Alt.                    │
+        │ ⏎        send      Send the line.                            │
+        │ ⌃j       newline   A new line in the draft.                  │
+        │ ↑        history   An older line of the history, while the   │
+        │                    line is empty.                            │
+        │ ⌃t       lane      Steer the next lane that works.           │
+        │ ?        keys      All the keys of this page.                │
+        │ ⌃k       find      Find anything: the commands and the tree. │
+        │ ⇧↑↓      scroll    Scroll the chat a line, from the line;    │
+        │                    PgUp and PgDn go half a screen.           │
+        │ ⌃g       state     Turn the bottom row over: the keys, or    │
+        │                    what the whole screen is doing (tasks,    │
+        │                    what waits for you, today's spend, a      │
+        │                    window that runs low).                    │
+        │ ⇧drag    select    Select the screen's text with the mouse:  │
+        │                    hold ⇧ while you drag, because the mouse  │
+ 󰄰 no do│                    is the screen's (Settings › Look › mouse  │
+╭───────│                    gives it back to the terminal).           │───────╮
+│       │ ⇥        take      Take it whole; ⇥ again, the next one.     │       │
+╰───────│                                               any key closes │───────╯
+ ⌥1–9 ta╰──────────────────────────────────────────────────────────────╯ scroll

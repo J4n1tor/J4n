@@ -1,0 +1,66 @@
+api = 1
+
+# The switch is `habits.mode` (a setting cannot also be the front of others). A rule reads the
+# settings as it runs. Every number is a first guess until the rows are labelled (`:habit keep|wrong <id>`).
+[[setting]]
+id = "habits.mode"
+doc = "Whether J4n says it when it sees a habit that wastes: `show` (the default) adds one dim row for each (never a steer, never a task); `off` says nothing new, as before. An unknown word is `off`."
+ty = "str"
+default = "show"
+words = ["show", "off"]
+
+[[setting]]
+id = "habits.steps"
+doc = "tiny-steps: a task that ends with at least this many items still open."
+ty = "int"
+default = 3
+min = 2
+max = 50
+
+[[setting]]
+id = "habits.cold_tokens"
+doc = "cache-cold: a request that wrote at least this many tokens to the cache and read none of it."
+ty = "int"
+default = 2000
+min = 100
+max = 1000000
+
+[[setting]]
+id = "habits.rebuild_usd"
+doc = "cache-cold: the request must have cost at least this much (its whole cost: the Log has no price per token)."
+ty = "num"
+default = 0.05
+min = 0.0
+max = 100.0
+
+[[setting]]
+id = "habits.reread"
+doc = "reread: the same read this many times in half an hour, with nothing changed in the project."
+ty = "int"
+default = 3
+min = 2
+max = 50
+
+[[setting]]
+id = "habits.big_chars"
+doc = "big-output: a shell output at least this many characters long (about four to a token)."
+ty = "int"
+default = 16000
+min = 1000
+max = 32000
+
+[[setting]]
+id = "habits.chore"
+doc = "manual-chore: the same short line typed this many times in seven days."
+ty = "int"
+default = 3
+min = 2
+max = 50
+
+[[setting]]
+id = "habits.window"
+doc = "late-compact: a task that ends with its context this full (0 to 1)."
+ty = "num"
+default = 0.85
+min = 0.1
+max = 1.0

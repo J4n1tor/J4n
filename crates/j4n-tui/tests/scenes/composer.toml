@@ -1,0 +1,105 @@
+doc = "The composer in every state: idle, typing with and without the strip, three lines, steering a lane, answering an ask; the bar below."
+sizes = [[120, 14], [60, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "fix the failing test in parser.rs" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [{ key = "t", cells = [{ text = "hello" }, { text = "", tone = "dim" }, { text = "12:00", tone = "dim" }] }, { key = "l", cells = [{ text = "B claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "0:22", tone = "dim" }], parent = "t" }]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "auto", tone = "dim", icon = "queued" }, { text = "$0.00", tone = "dim" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+text = "fix the failing test in parser.rs"
+
+[[step]]
+shot = "typing-plain"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ text = "parser.rs", icon = "tag", pct = 88 }, { text = "args.rs", icon = "tag", pct = 64 }, { text = "plan-work-check", icon = "route", pct = 72 }], gauge = 0.15, route = "sonnet" }
+rev = 1
+
+[[step]]
+shot = "typing"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "plan first, then fix the lexer so it keeps comments,"
+
+[[step]]
+key = "ctrl+j"
+
+[[step]]
+text = "add a test for nested block comments,"
+
+[[step]]
+key = "ctrl+j"
+
+[[step]]
+text = "and check it with clippy"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ text = "plan-work-check", icon = "route", pct = 81 }, { text = "lexer.rs", icon = "tag", pct = 70 }], gauge = 0.15, route = ["omp", "claude"] }
+rev = 1
+
+[[step]]
+shot = "three-lines"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "also run clippy before you commit"
+
+[[step]]
+key = "ctrl+t"
+
+[[step]]
+shot = "steer"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.14", tone = "dim" }, { text = "2", tone = "accent", icon = "working" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+down = "asks"
+open = [{ ask = "a1", asker = "l", question = "commit to b-claude?", shape = "choice", options = [{ id = "1", label = "yes", recommended = true }, { id = "2", label = "no" }] }]
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "yes"
+
+[[step]]
+shot = "answer"
+

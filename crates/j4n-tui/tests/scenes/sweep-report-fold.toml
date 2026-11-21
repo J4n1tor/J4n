@@ -1,0 +1,62 @@
+doc = "The Report page starts with the newest report open and the older ones shut (the core says `fold = folded` for a row it would have shut); what the operator opens stays open, what the operator shuts stays shut, and the reports the core sends again keep both."
+sizes = [[64, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "report", title = "", field = { kind = "tree", bind = "view:ledger" } }] }
+
+[[step]]
+down = "rows"
+bind = "view:ledger"
+total = 3
+rev = 1
+rows = [
+  { key = "r3", cells = [{ text = "◆ ledger · main · 1 tasks" }, { text = "r3", tone = "dim" }] },
+  { key = "r3/1", cells = [{ text = "± 0 files · ❱ 1 ran" }], parent = "r3" },
+  { key = "r2", cells = [{ text = "◆ ledger · main · 2 tasks" }, { text = "r2", tone = "dim" }], fold = "folded" },
+  { key = "r2/1", cells = [{ text = "± 3 files · ❱ 4 ran" }], parent = "r2" },
+  { key = "r1", cells = [{ text = "◆ ledger · main · 1 tasks" }, { text = "r1", tone = "dim" }], fold = "folded" },
+  { key = "r1/1", cells = [{ text = "± 0 files · ❱ 0 ran" }], parent = "r1" },
+]
+
+[[step]]
+shot = "first"
+
+[[step]]
+key = "left"
+
+[[step]]
+shot = "newest-shut"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "right"
+
+[[step]]
+shot = "older-opened"
+
+[[step]]
+down = "rows"
+bind = "view:ledger"
+total = 3
+rev = 2
+rows = [
+  { key = "r3", cells = [{ text = "◆ ledger · main · 1 tasks" }, { text = "r3", tone = "dim" }] },
+  { key = "r3/1", cells = [{ text = "± 0 files · ❱ 1 ran" }], parent = "r3" },
+  { key = "r2", cells = [{ text = "◆ ledger · main · 2 tasks" }, { text = "r2", tone = "dim" }], fold = "folded" },
+  { key = "r2/1", cells = [{ text = "± 3 files · ❱ 4 ran" }], parent = "r2" },
+  { key = "r1", cells = [{ text = "◆ ledger · main · 1 tasks" }, { text = "r1", tone = "dim" }], fold = "folded" },
+  { key = "r1/1", cells = [{ text = "± 0 files · ❱ 0 ran" }], parent = "r1" },
+]
+
+[[step]]
+shot = "sent-again"

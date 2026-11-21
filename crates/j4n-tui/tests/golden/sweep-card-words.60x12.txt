@@ -1,0 +1,12 @@
+
+
+
+▌ ◆ ledger · main · 1 tasks · ✓ 1                          ▐
+  ├─ ❯ #1 “say Release work (docs/TESTING.md §5): open loo…
+  │  ╰─ t1 Release work done
+  ├─ ❯ #2 “say Plain line” → t2 ✓
+  ╰─ ❯ #3 “say - one - two” → t3 ✓
+     ╰─ t3 two
+╭──────────────────────────────────────────────────────────╮
+│                                                          │
+╰──────────────────────────────────────────────────────────╯

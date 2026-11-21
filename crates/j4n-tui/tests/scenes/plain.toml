@@ -1,0 +1,51 @@
+doc = "The first screen through a scene: hello, the page tree, a chat of core-made rows (a turn, a lane, its steps), a typed line, a question, a resize."
+sizes = [[80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", children = [
+  { id = "pages", title = "", present = "tabs", children = [
+    { id = "chat", title = "Chat", field = { kind = "chat", bind = "chat:main" } },
+    { id = "tasks", title = "Tasks", field = { kind = "list", bind = "tasks:all" } },
+    { id = "log", title = "Log", field = { kind = "log", bind = "log:all" } },
+  ] },
+  { id = "asks", title = "Questions", field = { kind = "ask", bind = "asks:open" } },
+  { id = "bar", title = "", field = { kind = "bar", bind = "bar:status" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 6
+rev = 1
+rows = [
+  { key = "s1", cells = [{ text = "fix the failing test in crates/core" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "la", cells = [{ text = "A claude", icon = "done" }, { text = "haiku", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "s1" },
+  { key = "s2", cells = [{ text = "the assertion compares the old name", icon = "think" }, { text = "", tone = "dim" }], parent = "la" },
+  { key = "s3", cells = [{ text = "src/lib.rs", icon = "edit" }, { text = "", tone = "dim" }], parent = "la" },
+  { key = "s4", cells = [{ text = "I changed the name in one place and the test passes now." }, { text = "", tone = "dim" }], parent = "la", by = "doer" },
+  { key = "s5", cells = [{ text = "clippy: one warning left", icon = "error", tone = "warn" }, { text = "", tone = "dim" }], parent = "la" },
+]
+
+[[step]]
+text = "and run the gate"
+
+[[step]]
+shot = "typed"
+
+[[step]]
+down = "asks"
+open = [{ ask = "a1", asker = "t1", question = "may I run `make build`?", shape = "approval", effect = "shell: make build", risk = 20, grants = ["session", "here"] }]
+
+[[step]]
+shot = "asked"
+
+[[step]]
+resize = [60, 14]

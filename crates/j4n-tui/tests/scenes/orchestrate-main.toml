@@ -1,0 +1,42 @@
+doc = "Main under the word `orchestrate`: the strip names the word and the plan's thin line, the quick look is one row (what the line was taken as, the model, what it cost, how long, why), the split names the chats it started, the end of a chat is a row of its own words with the digest under it. The JSON the look and the planning turn answered is on no row."
+sizes = [[120, 32], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "fix the failing test in parser.rs" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 5
+rev = 1
+rows = [
+  { key = "t0", cells = [{ text = "explain what the code in src/a does" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] },
+  { key = "t0a", cells = [{ text = "taken as split (1 chat) · haiku 5.5 · $0.0003 · 2.9s · one part apart", tone = "dim" }, { text = "", tone = "dim" }], parent = "t0" },
+  { key = "t0b", cells = [{ text = "split · c1: read the code and say what it does", icon = "route" }, { text = "", tone = "dim" }], parent = "t0" },
+  { key = "e1", cells = [{ text = "c1 · read the code and say what it does", icon = "done" }, { text = "", tone = "dim" }, { text = "12:22", tone = "dim" }], detail = [{ text = "it parses lines", tone = "plain" }], data = { door = "c1", read = true, at_ms = 1700000000000 } },
+  { key = "d1", cells = [{ text = "c1 read the code and say what it does · scout reviewed · $0.00 · no claims · sure high · open: none", tone = "dim" }, { text = "", tone = "dim" }], parent = "t0" },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ icon = "tasks", text = "lanes orchestrate" }], gauge = 0.0, route = "claude · haiku 5.5", route_by = "core", work = [{ label = "work" }], plan = { done = 0, total = 1 }, cost = "<0.1% of 5h · $0.0030 list", mode = "write" }
+rev = 1
+
+[[step]]
+shot = "idle"

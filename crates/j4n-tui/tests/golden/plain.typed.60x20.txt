@@ -1,0 +1,20 @@
+
+  Chat   Tasks   Log                             j4n 0.0.0
+ ━━━━━━────────────────────────────────────────────────────
+
+
+
+
+
+
+▌ fix the failing test in crates/core                12:29 ▐
+  ╰─ 󰗡  A claude haiku                                  21s
+     ├─ 󰌶  the assertion compares the old name
+     ├─ 󰲶  src/lib.rs
+     ├─ I changed the name in one place and the test
+     │  passes now.
+     ╰─ 󰗖  clippy: one warning left
+╭──────────────────────────────────────────────────────────╮
+│ and run the gate                                         │
+╰──────────────────────────────────────────────────────────╯
+

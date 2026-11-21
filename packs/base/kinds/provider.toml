@@ -1,0 +1,22 @@
+api = 1
+
+# A provider: who sells or hosts models, and how J4n reaches them (Library › Providers). The connectors are the programs and
+# endpoints J4n speaks through; a provider is the one name for what stands behind them, so Anthropic is one row whether it is reached by the
+# claude program on a subscription or on an API key, and OpenRouter is one row whether or not the pack that has a connector for it is on. A
+# connector that no provider row takes is its own row, so nothing is left out. The key here is only where it would come from, to say whether it
+# is set (never its value).
+[[kind]]
+id = "provider"
+doc = "Who provides models: a subscription, an API, a router, a local server or a harness's own."
+untrusted = "ignore"
+examples = [
+  { id = "acme", doc = "A router of my own.", family = "router", url = "https://acme.example/v1", key = "env:ACME_API_KEY", hosts = ["acme.example"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is." }
+family = { ty = "enum:subscription|api|router|local|harness", default = "api", doc = "How its models are had: on a subscription of an account, on an API key, through a router that resells many makers, from a server on this machine, or by a harness program that signs in itself." }
+url = { ty = "str", doc = "Where its API is, to say it; the connectors are what speak to it." }
+key = { ty = "str", doc = "Where a key for it comes from when it takes one with no connector (`env:NAME`): the row says whether it is set, never the value." }
+connectors = { ty = "list<str>", default = [], doc = "The connectors that are this provider's (`claude` is Anthropic's)." }
+hosts = { ty = "list<str>", default = [], doc = "The host names of a connector's url that make it this provider's." }

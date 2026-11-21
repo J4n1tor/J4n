@@ -1,0 +1,10 @@
+api = 1
+
+[[rule]]
+id = "shape-draft"
+doc = "A line in the composer that may be shaped starts the shaper for it, off the line's path. The front has already left out answers, commands, short replies and pastes."
+on = "draft"
+then = "start"
+doer = "shape"
+detached = true
+text = "{ev.data.hash}"

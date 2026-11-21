@@ -1,0 +1,228 @@
+doc = "The suggestions in the left of the composer's strip: a command, a command's word, a look part with its value now, a chat, a file, Tab stepped twice, and the orchestrator, whose composer has no strip and grows the list's row and its rule. The right group stays; under 80 columns it has a row of its own, under 50 the list is the one in the line and its place. The keys row says the completion's keys while a ghost shows and while Tab steps."
+sizes = [[120, 14], [80, 14], [60, 12], [44, 12]]
+theme = { marks = "unicode" }
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } },
+  { id = "keysrow", title = "", field = { kind = "bar", bind = "keys:row" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the login page" }, { text = "", tone = "dim" }, { text = "02:09", tone = "dim" }] },
+  { key = "s1", cells = [{ text = "3 files changed, 12 passed", icon = "done" }, { text = "", tone = "dim" }], parent = "t1" },
+  { key = "s2", cells = [{ text = "Proposed next steps: 1. Deploy the fix to the login page. 2. Add a test for the empty password." }, { text = "", tone = "dim" }], parent = "t1" },
+]
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 13
+rev = 1
+rows = [
+  { key = "ghost/take", cells = [{ text = "⇥" }, { text = "take" }] },
+  { key = "ghost/word", cells = [{ text = "⌃→" }, { text = "word" }] },
+  { key = "step/next", cells = [{ text = "⇥" }, { text = "next" }] },
+  { key = "step/back", cells = [{ text = "⇧⇥" }, { text = "back" }] },
+  { key = "step/send", cells = [{ text = "⏎" }, { text = "keep" }] },
+  { key = "step/undo", cells = [{ text = "esc" }, { text = "undo" }] },
+  { key = "step/newline", cells = [{ text = "⌃j" }, { text = "" }] },
+  { key = "step/history", cells = [{ text = "↑" }, { text = "" }] },
+  { key = "global/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }] },
+  { key = "chat/send", cells = [{ text = "⏎" }, { text = "send" }] },
+  { key = "chat/newline", cells = [{ text = "⌃j" }, { text = "newline" }] },
+  { key = "chat/history", cells = [{ text = "↑" }, { text = "history" }] },
+  { key = "global/keys", cells = [{ text = "?" }, { text = "keys" }] },
+]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { route = "claude · sonnet 5.5", gauge = 0.15, mode = "write", cost = "$0.14", work = [{ label = "working" }], plan = { done = 2, total = 3 } }
+rev = 1
+
+[[step]]
+text = ":s"
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 6
+rev = 1
+rows = [
+  { key = "~for", cells = [{ text = "line :s" }, { text = "command", tone = "dim" }, { text = ":s", tone = "dim" }], data = { find = "line :s", slot = "command", token = ":s", on = true } },
+  { key = "command::switch", cells = [{ text = ":switch" }, { text = "", tone = "dim" }] },
+  { key = "command::status", cells = [{ text = ":status" }, { text = "", tone = "dim" }] },
+  { key = "command::stop", cells = [{ text = ":stop" }, { text = "", tone = "dim" }] },
+  { key = "command::setup", cells = [{ text = ":setup" }, { text = "", tone = "dim" }] },
+  { key = "command::search", cells = [{ text = ":search" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+shot = "command"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = ":switch "
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 5
+rev = 2
+rows = [
+  { key = "~for", cells = [{ text = "line :switch " }, { text = "doer", tone = "dim" }, { text = "", tone = "dim" }], data = { find = "line :switch ", slot = "doer", token = "", on = true } },
+  { key = "doer:claude", cells = [{ text = "claude" }, { text = "", tone = "dim" }] },
+  { key = "doer:codex", cells = [{ text = "codex" }, { text = "", tone = "dim" }] },
+  { key = "doer:omp", cells = [{ text = "omp" }, { text = "", tone = "dim" }] },
+  { key = "doer:pi", cells = [{ text = "pi" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+shot = "argument"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = ":look "
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 9
+rev = 3
+rows = [
+  { key = "~for", cells = [{ text = "line :look " }, { text = "word:look", tone = "dim" }, { text = "", tone = "dim" }], data = { find = "line :look ", slot = "word:look", token = "", on = true } },
+  { key = "word:look:palette", cells = [{ text = "palette" }, { text = "jjj", tone = "dim" }] },
+  { key = "word:look:marks", cells = [{ text = "marks" }, { text = "icons", tone = "dim" }] },
+  { key = "word:look:frame", cells = [{ text = "frame" }, { text = "pipes", tone = "dim" }] },
+  { key = "word:look:corners", cells = [{ text = "corners" }, { text = "round", tone = "dim" }] },
+  { key = "word:look:density", cells = [{ text = "density" }, { text = "normal", tone = "dim" }] },
+  { key = "word:look:gauge", cells = [{ text = "gauge" }, { text = "g3", tone = "dim" }] },
+  { key = "word:look:motion", cells = [{ text = "motion" }, { text = "on", tone = "dim" }] },
+  { key = "word:look:keys_row", cells = [{ text = "keys_row" }, { text = "on", tone = "dim" }] },
+]
+
+[[step]]
+shot = "look"
+
+[[step]]
+down = "rows"
+bind = "chats:list"
+total = 3
+rev = 1
+rows = [
+  { key = "c1", cells = [{ text = "", tone = "dim" }, { text = "c1" }, { text = "lexer" }] },
+  { key = "c2", cells = [{ text = "", tone = "dim" }, { text = "c2" }, { text = "tests" }] },
+  { key = "c3", cells = [{ text = "", tone = "dim" }, { text = "c3" }, { text = "docs" }] },
+]
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "ask @c"
+
+[[step]]
+shot = "chat"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "look at src/eng"
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 4
+rev = 4
+rows = [
+  { key = "~for", cells = [{ text = "file src/eng" }, { text = "file", tone = "dim" }, { text = "src/eng", tone = "dim" }], data = { find = "file src/eng", slot = "file", token = "src/eng", on = true } },
+  { key = "file:src/engine.py", cells = [{ text = "src/engine.py" }, { text = "", tone = "dim" }] },
+  { key = "file:src/engine_test.py", cells = [{ text = "src/engine_test.py" }, { text = "", tone = "dim" }] },
+  { key = "file:src/engine/deep/nested/cases.py", cells = [{ text = "src/engine/deep/nested/cases.py" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+shot = "file"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = ":s"
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 6
+rev = 5
+rows = [
+  { key = "~for", cells = [{ text = "line :s" }, { text = "command", tone = "dim" }, { text = ":s", tone = "dim" }], data = { find = "line :s", slot = "command", token = ":s", on = true } },
+  { key = "command::switch", cells = [{ text = ":switch" }, { text = "", tone = "dim" }] },
+  { key = "command::status", cells = [{ text = ":status" }, { text = "", tone = "dim" }] },
+  { key = "command::stop", cells = [{ text = ":stop" }, { text = "", tone = "dim" }] },
+  { key = "command::setup", cells = [{ text = ":setup" }, { text = "", tone = "dim" }] },
+  { key = "command::search", cells = [{ text = ":search" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+key = "tab"
+
+[[step]]
+key = "tab"
+
+[[step]]
+shot = "stepped"
+
+[[step]]
+key = "esc"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = {}
+rev = 2
+
+[[step]]
+shot = "orchestrator-empty"
+
+[[step]]
+text = ":s"
+
+[[step]]
+down = "rows"
+bind = "complete:"
+total = 6
+rev = 6
+rows = [
+  { key = "~for", cells = [{ text = "line :s" }, { text = "command", tone = "dim" }, { text = ":s", tone = "dim" }], data = { find = "line :s", slot = "command", token = ":s", on = true } },
+  { key = "command::switch", cells = [{ text = ":switch" }, { text = "", tone = "dim" }] },
+  { key = "command::status", cells = [{ text = ":status" }, { text = "", tone = "dim" }] },
+  { key = "command::stop", cells = [{ text = ":stop" }, { text = "", tone = "dim" }] },
+  { key = "command::setup", cells = [{ text = ":setup" }, { text = "", tone = "dim" }] },
+  { key = "command::search", cells = [{ text = ":search" }, { text = "", tone = "dim" }] },
+]
+
+[[step]]
+shot = "orchestrator"

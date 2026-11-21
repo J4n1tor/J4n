@@ -1,0 +1,20 @@
+
+  󰍩   󰝖   󰧑   󰚥   󰇁   󰹦   󰦪   󰒓                  j4n 0.1.0
+ ━━━───────────────────────────────────────────────────────
+
+▌ who                                            #s  ##:## ▐
+  ├─ new folder project · write here · a checkpoint before
+  │  work · claude, codex, gemini, opencode, pi not found;
+  │  no key for own, light · ⏎ opens Connect › Setup
+  ├─ child 1 turn 1
+  ├─ ◆ ledger · main · 1 tasks · ✓ 1
+  │  ├─ ± 0 files · ❱ 0 ran · $0.0000
+  │  ╰─ ❯ #1 “who” → t1 ✓
+  │     ╰─ t1 child 1 turn 1
+  ╰─ 󰢻  1                                                 ▸
+╭──────────────────────────────────────────────────────────╮
+│                                 󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                          │
+╰──────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ⌃j newline  ↑ history  ⌃t lane  ? keys

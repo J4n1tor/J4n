@@ -1,0 +1,8 @@
+api = 1
+
+[[command]]
+id = "kit"
+doc = "The kit's notebook: `:kit export` writes the cells of the newest task that ran any as <task>.ipynb in the project folder (nbformat 4, plain JSON; Jupyter, VS Code and Spyder open it); `:kit export t12` writes another task's."
+words = [":kit"]
+flow = "kit"
+args = ["export, task"]

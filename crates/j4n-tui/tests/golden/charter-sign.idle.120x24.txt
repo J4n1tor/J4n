@@ -1,0 +1,24 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+▌ :accept                                                                                                        12:21 ▐
+  ╰─ this widens what J4n may do (answers yes, without asking you, to what e1
+     does inside: docs, says yes to: read, write, spends at most $2.00, until you
+     end it, never answers a block, a path outside the project, a destructive
+     step, a line that is not one plain command, or a task that read from
+     outside; those ask you, goal: tidy the docs): :accept again to confirm
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                             idle  demo

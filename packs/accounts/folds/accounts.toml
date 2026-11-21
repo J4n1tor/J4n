@@ -1,0 +1,12 @@
+api = 1
+
+# Where each account stands: the last thing J4n learned about it (a sign-in, a look), with the state it came to, the email and plan the
+# harness gave, and when. A window that was only opened says nothing about the login.
+[[fold]]
+id = "accounts"
+doc = "The state of each account: needs sign-in, signed in, failed or removed, as of the last thing J4n learned."
+on = "account.*"
+when = "kind != 'account.opened'"
+reduce = "last"
+of = "data"
+key = "{data.account}"

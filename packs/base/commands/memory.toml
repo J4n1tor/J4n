@@ -1,0 +1,15 @@
+api = 1
+
+[[command]]
+id = "remember"
+doc = "Keep a note in the memory: `:remember the build needs --release`."
+words = [":remember"]
+flow = "remember"
+args = ["the note"]
+
+[[command]]
+id = "recall"
+doc = "Find what was noted, said or reported by its words: `:recall release build`."
+words = [":recall"]
+flow = "recall"
+args = ["words to look for"]

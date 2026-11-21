@@ -1,0 +1,56 @@
+doc = "A turn with one lane has no row for it: its steps and the answer hang from the operator's line, and the lane's clock, tokens and money stand at that line's right edge before the time of day; with two lanes the lettered rows stay; a lone lane on another doer says it on the line, a failed one keeps its mark. The band's words start on the composer's text column and its time ends where the composer's text ends."
+sizes = [[120, 36], [80, 30], [60, 26]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 16
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the parser so trailing commas work, update the docs, then check it" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "la", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }, { text = "2:01", tone = "dim" }, { text = "$0.19", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } },
+  { key = "la0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la" },
+  { key = "la1", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "dim" }], parent = "la" },
+  { key = "la2", cells = [{ text = "Trailing commas now parse, and the docs say so." }, { text = "", tone = "dim" }], parent = "la", by = "doer" },
+  { key = "t2", cells = [{ text = "now both at once" }, { text = "", tone = "dim" }, { text = "12:41", tone = "dim" }] },
+  { key = "lb", cells = [{ text = "A work", icon = "done" }, { text = "", tone = "dim" }, { text = "0:40", tone = "dim" }], parent = "t2", data = { lane = { doer = "claude", own = true } } },
+  { key = "lb0", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb" },
+  { key = "lc", cells = [{ text = "B review", icon = "working" }, { text = "", tone = "dim" }, { text = "0:22", tone = "dim" }], parent = "t2", data = { lane = { doer = "claude", own = true } } },
+  { key = "lc0", cells = [{ text = "README.md", icon = "read" }, { text = "", tone = "dim" }], parent = "lc" },
+  { key = "t3", cells = [{ text = "ask the other doer" }, { text = "", tone = "dim" }, { text = "12:50", tone = "dim" }] },
+  { key = "ld", cells = [{ text = "A omp", icon = "failed" }, { text = "sonnet", tone = "dim" }, { text = "1:10", tone = "dim" }], parent = "t3", fold = "pinned", data = { lane = { doer = "omp", own = false } } },
+  { key = "ld0", cells = [{ text = "cargo test", icon = "run" }, { text = "", tone = "dim" }, { text = "", tone = "dim", icon = "no" }], parent = "ld" },
+]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ icon = "tasks", text = "lanes single" }], gauge = 0.18, route = "claude · claude-haiku-5-5", route_by = "core" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "write", tone = "plain" }, { text = "$0.33", tone = "dim" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "lone"
+
+[[step]]
+text = "and one more line"
+
+[[step]]
+shot = "typed"

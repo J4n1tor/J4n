@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ project                                                                                                                                                 1 chat
+ ╰─󰗡 c1 check the retry loop                                                                                                             reviewer · test  HH:MM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+▌ :new check the retry loop                                                                                                                              HH:MM ▐
+  ╰─ → c1 new chat · you asked for it
+
+󰗡  c1 · check the retry loop                                                                                                                            HH:MM ▸
+   check the retry loop
+
+ 󰄰 no doer yet · the first line picks one
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ⌃j newline  ↑ history  ⌃↑ select · ⏎ open  ⌃t lane  ? keys  ⌃k find  ⇧↑↓ scroll  ⌃g state  ⇧drag select

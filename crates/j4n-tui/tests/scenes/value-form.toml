@@ -1,0 +1,118 @@
+doc = "A page of settings: sections of value fields, the keys go into a section with the right arrow, and a field is opened with enter."
+sizes = [[80, 40], [44, 44]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "tabs", children = [
+  { id = "settings", title = "Settings", icon = "compact", present = "sections", children = [
+    { id = "look", title = "look", count = 3, present = "stack", children = [
+      { id = "palette", title = "palette", field = { kind = "enum", bind = "set:look.palette", props = { options = ["jjj", "dusk", "paper", "ember", "mono", "contrast"], style = "dropdown" } } },
+      { id = "frame", title = "frame", field = { kind = "enum", bind = "set:look.frame", props = { options = ["pipes", "gutter", "hang"], style = "radio" } } },
+      { id = "title", title = "title", field = { kind = "enum", bind = "set:look.title", props = { options = ["inside", "border", "none"] } } },
+    ] },
+    { id = "chat", title = "chat", count = 4, present = "stack", children = [
+      { id = "width", title = "width", field = { kind = "int", bind = "set:look.width", props = { min = 40, max = 200, step = 4 } } },
+      { id = "stream", title = "stream", field = { kind = "bool", bind = "set:look.stream" } },
+      { id = "risk", title = "risk", field = { kind = "multi", bind = "set:look.risk", props = { options = ["read", "write", "net", "exec"], min = 1 } } },
+      { id = "persona", title = "persona", field = { kind = "markdown", bind = "set:look.persona" } },
+    ] },
+    { id = "loop", title = "loop", count = 4, present = "stack", children = [
+      { id = "wall", title = "wall", field = { kind = "dur", bind = "set:look.wall" } },
+      { id = "cap", title = "soft cap", field = { kind = "usd", bind = "set:look.cap", props = { hard = 1.5 } } },
+      { id = "files", title = "files", field = { kind = "pattern", bind = "set:look.files", props = { matches = 12 } } },
+      { id = "token", title = "token", field = { kind = "secret", bind = "set:look.token" } },
+    ] },
+  ] },
+  { id = "tasks", title = "Tasks", field = { kind = "list", bind = "tasks:all" } },
+] }
+
+[[step]]
+down = "value"
+bind = "set:look.palette"
+value = "jjj"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.frame"
+value = "pipes"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.title"
+value = "inside"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.width"
+value = 88
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.stream"
+value = true
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.risk"
+value = ["read", "write"]
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.persona"
+value = "# Reviewer\nReads diffs."
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.wall"
+value = "5m"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.cap"
+value = 5.0
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.files"
+value = "src/**/*.rs"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "set:look.token"
+value = true
+rev = 1
+
+[[step]]
+shot = "headers"
+
+[[step]]
+key = "right"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "inside"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "open"

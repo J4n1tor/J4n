@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
+───────────────────━━━━━────────────────────────────────────────────────────────────────────────────────────────────────
+┃ no lab runs yet  the lab keeps its runs; this page only reads them
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ⌥1–9 tabs  ↑↓ move  →← open  / find  ? keys  ⌃g state

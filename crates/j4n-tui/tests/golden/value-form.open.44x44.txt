@@ -1,0 +1,44 @@
+
+  󰡌   Tasks                      j4n 0.0.0
+ ━━━───────────────────────────────────────
+▾ look  3
+├ palette
+│ jjj ▾
+├ frame
+│ 󰐾 pipes
+│ 󰐽 gutter
+│ 󰐽 hang
+╰ title
+  inside
+▾ chat  4
+├ width
+│ 88
+├ stream
+│ 󰔡
+├ risk
+│ read write 2/4
+╰ persona
+  2 ▸
+▾ loop  4
+├ wall
+│ 5m
+├ soft cap
+│ $5.00
+├ files
+│ src/**/*.rs
+╰ token
+  󰄬 set
+
+
+
+
+
+
+
+
+
+
+
+
+
+

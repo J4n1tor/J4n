@@ -1,0 +1,327 @@
+{
+  "family": {
+    "": {
+      "glyph": "control",
+      "role": "faint"
+    },
+    "account.": {
+      "glyph": "models",
+      "role": "route"
+    },
+    "answerer.": {
+      "glyph": "models",
+      "role": "route"
+    },
+    "ask.": {
+      "glyph": "ask",
+      "role": "warn"
+    },
+    "bench.": {
+      "glyph": "done",
+      "role": "ok"
+    },
+    "box.": {
+      "glyph": "grant",
+      "role": "warn"
+    },
+    "branch.": {
+      "glyph": "worktree",
+      "role": "dim"
+    },
+    "brief.": {
+      "glyph": "read",
+      "role": "dim"
+    },
+    "change.": {
+      "glyph": "grow",
+      "role": "accent"
+    },
+    "chat.": {
+      "glyph": "chat",
+      "role": "dim"
+    },
+    "chat.message": {
+      "glyph": "message",
+      "role": "route"
+    },
+    "complete.": {
+      "glyph": "settings",
+      "role": "dim"
+    },
+    "connector.": {
+      "glyph": "connector",
+      "role": "fetch"
+    },
+    "contribute.": {
+      "glyph": "grow",
+      "role": "accent"
+    },
+    "cost.": {
+      "glyph": "spend",
+      "role": "dim"
+    },
+    "draft": {
+      "glyph": "output",
+      "role": "made"
+    },
+    "flow.": {
+      "glyph": "route",
+      "role": "route"
+    },
+    "gate.": {
+      "glyph": "done",
+      "role": "ok"
+    },
+    "grant.": {
+      "glyph": "grant",
+      "role": "warn"
+    },
+    "guard.": {
+      "glyph": "grant",
+      "role": "warn"
+    },
+    "inbox.": {
+      "glyph": "notice",
+      "role": "dim"
+    },
+    "intake.": {
+      "glyph": "route",
+      "role": "route"
+    },
+    "lane.": {
+      "glyph": "worktree",
+      "role": "dim"
+    },
+    "lanes.": {
+      "glyph": "worktree",
+      "role": "dim"
+    },
+    "ledger.": {
+      "glyph": "spend",
+      "role": "dim"
+    },
+    "log.": {
+      "glyph": "log",
+      "role": "dim"
+    },
+    "look.": {
+      "glyph": "settings",
+      "role": "accent"
+    },
+    "map.": {
+      "glyph": "models",
+      "role": "route"
+    },
+    "model.": {
+      "glyph": "models",
+      "role": "route"
+    },
+    "pack.": {
+      "glyph": "packs",
+      "role": "accent"
+    },
+    "parts.": {
+      "glyph": "worktree",
+      "role": "dim"
+    },
+    "plan.": {
+      "glyph": "route",
+      "role": "route"
+    },
+    "probe.": {
+      "glyph": "done",
+      "role": "ok"
+    },
+    "proposal.": {
+      "glyph": "grow",
+      "role": "accent"
+    },
+    "qc.": {
+      "glyph": "done",
+      "role": "ok"
+    },
+    "report.": {
+      "glyph": "output",
+      "role": "dim"
+    },
+    "rule.": {
+      "glyph": "control",
+      "role": "faint"
+    },
+    "run.": {
+      "glyph": "run",
+      "role": "run"
+    },
+    "run.error": {
+      "glyph": "error",
+      "role": "error"
+    },
+    "run.message": {
+      "glyph": "output",
+      "role": "text"
+    },
+    "run.reasoning": {
+      "glyph": "think",
+      "role": "faint"
+    },
+    "run.tool_": {
+      "glyph": "tool",
+      "role": "fetch"
+    },
+    "shape.": {
+      "glyph": "output",
+      "role": "made"
+    },
+    "spend.": {
+      "glyph": "spend",
+      "role": "dim"
+    },
+    "task.": {
+      "glyph": "working",
+      "role": "accent"
+    },
+    "thread.": {
+      "glyph": "session",
+      "role": "dim"
+    },
+    "timer.": {
+      "glyph": "cooling",
+      "role": "faint"
+    },
+    "tool.": {
+      "glyph": "tool",
+      "role": "fetch"
+    },
+    "trust.": {
+      "glyph": "models",
+      "role": "route"
+    },
+    "watch.": {
+      "glyph": "search",
+      "role": "fetch"
+    }
+  },
+  "field": {
+    "_at_ms": "time",
+    "_bytes": "bytes",
+    "_count": "text",
+    "_ms": "duration",
+    "_n": "text",
+    "_path": "path",
+    "_tokens": "text",
+    "_usd": "money",
+    "asked": "text",
+    "at_ms": "time",
+    "attempt": "text",
+    "auto": "text",
+    "bytes": "bytes",
+    "cached": "text",
+    "changed": "text",
+    "clear": "text",
+    "cmd": "cmd",
+    "command": "cmd",
+    "conf": "text",
+    "cooled": "text",
+    "cost": "money",
+    "count": "text",
+    "cut": "text",
+    "cwd": "path",
+    "diff": "diff",
+    "dir": "path",
+    "done": "text",
+    "exit": "text",
+    "failed": "text",
+    "file": "path",
+    "final": "text",
+    "grantable": "onoff",
+    "holdout": "text",
+    "in_session": "text",
+    "input": "text",
+    "kept": "tick",
+    "last_seq": "text",
+    "left": "text",
+    "live": "onoff",
+    "max": "text",
+    "more": "text",
+    "ms": "duration",
+    "n": "text",
+    "narration": "text",
+    "note": "prose",
+    "ok": "tick",
+    "on": "onoff",
+    "output": "text",
+    "partial": "text",
+    "pass": "tick",
+    "passed": "tick",
+    "patch": "diff",
+    "path": "path",
+    "pct": "text",
+    "pid": "text",
+    "pinned": "onoff",
+    "polls": "text",
+    "queued": "text",
+    "quiet": "text",
+    "rate": "text",
+    "reason": "prose",
+    "refused": "text",
+    "repeats": "text",
+    "resets_at": "text",
+    "restarted": "text",
+    "resumed": "text",
+    "score": "text",
+    "security": "text",
+    "seq": "text",
+    "size": "bytes",
+    "steerable": "onoff",
+    "step": "text",
+    "summary": "prose",
+    "text": "prose",
+    "todo_left": "text",
+    "tokens": "text",
+    "tokens_in": "text",
+    "tokens_out": "text",
+    "told": "text",
+    "total": "text",
+    "tries": "text",
+    "turn": "text",
+    "unproven": "text",
+    "usd": "money",
+    "utilization": "text",
+    "visits": "text",
+    "why": "prose",
+    "window": "text",
+    "wrote": "text"
+  },
+  "summary": {
+    "brief.skills": "{data.line}",
+    "chat.message": "{data.from} → {data.to} {data.step} {data.text}",
+    "chat.message.delivered": "{data.from} → {data.to} delivered with {data.turn}",
+    "chat.note": "{data.text}",
+    "chat.view": "{data.view}",
+    "complete.ranked": "{data.slot} {data.top} {data.by}",
+    "log.broken": "after {data.after}, {data.lines} lines",
+    "run.shell": "{data.cmd}",
+    "run.tool_call": "{data.name} {data.detail}",
+    "run.tool_result": "{data.name} {data.detail}",
+    "task.queued": "{data.spec.goal}",
+    "task.started": "{data.doer}"
+  },
+  "tone": {
+    "alert": "bad",
+    "broken": "bad",
+    "cap_reached": "warn",
+    "declined": "bad",
+    "denied": "bad",
+    "error": "bad",
+    "fail": "bad",
+    "failed": "bad",
+    "lost": "bad",
+    "refused": "bad",
+    "revoked": "bad",
+    "skip": "warn",
+    "stopped": "warn",
+    "timeout": "bad",
+    "wall_warn": "warn",
+    "warn": "warn"
+  }
+}

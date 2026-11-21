@@ -1,0 +1,24 @@
+                  state                             to mend it
+├ claude          found · signed in · 2.1.0
+├ codex           not found                         install codex and put it on your PATH
+├ gemini          found · not signed in
+│   sign in: gemini auth login
+├ opencode        found · signed in
+├ pi              not found                         install pi and put it on your PATH
+├ own             no key                            export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again
+├ light           no key                            export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again
+├ openrouter key  not set                           export OPENROUTER_API_KEY (your OpenRouter key) and start J4n again
+├ plan claude     no price                          put price = "$<a month>" in a [[plan]] row with id = "claude" in pl…
+├ plan max5       $100 a month
+├ plan pro        $20 a month
+├ writes          a write outside the project ask…
+├ .j4n and git    J4n's own folder and git's inte…
+├ checkpoint      a checkpoint is made before wor…
+├ gate            claude's writes and commands co…
+╰ default doer    claude
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+api = 1
+
+# A known attack, as a pattern on events. When an event of kind `on` is written and `when` holds, the
+# loop writes a `guard.alert` event (`kind = "incident"`: which incident, its class, what was done, the words and the source) and the
+# screen shows a row, `⚠ like s1ngularity · blocked`. A row is matched like a rule's (the same `on`, `when`, words and checks, one
+# alert at most five times an hour for a task) but it can only say; it starts, steers and changes nothing. The words are the row's
+# own and `quote(…)` makes anything a doer or a tool wrote inert. A pack brings its incidents like any other data, and the pack
+# `guard` brings five. A project nobody trusted brings none: it could make J4n cry wolf or stay quiet.
+[[kind]]
+id = "incident"
+doc = "A known attack as a pattern on events: when it matches, the operator is told which one it looks like."
+untrusted = "ignore"
+examples = [
+  { id = "nx", doc = "A package told an installed agent CLI to hunt for secrets (Aug 2025).", like = "s1ngularity", class = "exfil", on = "gate.verdict", when = "ev.data.verdict == 'block' and ev.data.why matches 'taint-write-secret:*'", done = "blocked", text = "a run that read untrusted content tried to write where keys are kept", source = "https://blog.gitguardian.com/the-nx-s1ngularity-attack-inside-the-credential-leak/" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What happened, in a line, and what here would show it." }
+like = { ty = "str", required = true, doc = "The short name of the attack, as the row says it: `like <name>`. At most 40 characters." }
+class = { ty = "enum:exfil|inject|rug-pull|persist|wipe", required = true, doc = "What the attack does: sends data out, brings in orders through content, changes a tool it was trusted for, plants itself to run later, destroys." }
+on = { ty = "pattern", required = true, doc = "The event kinds it looks at, a glob (`gate.verdict`)." }
+when = { ty = "expr", roots = ["ev", "event", "seq", "at_ms", "kind", "task", "thread", "by", "cause", "class", "data", "fold", "set"], doc = "It matches only when this holds; left out, any event of the kind." }
+done = { ty = "enum:blocked|flagged", default = "flagged", doc = "What was done to it: `blocked` when the event itself says the Gate or a pin stopped it, else `flagged`." }
+text = { ty = "fmt", roots = ["ev", "event", "seq", "at_ms", "kind", "task", "thread", "by", "cause", "class", "data", "fold", "set"], required = true, doc = "The alert's words, one line: what matched. Anything a doer or a tool wrote reaches it only through `quote(…)`." }
+source = { ty = "str", required = true, doc = "Where it is written up: an `https://` address, shown with the row." }

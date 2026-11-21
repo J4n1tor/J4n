@@ -1,0 +1,51 @@
+api = 1
+
+[[kind]]
+id = "keeper"
+doc = "A person who tends a light."
+examples = [
+  { id = "ada", name = "Ada Quill", years = 12, shift = "dawn" },
+  { id = "bo", name = "Bo Marsh" },
+]
+
+[kind.fields]
+name = { ty = "str", required = true }
+years = { ty = "int", min = 0, max = 80, default = 0 }
+shift = { ty = "enum:dawn|dusk|night", default = "night" }
+
+[[kind]]
+id = "lamp"
+doc = "A lamp in a tower: who tends it, what it burns, when it flashes."
+untrusted = "tighten"
+examples = [
+  { id = "north", keeper = "ada", oil = "$0.40", burn = "9h", colors = ["white", "red"], flash_when = "tide.height > 3", label = "{lamp.name:short} burns {lamp.oil:usd}" },
+]
+
+[kind.fields]
+keeper = { ty = "ref:keeper", required = true }
+oil = { ty = "usd", default = "$0.25", doc = "oil per night" }
+burn = { ty = "dur", default = "8h" }
+colors = { ty = "multi:white|red|green", default = ["white"] }
+mode = { ty = "enum:steady|flash|off", default = "steady", widens = ["flash"] }
+brightness = { ty = "num", min = 0, max = 1, default = 0.5, widens = true }
+rule = { ty = "int", default = 7, floor = true, who_may = ["operator"] }
+flash_when = { ty = "expr", roots = ["tide", "fog"] }
+label = { ty = "fmt", roots = ["lamp"] }
+beam = { ty = "obj", fields = { reach = { ty = "int", min = 1, required = true }, tilt = "num" } }
+tags = "list<str>"
+notes = "map<text>"
+
+[[kind]]
+id = "fog_signal"
+doc = "A horn or bell that sounds when the fog comes in."
+examples = [{ id = "horn", sound = "two long", every = "30s", key = "env:FOG_KEY", watch = { from = "table:lamp", filter = "oil > $0.30", order = "-burn", limit = 3 } }]
+
+[kind.fields]
+sound = { ty = "str", required = true }
+every = { ty = "dur", required = true }
+key = { ty = "secret" }
+watch = { ty = "query" }
+log = "path"
+argv = "argv"
+pattern = "pattern"
+extra = "any"

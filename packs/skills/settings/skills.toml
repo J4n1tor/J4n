@@ -1,0 +1,30 @@
+api = 1
+
+# Read when J4n starts, except `skills.off`, which `:skill on|off` also keeps in the operator's folder.
+[[setting]]
+id = "skills.pick"
+doc = "Whether J4n gives a task the few skills that fit it: `true` (the default) picks by the line's words, the files it names and the kind of task, locally, with no model, and puts only those in that doer's brief (a folder of its own for claude); `false` gives none."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "skills.max"
+doc = "The most skills a task is given."
+ty = "int"
+default = 3
+min = 0
+max = 8
+
+[[setting]]
+id = "skills.tokens"
+doc = "The most tokens the skills of a task come to together (a skill's `cost`); one that does not fit is left out."
+ty = "int"
+default = 1200
+min = 0
+max = 20000
+
+[[setting]]
+id = "skills.off"
+doc = "The skills that are switched off, by name, with a comma between (`:skill off j4n-docs`). A skill that is off is never picked."
+ty = "str"
+default = ""

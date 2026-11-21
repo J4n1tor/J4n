@@ -1,0 +1,21 @@
+api = 1
+
+# A model a connector serves, and the hosts that sell it. The rows here are the fixed ones: a direct API, a
+# gateway's default, a host the operator pins. What a host really cost and how fast it was comes from the Log (`run.served`), not
+# from this file; the prices and speeds below only start the picture. A connector with no row for its model is served at its
+# default endpoint, as before.
+[[kind]]
+id = "model"
+doc = "A model, the connector that serves it, and the hosts it can be had from."
+untrusted = "ignore"
+examples = [
+  { id = "gpt-oss", doc = "An open-weight model on a gateway with many hosts.", connector = "openrouter", name = "openai/gpt-oss-120b", default = true, context = 131072, endpoints = [{ host = "Cerebras", quant = "fp16", zone = "any", p_in = 0.35, p_out = 0.75 }, { host = "DeepInfra", quant = "bf16", zone = "any", p_in = 0.04, p_out = 0.19 }] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is." }
+connector = { ty = "str", required = true, doc = "The id of the connector (dialect `openai` or `anthropic`) that speaks to it." }
+name = { ty = "str", doc = "The name the connector sends; left out, the row's id." }
+default = { ty = "bool", default = false, doc = "The model a thread gets when its connector is chosen and no model is named." }
+context = { ty = "int", min = 1, doc = "The window in tokens, to say how full it is." }
+endpoints = { ty = "list", default = [], doc = "The hosts it can be had from; with none, only the gateway's own routing.", of = { ty = "obj", fields = { host = { ty = "str", required = true }, quant = "str", zone = "str", tier = "str", uptime = "num", p_in = "num", p_out = "num", p_cache_read = "num", p_cache_write = "num", ttl = "dur", tps = "num", ttft_ms = "int" } } }

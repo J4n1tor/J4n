@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
+ ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧭 Kit   󰧮 Skills   󰒓 Reflexes
+──────────────────────────────────────────────────━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────
+  agent         dialect        roles                                      models
+├ claude        claude-stream  plan, work, main, scout, review, validate  haiku, sonnet, opus                                                          ⏎ switch
+│   Claude Code, a live session kept between turns; its questions come back in-band.
+│   runs claude
+├ codex         jsonl-map      —                                          —
+├ gemini        acp            —                                          —
+├ omp           pi-rpc         plan, work, main, scout, review, validate  —
+├ opencode      jsonl-map      —                                          —
+├ opencode-acp  acp            —                                          —
+├ own           openai         plan, work, main, scout, review, validate  deepseek/deepseek-v4.1-flash-1017
+├ pi            pi-rpc         plan, work, main, scout, review, validate  —
+╰ test          test           scripted                                   —
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

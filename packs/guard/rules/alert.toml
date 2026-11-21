@@ -1,0 +1,22 @@
+api = 1
+
+# What the guard stopped, said at once and in one line. The Log has the whole event; nothing here changes
+# anything. What a server called its tool is untrusted text and reaches these words only through `quote(…)`.
+
+[[rule]]
+id = "guard-pin"
+doc = "An MCP tool is not what the operator pinned: it is not offered, or a call of it was not sent."
+on = "guard.alert"
+when = "ev.data.kind == 'pin'"
+then = "notice"
+text = "⚠ {ev.data.of} changed a tool since it was pinned ({quote(ev.data.tools[0])}): {ev.data.done}; read what changed before pinning it again"
+limit = { per = "all", max = 10, within = "1h" }
+
+[[rule]]
+id = "guard-taint"
+doc = "A run that has read untrusted content tried to send something out or write to a sensitive path, and the Gate said never."
+on = "gate.verdict"
+when = "ev.data.verdict == 'block' and ev.data.why matches 'taint-*'"
+then = "notice"
+text = "⚠ blocked after untrusted content: {quote(ev.data.target)} ({quote(ev.data.why)})"
+limit = { per = "all", max = 10, within = "1h" }

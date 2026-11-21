@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+
+▌ plan two ways to speed up the build, try the better one, review it                                             14:02 ▐
+  ├─ 󰙁  omp ▸ claude ▸ gemini
+  ├─ 󰘥  A omp sonnet                                                                                        0:48  $0.03
+  ├─ 󰘥  B claude sonnet                                                                         󰘬 b-claude  0:12  $0.01
+  ╰─ 󰗡  C gemini 2.5-pro                                                                                     41s  $0.04
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 4                                                                                                   ↑↓ · 1–9 · esc │
+│ ├ A omp     which plan should claude build?                                                                 󰔛 4:10 ▾ │
+│ │  ├ ⇥~1  󰐾 cache the dependency build in sccache                                                             ~ −60% │
+│ │  ├   2  󰐽 split j4n-core into two crates                                                               ~ −25% · 40 │
+│ │  ├   3  󰐽 custom · type your own                                                                                   │
+│ │  ├   4  ├ decide yourself                                                                                          │
+│ │  ╰   5  ╰ skip it                                                                                                  │
+│ ├ B claude  cargo build --release?                                                             ▕██▍░░░▏ 40  1 󰄬  2 󰅖 │
+│ ├ C gemini  how useful was this review?                                                                  󰓒 1 2 3 4 5 │
+│ ╰ j4n       name the new connector?                                                                                󰨖 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ fix the failing test in parser.rs                                                                              → 󰘥 A │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.14  󰘥 B                                                                                  ⇥ 1  F1

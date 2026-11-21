@@ -1,0 +1,50 @@
+api = 1
+
+# What goes to a cheaper doer on its own. A line that starts with one of the words, is short, and says nothing that
+# writes (the setting `offload.writes`) is a chore; anything else is the main lane's. `:ask <line>` sends a line to the main lane as it is.
+[[chore]]
+id = "tests"
+doc = "Run the project's tests; only a failure comes back."
+starts = ["run the tests", "run tests", "run the test suite", "run all the tests", "run all tests", "cargo test", "run cargo test"]
+how = "check"
+wall = "15m"
+
+[[chore]]
+id = "lint"
+doc = "Run the project's linter; only a failure comes back."
+starts = ["run the linter", "run lint", "run the lint", "run clippy", "cargo clippy", "run cargo clippy"]
+how = "check"
+check = "lint"
+wall = "10m"
+
+[[chore]]
+id = "build"
+doc = "Build the project; only a failure comes back."
+starts = ["run the build", "run a build", "build the project", "cargo build", "run cargo build"]
+how = "check"
+check = "build"
+wall = "15m"
+
+[[chore]]
+id = "search"
+doc = "Find where something is, and say it with a path and line for each claim."
+starts = ["find where", "find all", "find every", "search for", "search the", "grep for", "grep", "where is", "where are", "where does", "where do", "which files", "which file", "list the files", "list all the", "how many files", "who calls", "what calls"]
+how = "model"
+usd = 0.15
+wall = "2m"
+
+[[chore]]
+id = "digest"
+doc = "Shorten a log, a diff or a long output to what matters."
+starts = ["summarize the log", "summarise the log", "summarize the diff", "summarise the diff", "summarize the output", "summarise the output", "summarize this log", "summarise this log", "summarize this diff", "summarise this diff", "digest the log", "digest the diff", "digest the output", "tldr the log", "tldr the diff", "tldr the output"]
+how = "model"
+usd = 0.15
+wall = "2m"
+
+[[chore]]
+id = "review"
+doc = "Read the change the last turn made, without having seen it done; asks first."
+starts = ["review my change", "review the change", "review my changes", "review the changes", "review the diff", "review my diff", "review this change", "review what you did", "review the last change"]
+how = "review"
+usd = 0.25
+wall = "5m"

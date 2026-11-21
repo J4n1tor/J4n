@@ -1,0 +1,67 @@
+api = 1
+# The turn-path ratchet (docs/TESTING.md §2): for a follow-up line, the third line of a thread in a
+# small git folder with a scripted doer, through the real binary. `ceiling` is the value the scenario must measure
+# exactly: more fails the run, and so does less until the ceiling is lowered here and an [[metric.entry]] says why.
+# The entries are every ceiling the metric has had, each lower than the one before (a rise needs `rise = "…"`, why the
+# ceiling could not stay), newest last; `ceiling` equals the last one, and the first is pinned in
+# crates/j4n/tests/laws/turn_path.rs. A metric is never deleted. The scenario that measures is
+# crates/j4n/tests/laws/own_agent_cases.rs `the_third_line_of_a_thread_is_measured_against_the_turn_path_ceilings`, and the
+# rule is in crates/j4n/tests/laws/turn_path.rs.
+
+[[metric]]
+id = "brief_tokens"
+ceiling = 49
+
+[[metric.entry]]
+ceiling = 270
+why = "the first ceiling, from the numbers of an earlier tool"
+
+[[metric.entry]]
+ceiling = 49
+why = "J4n's own, measured by own_agent_cases: the third line of a thread gets the contract of work and nothing else, 49 tokens; the sections an earlier design carried (standing, cards, history) are not in J4n's Brief, and a thread's history is the model's transcript, not a section"
+
+[[metric]]
+id = "brief_sections"
+ceiling = 1
+
+[[metric.entry]]
+ceiling = 13
+why = "the first ceiling, from the numbers of an earlier tool"
+
+[[metric.entry]]
+ceiling = 1
+why = "J4n's own, measured by own_agent_cases: the contract alone; a flow's concerns, cards and notes join it only when there are some"
+
+[[metric]]
+id = "decision_rows"
+ceiling = 0
+
+[[metric.entry]]
+ceiling = 3
+why = "the first ceiling, from the numbers of an earlier tool"
+
+[[metric.entry]]
+ceiling = 0
+why = "measured by own_agent_cases: a bound follow-up raises no question of any kind before its doer starts"
+
+[[metric]]
+id = "fixed_context_tokens"
+ceiling = 659
+
+[[metric.entry]]
+ceiling = 1500
+why = "the target J4n set itself"
+
+[[metric.entry]]
+ceiling = 525
+why = "measured by own_agent_cases: the own agent's system prompt and the schemas of its seven tools, 525 tokens (pi: under 1,000; the target was 1,500)"
+
+[[metric.entry]]
+ceiling = 638
+why = "the own agent gets `ask` (64 tokens) and one `web` (52 tokens), and every parameter of the seven tools stays"
+rise = "the 525 was already full: two new tools cannot fit under it"
+
+[[metric.entry]]
+ceiling = 659
+why = "`read` takes `paths` (several small files in one call): 21 tokens, the schema of the array and one sentence of the description"
+rise = "with one file per read the own agent made about half again as many calls as opencode, every extra one a read of one file"

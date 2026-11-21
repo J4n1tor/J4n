@@ -1,0 +1,21 @@
+api = 1
+# The size ratchet (law 1): the most non-test, non-blank lines, comments included, that `crates/<name>/src` may hold.
+# Each ceiling is the exact count now. A ceiling rises only in a change that says why in its commit message; deleting code needs no entry.
+[ceiling]
+j4n-proto = 800
+j4n-core = 51984
+j4n-connect = 18536
+j4n-reach = 1258
+j4n-memory = 552
+j4n-bench = 267
+j4n-tui = 15277
+j4n = 2761
+j4n-shape = 1029
+j4n-qc = 1940
+j4n-contribute = 395
+j4n-inbox = 386
+j4n-ledger = 702
+j4n-parts = 708
+j4n-habits = 76
+j4n-forge = 1557
+j4n-lab = 922

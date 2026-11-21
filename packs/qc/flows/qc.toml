@@ -1,0 +1,23 @@
+api = 1
+
+[[flow]]
+id = "qc"
+doc = "Check the quality of a path or a git range, switch quality control on or off, or label a mark."
+in = { goal = "text" }
+steps = [
+  { id = "check", do = "qc", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.check.answer}" },
+]
+
+# The step `keep` takes the surface the project chose before the work and again after it, and shows what is gone as marks. It ends the
+# flow well whatever it finds: a removal is told, not stopped.
+[[flow]]
+id = "refactor"
+doc = "Do a task, keeping a snapshot of the project's names, tests and doc headings; what is gone after is shown as marks."
+in = { goal = "text" }
+steps = [
+  { id = "keep", do = "keep", goal = "snapshot" },
+  { id = "work", do = "who:work", mode = "write", after = ["keep"], goal = "Do this task in this folder. Keep the public names, the tests and the doc headings and links the project has unless the task says to remove them.\n\nTask: {in.goal}" },
+  { id = "after", do = "keep", after = ["work"], goal = "compare {steps.keep.answer}" },
+  { id = "done", kind = "end", answer = "{steps.work.answer}\n\n{steps.after.answer}" },
+]

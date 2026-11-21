@@ -1,0 +1,10 @@
+api = 1
+
+[[need]]
+id = "qc-jev"
+doc = "The second tier of the marks sends the code of a change to Jev (`qc.jev`), which needs its key."
+kind = "key"
+connector = "jev"
+feature = "qc.jev"
+covers = ["qc.jev"]
+without = "the marks stay with the first tier, on this machine"

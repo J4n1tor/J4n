@@ -1,0 +1,23 @@
+api = 1
+
+# A package added with `need("name")` comes from the network into J4n's own Python folder: a `net`
+# effect on `pypi:<name>`, asked about before the cell runs. A yes for this task or this session is a grant like any other, and the
+# setting `kit.grants` is the operator's standing yes for named packages. A read-only step may not add one; a task that has read
+# untrusted words is held by the pack `guard` (taint-endpoint blocks `net` for every actor but the web).
+
+[[gate]]
+id = "kit-need"
+doc = "Adding a Python package for the kit's kernel asks."
+on = ["net"]
+when = "action.target matches 'pypi:*'"
+verdict = "ask"
+why = "this adds a Python package from the network to J4n's own folder"
+risk = 40
+
+[[gate]]
+id = "kit-need-read-only"
+doc = "An explicit read-only step may not add a package."
+on = ["net"]
+when = "action.target matches 'pypi:*' and action.read_only == 'explicit'"
+verdict = "block"
+why = "this step is read-only (a plan or a review): it may not install anything"

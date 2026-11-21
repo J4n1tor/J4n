@@ -1,0 +1,41 @@
+api = 1
+
+# Run by `crates/j4n/tests/laws/offload_flow.rs` (`the_pack_passes_its_own_check_with_the_cases_it_ships`, through `j4n pack check`), which the gate's
+# tests stage runs; `scripts/check.sh` lists this file as covered.
+# The pack as it ships (`j4n pack check packs/offload`): the switch is on with the day's cap of $2, the classes are the six, a review is the one
+# that asks, and `:offload` is a command of the pack.
+[[expect]]
+id = "the switch is on"
+has = "setting:offload.on"
+field = "default"
+is = true
+
+[[expect]]
+id = "the day's cap is two dollars"
+has = "setting:offload.cap_usd"
+field = "default"
+is = 2
+
+[[expect]]
+id = "the tests run on the doer `check`"
+has = "chore:tests"
+field = "how"
+is = "check"
+
+[[expect]]
+id = "a review asks"
+has = "chore:review"
+field = "how"
+is = "review"
+
+[[expect]]
+id = "a search is read by a model"
+has = "chore:search"
+field = "how"
+is = "model"
+
+[[expect]]
+id = ":offload is the pack's command"
+has = "command:offload"
+field = "core"
+is = "offload"

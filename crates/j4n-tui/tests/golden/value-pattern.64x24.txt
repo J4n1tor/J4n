@@ -1,0 +1,24 @@
+├ files                                              tests/*.rs▏
+│ 󰧭 12 match
+├ files                                           src/**/*.rs 󰍁
+├ files                                                   [a- 󰗖
+│ open [ at 1
+╰ files                                              src/**/*.rs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

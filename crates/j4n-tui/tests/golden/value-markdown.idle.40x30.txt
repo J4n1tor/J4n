@@ -1,0 +1,30 @@
+├ persona
+│ 12 ▸
+├ persona
+│ 12 ▸ 󰍁
+├ persona
+│ 0 ▸ 󰗖
+│ empty
+╰ persona
+  12 ▸
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

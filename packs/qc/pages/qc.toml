@@ -1,0 +1,47 @@
+api = 1
+
+[[page]]
+id = "quality"
+doc = "What quality control found, and how far to trust it."
+parent = "home"
+title = "Quality"
+icon = "done"
+order = 54
+present = "tabs"
+
+[[page]]
+id = "quality-runs"
+doc = "The checks: what was looked at, the score for display, which tiers ran."
+parent = "quality"
+title = "Runs"
+order = 10
+field = "list"
+view = "qc-runs"
+
+[[page]]
+id = "quality-marks"
+doc = "The open marks."
+parent = "quality"
+title = "Marks"
+order = 20
+field = "list"
+view = "qc-marks"
+help = "a dismissed or a kept mark is a label that gives its pattern a precision"
+
+[[page]]
+id = "quality-patterns"
+doc = "The patterns."
+parent = "quality"
+title = "Patterns"
+order = 30
+field = "list"
+view = "qc-patterns"
+
+[[page]]
+id = "quality-labels"
+doc = "How the marks were labelled."
+parent = "quality"
+title = "Labels"
+order = 40
+field = "list"
+view = "qc-labels"

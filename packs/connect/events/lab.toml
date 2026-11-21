@@ -1,0 +1,17 @@
+api = 1
+
+# The lab (`j4n connect lab`) writes its own Log in the folder of its run (`~/.j4n/lab/<run>/.j4n/log`).
+[[event]]
+id = "lab.check"
+doc = "One check of one seed of a lab run was scored: `check` (connected, chats, resumes, tools_shown, leave_asked, limit_read, fails_cleanly, drift), `result` (pass, fail, or na where the harness has nothing to check), `why` in one line, the harness's value on each axis (`axes`, a to g) and the `held` out ones of them."
+fields = { run = { ty = "str", required = true }, seed = { ty = "int", required = true }, check = { ty = "str", required = true }, result = { ty = "str", required = true }, why = { ty = "str" }, axes = { ty = "any" }, held = { ty = "any" }, drafter = { ty = "str" } }
+
+[[event]]
+id = "lab.seed"
+doc = "A seed of a lab run ended: what its model runs cost (`usd`, from the harness's own Log), and how long it took (`ms`)."
+fields = { run = { ty = "str", required = true }, seed = { ty = "int", required = true }, usd = { ty = "num" }, ms = { ty = "int" } }
+
+[[event]]
+id = "lab.run"
+doc = "A lab run ended: its seeds, the drafter, the total spend and the table by axis and value."
+fields = { run = { ty = "str", required = true }, seeds = { ty = "int", required = true }, drafter = { ty = "str" }, usd = { ty = "num" }, table = { ty = "str" } }

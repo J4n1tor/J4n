@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ───────────────────────────━━━━━━━━━──────────────────────────────────────────
+Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮 󰒓
+───────────────────────────────────────────────━━━━━━━━─────────────────────────
+  service  dialect  url
+╰ browser  text     —
+    A Chromium window with a data dir and a proxy of an account's own.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

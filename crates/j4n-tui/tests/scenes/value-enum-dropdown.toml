@@ -1,0 +1,66 @@
+doc = "The enum-dropdown field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "palette", field = { kind = "enum", bind = "cfg:enum-dropdown.a", props = { options = ["jjj", "dusk", "paper", "ember", "mono", "contrast"], style = "dropdown" } } },
+  { id = "off", title = "palette", field = { kind = "enum", bind = "cfg:enum-dropdown.off", props = { options = ["jjj", "dusk", "paper", "ember", "mono", "contrast"], style = "dropdown", disabled = "read only" } } },
+  { id = "bad", title = "palette", field = { kind = "enum", bind = "cfg:enum-dropdown.bad", props = { options = ["jjj", "dusk", "paper", "ember", "mono", "contrast"], style = "dropdown" } } },
+  { id = "b", title = "palette", field = { kind = "enum", bind = "cfg:enum-dropdown.b", props = { options = ["jjj", "dusk", "paper", "ember", "mono", "contrast"], style = "dropdown" } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:enum-dropdown.a"
+value = "jjj"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-dropdown.off"
+value = "jjj"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-dropdown.bad"
+value = "neon"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-dropdown.b"
+value = "jjj"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"

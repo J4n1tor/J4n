@@ -1,0 +1,18 @@
+api = 1
+
+# Something for the operator to look at or do, put on the list by a yes to "plan it": what a release of a tool
+# said that touches what J4n uses. A row is only a note: nothing starts, installs or changes by it.
+[[kind]]
+id = "todo"
+doc = "A thing to look at, from what a followed tool said."
+examples = [
+  { id = "claude-code-2-1-312", doc = "Claude Code 2.1.312 says it removed a flag J4n passes.", title = "Look at claude-code 2.1.312: the --resume flag is removed", of = "connector:claude", version = "2.1.312", why = "1 line names something J4n uses and says it changed." },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "Where the note comes from." }
+title = { ty = "str", required = true, doc = "What to look at." }
+of = { ty = "str", doc = "The tool it is about (`connector:<id>` or a name)." }
+version = { ty = "str", doc = "The release it is about." }
+why = { ty = "text", doc = "What the release said, counted, and the names it touches." }
+state = { ty = "enum:open|done", default = "open", doc = "Whether it is looked at." }

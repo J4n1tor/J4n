@@ -1,0 +1,33 @@
+api = 1
+
+# Which branches the main lane starts by rule, and what each is given. The switch `lanes` is
+# `single` (none), `auto` (scout, review: the main lane is the only writer) or `wide` (also piece, held and merged one at a time).
+# The dollars are list price, which is what a claude session reports on a subscription too. One costs about a dime on a small model before it
+# has read much, so a cap under that kills every scout.
+[[branch]]
+id = "scout"
+doc = "Reads and reports what it found with a `path:line` for each claim; it writes nothing."
+under = ["auto", "wide"]
+mode = "read"
+context = "brief"
+usd = 0.20
+wall = "2m"
+
+[[branch]]
+id = "review"
+doc = "Reads the work of this line without having seen it done, on a doer that is not the one that wrote it."
+under = ["auto", "wide"]
+mode = "read"
+context = "clean"
+usd = 0.25
+wall = "5m"
+# a review of a whole program reads more than one of a file: a minute more for each file past the first, up to fifteen
+wall_file = "1m"
+wall_top = "15m"
+
+[[branch]]
+id = "piece"
+doc = "Writes paths no other item touches, in a held worktree; merged one at a time in plan order."
+under = ["wide"]
+mode = "write"
+context = "brief"

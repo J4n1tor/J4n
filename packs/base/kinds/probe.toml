@@ -1,0 +1,23 @@
+api = 1
+
+# A case an answerer must get right before it acts for an ask point. Cases come in pairs: the same
+# shape of question with a different right answer, so an answerer that always says one thing fails one of the two. A pass counts
+# only for the model that gave it and for the cases as they were then (their hash); a model, a version or a case that changed
+# needs a new pass. Until it has passed, an answerer with a model is skipped on the live path, as if it were not there, and still
+# answers the probes.
+[[kind]]
+id = "probe"
+doc = "One case of a pair a machine answerer must get right for an ask point."
+untrusted = "ignore"
+examples = [
+  { id = "intake-short-work", doc = "A short line that asks for work.", point = "intake", slices = { line = "add a --verbose flag to the cli" }, offered = ["answer", "command", "setting", "task", "flow"], expect = "task", pair = "intake-short-question" },
+  { id = "intake-short-question", doc = "The same shape of line, which asks to be told something.", point = "intake", slices = { line = "what does the --verbose flag do?" }, offered = ["answer", "command", "setting", "task", "flow"], expect = "answer", pair = "intake-short-work" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the case tests." }
+point = { ty = "str", required = true, doc = "The ask point it is a case for." }
+slices = { ty = "map<text>", default = {}, doc = "What the question carries: `line` (or `question`) is its text, more than one line where the question is, `goal` what is being done; any other key is added to the text as `key: value`." }
+offered = { ty = "list<str>", default = [], doc = "The option ids a choice offers; left out for a yes/no point." }
+expect = { ty = "str", required = true, doc = "The right answer: an offered id, or `yes` or `no`." }
+pair = { ty = "str", required = true, doc = "The twin: a case of the same point whose right answer is another, which names this one as its twin." }

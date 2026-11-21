@@ -1,0 +1,61 @@
+# J4n's own workspace: one binary, `j4n`, built from the crates below.
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+license = "MIT"
+edition = "2024"
+rust-version = "1.98"
+publish = false
+repository = "https://github.com/J4n1tor/J4n"
+authors = ["l0ki"]
+
+[workspace.dependencies]
+j4n-proto = { path = "crates/j4n-proto" }
+j4n-core = { path = "crates/j4n-core" }
+j4n-connect = { path = "crates/j4n-connect" }
+j4n-reach = { path = "crates/j4n-reach" }
+j4n-memory = { path = "crates/j4n-memory" }
+j4n-bench = { path = "crates/j4n-bench" }
+j4n-shape = { path = "crates/j4n-shape" }
+j4n-qc = { path = "crates/j4n-qc" }
+j4n-contribute = { path = "crates/j4n-contribute" }
+j4n-inbox = { path = "crates/j4n-inbox" }
+j4n-habits = { path = "crates/j4n-habits" }
+j4n-ledger = { path = "crates/j4n-ledger" }
+j4n-parts = { path = "crates/j4n-parts" }
+j4n-lab = { path = "crates/j4n-lab" }
+j4n-tui = { path = "crates/j4n-tui" }
+toml = "0.9"
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl", "unicode-case", "perf"] }
+toml_edit = "0.22"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+rusqlite = { version = "0.32", features = ["bundled"] }
+ureq = { version = "2", default-features = false, features = ["tls", "socks-proxy"] }
+ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
+dither-core = "=0.1.0"
+crossterm = "0.29"
+unicode-width = "0.2"
+pulldown-cmark = { version = "0.13", default-features = false }
+zeroize = "1.9"
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+
+[profile.dev]
+debug = 0
+
+# No `panic = "abort"`: a lane thread must not take the process down.
+[profile.release]
+strip = true
+lto = "fat"
+codegen-units = 1

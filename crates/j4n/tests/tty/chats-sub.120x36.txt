@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ project › c2 what does the budget gate check                                                                    󰗡 done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+▌ what does the budget gate check                                                                            #s  ##:## ▐
+  ├─ what does the budget gate check
+  ├─ ◆ ledger · c2 · 1 tasks · ✓ 1
+  │  ├─ ± 0 files · ❱ 0 ran · $0.0000
+  │  ╰─ ❯ #1 “what does the budget gate check” → t2 ✓
+  │     ╰─ t2 what does the budget gate check
+  ╰─ 󰢻  1                                                                                                             ▸
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                             󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ← main  ⌃j newline  ↑ history  ⌃t lane  ? keys  ⌃k find  ⇧↑↓ scroll  ⌃g state  ⇧drag select

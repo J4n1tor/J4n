@@ -1,0 +1,26 @@
+ roles · mono
+ bg     #141414      input
+ raise  #242424      mix bg→accent 7%
+ sel    #3a3a3a      mix bg→accent 16%
+ text   #d0d0d0  Aa  input
+ dim    #a3a3a3  Aa  text→bg ≤41% · ≥4.5       4.5:1  ✓
+ faint  #838383  Aa  text→bg ≤60% · ≥3.0       3.0:1  ✓
+ edge   #494949  Aa  mix text→bg 72%
+ accent #ffffff  Aa  input · ≥4.5              11.4:1 ✓
+ soft   #c2c2c2  Aa  accent→bg ≤26% · ≥4.7     6.4:1  ✓
+ ok     #d0d0d0  Aa  input · ≥4.5              7.4:1  ✓
+ warn   #d0d0d0  Aa  input · ≥4.5              7.4:1  ✓
+ error  #ffffff  Aa  input · ≥4.5              11.4:1 ✓
+ route  #d0d0d0  Aa  input · else accent↻60°   7.4:1  ✓
+ run    #d0d0d0  Aa  input · else warn↻−20°    7.4:1  ✓
+ fetch  #d0d0d0  Aa  input · else accent⇄ok    7.4:1  ✓
+ you    #ffffff  Aa  = accent, bold
+ made   #838383  Aa  = faint (the ~ mark)
+ add    #d0d0d0  Aa  = ok
+ del    #ffffff  Aa  = error
+ focus  #ffffff  Aa  = accent, bold
+ strong #d0d0d0  Aa  = text, bold
+ code   #ffffff  Aa  = accent
+ link   #d0d0d0  Aa  = fetch, underlined
+ head   #ffffff  Aa  = accent, bold
+

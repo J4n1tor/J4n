@@ -1,0 +1,23 @@
+api = 1
+
+# A score from a public board: where a doer's own record is too thin to say how well it works, the quality pick starts from what the board says of the
+# harness. A row is a harness with a model, as the board lists it, and the doer it stands for when J4n has that harness as a doer; a harness J4n has no
+# doer for stands for none.
+[[kind]]
+id = "seed"
+doc = "A public benchmark score of a harness and model, dated, which the quality pick reads only while a doer's own record is thin."
+untrusted = "ignore"
+examples = [
+  { id = "board-claude", doc = "A harness with a model.", doer = "claude", harness = "Claude Code", model = "Sonnet 5.5", score = 63.9, pm = 3.0, board = "Terminal-Bench", version = "4.1.0", dated = "2026-11-16" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the row is." }
+doer = { ty = "str", default = "", doc = "The doer of J4n this harness is; empty when J4n has no doer for it (the row is shown and counts for none)." }
+harness = { ty = "str", required = true, doc = "The harness as the board names it." }
+model = { ty = "str", required = true, doc = "The model it was run with, as the board names it." }
+score = { ty = "num", min = 0, max = 100, required = true, doc = "The board's pass rate, in percent." }
+pm = { ty = "num", min = 0, max = 100, default = 0, doc = "The run-to-run spread the board gives, in points: a gap smaller than this between two rows is not a difference." }
+board = { ty = "str", required = true, doc = "The board." }
+version = { ty = "str", required = true, doc = "The version of the board's tasks the score is for." }
+dated = { ty = "str", required = true, doc = "The day the score was read, `YYYY-MM-DD`." }

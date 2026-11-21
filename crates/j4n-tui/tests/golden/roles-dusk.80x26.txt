@@ -1,0 +1,26 @@
+ roles · dusk
+ bg     #1a1824      input
+ raise  #232232      mix bg→accent 7%
+ sel    #2e2f45      mix bg→accent 16%
+ text   #d4d0de  Aa  input
+ dim    #9a97a4  Aa  text→bg ≤41% · ≥4.5       4.6:1  ✓
+ faint  #7b7885  Aa  text→bg ≤60% · ≥3.0       3.0:1  ✓
+ edge   #4e4c58  Aa  mix text→bg 72%
+ accent #9aa8f0  Aa  input · ≥4.5              5.7:1  ✓
+ soft   #8c98da  Aa  accent→bg ≤26% · ≥4.7     4.7:1  ✓
+ ok     #8ccaa0  Aa  input · ≥4.5              6.9:1  ✓
+ warn   #dcc07e  Aa  input · ≥4.5              7.4:1  ✓
+ error  #e68a8a  Aa  input · ≥4.5              5.2:1  ✓
+ route  #c49ae0  Aa  input · else accent↻60°   5.6:1  ✓
+ run    #e6a77c  Aa  input · else warn↻−20°    6.3:1  ✓
+ fetch  #7fc6cf  Aa  input · else accent⇄ok    6.8:1  ✓
+ you    #9aa8f0  Aa  = accent, bold
+ made   #7b7885  Aa  = faint (the ~ mark)
+ add    #8ccaa0  Aa  = ok
+ del    #e68a8a  Aa  = error
+ focus  #9aa8f0  Aa  = accent, bold
+ strong #d4d0de  Aa  = text, bold
+ code   #9aa8f0  Aa  = accent
+ link   #7fc6cf  Aa  = fetch, underlined
+ head   #9aa8f0  Aa  = accent, bold
+

@@ -1,0 +1,18 @@
+api = 1
+
+# The kind of kinds: every kind of thing, this one included, is declared by an entry
+# like this. A kind is closed once declared — a later declaration of the same name is refused — and a project that is
+# not trusted cannot declare one.
+[[kind]]
+id = "kind"
+doc = "A kind of thing: its name, what it is for, and the fields an entry of it may hold."
+examples = [
+  { id = "widget", doc = "A thing with a name and a size.", fields = { name = { ty = "str", required = true }, size = { ty = "int", min = 1, max = 9, default = 3 } } },
+  { id = "gizmo", doc = "A gizmo that a project may add to but not loosen.", untrusted = "tighten", fields = { mode = { ty = "enum:strict|loose", widens = ["loose"] }, parts = "list<ref:widget>" } },
+]
+
+[kind.fields]
+doc = { ty = "text", required = true, doc = "What the kind is for, in a sentence." }
+untrusted = { ty = "enum:ignore|tighten", default = "ignore", doc = "What a project that is not trusted may do with it: nothing (ignore), or add and change entries as long as no field widens what J4n may do (tighten)." }
+fields = { ty = "fields", required = true, doc = "The fields an entry may hold, by name; `id` is every entry's own." }
+examples = { ty = "list<any>", doc = "Entries that are valid for the kind, with their ids; they are checked when the kind is declared." }

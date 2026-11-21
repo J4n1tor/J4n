@@ -1,0 +1,30 @@
+├ doer
+│ omp ›
+├ doer
+│ omp › 󰍁
+├ doer
+│ codex › 󰗖
+│ not connected
+╰ doer
+  omp ›
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

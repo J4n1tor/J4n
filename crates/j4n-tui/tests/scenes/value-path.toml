@@ -1,0 +1,69 @@
+doc = "The path field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "packs", field = { kind = "path", bind = "cfg:path.a", props = { options = ["~/.j4n/packs/", "~/.j4n/palettes/", "~/.j4n/skills/"] } } },
+  { id = "off", title = "packs", field = { kind = "path", bind = "cfg:path.off", props = { options = ["~/.j4n/packs/", "~/.j4n/palettes/", "~/.j4n/skills/"], disabled = "read only" } } },
+  { id = "bad", title = "packs", field = { kind = "path", bind = "cfg:path.bad", props = { options = ["~/.j4n/packs/", "~/.j4n/palettes/", "~/.j4n/skills/"], error = "not found" } } },
+  { id = "b", title = "packs", field = { kind = "path", bind = "cfg:path.b", props = { options = ["~/.j4n/packs/", "~/.j4n/palettes/", "~/.j4n/skills/"] } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:path.a"
+value = "~/.j4n/packs"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:path.off"
+value = "~/.j4n/packs"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:path.bad"
+value = "~/pks"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:path.b"
+value = "~/.j4n/packs"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "~/.j4n/pa"

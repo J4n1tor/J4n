@@ -1,0 +1,7 @@
+api = 1
+id = "connect"
+version = "0.0.0"
+summary = "the Connect flow (`/connect`: look at a program, draft how to speak to it, try it once, propose it), the rules for how a program speaks, and samples (Codex, OpenCode, Gemini)"
+use_when = "the operator wants J4n to learn a new program (a coding tool it has not met) and add it"
+needs = ["base"]
+stability = "experimental"

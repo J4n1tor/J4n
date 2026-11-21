@@ -1,0 +1,94 @@
+api = 1
+
+# The commands a typed line can be. Everything else a line says is for the doer of its thread.
+
+[[phrase]]
+id = "fresh"
+doc = "Forget the thread's doer and model and start the thread again: the next line chooses once more."
+words = [":fresh"]
+command = "fresh"
+
+# `:main` is accepted and never shown: the way to the top is `:top`, a command of its own
+[[phrase]]
+id = "main"
+words = [":main"]
+command = "top"
+
+[[phrase]]
+id = "switch"
+doc = "Change the thread's doer, and its model: `:switch claude haiku`. The next line goes to the new one."
+words = [":switch", ":doer"]
+command = "switch"
+complete = ["doer", "model"]
+
+[[phrase]]
+id = "stop"
+doc = "Stop the task of the thread; its session is kept, so the next line carries on in it."
+words = [":stop", ":abort"]
+command = "stop"
+
+[[phrase]]
+id = "kill"
+doc = "Stop the task of the thread and take its process down."
+words = [":kill"]
+command = "kill"
+
+[[phrase]]
+id = "status"
+doc = "Say which doer and model the thread is bound to, and what it is doing."
+words = [":status"]
+command = "status"
+
+[[phrase]]
+id = "help"
+doc = "List the commands."
+words = [":help", ":?"]
+command = "help"
+
+[[phrase]]
+id = "quit"
+doc = "Leave J4n."
+words = [":quit", ":q", ":exit"]
+command = "quit"
+
+[[phrase]]
+id = "restart"
+doc = "Restart: J4n is the build on disk now, with the chat where it was; if that build does not come up, the one before it comes back. A row that says `⟳ next start` has `r` for it, and the note of such an edit `⏎`."
+words = [":restart"]
+command = "restart"
+
+[[phrase]]
+id = "probe"
+doc = "Put the probe cases to the deciders and models that answer for the ask points, and say how each did: `:probe` or `:probe decider:jev`. One that has not passed does not answer a question."
+words = [":probe"]
+command = "probe"
+
+[[phrase]]
+id = "accept"
+doc = "Say yes to a proposal: `:accept p3`, or `:accept` when only one is open. What it changes is written, and `:undo` takes it back. A proposal that widens what J4n may do asks twice."
+words = [":accept"]
+command = "accept"
+
+[[phrase]]
+id = "decline"
+doc = "Say no to a proposal: `:decline p3`. It comes back only if its evidence has doubled."
+words = [":decline"]
+command = "decline"
+
+[[phrase]]
+id = "undo"
+doc = "Take back an accepted proposal (`:undo p3`), or, with no name, the newest change in effect."
+words = [":undo"]
+command = "undo"
+
+[[phrase]]
+id = "proposals"
+doc = "List what J4n has proposed for itself, and what became of it, in the chat."
+words = [":tips"]
+command = "proposals"
+
+[[phrase]]
+id = "ask"
+doc = "Send the line after it to the model as it is: `:ask show me the usage` is not taken for `/usage`."
+words = [":ask"]
+command = "ask"

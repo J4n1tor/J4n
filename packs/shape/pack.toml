@@ -1,0 +1,7 @@
+api = 1
+id = "shape"
+version = "0.0.0"
+summary = "prompt shaping: while you type, notes with sources are added under the line; you keep the rows you want, and the line goes as typed (off by default)"
+use_when = "the operator wants help sharpening a prompt while typing it"
+needs = ["base"]
+stability = "experimental"

@@ -1,0 +1,19 @@
+api = 1
+
+# A link: one way a message may go. The crew's messages (an envoy's request, Main's brief, a chat's report and opinion, a question of the work) pass only
+# where a row of the set says so; the set is `star` (the routing there is, kept in code) or `declared` (the rows of this kind), by `crew.links`. Like a seat,
+# a link is the operator's or the pack's: a project folder cannot add one, because a link decides who may tell whom what.
+[[kind]]
+id = "link"
+doc = "A way a message may go between two parties of the crew, and what it carries."
+untrusted = "ignore"
+examples = [
+  { id = "report-back", doc = "A chat reports to Main, at most twice in a thread.", from = "chat", to = "main", carries = ["report"], hops = 2 },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the link is for, in one line." }
+from = { ty = "str", required = true, doc = "Who sends: `main`, `chat` (any chat Main started), a chat's id (`c4`), a seat that is declared, `envoy` (any envoy), `envoy:c4` (one), or `any`." }
+to = { ty = "str", required = true, doc = "Who takes it: the same words as `from`." }
+carries = { ty = "list<str>", required = true, doc = "What it carries, of `request`, `brief`, `report`, `opinion`, `question`, `note`." }
+hops = { ty = "int", doc = "How many times one thread may pass this link before it stops and asks you. Left out: 3. `0`: no cap, which a cycle of links may not be made of." }

@@ -1,0 +1,33 @@
+doc = "A doer that works shows one live row at the end of its steps: the verb and what it is about, the size of the call being written, the tokens so far and how long; short of width the row gives up the size, then the tokens, then the time, and the words last. Lane A writes a file, lane B thinks, lane C waits for a command."
+sizes = [[160, 24], [80, 24], [60, 20], [40, 16]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 9
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "write the chess game in one file, then run it" }, { text = "", tone = "dim" }, { text = "11:01", tone = "dim" }] }, { key = "la", cells = [{ text = "A claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "8:02", tone = "dim" }, { text = "6.1k tok", tone = "dim" }, { text = "$0.21", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } }, { key = "la0", cells = [{ text = "README.md", icon = "read" }, { text = "", tone = "dim" }], parent = "la" }, { key = "w:la", cells = [{ text = "writing /w/chess.py", icon = "new", tone = "accent" }, { text = "", tone = "dim" }, { text = "23.9 kB", tone = "dim" }, { text = "6.1k tok", tone = "dim" }, { text = "8:01", tone = "dim" }], parent = "la" }, { key = "lb", cells = [{ text = "B pi", icon = "working" }, { text = "haiku", tone = "dim" }, { text = "0:09", tone = "dim" }, { text = "310 tok", tone = "dim" }], parent = "t1", data = { lane = { doer = "pi", own = false } } }, { key = "w:lb", cells = [{ text = "thinking", icon = "think", tone = "accent" }, { text = "", tone = "dim" }, { text = "", tone = "dim" }, { text = "310 tok", tone = "dim" }, { text = "0:04", tone = "dim" }], parent = "lb" }, { key = "lc", cells = [{ text = "C claude", icon = "working" }, { text = "haiku", tone = "dim" }, { text = "2:40", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } }, { key = "lc0", cells = [{ text = "python3 chess.py", icon = "run" }, { text = "", tone = "dim" }], parent = "lc" }, { key = "w:lc", cells = [{ text = "running python3 chess.py", icon = "run", tone = "accent" }, { text = "", tone = "dim" }, { text = "", tone = "dim" }, { text = "1.2k tok", tone = "dim" }, { text = "2:31", tone = "dim" }], parent = "lc" }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { gauge = 0.18, route = "claude" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.33", tone = "dim" }, { text = "F1", tone = "dim" }] }]

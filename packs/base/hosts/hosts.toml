@@ -1,0 +1,51 @@
+api = 1
+
+# The hosts J4n takes out of the environment of every child. Every name has its source: the quote or the build
+# it was read from. A host this file does not name is not scrubbed: add a row of your own in `~/.j4n/hosts/` (the Table, layer user).
+# What stays on purpose: ANTHROPIC_BASE_URL and the other URLs of an operator's own config (the Desktop app sets ANTHROPIC_BASE_URL to the
+# public endpoint itself, and a proxy or gateway an operator uses is config, not a binding), CLAUDE_CONFIG_DIR, CLAUDE_CODE_USE_BEDROCK and
+# the like, and the MCP_* timeouts. The operator's key variables (a name that ends in _KEY, _TOKEN, _SECRET or _PASSWORD) are taken out of
+# every child too, by J4n and not by a row here: a program is given back only those its connector names (a name of `secrets`, a `$NAME` of
+# `probe.signed`).
+
+[[host]]
+id = "claude-code"
+doc = "Claude Code and the Claude desktop app, which runs it as a session of its own. The app gives each session a messaging socket and a token to the mesh of its sessions (the tools ListAgents and SendMessage use them), its own session id and the signed-in account's email and ids."
+drop = [
+  "CLAUDECODE", "CLAUDE_PID", "CLAUDE_EFFORT", "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_EXECPATH",
+  "CLAUDE_CODE_SESSION_ID", "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_CODE_SESSION_ATTENDED",
+  "CLAUDE_CODE_USER_EMAIL", "CLAUDE_CODE_ACCOUNT_UUID", "CLAUDE_CODE_ORGANIZATION_UUID", "CLAUDE_CODE_OAUTH_SCOPES",
+  "CLAUDE_CODE_SDK_HAS_HOST_AUTH_REFRESH", "CLAUDE_CODE_DESKTOP_APP_VERSION",
+]
+drop_prefix = ["CLAUDE_CODE_MESSAGING_", "CLAUDE_CODE_HOST_", "CLAUDE_CODE_BRIDGE_", "CLAUDE_CODE_CCR_", "CLAUDE_DESKTOP_", "CLAUDE_AGENT_SDK_"]
+source = "the names in `strings claude` 2.1.323 (CLAUDE_CODE_HOST_SESSION_ID, CLAUDE_CODE_HOST_AUTH_ENV_VAR, CLAUDE_CODE_BRIDGE_CHILD_START_DIR, CLAUDE_CODE_CCR_WORKER_SOCKET, CLAUDE_CODE_CHILD_SESSION) and in the environment of a Claude desktop terminal (CLAUDE_CODE_MESSAGING_SOCKET, CLAUDE_CODE_MESSAGING_TOKEN, CLAUDE_CODE_USER_EMAIL, CLAUDE_DESKTOP_STARTED_PATH, CLAUDE_AGENT_SDK_VERSION)"
+
+[[host]]
+id = "codex"
+doc = "Codex CLI: it sets the id of its thread for the commands it runs, and a sandbox marker."
+drop = ["CODEX_THREAD_ID", "CODEX_SANDBOX", "CODEX_SANDBOX_NETWORK_DISABLED", "CODEX_TOOL_CALL_ID"]
+source = "`strings codex` 0.164.0: `*KEY**TOKEN*CODEX_THREAD_ID` (the list of what a command's environment is built from), `CODEX_SANDBOX_NETWORK_DISABLED`, `CODEX_TOOL_CALL_ID`; pi 1.4.0 reads `CODEX_THREAD_ID` and `CODEX_SANDBOX` to know it runs under codex"
+
+[[host]]
+id = "opencode"
+doc = "OpenCode: it marks its own process and its children, and it protects its server with a password."
+drop = ["OPENCODE", "OPENCODE_PID", "OPENCODE_SERVER_USERNAME", "OPENCODE_SERVER_PASSWORD", "OPENCODE_WORKSPACE_ID"]
+source = "`strings opencode` 1.19.4: `process.env.OPENCODE=\"1\",process.env.OPENCODE_PID=String(process.pid)` in its start-up; `OPENCODE_SERVER_USERNAME`, `OPENCODE_SERVER_PASSWORD`, `OPENCODE_WORKSPACE_ID`. OPENCODE_CONFIG_CONTENT and the other settings of the operator are kept: J4n sets the first itself"
+
+[[host]]
+id = "pi"
+doc = "Pi and OMP: they put the session's id and file in the environment of the commands their tools run."
+drop = ["PI_CODING_AGENT", "PI_SESSION_ID", "PI_SESSION_FILE"]
+source = "`strings pi` 1.4.0: `process.env.PI_CODING_AGENT = \"true\";`, `env6.PI_SESSION_ID = ctx.sessionManager.getSessionId();`, `env6.PI_SESSION_FILE = sessionFile;`"
+
+[[host]]
+id = "gemini"
+doc = "Gemini CLI: the IDE companion binds a session to an editor by a port and an auth token."
+drop_prefix = ["GEMINI_CLI_IDE_"]
+source = "gemini-cli 0.65.0 bundle: `GEMINI_CLI_IDE_SERVER_PORT`, `GEMINI_CLI_IDE_AUTH_TOKEN`, `GEMINI_CLI_IDE_WORKSPACE_PATH`, `process.env[\"GEMINI_CLI_IDE_PID\"]`"
+
+[[host]]
+id = "herdr"
+doc = "Herdr, a terminal multiplexer for coding agents: a pane's agent can control the other panes, tabs and agents through a socket."
+drop_prefix = ["HERDR_"]
+source = "`strings herdr`: `HERDR_SOCKET_PATH`, `HERDR_CLIENT_SOCKET_PATH`, `HERDR_SESSION`, `HERDR_ENV`, `HERDR_WORKSPACE_ID`, `HERDR_TAB_ID`, `HERDR_PANE_ID`, `HERDR_INTEGRATION_ID`; its skill text: `Control Herdr, a terminal multiplexer for coding agents ... inspect or control panes, tabs, workspaces, commands, or another agent`"

@@ -1,0 +1,157 @@
+api = 1
+
+# The patterns of tier 1: put to Jev, one batched call for each part.
+
+[[pattern]]
+id = "swallowed-error"
+title = "a failure swallowed or turned into a default"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the new code catch or ignore an error and carry on as if nothing failed, or turn the failure into a default value?"
+severity = "high"
+steer = "At {file}:{line} a failure is hidden. Let it surface the way the surrounding code does."
+bad = '''try:
+    data = load(path)
+except Exception:
+    data = {}'''
+good = '''data = load(path)'''
+
+[[pattern]]
+id = "silent-fallback"
+title = "a quiet fallback when something is missing"
+lang = ["*"]
+kind = "jev"
+instructions = "When something fails or is missing, does the new code quietly use a default or a second path without telling the caller, the log or the user?"
+severity = "high"
+steer = "At {file}:{line} a missing value is replaced quietly. Report it the way the surrounding code reports failures."
+bad = '''let port = env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(8080);'''
+good = '''let port: u16 = env::var("PORT").context("PORT is not set")?.parse().context("PORT is not a number")?;'''
+
+[[pattern]]
+id = "duplicate-helper"
+title = "repeats an existing helper"
+lang = ["*"]
+kind = "jev"
+type = "choice"                     # criteria = the part's `similar` names + "none"; "none" is no mark
+instructions = "Which of the listed existing functions already does what the new code does? Answer none when no listed function does."
+severity = "mid"
+steer = "The code at {file}:{line} repeats {answer}. Call it instead."
+bad = '''def split_csv_line(s): return [x.strip() for x in s.split(",")]   # similar: util.split_fields(s)'''
+good = '''fields = util.split_fields(line)'''
+
+[[pattern]]
+id = "unrelated-change"
+title = "a change the goal did not ask for"
+lang = ["*"]
+kind = "jev"
+instructions = "Does this part change something the goal did not ask for and does not need?"
+severity = "mid"
+steer = "The change at {file}:{line} is outside what was asked. Revert it, or say in the report why it was needed."
+bad = '''goal: fix the trailing comma in parse(); diff: also renames every variable in the file'''
+good = '''goal: fix the trailing comma in parse(); diff: one condition in parse()'''
+
+[[pattern]]
+id = "special-cased-test"
+title = "special-cases the test's inputs"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the new code check for particular input values taken from the tests, so the tests pass without the general case being solved?"
+severity = "high"
+steer = "The code at {file}:{line} handles the test's exact inputs. Solve the general case."
+bad = '''def is_prime(n):
+    if n in (2, 3, 5, 7, 11, 13): return True
+    return False'''
+good = '''def is_prime(n):
+    return n > 1 and all(n % d for d in range(2, int(n ** 0.5) + 1))'''
+
+[[pattern]]
+id = "weakened-test"
+title = "a test made easier instead of the code fixed"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the change make a test easier to pass, by loosening an assertion, shrinking its input or removing a case, instead of fixing the code under test?"
+severity = "high"
+steer = "The test at {file}:{line} was made easier. Restore it and fix the code it tests."
+bad = '''-    assert total([1, 2, 3]) == 6
++    assert total([1, 2, 3]) > 0'''
+good = '''+    assert total([]) == 0'''
+
+[[pattern]]
+id = "invented-api"
+title = "calls something that does not exist"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the new code call a function, method, flag or option that appears neither in the shown code, nor in the similar list, nor in the language's standard library?"
+severity = "high"
+steer = "The call at {file}:{line} does not match anything in the project or the standard library. Check its name."
+bad = '''rows = csv.read_all(path)'''
+good = '''with open(path) as f: rows = list(csv.reader(f))'''
+
+[[pattern]]
+id = "dead-code"
+title = "new code nothing uses"
+lang = ["*"]
+kind = "jev"
+instructions = "Is a new function, branch or variable here never used by the rest of the change or by the shown callers?"
+severity = "mid"
+steer = "The new code at {file}:{line} is not used. Remove it, or use it."
+bad = '''def _helper_v2(x): return x * 2   # nothing calls it'''
+good = '''def double(x): return x * 2   # called by total()'''
+
+[[pattern]]
+id = "half-rename"
+title = "a rename left half done"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the change rename something in some places while the shown callers or tests still use the old name?"
+severity = "mid"
+steer = "The old name is still used near {file}:{line}. Finish the rename."
+bad = '''def order_total(...)   # callers: compute_total(items)'''
+good = '''def order_total(...)   # callers: order_total(items)'''
+
+[[pattern]]
+id = "narrating-comment"
+title = "comments that repeat the code"
+lang = ["*"]
+kind = "jev"
+instructions = "Do the new comments only repeat what the next line of code already says?"
+severity = "low"
+steer = "The comment at {file}:{line} repeats the code. Remove it, or say why the code is this way."
+bad = '''# increment i by one
+i += 1'''
+good = '''i += 1  # the header row is skipped'''
+
+[[pattern]]
+id = "needless-layer"
+title = "a layer nothing needs yet"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the new code add a layer that nothing here needs yet: a trait, interface, wrapper, factory or option with a single use?"
+severity = "low"
+steer = "The layer at {file}:{line} has one use. Inline it until a second use exists."
+bad = '''class GreeterFactory:
+    def make(self): return Greeter()'''
+good = '''greeter = Greeter()'''
+
+[[pattern]]
+id = "defensive-noise"
+title = "checks for cases already ruled out"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the new code add checks for cases the surrounding code already rules out, such as checking input again that was already validated?"
+severity = "low"
+steer = "The check at {file}:{line} repeats one made earlier. Remove it."
+bad = '''n = int(arg)          # validated by argparse type=int above
+if not isinstance(n, int): raise TypeError'''
+good = '''n = args.n'''
+
+[[pattern]]
+id = "report-mismatch"
+title = "the report says what the diff does not show"
+lang = ["*"]
+kind = "jev"
+instructions = "Does the doer's report claim something about this change, such as what it does or which files it touches, that the diff does not show?"
+severity = "mid"
+steer = "The report claims something the change at {file} does not show. Correct the report or the change."
+bad = '''report: "added input validation and tests"; diff: one line in parse(), no test file'''
+good = '''report: "fixed the trailing comma in parse()"; diff: one condition in parse()'''

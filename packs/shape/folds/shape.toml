@@ -1,0 +1,8 @@
+api = 1
+
+[[fold]]
+id = "shape"
+doc = "How many drafts came to each verdict: pass, add, ask, or not run."
+on = "shape.result"
+reduce = "count"
+key = "{data.verdict}"

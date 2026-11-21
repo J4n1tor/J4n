@@ -1,0 +1,60 @@
+api = 1
+
+# Lines in plain language that are a command: `show me the usage` runs `/usage`, with no model asked. A line is taken for a
+# wording when its words, the filler left out, are the wording's, in any order, each as typed or one typo away (two for a long word); a
+# line with a word more or fewer, or one that two commands share, goes on to Jev and then to the doer. The row it leaves in the chat says
+# what the line was taken as and that `:ask <line>` sends it to the model as it is. A pack adds its own `likes` as a row like these.
+
+[[phrase]]
+id = "filler"
+doc = "Words a line may have besides a wording's, for every wording."
+filler = [
+  "show", "me", "the", "my", "please", "pls", "can", "could", "you", "would", "give", "display", "see", "what", "whats", "is", "are", "a", "an", "to", "i", "of",
+  "now", "just", "tell", "about", "let", "lets", "us", "open", "have", "has", "for", "chart", "graph", "plot", "visualize", "visualise", "draw",
+]
+
+[[phrase]]
+id = "say-usage"
+doc = "Where each subscription's windows stand, as bars in the chat."
+command = "usage"
+likes = [
+  "usage", "plan usage", "usage limits", "limits", "quota", "remaining", "how much have i used", "how much did i use", "how much is left", "how much do i have left",
+  "what is left", "usage windows",
+]
+
+[[phrase]]
+id = "say-help"
+doc = "The commands, in the chat."
+command = "help"
+likes = ["help", "commands", "list commands", "what commands are there"]
+
+[[phrase]]
+id = "say-spend"
+doc = "What was spent each day, as a chart in the chat."
+command = "chart"
+args = ["spend"]
+likes = [
+  "spend", "spending", "spend this week", "spend per day", "spend a day", "daily spend", "cost", "costs", "cost per day", "daily cost", "how much did i spend",
+  "how much have i spent", "how much i spent", "money spent", "spend over time", "spend history", "spend so far",
+]
+
+[[phrase]]
+id = "say-wall"
+doc = "How long the tasks of each day took, as a chart in the chat."
+command = "chart"
+args = ["wall"]
+likes = ["task time", "task times", "task duration", "task durations", "how long do tasks take", "how long tasks take", "wall time", "durations"]
+
+[[phrase]]
+id = "say-bench"
+doc = "How the bench cases pass, as a chart in the chat."
+command = "chart"
+args = ["bench"]
+likes = ["bench", "bench pass", "bench pass rate", "pass rate", "bench results", "bench score"]
+
+[[phrase]]
+id = "say-lanes"
+doc = "The branches each line of the thread has, as a chart in the chat."
+command = "chart"
+args = ["lanes"]
+likes = ["lanes", "branches", "branches a line", "branches per line"]

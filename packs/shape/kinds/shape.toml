@@ -1,0 +1,41 @@
+api = 1
+
+# The words of the shaper and the judge, one entry each. They go to a model, so law 14 reads them.
+[[kind]]
+id = "persona"
+doc = "Words that tell a model what it is for."
+untrusted = "ignore"
+examples = [{ id = "shaper", doc = "Reads a draft line and adds sourced notes.", text = "You read a line that someone is typing for a coding agent." }]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is for." }
+text = { ty = "text", required = true, doc = "What the model is told." }
+
+# The words round the rows that were kept. A hole is `{name}`.
+[[kind]]
+id = "shape_template"
+doc = "How the rows the operator kept are written for the doer."
+untrusted = "ignore"
+examples = [{ id = "list", head = "Notes on this line:", ref = "- {phrase} is turn {turn}: {quote}", files = "- Likely relevant: {paths}", done = "- Done when {cmd} passes", note = "- {text}", question = "- {text} {answer}" }]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is for." }
+head = { ty = "text", doc = "Before the rows; `{line}` is what was typed." }
+frame = { ty = "text", doc = "Round all the rows, which go where `{rows}` is." }
+ref = { ty = "text", doc = "A reference to an earlier turn: `{phrase}`, `{turn}`, `{quote}`." }
+files = { ty = "text", doc = "The files the line is about: `{paths}`." }
+done = { ty = "text", doc = "How to tell it is done: `{cmd}`." }
+note = { ty = "text", doc = "A note: `{text}`." }
+question = { ty = "text", doc = "A question the operator answered: `{text}`, `{answer}`." }
+
+# The format a doer likes, filled only from measured numbers; it ships empty.
+[[kind]]
+id = "shape_format"
+doc = "Which format of notes a doer reads best."
+untrusted = "ignore"
+examples = [{ id = "claude", doer = "claude", format = "xml" }]
+
+[kind.fields]
+doc = { ty = "text", doc = "Why." }
+doer = { ty = "str", required = true, doc = "The doer." }
+format = { ty = "enum:list|plain|sections|xml", required = true, doc = "The format." }

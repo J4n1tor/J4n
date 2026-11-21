@@ -1,0 +1,73 @@
+api = 1
+
+# The parts of the screen that can be turned off (kind `setting`). A template part with `when = "set.look.…"` is
+# there only while the switch is on. A layer above the pack says its `value`.
+[[setting]]
+id = "look.keys_row"
+doc = "The keys row, the last row of the screen: the keys of the page that is open, a few words each. Off, the row goes back to the page."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "look.generate"
+doc = "The look's pass: what the look file does not cover (a kind, a number's field, a page's key) is counted, and once in a while the ask point `look` (jev first) is asked for entries for those only, checked before use. Off: the built-in look and what you set on Settings › Look."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "look.misses"
+doc = "How many misses start a pass (else a day with any); never more than one pass an hour, never while a task works."
+ty = "int"
+default = 12
+min = 1
+max = 10000
+
+[[setting]]
+id = "look.gauge"
+doc = "How a meter is drawn, by the width it has: `auto` is one slice of a circle and its number in the composer, a chat's row and any strip short of width, the thin line (at most 8 cells) where a page has room, and a long bar only on the page about that number (Usage); `line` is the thin line (`━━────  41%`) and `slice` is the circle slice wherever a context is shown. All count what is used."
+ty = "str"
+default = "auto"
+words = ["auto", "line", "slice"]
+
+[[setting]]
+id = "look.time"
+doc = "How a row says when it happened: `ago` is how long ago, from the screen's own clock, and it moves on by itself (`now`, `5s`, `3m`, `2h1m`, `1d3h`); `clock` is the time of day (`13:43`)."
+ty = "str"
+default = "ago"
+words = ["ago", "clock"]
+
+[[setting]]
+id = "look.chart"
+doc = "How the charts are drawn: `dither` is half-block pixels with a dithered body under each line and in each bar, where the terminal has truecolor and colour is on; `plain` is braille dots and block bars. Under `dither`, a terminal without truecolor, colour off or the ascii marks still draw `plain`."
+ty = "str"
+default = "dither"
+words = ["dither", "plain"]
+
+[[setting]]
+id = "complete.on"
+basic = true
+doc = "Tab completes what you type: a command, a chat, a command's words, a file, a name in a field. The rest of the best one stands dim after the cursor; ⇥ takes it and steps on, ⇧⇥ steps back, → takes it, ⌃→ one word, esc puts back what was typed. Off, ⇥ only takes a question's recommended option."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "complete.decider"
+basic = true
+doc = "A Decider puts first the suggestion you most likely mean, marked ~, after a pause in typing: it picks among what code found and writes nothing. It acts only where a Decider is set up and has passed its cases, at most complete.decider_day times a day; off, or with none, code's order alone."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "complete.decider_day"
+basic = true
+doc = "The most times a day the Decider is asked to order the suggestions in this project. Past it, code's order alone until the next day, said once in the chat."
+ty = "int"
+default = 300
+
+[[setting]]
+id = "keys.hold"
+doc = "Holding ⌥ shows each tab's number beside it, where the terminal can say a key is held: `auto` asks it to report every key, so a held ⌥ is seen, and the numbers stay until ⌥ is let go; `off` asks for less, and the numbers show for a moment after each ⌥1–9 instead."
+ty = "str"
+default = "auto"
+words = ["auto", "off"]
+live = false

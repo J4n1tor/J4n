@@ -1,0 +1,56 @@
+//! The eight words (Table, Log, Task, Doer, Ask, Gate, Rule, View), value types and the Pack loader.
+
+pub mod answer;
+pub mod ask;
+pub mod brief;
+pub mod binder;
+pub mod branch;
+pub mod change;
+pub mod changes;
+pub mod clock;
+pub mod compact;
+pub mod cost;
+pub mod charter;
+pub mod crew;
+pub mod doctor;
+pub mod doer;
+pub mod eval;
+pub mod expr;
+pub mod failing;
+pub mod failure;
+pub mod flow;
+pub mod fmt;
+pub mod fold;
+pub mod front;
+pub mod gate;
+pub mod host;
+pub mod keeper;
+pub mod keys;
+pub mod links;
+pub mod replan;
+pub mod lanes;
+pub mod listing;
+pub mod log;
+pub mod offload;
+pub mod pack;
+pub mod proposal;
+pub mod place;
+pub mod query;
+pub mod rank;
+pub mod redact;
+pub mod report;
+pub mod rule;
+pub mod schema;
+pub mod setting;
+pub mod skill;
+pub mod state;
+pub mod table;
+pub mod task;
+pub mod text;
+pub mod timer;
+pub mod value;
+pub mod view;
+pub mod write;
+
+/// Every declared file starts with `api = 1`; a newer one is refused.
+pub const API: u32 = 1;

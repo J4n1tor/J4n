@@ -1,0 +1,7 @@
+api = 1
+id = "base"
+version = "0.0.0"
+summary = "kind schemas, core ask points, loop rules, default gates, views, pages, commands, phrase tables"
+use_when = "never named by a line: it holds the core words and pages"
+needs = []
+stability = "experimental"

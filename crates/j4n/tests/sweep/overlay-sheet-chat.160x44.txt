@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+                                                ╭─ keys · Chat ────────────────────────────────────────────────╮
+                                                │                                                              │
+                                                │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+                                                │                    Option as Meta or Alt.                    │
+                                                │ ⏎        send      Send the line.                            │
+                                                │ ⌃j       newline   A new line in the draft.                  │
+                                                │ ↑        history   An older line of the history, while the   │
+                                                │                    line is empty.                            │
+                                                │ ⌃t       lane      Steer the next lane that works.           │
+                                                │ ?        keys      All the keys of this page.                │
+                                                │ ⌃k       find      Find anything: the commands and the tree. │
+                                                │ ⇧↑↓      scroll    Scroll the chat a line, from the line;    │
+                                                │                    PgUp and PgDn go half a screen.           │
+                                                │ ⌃g       state     Turn the bottom row over: the keys, or    │
+                                                │                    what the whole screen is doing (tasks,    │
+                                                │                    what waits for you, today's spend, a      │
+                                                │                    window that runs low).                    │
+                                                │ ⇧drag    select    Select the screen's text with the mouse:  │
+                                                │                    hold ⇧ while you drag, because the mouse  │
+                                                │                    is the screen's (Settings › Look › mouse  │
+                                                │                    gives it back to the terminal).           │
+                                                │ ⇥        take      Take it whole; ⇥ again, the next one.     │
+                                                │ ⌃→       word      Take one word of it.                      │
+                                                │ ⇧⇥       back      The suggestion before.                    │
+                                                │ esc      undo      Put back what was typed.                  │
+                                                │                                                              │
+                                                │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                                                │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                                                │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                                                │ F1–F9              Tab n, as ⌥n.                             │
+                                                │                                               any key closes │
+                                                ╰──────────────────────────────────────────────────────────────╯
+
+ 󰄰 no doer yet · the first line picks one
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ ⌥1–9 tabs  ⏎ send  ⌃j newline  ↑ history  ⌃t lane  ? keys  ⌃k find  ⇧↑↓ scroll  ⌃g state  ⇧drag select

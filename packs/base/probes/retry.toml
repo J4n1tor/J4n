@@ -1,0 +1,22 @@
+api = 1
+
+# The lines are made as the front makes them (`front::retry::failure_text`), so what is proved is what is asked: how often the task failed, with what,
+# and whether it is the same as the time before (the line `same: yes`, which `rule:retry` reads). The front asks `retry` behind the setting `retry.auto`.
+
+[[probe]]
+id = "retry-flaky"
+doc = "A failure that looks like a hiccup is worth one more try."
+point = "retry"
+slices = { line = "the task failed once with `connection reset by peer`", goal = "summarise the docs folder" }
+offered = ["retry", "escalate", "stop"]
+expect = "retry"
+pair = "retry-denied"
+
+[[probe]]
+id = "retry-denied"
+doc = "A failure that will not mend itself is a stop."
+point = "retry"
+slices = { line = "the task failed twice with `permission denied on docs/a.md`", same = "yes", goal = "summarise the docs folder" }
+offered = ["retry", "escalate", "stop"]
+expect = "stop"
+pair = "retry-flaky"

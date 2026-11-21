@@ -1,0 +1,247 @@
+api = 1
+
+# The default rules for a shell line.
+# The matcher (`gate::danger`, module doc) says what a line IS, as a `class`; these rows say what each class MEANS.
+# Block beats Ask beats Allow, whichever layer a row is in. The classes are ordered so that every block class is above every
+# ask class: a line's `class` is its most dangerous one. `risk` is 0-100.
+
+# ---- Block: never, whoever asks and whatever was granted ----
+
+[[gate]]
+id = "wipe-is-never"
+doc = "Deleting the root or the home folder, mkfs, dd onto a device, a fork bomb, chmod of the root: never."
+on = ["shell"]
+when = "danger(cmd).class == 'wipe'"
+verdict = "block"
+why = "this wipes the filesystem, a home folder or a disk (rm -r of a system folder, mkfs, a write to a device, a fork bomb)"
+
+[[gate]]
+id = "no-pipe-to-shell"
+doc = "Piping a download or unknown output into a shell or an interpreter: never."
+on = ["shell"]
+when = "danger(cmd).class == 'pipe-to-shell'"
+verdict = "block"
+why = "piping unknown output into a shell or interpreter, or running what a download prints"
+
+[[gate]]
+id = "secrets-are-handed-over"
+doc = "A private key, a credentials file or a login variable, judged by what the line does, not by its words: a command that reads, prints, copies, uploads or sources a credentials file, a redirect from or to one, a line that prints a login variable. No grant and no card: a lane never reads one, approved or not."
+on = ["shell"]
+when = "danger(cmd).class == 'secret'"
+verdict = "block"
+why = "this line reads, copies, uploads or prints a credentials file or a login: the operator hands one over, a lane never reads it (a file's name only handed to a script is another case and is asked)"
+
+[[gate]]
+id = "own-files-are-the-operators"
+doc = "The project trust, the trust store and the guard's config: the rules and the trust are the operator's."
+on = ["shell"]
+when = "danger(cmd).class == 'own'"
+verdict = "block"
+why = "J4n's own rules and trust are the operator's: change them in your own terminal, not through a lane"
+
+[[gate]]
+id = "other-projects-state-shell"
+doc = "A doer or a model in one project does not read another project's state: the transcripts of every other project (~/.claude/projects/<folder>), another folder's .j4n (its Log, memory, folds), J4n's per-project folders of another project (the projects and checkpoints folders of J4n's home). The doer's own stay readable (the CLI keeps its big tool results and memory there). The line is judged by the words it names: a script the doer writes and runs, a link, `find /` and a glob that is only known after the shell expands it are not seen."
+on = ["shell"]
+when = "(action.actor_kind == 'doer' or action.actor_kind == 'model') and danger(cmd).class == 'foreign'"
+verdict = "block"
+why = "this line names another project's state (its transcripts, its Log, its memory): a doer works inside its own project, and only the operator reads the others"
+
+[[gate]]
+id = "core-owns-log-shell"
+doc = "A line that writes and names a .j4n/log is a doer writing the receipt; the matcher cannot see every way to write (a script, a link), so the Log also keeps a chain."
+on = ["shell"]
+when = "(action.actor_kind == 'doer' or action.actor_kind == 'model') and danger(cmd).writes and lower(cmd) matches '*.j4n/log*'"
+verdict = "block"
+why = "the Log is the receipt a plan item is checked from, and J4n writes it, not an agent"
+
+[[gate]]
+id = "git-internals-are-git-s"
+doc = "Writing into .git (hooks, config): hooks written there run later, outside any box."
+on = ["shell"]
+when = "danger(cmd).class == 'git-internals'"
+verdict = "block"
+why = "writing into .git (hooks, config): hooks run later, outside any box"
+
+[[gate]]
+id = "push-is-yours"
+doc = "A push of any kind, forced or not, is the operator's."
+on = ["shell"]
+when = "danger(cmd).class == 'push'"
+verdict = "block"
+why = "pushing is yours"
+
+# ---- Ask: the operator says yes each time (or has granted it) ----
+
+[[gate]]
+id = "secret-name-handed-asks"
+doc = "A credentials file's name that is only handed over, as a variable's value or an operand of a program J4n cannot see into (a deploy script, a build tool), is no read. The operator must see it: it is asked with the reason, never blocked in silence and never allowed unasked."
+on = ["shell"]
+when = "danger(cmd).class == 'handed'"
+verdict = "ask"
+why = "a program J4n cannot see into is given the name of a credentials file (a variable's value or an argument): it may read it, so it is the operator's to allow"
+risk = 70
+
+[[gate]]
+id = "remote-unredactable-asks"
+doc = "A remote shell's output comes back to the model, so J4n runs it inside `j4n relay`, which replaces every secret in it. A line whose output goes to a file, a background job or a copied file, or that cannot be read, is not one the relay can wrap: asked, with the reason."
+on = ["shell"]
+when = "danger(cmd).remote == 'cannot'"
+verdict = "ask"
+why = "remote output can't be redacted: this line sends what a remote shell prints to a file, a background job or a copied file (or cannot be read), so J4n cannot replace a secret in it before the model sees it"
+risk = 70
+
+[[gate]]
+id = "unreadable-line-asks"
+doc = "A line the matcher cannot read is never safe."
+on = ["shell"]
+when = "danger(cmd).class == 'unknown'"
+verdict = "ask"
+why = "this line cannot be read safely (an unclosed quote, a program only known after expansion, a control character)"
+risk = 60
+
+[[gate]]
+id = "elevated-asks"
+doc = "sudo and other elevated rights."
+on = ["shell"]
+when = "danger(cmd).class == 'elevate'"
+verdict = "ask"
+why = "runs with elevated rights"
+risk = 80
+
+[[gate]]
+id = "delete-asks"
+doc = "A recursive or forced remove, truncate, shred, find -delete."
+on = ["shell"]
+when = "danger(cmd).class == 'delete'"
+verdict = "ask"
+why = "removes files for good (recursive or forced remove, truncate, shred, find -delete)"
+risk = 70
+
+[[gate]]
+id = "discard-asks"
+doc = "git reset --hard, git clean and other ways to throw away work."
+on = ["shell"]
+when = "danger(cmd).class == 'discard'"
+verdict = "ask"
+why = "throws away work (git reset --hard, git clean, checkout -f, branch -D, stash drop)"
+risk = 65
+
+[[gate]]
+id = "publish-asks"
+doc = "cargo publish, cargo yank, cargo owner, npm publish."
+on = ["shell"]
+when = "danger(cmd).class == 'publish'"
+verdict = "ask"
+why = "publishes to a registry or changes who may"
+risk = 85
+
+[[gate]]
+id = "login-asks"
+doc = "cargo login and other registry logins."
+on = ["shell"]
+when = "danger(cmd).class == 'login'"
+verdict = "ask"
+why = "stores a login or a registry token"
+risk = 60
+
+[[gate]]
+id = "install-asks"
+doc = "cargo install: a program built and installed on this machine."
+on = ["shell"]
+when = "danger(cmd).class == 'install'"
+verdict = "ask"
+why = "builds and installs a program on this machine"
+risk = 55
+
+[[gate]]
+id = "uninstall-asks"
+doc = "Removing a system package."
+on = ["shell"]
+when = "danger(cmd).class == 'uninstall'"
+verdict = "ask"
+why = "removes a package"
+risk = 60
+
+[[gate]]
+id = "prune-asks"
+doc = "docker prune: container state thrown away."
+on = ["shell"]
+when = "danger(cmd).class == 'prune'"
+verdict = "ask"
+why = "prunes container state"
+risk = 60
+
+[[gate]]
+id = "kill-asks"
+doc = "killall, pkill: processes killed by name or pattern."
+on = ["shell"]
+when = "danger(cmd).class == 'kill'"
+verdict = "ask"
+why = "kills processes by name or pattern"
+risk = 50
+
+[[gate]]
+id = "power-asks"
+doc = "reboot, shutdown."
+on = ["shell"]
+when = "danger(cmd).class == 'power'"
+verdict = "ask"
+why = "reboots or shuts the machine down"
+risk = 75
+
+[[gate]]
+id = "service-asks"
+doc = "systemctl restart and other service changes."
+on = ["shell"]
+when = "danger(cmd).class == 'service'"
+verdict = "ask"
+why = "changes the state of a service"
+risk = 55
+
+[[gate]]
+id = "disk-asks"
+doc = "dd, the raw disk and copy tool."
+on = ["shell"]
+when = "danger(cmd).class == 'disk'"
+verdict = "ask"
+why = "dd is a raw disk and copy tool"
+risk = 85
+
+[[gate]]
+id = "env-dump-asks"
+doc = "env, printenv and other environment dumps, to the screen, a pipe or a file."
+on = ["shell"]
+when = "danger(cmd).class == 'dump'"
+verdict = "ask"
+why = "an environment dump can show a login token"
+risk = 50
+
+[[gate]]
+id = "own-config-asks"
+doc = "J4n's settings and providers config: a line that touches J4n's folders asks, read or write."
+on = ["shell"]
+when = "danger(cmd).class == 'config'"
+verdict = "ask"
+why = "J4n's own settings, logs and state decide caps, rules and where work is sent: the operator confirms any line that touches them"
+risk = 45
+
+[[gate]]
+id = "outside-asks"
+doc = "The scope of a task is its project, its own temporary folder and what the operator gave access to; a line that writes or deletes anywhere else asks, at every approval level."
+on = ["shell"]
+when = "danger(cmd).outside"
+verdict = "ask"
+why = "this writes or deletes outside the project (its temporary folder and the places you gave J4n access to are inside)"
+risk = 55
+
+# ---- Allow: the bypass globs. Only a line all of whose commands are readers or build tools (and whose redirects go to plain
+# files in the project); an Ask or a Block row beats it, and a line with any other command is not 'safe' ----
+
+[[gate]]
+id = "safe-lines"
+doc = "Readers and build tools (ls, cat, rg, grep, find, git status/log/diff, cargo, …), each segment of a compound line on its own."
+on = ["shell"]
+when = "danger(cmd).class == 'safe'"
+verdict = "allow"
+why = "readers and build tools"

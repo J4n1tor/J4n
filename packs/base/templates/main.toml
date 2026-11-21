@@ -1,0 +1,17 @@
+api = 1
+
+# The screen a front has when nobody gave it another: the tabs of the thread, under them the questions that
+# are open, under those the bottom row (`look.keys_row`): the status bar and the keys row share it (`share`):
+# the keys while the screen is idle or a line is being typed, the status while work runs or something waits, `⌃g` turns it over.
+# With the setting off the status bar has the row alone. A template of the operator's (`~/.j4n/ui/`) or a project's (`.j4n/ui/`) with the id `main`
+# changes it field by field — `children` is replaced whole — and a pack's page under `home` adds a tab to the first part.
+[[template]]
+id = "main"
+doc = "The screen: the tabs, the questions under them, the bottom row (the status bar and the keys row, one row, two faces)."
+present = "stack"
+children = [
+  { id = "pages", tabs = "home", grow = 1 },
+  { id = "asks", title = "Questions", field = "ask", bind = "asks:open" },
+  { id = "bar", field = "bar", bind = "bar:status" },
+  { id = "keysrow", field = "bar", bind = "keys:row", props = { share = true }, when = "set.look.keys_row" },
+]

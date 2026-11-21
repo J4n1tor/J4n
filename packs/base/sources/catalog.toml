@@ -1,0 +1,98 @@
+api = 1
+
+# The harnesses J4n drives and where their releases are: the feed each has, checked on 2026-10-29, and the
+# binary installed here. A row follows a connector only while that connector is declared. pi and omp have no known home yet: a row
+# of the operator's gives one.
+[[source]]
+id = "claude-code"
+doc = "Claude Code's releases."
+of = "connector:claude"
+adapter = "atom"
+url = "https://github.com/anthropics/claude-code/releases.atom"
+tier = "hot"
+
+# The models Claude Code routes to (haiku, sonnet, opus), as models.dev lists them: one request a day that is a 304 of no bytes while
+# nothing changed. A model that goes or changes its cost, limits or powers breaks what routes to it.
+[[source]]
+id = "claude-models"
+doc = "The Claude models Claude Code routes to, as models.dev lists them."
+of = "connector:claude"
+adapter = "models"
+url = "https://models.dev/api.json"
+watch = "ids:anthropic"
+tier = "cold"
+
+# Claude Code's docs, as the pages its llms.txt lists: a page that is added, gone or described differently is news.
+[[source]]
+id = "claude-docs"
+doc = "The pages of Claude Code's documentation."
+of = "connector:claude"
+adapter = "page"
+url = "https://code.claude.com/docs/llms.txt"
+tier = "cold"
+
+[[source]]
+id = "claude-bin"
+doc = "The claude installed here."
+of = "connector:claude"
+adapter = "probe"
+program = "claude"
+tier = "hot"
+
+[[source]]
+id = "codex"
+doc = "Codex's releases (alpha builds are in the same feed: they are not stable)."
+of = "connector:codex"
+adapter = "atom"
+url = "https://github.com/openai/codex/releases.atom"
+
+[[source]]
+id = "codex-bin"
+doc = "The codex installed here."
+of = "connector:codex"
+adapter = "probe"
+program = "codex"
+
+[[source]]
+id = "gemini-cli"
+doc = "Gemini CLI's releases (nightlies are in the feed)."
+of = "connector:gemini"
+adapter = "atom"
+url = "https://github.com/google-gemini/gemini-cli/releases.atom"
+
+[[source]]
+id = "gemini-bin"
+doc = "The gemini installed here."
+of = "connector:gemini"
+adapter = "probe"
+program = "gemini"
+
+[[source]]
+id = "opencode"
+doc = "opencode's releases. The repository moved (a 301): J4n follows it once and says so."
+of = "connector:opencode"
+adapter = "atom"
+url = "https://github.com/sst/opencode/releases.atom"
+
+[[source]]
+id = "opencode-bin"
+doc = "The opencode installed here."
+of = "connector:opencode"
+adapter = "probe"
+program = "opencode"
+
+[[source]]
+id = "crush"
+doc = "Crush's releases (a moving tag called nightly is in the feed)."
+of = "connector:crush"
+adapter = "atom"
+url = "https://github.com/charmbracelet/crush/releases.atom"
+tier = "cold"
+
+[[source]]
+id = "crush-bin"
+doc = "The crush installed here."
+of = "connector:crush"
+adapter = "probe"
+program = "crush"
+tier = "cold"

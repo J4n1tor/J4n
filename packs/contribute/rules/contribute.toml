@@ -1,0 +1,11 @@
+api = 1
+
+# A fix of your own that the pack now says: said once, when the finder sees the change (`contribute.patch` is written once for it).
+[[rule]]
+id = "contribute-retired"
+doc = "A fix of the person's own is part of J4n now: it is retired, and says so."
+on = "contribute.patch"
+when = "ev.data.state == 'retired'"
+then = "notice"
+text = "your fix {quote(ev.data.title)} is part of J4n now ({ev.data.how}); it is retired"
+limit = { per = "all", max = 10, within = "1h" }

@@ -1,0 +1,7 @@
+api = 1
+id = "code"
+version = "0.0.0"
+summary = "the coding harness: plan, work and validate flows, checks, worktree defaults, review mode"
+use_when = "the line is ordinary coding work: change code, fix a bug, run the checks; it is always loaded"
+needs = ["base", "agent"]
+stability = "experimental"

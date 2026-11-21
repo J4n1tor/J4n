@@ -1,0 +1,24 @@
+api = 1
+
+# The whole of the connection to an agent CLI J4n has never seen: a program, a dialect and a map. No Rust.
+[[connector]]
+id = "newagent"
+doc = "A JSONL-streaming agent CLI."
+is = "agent"
+dialect = "jsonl-map"
+program = "{bin}/newagent"
+probe = { argv = ["{bin}/newagent", "--version"] }
+start = ["run", "--json", "--model", "{model}", "{prompt}"]
+resume = ["--resume", "{session}"]
+env = { NEWAGENT_LOG = "{bin}/log" }
+
+[connector.map]
+session = "/session_id"
+end = "/type == 'result'"
+cost = "/usage/cost_usd"
+events = [
+  { when = "/type == 'text'", emit = "text", text = "/text" },
+  { when = "/type == 'tool_use'", emit = "tool", name = "/name", detail = "/input/path" },
+  { when = "/type == 'tool_result'", emit = "tool_end", name = "/name", detail = "/output" },
+  { when = "/type == 'error'", emit = "error", text = "/message" },
+]

@@ -1,0 +1,5 @@
+├ soft cap                                                           —
+├ stream                                                            󰔢
+├ width                                                              —
+├ files                                                              —
+╰ mode                                                    read│ write

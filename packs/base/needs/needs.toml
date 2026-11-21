@@ -1,0 +1,77 @@
+api = 1
+
+# The orchestrate mode needs a cheap model to read each line and a model for Main. With nothing set the tiers pick (`offload.prices`), so nothing stops;
+# the card asks once to make the pick the operator's own.
+[[need]]
+id = "orchestrate"
+doc = "A cheap model reads each line before Main works it, and Main needs a model of its own: with none named the claude program's default would run Main, which is the dearest."
+feature = "lanes"
+when = "orchestrate"
+off = "single"
+parts = ["the quick look", "Main"]
+doers = ["orchestrate.look_doer", "lane.doer"]
+models = ["orchestrate.look_model", "lane.model"]
+suggest = ["tier:cheap", "tier:standard"]
+without = "lines go to Main as typed, no chats, and Main on its doer's default model"
+
+# A chat of a split that writes works in a worktree cut from the project's latest commit: a folder with no commit (no git, or a repository not yet committed to)
+# has none to cut, so the card offers to make a first one.
+[[need]]
+id = "git"
+doc = "A chat that writes works in a git worktree of its own, cut from the latest commit of this folder, and its work is laid in after it is checked; this folder has no commit to cut one from. A chat sees only what is committed."
+kind = "git"
+feature = "lanes"
+when = "orchestrate"
+off = "single"
+without = "chats that write stay with Main, one lane"
+
+# The pins of the planner, the reviewer and the cheap branches name a doer and a model, and every one is optional: empty, the election and the cheap tier choose.
+[[need]]
+id = "plan-pins"
+doc = "The planner, the reviewer and the cheap branches may be pinned to a doer and a model; with none the thread's own, the election and the cheap tier choose, so this never asks."
+feature = "lanes"
+when = "!single"
+optional = true
+parts = ["the planner", "the reviewer", "the cheap branches"]
+doers = ["plan.doer", "plan.review_doer", "plan.cheap_doer"]
+models = ["plan.model", "plan.review_model", "plan.cheap_model"]
+suggest = ["tier:standard", "tier:standard", "tier:cheap"]
+without = "the election and the tiers choose"
+
+[[need]]
+id = "weigh"
+doc = "Weighing a line sends a short question to the small chat model `light`, which needs its key."
+kind = "key"
+connector = "light"
+feature = "weigh.on"
+covers = ["weigh.answer"]
+without = "no line is weighed: every line goes to the doer as it is"
+
+[[need]]
+id = "chats"
+doc = "Which chat a line belongs to is asked of a Decider; with none set up a line goes to a new chat. You may pick at each line yourself."
+kind = "decider"
+point = "chats"
+feature = "chats.on"
+without = "a line goes to a new chat when no word of it matches an open one"
+
+[[need]]
+id = "librarian"
+doc = "The context a task is given is chosen with a Decider's help; with none set up the fixed context stands."
+kind = "decider"
+point = "librarian"
+feature = "librarian.on"
+without = "the fixed context is given"
+
+# The read of a plain line under the orchestrate word is answered by a Decider where one is sure; with none set up the quick model answers what it may, and the rest goes to Main as typed.
+# It never opens a card of its own (the orchestrate need has the one card); the doctor and the pack's row list it, and `pick.hand` names `read:kind` to pick at each line yourself.
+[[need]]
+id = "read"
+doc = "A plain line is read before Main works it: what it is, whether it goes on from the last answer, which chat it is about, which doer it asks for. A Decider answers what it is sure of; with none set up the quick model answers what it may and the rest of a line goes to Main as typed. You may pick at each line yourself: one key, one · split · answer, and the open chats."
+kind = "decider"
+point = "read:kind"
+feature = "lanes"
+when = "orchestrate"
+optional = true
+covers = ["orchestrate.read_model"]
+without = "the quick model reads what the line is; whether it goes on, its chat and its doer stay as typed"

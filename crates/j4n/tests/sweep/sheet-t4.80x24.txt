@@ -1,0 +1,24 @@
+
+ 󰍩 Chat ╭─ keys · Reflexes ────────────────────────────────────────────╮
+ ───────│                                                              │───────
+Overview│ o        on        Now: a key of the row under the cursor.   │ 󰒓
+────────│ x        off       Now: a key of the row under the cursor.   │─━──────
+  reflex│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+├ compac│                    Option as Meta or Alt.                    │…  ⏎ on
+│   Shri│ ↑↓       move      The row above or below.                   │s
+│   agai│ ⏎        open      Open, edit or press the row; fold a       │
+│   chec│                    section.                                  │
+│   ever│ ?        keys      All the keys of this page.                │
+╰ new-se│ ⌃k       find      Find anything: the commands and the tree. │er than…
+        │ ⌃g       state     Turn the bottom row over: the keys, or    │
+        │                    what the whole screen is doing (tasks,    │
+        │                    what waits for you, today's spend, a      │
+        │                    window that runs low).                    │
+        │                                                              │
+        │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+        │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+        │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+        │ F1–F9              Tab n, as ⌥n.                             │
+        │                                               any key closes │
+:reflex ╰──────────────────────────────────────────────────────────────╯), and …
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

@@ -1,0 +1,11 @@
+api = 1
+
+# How many times the operator has said yes to exactly the same action (the verb and the target as one word, as the approval
+# named it). Only a yes of the operator's own counts: a rule's, a decider's or the Gate's is not their yes.
+[[fold]]
+id = "allowed"
+doc = "Yes, given by the operator, to the same action."
+on = "ask.answered"
+reduce = "count"
+key = "{data.action}"
+when = "ev.data.via == 'human' and ev.data.answer == 'yes' and ev.data.action"

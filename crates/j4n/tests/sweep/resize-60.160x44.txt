@@ -1,0 +1,24 @@
+
+  󰍩   󰝖   󰧑   󰚥   󰇁   󰹦   󰦪   󰒓                  j4n 0.1.0
+ ━━━───────────────────────────────────────────────────────
+  ├─ 󰗖  it ended with no answer and no sign of work: nothi…
+  ╰─ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1
+     ├─ ± 0 files · ❱ 0 ran · $0.0000
+     ├─ ❯ #1 “write notes.txt hello” → t4 ✗ it ended with
+     │  no answer and no sign of work: nothing was said,
+     │  run or changed
+     ╰─ ◇ needs you: t4 ✗ it ended with no answer and no
+        sign of work: nothing was said, run or changed
+
+ 󰂜  not allowed: write notes.txt
+
+▌ ask Which of the two colours do you want the   0s  HH:MM ▐
+▌ border to be, and should it change with the              ▐
+▌ palette?                                                 ▐
+  ╰─ 󰘥  Which of the two colours do you want the border to…
+╭──────────────────────────────────────────────────────────╮
+│                       $0.1200   󰙁 test · pinned (--doer) │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│                                                    → 󰘥 A │
+╰──────────────────────────────────────────────────────────╯
+ 1 waits for you  today $0.1200  󰗑 Decider off      ⌃g keys

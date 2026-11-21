@@ -1,0 +1,26 @@
+api = 1
+
+# What J4n learns about an account. The email is the person's, so it is `private`: it never leaves for a provider.
+[[event]]
+id = "account.signin"
+doc = "A sign-in ended: whether the harness says the account is signed in, and if not, why."
+class = "private"
+fields = { account = { ty = "str", required = true }, ok = { ty = "bool", required = true }, reason = { ty = "str" }, state = { ty = "str" }, at = { ty = "int" } }
+
+[[event]]
+id = "account.checked"
+doc = "The harness was asked who an account is signed in as."
+class = "private"
+fields = { account = { ty = "str", required = true }, ok = { ty = "bool", required = true }, email = { ty = "str" }, plan = { ty = "str" }, state = { ty = "str" }, at = { ty = "int" } }
+
+[[event]]
+id = "account.opened"
+doc = "The window of an account was opened."
+class = "private"
+fields = { account = { ty = "str", required = true }, page = { ty = "str" }, at = { ty = "int" } }
+
+[[event]]
+id = "account.removed"
+doc = "An account and its folder were removed."
+class = "private"
+fields = { account = { ty = "str", required = true }, state = { ty = "str" }, at = { ty = "int" } }

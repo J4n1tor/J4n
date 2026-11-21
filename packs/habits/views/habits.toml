@@ -1,0 +1,10 @@
+api = 1
+
+[[view]]
+id = "habits"
+doc = "The rows the habit detectors said, newest first."
+from = { from = "fold:habit_rows", order = "-seq", limit = 100 }
+key = "{cause}"
+cells = ["h{cause}", "{data.rule}", "{data.text:short}"]
+detail = ["{data.text}"]
+acts = [{ key = "k", label = "right", run = ":habit keep h{cause}" }, { key = "w", label = "wrong", run = ":habit wrong h{cause}" }]

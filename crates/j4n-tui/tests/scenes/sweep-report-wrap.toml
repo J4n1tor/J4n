@@ -1,0 +1,25 @@
+doc = "A card line longer than the Report page is wrapped under its own words, on the pipes of its row (the chat does the same), and the report's number stays at the right of the first line; the selected row keeps all its lines in sight."
+sizes = [[64, 12], [40, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "report", title = "", field = { kind = "tree", bind = "view:ledger" } }] }
+
+[[step]]
+down = "rows"
+bind = "view:ledger"
+total = 4
+rev = 1
+rows = [
+  { key = "r17", cells = [{ text = "◆ ledger · main · 1 tasks · ✓ 1" }, { text = "r17", tone = "dim" }] },
+  { key = "r17/1", cells = [{ text = "❯ #1 “say Release work (docs/TESTING.md §5): open loose ends and see what is left” → t1 ✓" }], parent = "r17" },
+  { key = "r17/2", cells = [{ text = "t1  Release work (docs/TESTING.md §5): open loose ends X-101 and B12." }], parent = "r17/1" },
+  { key = "r17/3", cells = [{ text = "needs you: one long answer that goes past the edge of the page" }], parent = "r17" },
+]

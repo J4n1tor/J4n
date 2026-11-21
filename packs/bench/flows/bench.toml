@@ -1,0 +1,10 @@
+api = 1
+
+[[flow]]
+id = "bench"
+doc = "Run a case of the bench with a doer, or every case that is not a hold-out."
+in = { goal = "text" }
+steps = [
+  { id = "run", do = "bench-case", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.run.answer}" },
+]

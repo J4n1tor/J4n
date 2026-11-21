@@ -1,0 +1,18 @@
+  setting            now
+├ theme.corners      round
+│   The corners of a box: round or square.
+│   default round
+├ theme.density      normal
+├ theme.frame        pipes
+├ theme.marks        icons
+├ theme.motion       true
+├ theme.palette      jjj
+╰ theme.title_place  inside
+
+
+
+
+
+
+
+

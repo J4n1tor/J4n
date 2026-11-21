@@ -1,0 +1,23 @@
+doc = "The reader: a rule, tables (framed, and too wide for a frame), a short and a long fenced block (folded after 12 lines)."
+sizes = [[60, 50], [80, 40], [120, 38]]
+
+[read]
+caps = "all"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 4
+rev = 1
+rows = [{ key = "t", cells = [{ text = "explain the reader" }, { text = "", tone = "dim" }, { text = "12:30", tone = "dim" }] }, { key = "l", cells = [{ text = "A claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "21s", tone = "dim" }], parent = "t" }, { key = "p", cells = [{ text = "Before the rule.\n\n---\n\n| name | role |\n|------|------|\n| ada | first |\n| grace | second |\n\n| a table with a wide first column | that cannot fit | in the room there is on a small screen at all | really |\n|---|---|---|---|\n| one | two | three | four |\n\n```rust\nfn main() {\n    println!(\"hi\");\n}\n```\n\n```\nl1\nl2\nl3\nl4\nl5\nl6\nl7\nl8\nl9\nl10\nl11\nl12\nl13\nl14\n```\n\nThe end." }, { text = "", tone = "dim" }], parent = "l" }, { key = "n", cells = [{ text = "limit: 5-hour window at **80%**, back at `18:20`", icon = "notice" }], parent = "t", by = "doer" }]

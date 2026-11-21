@@ -1,0 +1,14 @@
+api = 1
+
+# The one question the Connect flow puts: what a program that speaks plain text or JSON lines is for. An
+# agent is a doer a thread can talk with; a tool is run for its output, and the Gate reads its risk before each run. A headless
+# run takes the tool, which can do the less.
+[[ask_point]]
+id = "connect:is"
+doc = "Whether a program that was found is an agent to talk with or a command to run for its output."
+shape = "choice"
+impact = "low"
+data = "project"
+options = ["agent", "tool"]
+chain = ["human"]
+fallback = "pick:tool"

@@ -1,0 +1,7 @@
+api = 1
+id = "kit"
+version = "0.0.0"
+summary = "the kit: code first, then a decider, then a model; the tool `py` and its Python kernel, one per task, behind the setting kit.mode (off by default, so nothing of it exists)"
+use_when = "a goal names many items (files, rows, lines) to be checked or changed one by one, or needs a calculation done by program"
+needs = ["base"]
+stability = "experimental"

@@ -1,0 +1,18 @@
+api = 1
+
+# A way `:compact` shrinks a chat's session: the words it hands to the doer's own compaction, beside what the
+# loop says must stay (the goal, what is left to do, what was decided, what changed). The id is what the operator types after `:compact`; the
+# row with no words is the plain one. A mode that `takes` words of the operator's puts them where `{words}` stands. The words are cut to 400
+# characters, the operator's scrubbed first. A mode of the operator's own is a row here, in their layer: no code is added for it.
+[[kind]]
+id = "compact_mode"
+doc = "How `:compact` is told to shrink a session."
+examples = [
+  { id = "junk", doc = "Drop what nothing reads again.", words = "Drop tool output that nothing later reads, failed tries and repeats." },
+  { id = "keep", doc = "Keep what the operator names.", words = "Keep what these words name: {words}", takes = true },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the mode is for, in a line." }
+words = { ty = "text", default = "", doc = "What the doer's compaction is told. Empty: nothing beside what must stay (the plain mode). `{words}` is where the operator's own words go." }
+takes = { ty = "bool", default = false, doc = "The mode needs words after its id (`:compact keep <words>`); without them it is refused with its usage." }

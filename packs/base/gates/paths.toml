@@ -1,0 +1,94 @@
+api = 1
+
+# What the built-in file tools may touch (a default not yet confirmed): a read is allowed unless the
+# path names a secret, and then it is a block (a lane never reads one, approved or not, so no card and no grant); a write outside the project asks; the repository's own internals are never written. `inside` is what
+# the caller found from the real path, and a write whose `inside` is not known asks. Paths are compared in lower case.
+
+[[gate]]
+id = "secret-env-file"
+doc = "Reading an environment file is refused (an example, sample, template, dist or defaults file is not one)."
+on = ["read"]
+when = "(lower(path) matches '*/.env*' or lower(path) matches '.env*') and not (lower(path) matches '*example' or lower(path) matches '*sample' or lower(path) matches '*template' or lower(path) matches '*dist' or lower(path) matches '*defaults')"
+verdict = "block"
+why = "this file holds environment secrets: the operator hands one over, a lane never reads it"
+
+[[gate]]
+id = "secret-key-file"
+doc = "Reading a private key is refused (a public key, `.pub`, is not one)."
+on = ["read"]
+when = "(lower(path) matches '*id_rsa*' or lower(path) matches '*id_ed25519*' or lower(path) matches '*id_ecdsa*' or lower(path) matches '*.pem' or lower(path) matches '*.key' or lower(path) matches '*.p12' or lower(path) matches '*.pfx') and not (lower(path) matches '*.pub')"
+verdict = "block"
+why = "this file looks like a private key: a lane never reads one"
+
+[[gate]]
+id = "secret-credential-dir"
+doc = "Reading a credentials folder or file is refused, and so is the registry of the live sessions of a Claude config folder and the prompt history of every project."
+on = ["read"]
+when = "lower(path) matches '*/.ssh/*' or lower(path) matches '.ssh/*' or lower(path) matches '*/.aws/*' or lower(path) matches '.aws/*' or lower(path) matches '*/.gnupg/*' or lower(path) matches '.gnupg/*' or lower(path) matches '*/.netrc' or lower(path) == '.netrc' or lower(path) matches '*/.git-credentials' or lower(path) == '.git-credentials' or lower(path) matches '*/.claude/sessions/*' or lower(path) matches '*/.claude/daemon/*' or lower(path) matches '*/.claude/history.jsonl'"
+verdict = "block"
+why = "this is where logins and keys are kept: a lane never reads them"
+
+[[gate]]
+id = "j4n-keys"
+doc = "J4n's own key store, its secrets folder and the browser profiles of the accounts are never read by an agent, approved or not; a block outranks the row below that reads J4n's folder as the doer's own state. An account's `home/` is not named: it is that doer's config folder, and the door names its login files."
+on = ["read"]
+when = "action.actor_kind != 'operator' and action.actor_kind != 'core' and (lower(path) matches '*/.j4n/keys' or lower(path) == '.j4n/keys' or lower(path) matches '*/.j4n/keys/*' or lower(path) matches '.j4n/keys/*' or lower(path) matches '*/.j4n/secrets/*' or lower(path) matches '.j4n/secrets/*' or lower(path) matches '*/.j4n/accounts/*/browser/*' or lower(path) matches '.j4n/accounts/*/browser/*')"
+verdict = "block"
+why = "this is where J4n keeps the keys and logins you gave it: a lane never reads them"
+
+[[gate]]
+id = "j4n-salt"
+doc = "The redactor's salt is never read by an agent: with it, the short id the redactor shows for a secret can be tested against guesses."
+on = ["read"]
+when = "action.actor_kind != 'operator' and action.actor_kind != 'core' and (lower(path) matches '*/.j4n/guard.salt' or lower(path) == '.j4n/guard.salt')"
+verdict = "block"
+why = "this is the salt J4n hides secrets with: a lane never reads it"
+
+[[gate]]
+id = "proc-of-others"
+doc = "The environment and the memory of a process (`/proc/<pid>/environ`, `/proc/<pid>/mem`, J4n's own or another's) are never read by an agent: they hold the keys a program was started with."
+on = ["read"]
+when = "action.actor_kind != 'operator' and action.actor_kind != 'core' and (lower(path) matches '/proc/*/environ' or lower(path) matches '/proc/*/mem')"
+verdict = "block"
+why = "a process's environment and memory hold its keys: a lane never reads them"
+
+[[gate]]
+id = "other-projects-state"
+doc = "A doer or a model reads no other project's state: the transcripts of every other project (~/.claude/projects/<folder>), another folder's .j4n (its Log, memory, folds), J4n's per-project folders of another project (the projects and checkpoints folders of J4n's home, keyed by the project). Its own are readable: the CLI keeps its big tool results and its memory in ~/.claude/projects/<its folder>. `action.foreign` is what the Gate found from the folder the doer works in and the project's root (gate/foreign.rs)."
+on = ["read"]
+when = "(action.actor_kind == 'doer' or action.actor_kind == 'model') and action.foreign == true"
+verdict = "block"
+why = "this is another project's own state (its transcripts, its Log, its memory): a doer works inside its own project, and only the operator reads the others"
+
+[[gate]]
+id = "own-state-is-read"
+doc = "The doer's own transcript folder (its memory and the big tool results the CLI tells it to read) and its own project's .j4n are read with no card. The door asks the Gate for them (a deny cannot leave the own folder out); an allow by no rule is a question for the operator, so this row says yes, and the row above blocks another project's first."
+on = ["read"]
+when = "(action.actor_kind == 'doer' or action.actor_kind == 'model') and action.foreign == false and (lower(path) matches '*/.claude/projects/*' or lower(path) matches '*/projects/-*' or lower(path) matches '*/.j4n/*' or lower(path) matches '.j4n/*')"
+verdict = "allow"
+why = "this is the doer's own state, which the program that runs it keeps for it"
+
+[[gate]]
+id = "write-outside-project"
+doc = "A write that is not known to lie inside the project asks."
+on = ["write"]
+when = "not (action.inside == true)"
+verdict = "ask"
+why = "this is outside the project"
+risk = 40
+
+[[gate]]
+id = "git-internals"
+doc = "The repository's own folder is not written by a tool."
+on = ["write", "apply"]
+when = "lower(path) matches '*/.git/*' or lower(path) matches '.git/*' or lower(path) matches '*/.git' or lower(path) == '.git'"
+verdict = "block"
+why = "the repository's own files are changed by git, not by a tool"
+
+[[gate]]
+id = "core-owns-j4n"
+doc = "The Log is the receipt a plan item is checked from, so no doer or model writes under a .j4n folder. The operator and the core do, and so does the doer `account` (J4n's own: removing an account's folder is asked of the operator every time)."
+on = ["write", "apply"]
+when = "(action.actor_kind == 'doer' or action.actor_kind == 'model') and action.actor != 'account' and (lower(path) matches '*/.j4n/*' or lower(path) matches '.j4n/*' or lower(path) matches '*/.j4n' or lower(path) == '.j4n') and not (action.worktree == true)"
+verdict = "block"
+why = "J4n's own folder (its Log is the receipt, its rules and trust are the operator's) is written by J4n, not by an agent"

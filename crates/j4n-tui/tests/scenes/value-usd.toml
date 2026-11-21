@@ -1,0 +1,69 @@
+doc = "The usd field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "soft cap", field = { kind = "usd", bind = "cfg:usd.a", props = { hard = 1.5 } } },
+  { id = "off", title = "soft cap", field = { kind = "usd", bind = "cfg:usd.off", props = { hard = 1.5, disabled = "read only" } } },
+  { id = "bad", title = "soft cap", field = { kind = "usd", bind = "cfg:usd.bad", props = { hard = 1.5 } } },
+  { id = "b", title = "soft cap", field = { kind = "usd", bind = "cfg:usd.b", props = { hard = 1.5 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:usd.a"
+value = 5.0
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:usd.off"
+value = 5.0
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:usd.bad"
+value = -1.0
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:usd.b"
+value = 5.0
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "2.5"

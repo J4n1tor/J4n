@@ -1,0 +1,21 @@
+api = 1
+
+# One switch, off by default. On, `/connect` asks nothing about connecting: the probe takes
+# the best guess of the `sniff` rows where it would ask `connect:is`, the learn step tries the program in the box, and a connector whose
+# canary passed is taken without the Proposal. It loosens nothing else: the program is still looked at behind the box and run in read mode,
+# its tries have a clock and leave nothing in the project, the Gate still asks before a write (a connector made so asks before each run that
+# may write), and a wider trust is still asked for.
+
+[[setting]]
+id = "connect.auto"
+doc = "Whether `/connect` connects a program with no question about connecting: `off` (the default) asks at `connect:is` and shows a Proposal; `on` tries the program in the box, takes the best guess of the rows where it would ask, and adds a connector whose canary passed, saying so. It changes no guard: the box, the read mode, the Gate and the asks for a wider trust stand as they are."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "connect.relearn"
+doc = "Whether a connected program that changes what it says is learned again: when a run of it says nothing J4n can read, the Connect flow is run for it in the box. `on` (the default) swaps its row where `connect.auto` is on, and proposes the new row where it is off; `off` leaves the row as it is and the Connect tab says `drifted`."
+ty = "bool"
+default = true
+live = true

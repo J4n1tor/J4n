@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
+────────━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  add                                        a program or a path  ⏎ types it
+  found here                                 not connected        ⏎ connects one
+  newagent                                   ~/.local/bin         ⏎ connects it
+  connected             ⏎ opens one · t tests · r learns again · o turns off
+  claude                agent  broken  —  —                                                                                                                   ▸
+  codex                 agent  broken  —  —                                                                                                                   ▸
+  gemini                agent  broken  —  —                                                                                                                   ▸
+  lint                  tool   ok      —  —                                                                                                                   ▸
+┃ mytool                agent  ok      —  —
+  ├─ dialect  text
+  ├─ runs  mytool
+  ├─ args  {prompt}
+  ├─ risk  —
+  ├─ skill  105 tokens
+  ├─ limit  —
+  ╰─ history  —
+  omp                   agent  broken  —  —                                                                                                                   ▸
+  opencode              agent  broken  —  —                                                                                                                   ▸
+  opencode-acp          agent  broken  —  —                                                                                                                   ▸
+  pi                    agent  broken  —  —                                                                                                                   ▸
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ • t test  • r learn again  • o off  ⌥1–9 tabs  ↑↓ move  →← open  / find  ? keys  ⌃g state

@@ -1,0 +1,28 @@
+api = 1
+
+# What J4n proposes for itself from what it sees. A rule here only proposes: the change waits in the list of
+# proposals until the operator accepts it, and it is a change to the operator's folder for this project, which they can undo.
+
+[[rule]]
+id = "tip-allow-again"
+doc = "The operator allowed exactly the same action again and again: propose the row that remembers it for this project (what `always here` writes), and say how often."
+on = "ask.answered"
+when = "set.grow.tips and ev.data.grantable and fold.allowed[ev.data.action] >= set.grow.allow_after"
+then = "propose"
+propose = { key = "allow:{ev.data.action_id}", title = "Allow {quote(ev.data.target)} here without asking", why = "you allowed this {fold.allowed[ev.data.action]} times; it would be allowed for this project only, and only this exact {ev.data.verb}", evidence = "fold.allowed[ev.data.action]", kind = "gate", id = "{ev.data.action_id}", set = { on = "=[ev.data.verb]", when = "target == {quote(ev.data.target)}", verdict = "allow", why = "allowed {fold.allowed[ev.data.action]} times; remembered here on your yes" } }
+
+[[rule]]
+id = "tip-raise-min-conf"
+doc = "A machine answerer's answers that are only just sure enough are wrong at least twice as often as the ones above them: propose that it must be a little surer."
+on = "label"
+when = "set.grow.tips and ev.data.subject_kind == 'answer' and fold.answerers[ev.data.producer].tune[ev.data.point].raise"
+then = "propose"
+propose = { key = "min_conf:{ev.data.producer}:{ev.data.point}", title = "Ask {ev.data.producer} to be surer at {ev.data.point}", why = "{fold.answerers[ev.data.producer].tune[ev.data.point].n_band} answers with a confidence from {fold.answerers[ev.data.producer].tune[ev.data.point].min_conf} up to 0.15 above it were wrong {fold.answerers[ev.data.producer].tune[ev.data.point].wrong_band:pct}, against {fold.answerers[ev.data.producer].tune[ev.data.point].wrong_above:pct} of the surer ones", evidence = "fold.answerers[ev.data.producer].tune[ev.data.point].n_band", kind = "ask_point", id = "{ev.data.point}", set = { chain = "=fold.answerers[ev.data.producer].tune[ev.data.point].raise" } }
+
+[[rule]]
+id = "tip-lower-min-conf"
+doc = "A machine answerer's answers that are only just sure enough were never wrong: propose that it may be a little less sure."
+on = "label"
+when = "set.grow.tips and ev.data.subject_kind == 'answer' and fold.answerers[ev.data.producer].tune[ev.data.point].lower"
+then = "propose"
+propose = { key = "min_conf:{ev.data.producer}:{ev.data.point}", title = "Let {ev.data.producer} be less sure at {ev.data.point}", why = "{fold.answerers[ev.data.producer].tune[ev.data.point].n_band} answers with a confidence just over {fold.answerers[ev.data.producer].tune[ev.data.point].min_conf} were none of them wrong; this asks the operator less often", evidence = "fold.answerers[ev.data.producer].tune[ev.data.point].n_band", kind = "ask_point", id = "{ev.data.point}", set = { chain = "=fold.answerers[ev.data.producer].tune[ev.data.point].lower" } }

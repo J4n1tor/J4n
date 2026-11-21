@@ -1,0 +1,59 @@
+api = 1
+
+# What a decider must get right before it orders the suggestions of the completion (`complete`). The question is put as the front puts it: the
+# line typed so far, then the candidates by number, the heads of the last turns of the chat and the slot. Each case has a twin with the same
+# candidates whose right answer is another, because the chat says another thing was just done.
+
+[[probe]]
+id = "complete-deploy"
+doc = "The fix was just made and its answer names the deploy as next: the deploy of the fix."
+point = "complete"
+slices = { line = "deploy the", candidates = "1: deploy the fix to the login page; 2: deploy the docs site to the mirror", chat = "- you: fix the login page → The login page works again. Next: deploy the fix to the login page.", slot = "sentence", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "1"
+pair = "complete-deploy-docs"
+
+[[probe]]
+id = "complete-deploy-docs"
+doc = "The docs were just rebuilt and the answer names their deploy as next: the same candidates, the other one."
+point = "complete"
+slices = { line = "deploy the", candidates = "1: deploy the fix to the login page; 2: deploy the docs site to the mirror", chat = "- you: rebuild the docs site with the new theme → The site is built in docs/out. Next: deploy the docs site to the mirror.", slot = "sentence", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "2"
+pair = "complete-deploy"
+
+[[probe]]
+id = "complete-next-tests"
+doc = "A test was just fixed: the next line runs the tests again."
+point = "complete"
+slices = { candidates = "1: run the tests again; 2: tag the release v0.2", chat = "- you: fix the flaky lexer test → The race is gone: the test waits for the reader now. Run the tests again to see it hold.", slot = "next", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "1"
+pair = "complete-next-tag"
+
+[[probe]]
+id = "complete-next-tag"
+doc = "The tests all passed and the changelog is written: the next line tags the release."
+point = "complete"
+slices = { candidates = "1: run the tests again; 2: tag the release v0.2", chat = "- you: run the whole test suite → All 412 tests pass and the changelog for v0.2 is written. Tag the release when ready.", slot = "next", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "2"
+pair = "complete-next-tests"
+
+[[probe]]
+id = "complete-file-cases"
+doc = "A test is being added: the file of the cases, not the code."
+point = "complete"
+slices = { line = "src/lex", candidates = "1: src/lexer.rs; 2: src/lexer_cases.rs", chat = "- you: add a test for a trailing comma in arrays → Where do the lexer's tests live?", slot = "file", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "2"
+pair = "complete-file-code"
+
+[[probe]]
+id = "complete-file-code"
+doc = "The lexer itself is to change: the code, not its cases."
+point = "complete"
+slices = { line = "src/lex", candidates = "1: src/lexer.rs; 2: src/lexer_cases.rs", chat = "- you: make the lexer accept a trailing comma → Which function reads the commas?", slot = "file", goal = "which of the candidates the operator most likely means to type: the line typed so far is first, then the candidates, the heads of the last turns of the chat and the slot" }
+offered = ["1", "2"]
+expect = "1"
+pair = "complete-file-cases"

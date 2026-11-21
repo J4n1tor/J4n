@@ -1,0 +1,28 @@
+
+  󰍩 Chat 1   󰧑 Accounts   󰹦 Grow   󰒓 Settings                                            j4n 0.0.0
+ ─────────────────────────────────━━━━━━━━━━━━─────────────────────────────────────────────────────
+├ theme.palette  jjj
+╰ theme.corners  round
+
+
+
+                    ╭─ B claude ───────────────────────────────────────────────╮
+                    │                                                          │
+                    │ git push origin main?                                    │
+                    │                                                          │
+                    │ ▕█████▏░░▏ 65   󰉖 origin                                 │
+                    │                                                          │
+                    │   1  󰄬 yes                                               │
+                    │   2  󰅖 no                                                │
+                    │   3  󰄬 yes · this task                           3 again │
+                    │   4  󰄬 yes · always here                        󰳈 widens │
+                    │   5  󰙧 stop B                                            │
+                    │                                                          │
+                    │ y yes · n no · 1–5 · ? why · esc later                   │
+                    ╰──────────────────────────────────────────────────────────╯
+
+
+
+
+
+

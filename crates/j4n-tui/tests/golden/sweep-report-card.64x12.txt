@@ -1,0 +1,12 @@
+┃ ◆ ledger · main · 1 tasks · ✓ 1                         r17
+  ├─ ± 0 files · ❱ 1 ran · $0.1200
+  ╰─ ❯ #1 “say Release work (docs/TESTING.md §5): open
+     loose ends…” → t1 ✓
+    ╰─ t1  Release work (docs/TESTING.md §5): open loose
+       ends X-101 and B12.
+  ◆ ledger · main · 1 tasks · ✓ 1                         r9
+  ╰─ ± 0 files · ❱ 0 ran · $0.0000
+
+
+
+

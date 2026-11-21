@@ -1,0 +1,32 @@
+doc = "At 60 columns the sheet and the jump leave a one-cell margin; the frame of the composer behind them does not show in it."
+sizes = [[60, 24]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }] }
+
+[[step]]
+text = "?"
+
+[[step]]
+shot = "sheet"
+
+[[step]]
+key = "esc"
+
+# esc keeps a typed line; the jump is shot over an empty composer
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+key = "ctrl+k"
+
+[[step]]
+shot = "jump"

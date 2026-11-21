@@ -1,0 +1,12 @@
+api = 1
+
+# In `mixed` the paragraph is asked for off the line's path, in no thread, as the shaper is.
+[[rule]]
+id = "ledger-prose"
+doc = "A report made with `ledger.prose = mixed` starts the doer that asks a model for its paragraph and keeps it only if the facts hold it."
+on = "ledger.report"
+when = "ev.data.prose == 'mixed'"
+then = "start"
+doer = "ledger"
+detached = true
+text = "{ev.data.rid}"

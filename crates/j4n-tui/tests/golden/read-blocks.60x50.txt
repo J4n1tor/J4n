@@ -1,0 +1,50 @@
+
+
+
+
+
+
+▌ explain the reader                                 12:30 ▐
+  ╰─ 󰗡  A claude sonnet                                 21s
+     ╰─ Before the rule.
+
+        ────────────────────────────────────────
+
+        ╭───────┬────────╮
+        │ name  │ role   │
+        ├───────┼────────┤
+        │ ada   │ first  │
+        │ grace │ second │
+        ╰───────┴────────╯
+
+        a table with a wide first column: one
+        that cannot fit: two
+        in the room there is on a small screen at all:
+        three
+        really: four
+
+                                                     rust
+         fn main() {
+             println!("hi");
+         }
+
+         l1
+         l2
+         l3
+         l4
+         l5
+         l6
+         l7
+         l8
+         l9
+         l10
+         l11
+         l12
+         +2 ▸
+
+        The end.
+
+ 󰂜  limit: 5-hour window at 80%, back at 18:20
+╭──────────────────────────────────────────────────────────╮
+│                                                          │
+╰──────────────────────────────────────────────────────────╯

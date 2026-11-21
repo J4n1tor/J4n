@@ -1,0 +1,100 @@
+doc = "The bottom bar is global and shares one row with the keys guide. The keys show while the screen is idle and while a line is typed; the state (tasks running, what waits for you, a window that runs low, today's spend, the project) shows while work runs or something waits, with the key that turns the row over at the right edge; `⌃g` turns it by hand, and the choice goes when the news changes. The chat gains the line the second bottom row cost."
+sizes = [[120, 24], [80, 20], [60, 18]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } },
+  { id = "bar", title = "", field = { kind = "bar", bind = "bar:status" } },
+  { id = "keysrow", title = "", field = { kind = "bar", bind = "keys:row", props = { share = true } } },
+] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 1
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the parser so trailing commas work" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+]
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 5
+rev = 1
+rows = [
+  { key = "chat/send", cells = [{ text = "⏎" }, { text = "send" }] },
+  { key = "chat/newline", cells = [{ text = "⌃j" }, { text = "newline" }] },
+  { key = "chat/history", cells = [{ text = "↑" }, { text = "history" }] },
+  { key = "global/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }] },
+  { key = "global/bar", cells = [{ text = "⌃g" }, { text = "state" }] },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:status"
+total = 1
+rev = 1
+rows = [{ key = "status", cells = [{ text = "idle", tone = "dim" }, { text = "today 0.8% of 5h · $0.33 list", tone = "dim" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+down = "rows"
+bind = "bar:status"
+total = 1
+rev = 2
+rows = [{ key = "status", tone = "accent", cells = [{ text = "2 running", tone = "accent" }, { text = "claude 5h 92%", tone = "warn" }, { text = "today 0.8% of 5h · $0.33 list", tone = "dim" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "running"
+
+[[step]]
+key = "ctrl+g"
+
+[[step]]
+shot = "flipped"
+
+[[step]]
+key = "ctrl+g"
+
+[[step]]
+text = "hi"
+
+[[step]]
+shot = "typing"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+down = "rows"
+bind = "bar:status"
+total = 1
+rev = 3
+rows = [{ key = "status", tone = "warn", cells = [{ text = "1 waits for you", tone = "warn" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+shot = "waiting"
+
+[[step]]
+down = "rows"
+bind = "bar:status"
+total = 1
+rev = 4
+rows = [{ key = "status", cells = [{ text = "idle", tone = "dim" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+key = "ctrl+g"
+
+[[step]]
+shot = "idle-flipped"

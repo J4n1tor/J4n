@@ -1,0 +1,26 @@
+
+
+
+
+
+
+[0;1m▌[0m add a --json flag to the report command and say it in the docs         [0;2m02:09[0m [0;1m▐[0m
+[0;2m  ├─ [0m󰗡  [0;1mMain[0;2m · claude sonnet 5.5[0m                                   [0;2m11:11[0m  [0;2m$1.92[0m
+[0;2m  │  ╰─ [0;1m󰲶  [0mreport.rs                                                      [0;2m+9 −2[0m
+[0;2m  ╰─ 󰙧  [0;1mcheck[0m                                                              [0;2m2:48[0m
+
+[0;1m▌[0m ship it                                                                [0;2m02:23[0m [0;1m▐[0m
+[0;2m  ├─ [0;1m󰗑  read[0;2m · haiku 5.5 + Decider[0m                     [0;2mone lane[0m  [0;2m11.6s[0m  [0;2m$0.0051[0m
+[0;2m  │  [0m  [0;2m one release of the change                                              [0m
+[0;2m  ├─ [0;1m󰼛  Main[0;2m · claude sonnet 5.5[0m                                    [0;2m0:58[0m  [0;2m$0.05[0m
+[0;2m  │  ├─ 󰛐  [0mdocs/TESTING.md
+[0;2m  │  ├─ [0m󰞷  git status --short                                         󰄬 allowed
+[0;2m  │  ├─ [0mOnly the report files changed, so the release can go out.
+[0;2m  │  ╰─ [0m󰞷  make release 2>&1 | tail -30                                   󰄬 you
+[0;2m  ╰─ [0;1m󰼛  review[0;2m · omp glm 5.3[0m  [0;2m󰌶  1[0m  [0;2m󰍉  1[0m  [0;2m󰛐  1[0m                 [0;2mof 02:09[0m  [0;2m1:14[0m [0;2m▸[0m
+[0;2m     ╰─ 󰛐  [0;1mreading the report command's tests[0m
+[0;1m╭──────────────────────────────────────────────────────────────────────────────╮[0m
+[0;1m│[0m [0;1m󰼛 [0;2m1[0m  [0;2m󰝖 [0mlanes orchestrate                    [0;2m~[0m󰙁 claude · sonnet 5.5 [0;2m──────[0m [0;2m0%[0m [0;1m│[0m
+[0;1m│[0;2m╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌[0;1m│[0m
+[0;1m│[0m                                                                              [0;1m│[0m
+[0;1m╰──────────────────────────────────────────────────────────────────────────────╯[0m

@@ -1,0 +1,7 @@
+api = 1
+id = "test"
+version = "0.0.0"
+summary = "a scripted echo connector for offline tests"
+use_when = "never named by a line: a scripted tool for offline tests"
+needs = ["base"]
+stability = "experimental"

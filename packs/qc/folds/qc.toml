@@ -1,0 +1,40 @@
+api = 1
+
+[[fold]]
+id = "qc_on"
+doc = "Whether quality control was last switched on or off."
+on = "qc.switch"
+reduce = "last"
+of = "data.on"
+
+[[fold]]
+id = "qc_marks"
+doc = "Each mark as it stands: open, or dismissed."
+on = "qc.mark*"
+reduce = "last"
+of = "data"
+key = "{data.mark}"
+
+[[fold]]
+id = "qc_runs"
+doc = "Each check as it came out."
+on = "qc.run"
+reduce = "last"
+of = "data"
+key = "{data.run}"
+
+[[fold]]
+id = "qc_steers"
+doc = "How many times the rule qc-steer has steered each task."
+on = "task.steered"
+when = "by == 'rule:qc-steer'"
+reduce = "count"
+key = "{task}"
+
+[[fold]]
+id = "qc_labels"
+doc = "How the operator and the tests labelled the marks of each pattern."
+on = "label"
+when = "data.subject_kind == 'qc_mark'"
+reduce = "count"
+key = "{data.producer} {data.label}"

@@ -1,0 +1,13 @@
+api = 1
+
+[[page]]
+id = "skills"
+doc = "The skills J4n can give a task: where each came from, what it is for, and whether it is on."
+parent = "home"
+title = "Skills"
+icon = "tag"
+group = "connectors"
+order = 70
+field = "list"
+view = "skills"
+help = "the few that fit a task go into that doer's brief (:skill tests searches)"

@@ -1,0 +1,10 @@
+  setting      now
+├ theme.opt04  round
+├ theme.opt05  round
+├ theme.opt06  round
+├ theme.opt07  round
+├ theme.opt08  round
+├ theme.opt09  round
+│   What setting 09 is for, said in a sentence that runs on
+│   to the edge of a wide window and a bit more.
+│   default round

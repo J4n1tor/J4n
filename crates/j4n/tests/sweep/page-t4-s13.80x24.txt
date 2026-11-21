@@ -1,0 +1,24 @@
+
+ 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ───────────────────────────━━━━━━━━━──────────────────────────────────────────
+Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮 󰒓
+─────────────────────────────────────────────────────────────────────────━──────
+  reflex        on   does           when
+├ compact-junk  off  :compact junk  the context holds more than a twenti…  ⏎ on
+│   Shrink the session when much of it is junk (tool output nothing reads
+│   again, failed tries, repeats).
+│   checked task.settled: ctx.grew >= 0.01
+│   every 10m00s at most
+╰ new-session   off  :fresh         the next line is about something other than…
+
+
+
+
+
+
+
+
+
+
+:reflex add … makes one; they run only while reflexes.on is on (Settings), and …
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

@@ -1,0 +1,69 @@
+doc = "The pattern field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "files", field = { kind = "pattern", bind = "cfg:pattern.a", props = { matches = 12 } } },
+  { id = "off", title = "files", field = { kind = "pattern", bind = "cfg:pattern.off", props = { matches = 12, disabled = "read only" } } },
+  { id = "bad", title = "files", field = { kind = "pattern", bind = "cfg:pattern.bad", props = { matches = 12 } } },
+  { id = "b", title = "files", field = { kind = "pattern", bind = "cfg:pattern.b", props = { matches = 12 } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:pattern.a"
+value = "src/**/*.rs"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:pattern.off"
+value = "src/**/*.rs"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:pattern.bad"
+value = "[a-"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:pattern.b"
+value = "src/**/*.rs"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "ctrl+u"
+
+[[step]]
+text = "tests/*.rs"

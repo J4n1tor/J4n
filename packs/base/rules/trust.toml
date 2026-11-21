@@ -1,0 +1,152 @@
+api = 1
+
+# What happened to a machine's answer, written down as a `label`. A rule reads events and nothing else;
+# the rates and the shadowing are the state fold's (`crates/j4n-core/src/answer/state.rs`), so a project can change what counts as
+# wrong by changing these files. Only the answers of deciders and models are labelled: a rule is data and is tested as data.
+#
+# The thread's binding (fold `threads`) remembers the machine answer that made it: `fold.threads[thread].picked`, how many lines the
+# operator has typed since (`lines`) and how many tasks a doer has begun for it (`tasks`). The first task after the binding is
+# the one the answer started; a question a task asked (`parent`, and `tasks` does not count it) is not.
+
+[[rule]]
+id = "label-overridden-switch"
+doc = "The operator named another doer or model within two lines of a machine's pick."
+on = "thread.bound"
+when = "ev.data.overrides.ask"
+then = "label"
+label = { is = "overridden", subject = "{ev.data.overrides.ask}", producer = "{ev.data.overrides.answerer}", model = "{ev.data.overrides.model}", point = "{ev.data.overrides.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-overridden-stop"
+doc = "The operator stopped the task a machine's pick started within thirty seconds of its start."
+on = "task.stopped"
+when = "by == 'operator' and fold.threads[thread].picked.ask and fold.threads[thread].tasks <= 1 and not fold.tasks[task].parent and since(fold.tasks[task].started_ms) < 30s"
+then = "label"
+label = { is = "overridden", subject = "{fold.threads[thread].picked.ask}", producer = "{fold.threads[thread].picked.answerer}", model = "{fold.threads[thread].picked.model}", point = "{fold.threads[thread].picked.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-failed-after-stop"
+doc = "The task a machine's pick started was stopped by a failure. A weak label: the doer may be at fault."
+on = "task.stopped"
+when = "by != 'operator' and ev.data.class and fold.threads[thread].picked.ask and fold.threads[thread].tasks <= 1 and not fold.tasks[task].parent"
+then = "label"
+label = { is = "failed_after", subject = "{fold.threads[thread].picked.ask}", producer = "{fold.threads[thread].picked.answerer}", model = "{fold.threads[thread].picked.model}", point = "{fold.threads[thread].picked.point}", weight = 0.5 }
+
+[[rule]]
+id = "label-failed-after"
+doc = "The task a machine's pick started ended without doing its work. A weak label."
+on = "task.settled"
+when = "not ev.data.ok and fold.threads[thread].picked.ask and fold.threads[thread].tasks <= 1 and not fold.tasks[task].parent"
+then = "label"
+label = { is = "failed_after", subject = "{fold.threads[thread].picked.ask}", producer = "{fold.threads[thread].picked.answerer}", model = "{fold.threads[thread].picked.model}", point = "{fold.threads[thread].picked.point}", weight = 0.5 }
+
+[[rule]]
+id = "label-held"
+doc = "The task a machine's pick started settled well. It counts as not wrong, and proves nothing."
+on = "task.settled"
+when = "ev.data.ok and fold.threads[thread].picked.ask and fold.threads[thread].tasks <= 1 and not fold.tasks[task].parent"
+then = "label"
+label = { is = "held", subject = "{fold.threads[thread].picked.ask}", producer = "{fold.threads[thread].picked.answerer}", model = "{fold.threads[thread].picked.model}", point = "{fold.threads[thread].picked.point}", weight = 0.0 }
+
+[[rule]]
+id = "label-undone"
+doc = "The change a machine's pick led to was taken out again."
+on = "task.rewound"
+when = "fold.threads[fold.tasks[task].thread].picked.ask"
+then = "label"
+label = { is = "undone", subject = "{fold.threads[fold.tasks[task].thread].picked.ask}", producer = "{fold.threads[fold.tasks[task].thread].picked.answerer}", model = "{fold.threads[fold.tasks[task].thread].picked.model}", point = "{fold.threads[fold.tasks[task].thread].picked.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-agreed-first"
+doc = "Two machine answerers gave the same answer to a question that could do harm."
+on = "ask.answered"
+when = "len(ev.data.pair) == 2 and ev.data.via == 'chain'"
+then = "label"
+label = { is = "agreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[0].by}", point = "{ev.data.point}", weight = 0.0 }
+
+[[rule]]
+id = "label-agreed-second"
+doc = "The second of the two that agreed."
+on = "ask.answered"
+when = "len(ev.data.pair) == 2 and ev.data.via == 'chain'"
+then = "label"
+label = { is = "agreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[1].by}", point = "{ev.data.point}", weight = 0.0 }
+
+[[rule]]
+id = "label-disagreed-first"
+doc = "Two machine answerers gave different answers to a question that could do harm: the operator was asked."
+on = "ask.note"
+when = "len(ev.data.pair) == 2"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[0].by}", point = "{ev.data.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-disagreed-second"
+doc = "The second of the two that disagreed."
+on = "ask.note"
+when = "len(ev.data.pair) == 2"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[1].by}", point = "{ev.data.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-disagreed-fallback-first"
+doc = "The same, with no operator to ask: the point's safe answer stood in."
+on = "ask.answered"
+when = "len(ev.data.pair) == 2 and ev.data.via == 'fallback'"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[0].by}", point = "{ev.data.point}", weight = 1.0 }
+
+[[rule]]
+id = "label-disagreed-fallback-second"
+doc = "The second of the two that disagreed."
+on = "ask.answered"
+when = "len(ev.data.pair) == 2 and ev.data.via == 'fallback'"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}", producer = "{ev.data.pair[1].by}", point = "{ev.data.point}", weight = 1.0 }
+
+# ---- spot checks ----
+# After a machine answered a question that matters somewhat (`impact = mid`), the doer `spot` puts it again to the next machine
+# answerer of the point, off the path of the line, and writes `ask.spot`. At most five an hour. It never changes the live answer.
+
+[[rule]]
+id = "spot-check"
+doc = "A machine answered a question of mid impact: have another machine answer it too, later, and compare."
+on = "ask.answered"
+when = "ev.data.impact == 'mid' and (ev.data.kind == 'decider' or ev.data.kind == 'model') and ev.data.via == 'chain'"
+then = "start"
+doer = "spot"
+detached = true
+text = "{ev.data.ask}"
+limit = { per = "all", max = 5, within = "1h" }
+
+[[rule]]
+id = "label-spot-first"
+doc = "The live answer and the spot check's answer were compared: the live answer is labelled by whether they agreed. A disagreement is only a sign, not a verdict, so it weighs half."
+on = "ask.spot"
+then = "label"
+label = { is = "agreed", subject = "{ev.data.ask}", producer = "{ev.data.first_by}", model = "{ev.data.first_model}", point = "{ev.data.point}", weight = 0.0 }
+when = "ev.data.agreed"
+
+[[rule]]
+id = "label-spot-first-differs"
+doc = "The live answer was not the spot check's."
+on = "ask.spot"
+when = "not ev.data.agreed"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}", producer = "{ev.data.first_by}", model = "{ev.data.first_model}", point = "{ev.data.point}", weight = 0.5 }
+
+[[rule]]
+id = "label-spot-second"
+doc = "The same for the answerer that checked: a second subject, because it is a second answer."
+on = "ask.spot"
+when = "ev.data.agreed"
+then = "label"
+label = { is = "agreed", subject = "{ev.data.ask}#spot", producer = "{ev.data.second_by}", model = "{ev.data.second_model}", point = "{ev.data.point}", weight = 0.0 }
+
+[[rule]]
+id = "label-spot-second-differs"
+doc = "The checking answerer's answer was not the live one."
+on = "ask.spot"
+when = "not ev.data.agreed"
+then = "label"
+label = { is = "disagreed", subject = "{ev.data.ask}#spot", producer = "{ev.data.second_by}", model = "{ev.data.second_model}", point = "{ev.data.point}", weight = 0.5 }

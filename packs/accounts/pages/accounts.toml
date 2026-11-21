@@ -1,0 +1,24 @@
+api = 1
+
+# Connect › Accounts and Connect › Add account: the third and fourth sub-tabs of the Connect tab, after Connect and Lab. Accounts is one page: each account, where it stands, the email it signed in as and the keys.
+
+[[page]]
+id = "accounts"
+doc = "The accounts, one login each, and where each stands."
+parent = "home"
+group = "connectors"
+title = "Accounts"
+order = 3
+field = "list"
+view = "accounts"
+help = "each account has a window and a folder of its own"
+
+[[page]]
+id = "account-add"
+doc = "A new account, as a form: the connector, a name (the next free one), the plan, a proxy; and the logins already on this machine."
+parent = "home"
+group = "connectors"
+title = "Add account"
+order = 4
+field = "list"
+view = "account-add"

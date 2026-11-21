@@ -1,0 +1,78 @@
+doc = "The composer strip says the chat's state. Left, the work bar: it is there the moment a line is sent (before any frame), one short bar per task that runs (a fraction when the doer has a list), `+N` past three, gone when idle. Right, the doer and the short model (`claude · sonnet 5.5`), the context gauge, this thread's cost and the mode; on a narrow screen the mode goes first, then the cost is cut to its first word, the gauge to its percent, the words after the bars, the bars to one, the cost, the gauge. `lanes <word>` only when it is not `single`."
+sizes = [[120, 24], [80, 20], [60, 18]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [
+  { key = "t1", cells = [{ text = "fix the parser so trailing commas work" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] },
+  { key = "la", cells = [{ text = "A work", icon = "working" }, { text = "", tone = "dim" }, { text = "0:12", tone = "dim" }], parent = "t1", data = { lane = { doer = "claude", own = true } } },
+]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "accent" }, { text = "demo", tone = "dim" }] }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.42, route = "claude · sonnet 5.5", route_by = "core", work = [], cost = "0.8% of 5h · $0.33 list", mode = "write" }
+rev = 1
+
+[[step]]
+shot = "idle"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], route = "claude · sonnet 5.5", route_by = "core", work = [{ label = "starting" }], cost = "", mode = "write" }
+rev = 2
+
+[[step]]
+shot = "sent"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.42, route = "claude · sonnet 5.5", route_by = "core", work = [{ label = "working" }], cost = "0.8% of 5h · $0.33 list", mode = "write" }
+rev = 3
+
+[[step]]
+wait = 500
+
+[[step]]
+shot = "one"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [], gauge = 0.42, route = "claude · sonnet 5.5", route_by = "core", work = [{ label = "work", frac = 0.5 }, { label = "review" }, { label = "tests" }], cost = "0.8% of 5h · $0.33 list", mode = "write" }
+rev = 4
+
+[[step]]
+shot = "three"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ icon = "tasks", text = "lanes auto" }], gauge = 0.85, route = "pi · deepseek-v4.1-flash-1017 · pinned (--doer)", route_by = "core", work = [{ label = "work" }, { label = "review" }, { label = "tests" }, { label = "docs" }, { label = "lint" }], cost = "$0.0120", mode = "read" }
+rev = 5
+
+[[step]]
+shot = "many"

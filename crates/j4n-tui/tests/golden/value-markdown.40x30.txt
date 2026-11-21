@@ -1,0 +1,30 @@
+├ persona
+│ ▏# Reviewer
+│ Reads diffs, not code.
+│ Asks before it edits.
+│ ⌃s keep  esc 󰅖
+├ persona
+│ 12 ▸ 󰍁
+├ persona
+│ 0 ▸ 󰗖
+│ empty
+╰ persona
+  12 ▸
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

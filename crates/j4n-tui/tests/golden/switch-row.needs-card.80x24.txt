@@ -1,0 +1,24 @@
+
+  󰍩 Chat   󰝖 Tasks   󰏖 Packs                                         j4n 0.0.0
+ ━━━━━━━━──────────────────────────────────────────────────────────────────────
+  ├─ 󰛐  README.md
+  ╰─ 󰻭  writing /w/chess.py after README.md             23.9 kB  6.1k tok  8:01
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ 󰘥 j4n                                                                        │
+│                                                                              │
+│ lanes needs the quick look and Main                                          │
+│                                                                              │
+│ the quick look: claude is signed in; its cheapest model is haiku             │
+│ Main: claude is signed in; its newest Sonnet is sonnet                       │
+│                                                                              │
+│ ⇥ 1  󰐾 use the suggestion: the quick look claude · haiku, Main claude · s…   │
+│   2  󰐽 pick another                                                          │
+│   3  󰐽 go on without it: lines go to Main as typed, no chats                 │
+│   4  󰐽 turn lanes off                                                        │
+│                                                                              │
+│ 1–4 · ? why · esc later                                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                      → 󰘥 j4n │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.33  F1

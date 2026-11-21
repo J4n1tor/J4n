@@ -1,0 +1,49 @@
+doc = "The track in the ascii tier, in words and with no colour: the marks are letters and the line is = and -."
+sizes = [[80, 24], [60, 20]]
+theme = { marks = "ascii", you = "mark", no_color = true }
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 3
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "rename the helper in lexer.rs" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] }, { key = "r1", cells = [{ text = "→ c1 · same files · lexer.rs", tone = "dim" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "n1", cells = [{ text = "claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "9.8s", tone = "dim" }], parent = "t1" }]
+
+[[step]]
+text = "fix the parser so trailing commas work in every list\n"
+
+[[step]]
+shot = "sent"
+
+[[step]]
+wait = 500
+
+[[step]]
+shot = "t2"
+
+[[step]]
+wait = 1000
+
+[[step]]
+shot = "t6"
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 5
+rev = 3
+rows = [{ key = "t1", cells = [{ text = "rename the helper in lexer.rs" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] }, { key = "t2", cells = [{ text = "fix the parser so trailing commas work in every list" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "r2", cells = [{ text = "→ c3 · new chat · none matched", tone = "dim" }, { text = "", tone = "dim" }], parent = "t2", by = "core" }]
+
+[[step]]
+shot = "routed"

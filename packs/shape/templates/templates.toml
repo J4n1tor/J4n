@@ -1,0 +1,45 @@
+api = 1
+
+[[shape_template]]
+id = "list"
+doc = "A short list under a line."
+head = "Notes on this line (the operator kept them):"
+ref = "- \"{phrase}\" is turn {turn}: \"{quote}\""
+files = "- Likely relevant: {paths}"
+done = "- Done when `{cmd}` passes"
+note = "- {text}"
+question = "- {text} {answer}"
+
+[[shape_template]]
+id = "plain"
+doc = "One short paragraph."
+ref = "\"{phrase}\" means turn {turn}, which said \"{quote}\"."
+files = "The files are likely {paths}."
+done = "It is done when `{cmd}` passes."
+note = "{text}."
+question = "{text} {answer}."
+
+[[shape_template]]
+id = "sections"
+doc = "A heading and the rows."
+frame = "## Context\n{rows}"
+ref = "- \"{phrase}\" is turn {turn}: \"{quote}\""
+files = "- Likely relevant: {paths}"
+done = "- Done when `{cmd}` passes"
+note = "- {text}"
+question = "- {text} {answer}"
+
+[[shape_template]]
+id = "xml"
+doc = "Tags round the rows."
+frame = "<context>\n{rows}\n</context>"
+ref = "<ref phrase=\"{phrase}\" turn=\"{turn}\">{quote}</ref>"
+files = "<files>{paths}</files>"
+done = "<done>{cmd}</done>"
+note = "<note>{text}</note>"
+question = "<answer to=\"{text}\">{answer}</answer>"
+
+[[shape_template]]
+id = "rewrite"
+doc = "The clean version leads, and the line as typed follows it."
+head = "Clean version of the line: {rewrite}\nAs typed: \"{line}\""

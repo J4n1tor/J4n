@@ -1,0 +1,20 @@
+
+  󰍩 Chat   󰧑 Accounts   󰹦 Grow   󰒓 Settings      j4n 0.0.0
+ ──────────────────────━━━━━━━━────────────────────────────
+├ p27  open  let the reflex tests run cargo  3     ⏎ accept
+│   the reflex tests ran cargo by hand three times
+ ╭─ accept ───────────────────────────────────────────────╮
+ │                                                        │
+ │ accept p27?                                            │
+ │                                                        │
+ │ ▕████▊░░░▏ 60                                          │
+ │ open · let the reflex tests run cargo · 3              │
+ │                                                        │
+ │   1  󰄬 accept                                          │
+ │   2  󰅖 not now                                         │
+ │                                                        │
+ │ y yes · n no · 1–2 · ? why · esc not now               │
+ ╰────────────────────────────────────────────────────────╯
+
+
+

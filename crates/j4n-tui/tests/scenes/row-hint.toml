@@ -1,0 +1,24 @@
+doc = "The hint of the selected row (`⏎ abort`) stands at the right end of its row when it fits whole, and is left out when it would be cut; the keys row and the sheet say the key."
+sizes = [[120, 8], [80, 8], [60, 8], [44, 8]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "tasks", title = "", field = { kind = "list", bind = "view:tasks" } }] }
+
+[[step]]
+down = "rows"
+bind = "view:tasks"
+total = 3
+rev = 1
+rows = [
+  { key = "t6", cells = [{ text = "t6" }, { text = "waiting" }, { text = "test" }, { text = "ask Which of the two colours do you want the border to be, and should it change with the palette?" }, { text = "" }], actions = [{ key = "a", label = "abort", intent = { intent = "run", command = "stop", args = ["t6"] }, risk = 0 }] },
+  { key = "t4", cells = [{ text = "t4" }, { text = "done" }, { text = "test" }, { text = "write notes.txt hello" }, { text = "$0.0100" }] },
+  { key = "t1", cells = [{ text = "t1" }, { text = "done" }, { text = "test" }, { text = "say Release work: open loose ends" }, { text = "$0.1200" }] },
+]

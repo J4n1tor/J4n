@@ -1,0 +1,10 @@
+api = 1
+
+[[flow]]
+id = "kit"
+doc = "Write the cells of a task as a notebook."
+in = { goal = "text" }
+steps = [
+  { id = "say", do = "kit", goal = "{in.goal}" },
+  { id = "done", kind = "end", answer = "{steps.say.answer}" },
+]

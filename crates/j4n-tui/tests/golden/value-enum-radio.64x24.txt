@@ -1,0 +1,24 @@
+├ frame
+│ 󰐾 pipes
+│ 󰐽 gutter
+│ 󰐽 hang
+├ frame                                                 pipes 󰍁
+├ frame                                                  rail 󰗖
+│ not offered
+╰ frame                                                    pipes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

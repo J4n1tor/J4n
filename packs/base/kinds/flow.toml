@@ -1,0 +1,21 @@
+api = 1
+
+# A declared graph of steps, the one runner of work that has more than one part: the own agent's loop, plan
+# then work then validate, a pipeline. A flow is a doer (`flow:<id>`), so a step can run a flow. A step is one of five kinds: `do`
+# runs a doer as a task of its own, `ask` puts a question, `branch` goes one way or the other on a test, `map` runs a doer over a
+# list, `end` is the answer. Steps run in the order their ports and `after` lists allow; the ports of a step are read as
+# `{steps.<id>.out.<port>}`, and a step that reads a port runs after the one that writes it. Nothing here is a program: a test is an
+# expression, a goal is a template, and a back-edge says how often it may be taken.
+[[kind]]
+id = "flow"
+doc = "A declared graph of steps; a doer of its own."
+untrusted = "ignore"
+examples = [
+  { id = "twice", doc = "Ask for a plan, then do it.", in = { goal = "text" }, steps = [{ id = "plan", do = "who:plan", mode = "read", goal = "Plan: {in.goal}", out = { plan = "text" } }, { id = "work", do = "who:work", goal = "{steps.plan.out.plan}" }, { id = "done", kind = "end", answer = "{steps.work.answer}" }] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What it is for." }
+in = { ty = "map<str>", default = {}, doc = "What it is given, by name, with the kind of each port: text, json, files, diff, verdict, report, or artifact:<kind>@<major>. A flow run for a line gets `goal`." }
+depth = { ty = "int", min = 1, max = 8, doc = "How deep flows may run flows from this one; the least of the chain counts. Left out: 4." }
+steps = { ty = "list", required = true, doc = "The steps, in the order they are written; the order they run in follows their ports and `after`.", of = { ty = "obj", fields = { id = { ty = "str", required = true }, kind = "enum:do|ask|branch|map|end", do = { ty = "str", doc = "What does it: a connector's id, `who:<role>` (an election), `flow:<id>`, `model:<id>`, or a template that gives one of these." }, role = "str", mode = "enum:read|write", place = { ty = "str", doc = "The place; `@work` is where the step `work` did its job." }, goal = { ty = "fmt", roots = ["in", "steps", "item"] }, redo = { ty = "fmt", roots = ["in", "steps", "item"], doc = "The goal when a loop has come back to this step; it may read the steps that came after, which `goal` may not." }, model = "str", usd = { ty = "num", min = 0.0001, doc = "The most this step may spend, in dollars: a step that is given more than the flow's own cap has left is given what is left." }, turns = { ty = "int", min = 1, max = 100, doc = "For a model that works on its own: the most turns it takes before it must answer." }, hold = { ty = "bool", default = false, doc = "Keep the work of this step in its place of its own until a yes (`apply`), whatever `work.apply` says: for work that is checked, and shown, before it reaches your folder." }, optional = { ty = "bool", default = false, doc = "Nobody to do it (an election with nobody left to offer, as when the worker is the only doer there is) skips the step, and `steps.<id>.skipped` says so." }, soft = { ty = "bool", default = false, doc = "A step that does not end well is an answer, not the end of the flow (its verdict is a fail, its answer why): a loop can go back on it." }, with = { ty = "map<fmt>", doc = "What the step is given, by name: for `flow:`, the flow's inputs; for any other doer, words besides the goal that it finds in the task's `input.with` (the Connect flow's doers read the program, the draft and the transcript there)." }, after = "list<str>", reads = "list<str>", out = "map<str>", exclude = { ty = "list", of = { ty = "fmt", roots = ["in", "steps", "item"] } }, when = { ty = "expr", roots = ["in", "steps", "item"] }, shape = "enum:yesno|approval|choice|text", question = { ty = "fmt", roots = ["in", "steps", "item"] }, show = { ty = "fmt", roots = ["in", "steps", "item"] }, change = { ty = "fmt", roots = ["in", "steps", "item"] }, apply = "str", options = "list<str>", on = { ty = "expr", roots = ["in", "steps", "item"] }, yes = "str", no = "str", max_visits = { ty = "int", min = 1, max = 1000 }, on_max = "str", over = { ty = "expr", roots = ["in", "steps", "item"] }, each = "str", answer = { ty = "fmt", roots = ["in", "steps", "item"] } } } }

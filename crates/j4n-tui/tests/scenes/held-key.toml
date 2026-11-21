@@ -1,0 +1,43 @@
+doc = "A key pasted alone on a chat line by mistake: at ⏎ it is held on a card above the composer and nothing of it is drawn (`keep it as a key`, `send it as text`, `drop it`); `1` asks which provider, from the rows of Library › Providers that take a key."
+sizes = [[120, 32], [80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = {} } }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [{ key = "t", cells = [{ text = "set up the gateway" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "t1", cells = [{ text = "Paste its key in Library › Providers: ⏎ on its row." }], parent = "t" }]
+
+[[step]]
+text = "Qm4tH7vR2kX9pL0wZ8cN3bF6yD1sJ5gA2eU7iO4n"
+
+[[step]]
+key = "enter"
+
+[[step]]
+down = "rows"
+bind = "view:providers"
+total = 3
+rev = 1
+rows = [{ key = "anthropic", cells = [{ text = "anthropic" }], actions = [{ key = "enter", label = "type the key", intent = { intent = "set", kind = "key", id = "anthropic", field = "value", value = "" } }] }, { key = "local", cells = [{ text = "local" }] }, { key = "openrouter", cells = [{ text = "openrouter" }], actions = [{ key = "enter", label = "type the key", intent = { intent = "set", kind = "key", id = "light", field = "value", value = "" } }] }]
+
+[[step]]
+shot = "card"
+
+# the keys that come within the burst of the ⏎ that held the line are dropped: the next key is a moment later
+[[step]]
+wait = 100
+
+[[step]]
+key = "1"

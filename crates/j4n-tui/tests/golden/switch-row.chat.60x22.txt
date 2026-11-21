@@ -1,0 +1,22 @@
+
+  󰍩 Chat   󰝖 Tasks   󰏖 Packs                     j4n 0.0.0
+ ━━━━━━━━──────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+▌ write the chess game in one       6.1k tok  $0.21  11:01 ▐
+▌ file, then run it                                        ▐
+  ├─ read as one task · a Decider · $0.0004 · 0.6s · one
+  │  file, one job
+  ├─ 󰛐  README.md
+  ╰─ 󰻭  writing /w/chess.py         23.9 kB  6.1k tok  8:01
+╭──────────────────────────────────────────────────────────╮
+│                                                          │
+╰──────────────────────────────────────────────────────────╯
+ 󰼛 claude ▸ sonnet  $0.33  F1

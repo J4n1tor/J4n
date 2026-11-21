@@ -1,0 +1,18 @@
+  setting            now
+├ theme.corners      round
+├ theme.density      normal
+├ theme.frame        pipes
+│   How the screen is drawn: with pipes, in a gutter, or
+│   hung from the left edge (hang).
+│   default pipes
+├ theme.marks        icons
+├ theme.motion       true
+├ theme.palette      jjj
+╰ theme.title_place  inside
+
+
+
+
+
+
+

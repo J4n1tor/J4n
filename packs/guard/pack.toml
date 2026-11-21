@@ -1,0 +1,7 @@
+api = 1
+id = "guard"
+version = "0.0.0"
+summary = "redaction that keeps a secret's shape (what the Log writes and what a model is shown has a key, a password or a token replaced by a placeholder that says what it was), secret files shown to a box as their view, MCP tools held to their pins at each call, and a run that has read untrusted content kept from sending or writing anything sensitive, and a row that names the known attack (s1ngularity, GitHub MCP, postmark-mcp, Supabase MCP, Amazon Q) when something looks like it; off, the older rules run"
+use_when = "the line is about secrets, keys or tokens, untrusted web or MCP content, or the operator wants a run kept from leaking"
+needs = ["base"]
+stability = "experimental"

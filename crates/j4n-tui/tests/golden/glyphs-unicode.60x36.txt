@@ -1,0 +1,36 @@
+ glyphs · unicode · corners round
+ ❯        you          ➜        route
+ ⊸        queued       ▷        working
+ ◇        ask          ◔        cooling
+ ✓        done         ✗        failed
+ ■        stopped      ≡        read
+ ⊙        search       ±        edit
+ ⊕        new          ❱        run
+ ↓        fetch        ◈        tool
+ ¶        output       ◌        todo
+ ✓        todo-done    ∴        think
+ ⊗        error        ∙        control
+ ∞        session      ⊞        grant
+ ⊟        compact      △        notice
+ ⊢        worktree     ◍        commit
+ ⊘        read-only    ↔        connector
+ ◫        message      ⇌        decide
+ ⇌        decide-off   ↩        round
+ ✓        yes          ✗        no
+ ▸        fold-closed  ▾        fold-open
+ ⇥        hint         ~        made
+ ◁        pane         │        pipe-bar
+ ├─       pipe-tee     ╰─       pipe-elbow
+ ╭─       pipe-top     └─       pipe-square
+ ·        airy-top     ›        airy-child
+ ▌        you-cap-l    ▐        you-cap-r
+ ├        branch-tee   ╰        branch-elbow
+ └        branch-square┆        hang-bar
+ ┃        focus        ╭        box-tl
+ ╮        box-tr       ╰        box-bl
+ ╯        box-br       ┌        pop-tl
+ ┐        pop-tr       └        pop-bl
+ ┘        pop-br       ─        box-h
+ │        box-v        ╌        rule-dashed
+ ▔        rule-top     ━        rule-heavy
+ ▕        fill-left    ▏        fill-right

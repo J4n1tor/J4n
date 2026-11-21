@@ -1,0 +1,81 @@
+doc = "The bar under the composer in each of its states; when it is narrow the model goes first, then the cost, and the asks and the hint stay."
+sizes = [[100, 8], [44, 8]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main" } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 1
+rev = 1
+rows = [{ key = "t", cells = [{ text = "hello" }, { text = "", tone = "dim" }, { text = "12:00", tone = "dim" }] }]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "auto", tone = "dim", icon = "queued" }, { text = "" }, { text = "$0.00", tone = "dim" }, { text = "" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude", tone = "accent", icon = "working" }, { text = "▸ sonnet", tone = "dim" }, { text = "$0.33", tone = "dim" }, { text = "2", tone = "accent", icon = "working" }, { text = "ctx 41%", tone = "dim" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "running"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "auto", tone = "dim", icon = "ask" }, { text = "" }, { text = "$0.21", tone = "dim" }, { text = "A B C +1", tone = "warn", icon = "ask" }, { text = "⇥ 1", tone = "accent" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "asks"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude", tone = "warn", icon = "cooling" }, { text = "▸ sonnet", tone = "dim" }, { text = "$0.33", tone = "dim" }, { text = "0:40", tone = "warn", icon = "cooling" }, { text = "⇥ haiku now", tone = "accent" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "cooling"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "pi", tone = "bad", icon = "failed" }, { text = "" }, { text = "$0.31", tone = "dim" }, { text = "2", tone = "bad", icon = "error" }, { text = "⇥ retry", tone = "accent" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "error"
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "auto", tone = "dim", icon = "queued" }, { text = "" }, { text = "" }, { text = "keyless · rules answer", tone = "dim", icon = "read-only" }, { text = "" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "keyless"
+

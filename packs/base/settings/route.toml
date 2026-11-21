@@ -1,0 +1,94 @@
+api = 1
+
+# Which host serves a model. The pick itself is not built yet; here are the switch, the filters, and what a
+# thread does when its host is cooling.
+[[setting]]
+id = "route.hosts"
+doc = "Whether J4n elects a host for a model when a thread binds, among the hosts a `model` row lists. Off: the model's default endpoint, with a session id so the gateway keeps one host and its cache. Off by default."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "route.failover"
+doc = "What a bound thread does when its host is cooling after a burst of limits: `wait` (the task is waited out like any limit), `move` (to the next host, with a notice of what the cold cache costs) or `ask` (say so, and let the operator move it)."
+ty = "str"
+default = "wait"
+words = ["wait", "move", "ask"]
+
+[[setting]]
+id = "route.cooling"
+doc = "How many limits or server errors within five minutes make a host cooling: it is not offered, and a thread bound to it follows `route.failover`."
+ty = "int"
+default = 3
+min = 1
+max = 100
+
+[[setting]]
+id = "route.quant"
+doc = "A precision a host may not sell the model at, as `no-fp4`, `no-int4` (several: `no-fp4,no-int4`); `any` allows all. The measured floor per host and role is not built yet."
+ty = "str"
+default = "any"
+
+[[setting]]
+id = "route.uptime_floor"
+doc = "Hosts whose listed uptime, in percent, is below this are not offered."
+ty = "num"
+default = 95
+min = 0
+max = 100
+
+[[setting]]
+id = "route.lambda"
+doc = "What a minute of waiting is worth, in dollars, when a host is picked. Below zero (the default, -1), J4n works it out each time: the base below, raised when you are waiting at the keyboard, when a flow waits on the result, or when a deadline is near. A pin of 0 would pick the slowest, cheapest host, so it is a number you chose."
+ty = "num"
+default = -1
+min = -1
+max = 100
+
+[[setting]]
+id = "route.lambda_base"
+doc = "A minute of waiting when nobody waits and nothing hangs on the result, in dollars. About the break-even for code generation."
+ty = "num"
+default = 0.003
+min = 0.000001
+max = 100
+
+[[setting]]
+id = "route.lambda_waiting"
+doc = "How many times more a minute is worth when the operator is on the lane (a line typed in the last five minutes)."
+ty = "num"
+default = 3
+min = 1
+max = 1000
+
+[[setting]]
+id = "route.lambda_blocked"
+doc = "How many times more a minute is worth when a flow waits on the result."
+ty = "num"
+default = 2
+min = 1
+max = 1000
+
+[[setting]]
+id = "route.lambda_tight"
+doc = "How many times more a minute is worth when a deadline is near."
+ty = "num"
+default = 2
+min = 1
+max = 1000
+
+[[setting]]
+id = "route.min_n"
+doc = "How many tasks of a role a host must have run for its record to count. Under it the host is unknown: it gets tasks that only read first."
+ty = "int"
+default = 5
+min = 1
+max = 1000
+
+[[setting]]
+id = "route.floor_gap"
+doc = "How far under the best host's pass rate for a role a host must fall to be no longer offered for it (0.2 is twenty points)."
+ty = "num"
+default = 0.2
+min = 0
+max = 1

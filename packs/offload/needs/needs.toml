@@ -1,0 +1,21 @@
+api = 1
+
+[[need]]
+id = "offload"
+doc = "A chore of offload runs on claude, on the model `offload.model`, so claude must be signed in; without it every line stays with the main lane and a row says why, so this never asks."
+kind = "login"
+doer = "claude"
+feature = "offload.on"
+optional = true
+covers = ["offload.model"]
+without = "every line stays with the main lane"
+
+[[need]]
+id = "offload-own"
+doc = "A chore may also go to the gateway key (`own`), on the model `offload.own_model`; without the key no chore goes there, which is how it starts, so this never asks."
+kind = "key"
+connector = "own"
+feature = "offload.on"
+optional = true
+covers = ["offload.own_model"]
+without = "no chore goes to the gateway"

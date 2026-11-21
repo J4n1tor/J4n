@@ -1,0 +1,8 @@
+├ t6  waiting  test  ask Which of the two colours …
+├ t4  done     test  write notes.txt hello           $0.0100
+╰ t1  done     test  say Release work: open loose …  $0.1200
+
+
+
+
+

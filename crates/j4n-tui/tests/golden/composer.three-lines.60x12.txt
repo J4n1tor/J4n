@@ -1,0 +1,12 @@
+
+▌ hello                                              12:00 ▐
+  ╰─ 󰼛  B claude sonnet                                0:22
+╭──────────────────────────────────────────────────────────╮
+│ 󰙁 plan-work-check ~81%  󰧮 lexer.rs ~70%                  │
+│ ~󰙁 omp ▸ claude ╸───── 15%                               │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ plan first, then fix the lexer so it keeps comments,     │
+│ add a test for nested block comments,                    │
+│ and check it with clippy                ⇧⏎ line · ⏎ send │
+╰──────────────────────────────────────────────────────────╯
+ 󰄰 auto                                           $0.00  F1

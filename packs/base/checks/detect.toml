@@ -1,0 +1,136 @@
+api = 1
+
+# What to run to find out whether work holds up (kind `check`). The first row in the order of the ids
+# whose `files` exist in the folder wins, so a more specific row has an id that sorts before a general one. A `*` in the last name of a
+# path in `files` matches any run of characters; a row with `top` applies only in the folder the check is given, never in a folder above
+# a write that is looked in for a project. A check that cannot run here is neither a pass nor a failure: no network, a missing
+# toolchain, a folder the wall keeps read-only.
+#
+# A Python project's own interpreter comes first: the check runs as `env -i`, and the machine's `python3` never sees a virtual
+# environment. So the pytest rows come in threes that share one name (`pytest-project`, `pytest`; a plan item names the name and the first row
+# that applies is run): the folder's `.venv/bin/python` (a path in the folder, found when the file is there), then `uv run` where `uv.lock` is
+# there and `uv` is on the `PATH` (`if_found`; frozen and offline, so a check never installs or downloads), then the machine's `python3`.
+
+[[check]]
+id = "1-cargo"
+doc = "A Rust project's tests."
+files = ["Cargo.toml"]
+argv = ["cargo", "test", "--quiet"]
+timeout = "15m"
+pass_env = ["CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "CARGO_BUILD_JOBS", "RUSTFLAGS"]
+unrunnable = ["could not resolve host", "failed to download", "failed to fetch", "no matching package named", "read-only file system"]
+
+[[check]]
+id = "2-go"
+doc = "A Go module's tests."
+files = ["go.mod"]
+argv = ["go", "test", "./..."]
+timeout = "10m"
+pass_env = ["GOPATH", "GOCACHE", "GOFLAGS", "GOMODCACHE"]
+unrunnable = ["dial tcp", "read-only file system"]
+
+[[check]]
+id = "3-npm"
+doc = "A package that has a `test` script."
+files = ["package.json"]
+needs = { file = "package.json", contains = "\"test\"" }
+argv = ["npm", "test", "--silent"]
+timeout = "10m"
+pass_env = ["NODE_PATH", "NPM_CONFIG_CACHE"]
+unrunnable = ["cannot find module", "no test specified", "read-only file system"]
+
+[[check]]
+id = "3-pytest-project"
+doc = "A project that names pytest in its pyproject and has its own `.venv`: the pytest of that environment."
+files = ["pyproject.toml"]
+also = [".venv/bin/python"]
+needs = { file = "pyproject.toml", contains = "pytest" }
+argv = [".venv/bin/python", "-m", "pytest", "-q"]
+timeout = "10m"
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "read-only file system"]
+
+[[check]]
+id = "35-pytest-project"
+doc = "The same with a `uv.lock` and `uv` on the PATH and no `.venv`: `uv run`, from the lock, offline."
+files = ["pyproject.toml"]
+also = ["uv.lock"]
+needs = { file = "pyproject.toml", contains = "pytest" }
+if_found = true
+argv = ["uv", "run", "--frozen", "--offline", "pytest", "-q"]
+timeout = "10m"
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "failed to download", "failed to fetch", "no solution found", "failed to resolve", "read-only file system"]
+
+[[check]]
+id = "4-pytest-project"
+doc = "A project that names pytest in its pyproject."
+files = ["pyproject.toml"]
+needs = { file = "pyproject.toml", contains = "pytest" }
+argv = ["python3", "-m", "pytest", "-q"]
+timeout = "10m"
+pass_env = ["VIRTUAL_ENV"]
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "read-only file system"]
+
+[[check]]
+id = "45-pytest"
+doc = "A folder with pytest's own files and its own `.venv`: the pytest of that environment."
+files = ["pytest.ini", "tox.ini", "conftest.py"]
+also = [".venv/bin/python"]
+argv = [".venv/bin/python", "-m", "pytest", "-q"]
+timeout = "10m"
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "read-only file system"]
+
+[[check]]
+id = "46-pytest"
+doc = "The same with a `uv.lock` and `uv` on the PATH and no `.venv`: `uv run`, from the lock, offline."
+files = ["pytest.ini", "tox.ini", "conftest.py"]
+also = ["uv.lock"]
+if_found = true
+argv = ["uv", "run", "--frozen", "--offline", "pytest", "-q"]
+timeout = "10m"
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "failed to download", "failed to fetch", "no solution found", "failed to resolve", "read-only file system"]
+
+[[check]]
+id = "5-pytest"
+doc = "A folder with pytest's own files."
+files = ["pytest.ini", "tox.ini", "conftest.py"]
+argv = ["python3", "-m", "pytest", "-q"]
+timeout = "10m"
+pass_env = ["VIRTUAL_ENV"]
+env = { PYTHONPATH = "." }
+unrunnable = ["no module named pytest", "no tests ran", "read-only file system"]
+
+[[check]]
+id = "6-unittest"
+doc = "Python's own test runner over a `tests` folder."
+files = ["tests"]
+argv = ["python3", "-m", "unittest", "discover", "-s", "tests", "-q"]
+timeout = "10m"
+pass_env = ["VIRTUAL_ENV"]
+env = { PYTHONPATH = "." }
+# a test file that imports pytest where none is installed fails to load before it tests anything
+unrunnable = ["ran 0 tests", "no module named 'pytest'", "read-only file system"]
+
+[[check]]
+id = "65-unittest"
+doc = "Python's own test runner over the `test_*.py` files at the top of the folder the check is given, as a folder of scripts has them with no `tests` folder."
+files = ["test_*.py"]
+top = true
+argv = ["python3", "-m", "unittest", "-q"]
+timeout = "10m"
+pass_env = ["VIRTUAL_ENV"]
+env = { PYTHONPATH = "." }
+unrunnable = ["ran 0 tests", "no module named 'pytest'", "read-only file system"]
+
+[[check]]
+id = "7-make"
+doc = "A Makefile that has a `test` target."
+files = ["Makefile"]
+needs = { file = "Makefile", contains = "test:" }
+argv = ["make", "test"]
+timeout = "10m"
+unrunnable = ["read-only file system", "no rule to make target"]

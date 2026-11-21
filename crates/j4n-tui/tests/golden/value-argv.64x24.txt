@@ -1,0 +1,24 @@
+├ argv                                             rg -n {pat} ▏
+│ space new arg · { hole
+├ argv                                            rg -n {pat} 󰍁
+├ argv                                                rg {pt} 󰗖
+│ no arg "pt"
+╰ argv                                               rg -n {pat}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

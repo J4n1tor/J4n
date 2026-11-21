@@ -1,0 +1,11 @@
+# source: synthetic — the frames of an omp turn that completes (shapes as the real captures omp-rpc-ok.jsonl): a streamed reply, its settled message with usage, and the two frames that end a turn
+{"type":"agent_start"}
+{"type":"turn_start"}
+{"type":"message_start","message":{"role":"assistant","content":[]}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":0,"delta":"omp "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":0,"delta":"says hi"}}
+{"type":"message_end","message":{"role":"assistant","content":[{"type":"text","text":"omp says hi"}],"model":"glm-5.3-flash","usage":{"input":120,"output":4,"totalTokens":124,"cost":{"total":0.0012}}}}
+{"type":"turn_end"}
+{"type":"agent_end"}
+{"type":"prompt_result"}
+{"type":"session_settled"}

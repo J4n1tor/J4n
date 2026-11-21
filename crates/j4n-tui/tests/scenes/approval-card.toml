@@ -1,0 +1,98 @@
+doc = "The approval card over any tab: a doer's sign-in over Accounts, put off with esc and counted on the Chat tab; `a` on a proposal that widens in Grow asks first on a card of its own; a doer's push over Settings while a plain question waits in the Chat (the count is 1, the card is the approval only)."
+sizes = [[100, 28], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "pages", title = "", present = "tabs", children = [{ id = "chat", title = "Chat", icon = "chat", field = { kind = "chat", bind = "chat:main", props = { placeholder = "ask for something" } } }, { id = "accounts", title = "Accounts", icon = "models", field = { kind = "list", bind = "accounts:all" } }, { id = "grow", title = "Grow", icon = "grow", field = { kind = "list", bind = "proposals:all" } }, { id = "settings", title = "Settings", icon = "settings", field = { kind = "list", bind = "settings:all" } }] }, { id = "ask", title = "", field = { kind = "ask", bind = "asks:open", props = { one = "popup", many = "tray" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main" } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 2
+rev = 1
+rows = [{ key = "t", cells = [{ text = "add the account claude-2" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "b", cells = [{ text = "B claude", icon = "ask" }, { text = "sonnet", tone = "dim" }], parent = "t" }]
+
+[[step]]
+down = "rows"
+bind = "accounts:all"
+total = 2
+rev = 1
+rows = [{ key = "claude-1", cells = [{ text = "claude-1", icon = "done" }, { text = "claude" }, { text = "max5", tone = "dim" }, { text = "signed in", tone = "good" }], actions = [{ key = "x", label = "remove", intent = { intent = "say", text = ":account remove claude-1" }, risk = 40 }] }, { key = "claude-2", cells = [{ text = "claude-2", icon = "cooling" }, { text = "claude" }, { text = "max5", tone = "dim" }, { text = "needs sign-in", tone = "warn" }], actions = [{ key = "s", label = "sign in", intent = { intent = "say", text = ":account signin claude-2" }, risk = 40 }] }]
+
+[[step]]
+down = "rows"
+bind = "proposals:all"
+total = 2
+rev = 1
+rows = [{ key = "p27", cells = [{ text = "p27" }, { text = "open", tone = "warn" }, { text = "let the reflex tests run cargo" }, { text = "3", tone = "dim" }], detail = [{ text = "the reflex tests ran cargo by hand three times", tone = "dim" }, { text = "by J4n", tone = "dim" }, { text = "widens tests runs a shell command", tone = "dim" }], actions = [{ key = "a", label = "accept", intent = { intent = "say", text = ":accept p27" }, risk = 60 }, { key = "d", label = "decline", intent = { intent = "say", text = ":decline p27" }, risk = 0 }] }, { key = "p28", cells = [{ text = "p28" }, { text = "open", tone = "warn" }, { text = "keys row: dusk palette" }, { text = "2", tone = "dim" }], detail = [{ text = "the palette was set by hand twice", tone = "dim" }], actions = [{ key = "a", label = "accept", intent = { intent = "say", text = ":accept p28" }, risk = 60 }] }]
+
+[[step]]
+down = "rows"
+bind = "settings:all"
+total = 2
+rev = 1
+rows = [{ key = "theme.palette", cells = [{ text = "theme.palette" }, { text = "jjj", tone = "dim" }] }, { key = "theme.corners", cells = [{ text = "theme.corners" }, { text = "round", tone = "dim" }] }]
+
+[[step]]
+key = "f2"
+
+[[step]]
+down = "asks"
+open = [{ ask = "a1", asker = "b", question = "sign in account `claude-2`: run `claude auth login` with the folder ~/.j4n/accounts/claude-2 as its config, and open its window?", shape = "approval", risk = 40, grants = [], wait = "0:08", why = "A sign-in runs a program that opens a window; the account keeps its own folder.", facts = [{ text = "claude-2", icon = "folder", tone = "dim" }], options = [] }]
+
+[[step]]
+shot = "signin"
+
+[[step]]
+key = "esc"
+
+[[step]]
+shot = "later"
+
+[[step]]
+down = "asks"
+open = []
+
+[[step]]
+key = "f3"
+
+[[step]]
+text = "a"
+
+[[step]]
+shot = "widen"
+
+[[step]]
+text = "?"
+
+[[step]]
+shot = "widen-hide"
+
+[[step]]
+text = "n"
+
+[[step]]
+shot = "widen-no"
+
+[[step]]
+key = "f4"
+
+[[step]]
+down = "asks"
+open = [{ ask = "q1", asker = "b", question = "which palette?", shape = "choice", options = [{ id = "jjj", label = "jjj" }, { id = "dusk", label = "dusk" }] }, { ask = "a2", asker = "b", question = "git push origin main?", shape = "approval", risk = 65, grants = ["task", "here"], wait = "0:21", why = "A push sends your commits out of this machine.", facts = [{ text = "origin", icon = "folder", tone = "dim" }], options = [{ id = "task", widens = true, by = "core" }, { id = "here", widens = true, by = "core" }] }]
+
+[[step]]
+shot = "push"
+
+[[step]]
+text = "3"
+
+[[step]]
+shot = "push-armed"

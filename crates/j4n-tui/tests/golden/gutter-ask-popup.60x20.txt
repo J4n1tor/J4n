@@ -1,0 +1,20 @@
+      ask  commit to b-claude?            1 yes  2 no   ⇥ 1
+     C pi  sonnet                                    queued
+╭──────────────────────────────────────────────────────────╮
+│ ask B claude                                   cool 8:42 │
+│ commit to b-claude?                                      │
+│ ▕██▍░░░░░▏ 30   wt b-claude   commit 4f2a1c              │
+│   edit parser.rs                                  +12 −3 │
+│   edit syntax.md                                   +4 −4 │
+│                                                          │
+│ ⇥ 1  yes                                                 │
+│   2  no                                                  │
+│   3  yes · commits in b-claude this session       widens │
+│   4  stop B                                              │
+│                                                          │
+│ 1–4 · ⏎ diff · ? why · esc later                         │
+╰──────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────╮
+│ fix the failing test in parser.rs                → ask B │
+╰──────────────────────────────────────────────────────────╯
+ ● claude ▸ sonnet  $0.14  ask B                    ⇥ 1  F1

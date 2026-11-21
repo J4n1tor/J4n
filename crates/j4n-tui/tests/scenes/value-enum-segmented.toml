@@ -1,0 +1,66 @@
+doc = "The enum-segmented field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "title", field = { kind = "enum", bind = "cfg:enum-segmented.a", props = { options = ["inside", "border", "none"] } } },
+  { id = "off", title = "title", field = { kind = "enum", bind = "cfg:enum-segmented.off", props = { options = ["inside", "border", "none"], disabled = "read only" } } },
+  { id = "bad", title = "title", field = { kind = "enum", bind = "cfg:enum-segmented.bad", props = { options = ["inside", "border", "none"] } } },
+  { id = "b", title = "title", field = { kind = "enum", bind = "cfg:enum-segmented.b", props = { options = ["inside", "border", "none"] } } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:enum-segmented.a"
+value = "inside"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-segmented.off"
+value = "inside"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-segmented.bad"
+value = "top"
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:enum-segmented.b"
+value = "inside"
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "right"

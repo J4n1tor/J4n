@@ -1,0 +1,24 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rename the helper in lexer.rs                                             12:21
+├─ → c1 · same files · lexer.rs
+╰─ 󰗡  claude sonnet                                                        9.8s
+
+fix the parser so trailing commas work in every list                      12:29
+╰─ → c3 · new chat · none matched
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ and then the docs                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+

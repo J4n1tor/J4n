@@ -1,0 +1,29 @@
+api = 1
+
+# Rows for a page: a query over a collection the core keeps, and how each row of it reads. The page that
+# binds `view:<id>` is a list of these rows, and the rows are made again when the collection changes. A view reads the collections
+# the core knows (`tasks`, `asks`, `changes`, `log:<kind glob>`, `table:<kind>`, `fold:<id>`, `thread:<id>`) and never a file; what
+# a cell may name is a field of the row, so a collection's rows say which fields they have.
+[[kind]]
+id = "view"
+doc = "A query over a collection and how each row of it is shown."
+examples = [
+  { id = "open-tasks", doc = "The tasks that are not over, newest first.", from = { from = "tasks", filter = "state != 'done'", order = "-id", limit = 50 }, cells = ["{id}", "{state}", "{goal:short}"] },
+  { id = "widgets", doc = "Every widget, with a key to bump its size.", from = { from = "table:widget", order = "name" }, key = "{id}", cells = ["{name}", "{size}"], acts = [{ key = "b", label = "bump", run = ":widget bump {id}" }] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the rows are for." }
+from = { ty = "query", required = true, doc = "Which rows: a collection, a filter over each row, the keys to order by (`-` first for the newest or largest), and the most rows." }
+key = { ty = "fmt", doc = "What names a row (its selection survives the rows being made again); left out, the row's `id`, else its `key`, else its place." }
+cells = { ty = "list", required = true, of = { ty = "fmt" }, doc = "The cells of a row, left to right; a hole names a field of the row, with a formatter after a colon (`{spent:usd}`)." }
+titles = { ty = "list", default = [], of = { ty = "str" }, doc = "The title of each cell, drawn as a faint header row over the list; left out, the list has none." }
+tone = { ty = "expr", doc = "How the row reads: it comes out as plain, dim, good, warn, bad or accent." }
+detail = { ty = "list", default = [], of = { ty = "fmt" }, doc = "Lines shown under the row that is selected." }
+children = { ty = "fmt", doc = "Rows that hang from the row: one hole, `{tree}`, that holds a list of `[depth, text]` (depth 1 hangs from the row, 2 from the depth 1 above it; a depth 0 is the row's own words and is left out). A page that draws a tree shows them on pipes." }
+folded = { ty = "expr", doc = "Where this holds the row starts shut, with its rows under it hidden, on a page that draws a tree; the names are the row's fields and `place` (its place among the rows, 0 for the first). The screen keeps what the operator opened or shut." }
+parent = { ty = "fmt", doc = "One hole, `{parent}`: the key of a row of the same view, before this one, that it hangs from on a page that draws a tree (empty: a row at the top). Unlike `children`, such a row has keys of its own." }
+icon = { ty = "fmt", doc = "One hole, `{mark}`: the name of the glyph its first cell starts with (`yes`, `queued`, `radio-on`); empty or not a glyph, none." }
+data = { ty = "fmt", doc = "One hole, `{edit}`: its value goes to the screen with the row, as structure, under the field's name. `{edit}` of `table:setting` is what the row's editor needs (its kind, bind, value, words and bounds)." }
+acts = { ty = "list", default = [], of = { ty = "obj", fields = { key = { ty = "str", required = true }, label = { ty = "str", required = true }, run = { ty = "fmt", doc = "The line the key sends, as if the operator typed it: a command with its words (`:stop {id}`). A key has `run` or `set`." }, set = { ty = "fmt", doc = "The operator's edit the key makes, `<kind>:<id>.<field>` (`setting:{id}.value`): sent as a change of that field, applied at once with an undo." }, value = { ty = "fmt", doc = "With `set`: the value sent (`{flip}`); left out, the screen opens the row's editor." }, risk = { ty = "int", min = 0, max = 100 }, when = { ty = "expr", doc = "The key is offered only for a row where this holds; its names are the row's fields (`state == 'open'`)." } } }, doc = "What a key does to the selected row." }
+when = { ty = "expr", roots = ["set"], doc = "The rows are shown only while this holds (`set.x.y` reads a setting)." }

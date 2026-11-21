@@ -1,0 +1,161 @@
+api = 1
+
+# opencode, connected in data only. `opencode run --format json` prints one event per line; a tool's whole story is in one
+# `tool_use` line, so a bash call is a shell line with its real exit code and a write is a tool line and a change. Checked against
+# real captures (`fixtures/connectors/opencode-run.jsonl`). A session carries on with `--session`, which stands before the prompt.
+[[connector]]
+id = "opencode"
+doc = "The opencode CLI."
+is = "agent"
+dialect = "jsonl-map"
+program = "opencode"
+login = ["~/.config/opencode", "~/.local/share/opencode"]
+probe = { argv = ["opencode", "--version"] }
+start = ["run", "--format", "json", "{prompt}"]
+# the providers' common key variables: opencode takes its list of them from models.dev while it runs, so the row cannot name them all
+pass = ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY", "GEMINI_API_KEY", "GOOGLE_API_KEY"]
+model = ["--model", "{model}"]
+resume = ["--session", "{session}"]
+
+# What opencode may do: in run mode it rejects its own permission asks, and with a bare `--auto` it allows everything, `bash -c` and `find -delete`
+# included. So J4n gives each task a config of its own, in `OPENCODE_CONFIG_CONTENT` (no file is written, and it outranks the operator's and the project's
+# config), in which everything is denied but what J4n's gate calls safe; `--auto` then only answers what the config leaves to ask. What the gate has
+# (the readers, the git read verbs, the test runners, the refused forms of a reader, the credential paths) is made from `gate/danger.rs`; what only
+# this connector can say is here. The order is the meaning: the last rule that matches a command wins, and each command of a compound line is matched on
+# its own. A `git ` rule is made for `--no-pager`, `-c core.pager=cat` and `-C <dir>` in front of the verb too.
+# Outside the task's folders only `external_directory` decides, and it allows one more: opencode's own scratch, `$TMPDIR/opencode` (`/tmp/opencode`; `opencode debug paths`), where it
+# writes what is too long to show. The word is made per task from the `TMPDIR` the program runs with.
+[connector.guard]
+kind = "opencode"
+env = "OPENCODE_CONFIG_CONTENT"
+args = ["--auto"]
+allow = [
+  "python3 -m py_compile", "python -m py_compile",
+  "python3 --version", "python3 -V", "python --version", "python -V", "node --version", "node -v", "npm --version", "pytest --version",
+  "make --version", "go version", "cargo --version",
+  # what git says of its own config without changing it: the gate calls a `--get`/`--list` read
+  "git config --get", "git config --get-all", "git config --get-regexp", "git config --list", "git config -l",
+]
+deny = ["cd ..*", "cd /*", "cd ~*", "cd $HOME*"]
+# `--approval full`: the repository's own writes and the files an interpreter runs; paths are still fenced by `external_directory`
+full_allow = [
+  "git add", "git commit", "git tag", "git branch", "git switch", "git checkout -b", "git stash", "git worktree",
+  "mkdir", "touch", "cp", "mv",
+  "python3 *.py*", "python *.py*", "python3 -I *.py*", "node *.js*", "sh ./*.sh*", "bash ./*.sh*",
+  # parity with J4n's own gate at `--approval full`: inline code, a script on stdin, a detached or sha
+  # checkout (bisect), `set -e`; a `GIT_*=x git …` or `env A=b git …` form is made of every git rule below. The wrappers J4n unwraps and opencode cannot
+  # (`bash -c`, `sh -c`), `rm`, `curl`/`wget`, a push, a reset, a clean and `branch -D` stay denied.
+  "python3 -c*", "python -c*", "python3 -I -c*", "python -I -c*", "python3 -", "python -", "node -e*", "node --eval*",
+  "git checkout *", "git switch --detach*", "set -e*",
+  # What the gate passes at full and a model does as a matter of course. A module run as `python3 -m coverage` (the gate calls a
+  # `python -m <module>` a write, as `python3 x.py`), and the read-only listings of pip; `pip install` and the other ways pip changes the machine stay denied below.
+  "python3 -m", "python -m", "pip list", "pip show", "pip freeze", "pip check", "pip3 list", "pip3 show", "pip3 freeze", "pip3 check",
+]
+# allowed under `--approval full` as written, with nothing after them. opencode names a command by its own words, and a script on stdin that follows a `cd … &&`
+# is named `python3` and nothing more (`cd logs && python3 - <<'EOF'`), so the bare forms are rules of their own; a `git config <key>` with
+# no value reads that key (`core.hooksPath`), and the same with a value, or any other key, is a write that stays denied.
+full_exact = [
+  "python3", "python", "python3 -I", "python -I",
+  "git config core.hooksPath", "git config user.name", "git config user.email", "git config remote.origin.url",
+]
+# The scope of a task is its project, and the operator's grants. Behind the box (a task of this connector runs in `box`/`worktree-box` when the
+# wall is described) the OS holds a delete to what the wall leaves writable, so the deletes are rules there and only there; unboxed they stay denied below.
+boxed_allow = ["rm", "rmdir", "find * -delete*", "find * -exec rm*"]
+full_deny = [
+  "bash -c*", "sh -c*", "bash * -c*", "sh * -c*",
+  "git checkout --*", "git checkout -f*", "git checkout . *",
+  "git push*", "git reset*", "git clean*", "git branch -D*", "git branch -d*", "git branch -m*", "git tag -d*", "git stash drop*", "git stash clear*",
+  "curl*", "wget*", "rm*",
+  # the ways `python -m` changes the machine or opens a port: pip's install, uninstall and download, and a web server
+  "python3 -m pip install*", "python3 -m pip uninstall*", "python3 -m pip download*", "python -m pip install*", "python -m pip uninstall*", "python -m pip download*",
+  "python3 -m http.server*", "python -m http.server*",
+]
+
+[connector.map]
+session = "/sessionID"
+end = "/type == 'step_finish' and /part/reason == 'stop'"
+cost = "/part/cost"
+# a step's tokens: input without the cache, output with the reasoning, and the two cache parts
+tokens_in = "/part/tokens/input"
+tokens_out = "sum([/part/tokens/output, /part/tokens/reasoning])"
+cached = "/part/tokens/cache/read"
+wrote = "/part/tokens/cache/write"
+# `opencode run` refuses its own permission asks and says so on stderr (`permission requested: external_directory (/tmp/*); auto-rejecting`):
+# a run whose last tool came back with an error, or that never reached its `end`, is failed, and that line is the reason
+rejects = ["auto-rejecting"]
+# a command its rules refuse comes back with every rule it has as the error (about 30 000 characters, 9 000 tokens, each time): one sentence says it instead
+refused = ["specified a rule which prevents"]
+events = [
+  { when = "/type == 'reasoning'", emit = "reasoning", text = "/part/text" },
+  { when = "/type == 'text'", emit = "text", text = "/part/text" },
+  { when = "/type == 'tool_use' and /part/tool == 'bash' and not (/part/state/status == 'error')", emit = "shell", cmd = "/part/state/input/command", out = "/part/state/output", exit = "/part/state/metadata/exit" },
+  # a bash line opencode refused (its permission config, or its own auto-rejection) has no exit: it did not run, and says so with a non-zero one
+  { when = "/type == 'tool_use' and /part/tool == 'bash' and /part/state/status == 'error'", emit = "shell", cmd = "/part/state/input/command", out = "/part/state/error", exit = "1" },
+  { when = "/type == 'tool_use' and not (/part/tool == 'bash') and not (/part/state/status == 'error')", emit = "tool_end", name = "/part/tool", detail = "/part/state/output" },
+  { when = "/type == 'tool_use' and not (/part/tool == 'bash') and /part/state/status == 'error'", emit = "tool_end", name = "/part/tool", detail = "/part/state/error" },
+  { when = "/type == 'tool_use' and /part/tool == 'write'", emit = "changed", text = "/part/state/input/filePath" },
+  { when = "/type == 'tool_use' and /part/state/status == 'error'", emit = "tool_error", text = "/part/state/error", cmd = "/part/state/input/command" },
+  { when = "/type == 'error'", emit = "error", text = "/error/data/message" },
+]
+
+# opencode over the Agent Client Protocol: `opencode acp` hands each permission ask to the client (`session/request_permission`: the whole bash
+# statement with its redirects, an edit with its path, a folder outside the project with the file), so J4n's own gate answers it, and the operator is asked when no
+# rule or grant of the project covers it. The config of the guard is the same lists as the row above, with a command it denied *asked* (the lists only ever refuse less);
+# the model the task names is the session's default. The row above stays, as the default until the operator chooses this one.
+[[connector]]
+id = "opencode-acp"
+doc = "The opencode CLI over ACP: its permission asks are answered by J4n's gate."
+is = "agent"
+dialect = "acp"
+program = "opencode"
+login = ["~/.config/opencode", "~/.local/share/opencode"]
+probe = { argv = ["opencode", "--version"] }
+start = ["acp"]
+# the providers' common key variables: opencode takes its list of them from models.dev while it runs, so the row cannot name them all
+pass = ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY", "GEMINI_API_KEY", "GOOGLE_API_KEY"]
+
+[connector.guard]
+kind = "opencode"
+env = "OPENCODE_CONFIG_CONTENT"
+args = ["--auto"]
+allow = [
+  "python3 -m py_compile", "python -m py_compile",
+  "python3 --version", "python3 -V", "python --version", "python -V", "node --version", "node -v", "npm --version", "pytest --version",
+  "make --version", "go version", "cargo --version",
+  # what git says of its own config without changing it: the gate calls a `--get`/`--list` read
+  "git config --get", "git config --get-all", "git config --get-regexp", "git config --list", "git config -l",
+]
+deny = ["cd ..*", "cd /*", "cd ~*", "cd $HOME*"]
+# `--approval full`: the repository's own writes and the files an interpreter runs; paths are still fenced by `external_directory`
+full_allow = [
+  "git add", "git commit", "git tag", "git branch", "git switch", "git checkout -b", "git stash", "git worktree",
+  "mkdir", "touch", "cp", "mv",
+  "python3 *.py*", "python *.py*", "python3 -I *.py*", "node *.js*", "sh ./*.sh*", "bash ./*.sh*",
+  # parity with J4n's own gate at `--approval full`: inline code, a script on stdin, a detached or sha
+  # checkout (bisect), `set -e`; a `GIT_*=x git …` or `env A=b git …` form is made of every git rule below. The wrappers J4n unwraps and opencode cannot
+  # (`bash -c`, `sh -c`), `rm`, `curl`/`wget`, a push, a reset, a clean and `branch -D` stay denied.
+  "python3 -c*", "python -c*", "python3 -I -c*", "python -I -c*", "python3 -", "python -", "node -e*", "node --eval*",
+  "git checkout *", "git switch --detach*", "set -e*",
+  # What the gate passes at full and a model does as a matter of course. A module run as `python3 -m coverage` (the gate calls a
+  # `python -m <module>` a write, as `python3 x.py`), and the read-only listings of pip; `pip install` and the other ways pip changes the machine stay denied below.
+  "python3 -m", "python -m", "pip list", "pip show", "pip freeze", "pip check", "pip3 list", "pip3 show", "pip3 freeze", "pip3 check",
+]
+# allowed under `--approval full` as written, with nothing after them. opencode names a command by its own words, and a script on stdin that follows a `cd … &&`
+# is named `python3` and nothing more (`cd logs && python3 - <<'EOF'`), so the bare forms are rules of their own; a `git config <key>` with
+# no value reads that key (`core.hooksPath`), and the same with a value, or any other key, is a write that stays denied.
+full_exact = [
+  "python3", "python", "python3 -I", "python -I",
+  "git config core.hooksPath", "git config user.name", "git config user.email", "git config remote.origin.url",
+]
+# The scope of a task is its project, and the operator's grants. Behind the box (a task of this connector runs in `box`/`worktree-box` when the
+# wall is described) the OS holds a delete to what the wall leaves writable, so the deletes are rules there and only there; unboxed they stay denied below.
+boxed_allow = ["rm", "rmdir", "find * -delete*", "find * -exec rm*"]
+full_deny = [
+  "bash -c*", "sh -c*", "bash * -c*", "sh * -c*",
+  "git checkout --*", "git checkout -f*", "git checkout . *",
+  "git push*", "git reset*", "git clean*", "git branch -D*", "git branch -d*", "git branch -m*", "git tag -d*", "git stash drop*", "git stash clear*",
+  "curl*", "wget*", "rm*",
+  # the ways `python -m` changes the machine or opens a port: pip's install, uninstall and download, and a web server
+  "python3 -m pip install*", "python3 -m pip uninstall*", "python3 -m pip download*", "python -m pip install*", "python -m pip uninstall*", "python -m pip download*",
+  "python3 -m http.server*", "python -m http.server*",
+]

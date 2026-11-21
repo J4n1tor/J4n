@@ -1,0 +1,28 @@
+api = 1
+
+# What each agent connector's stream says of cost (the kind is `cost_source`). The claude CLI shows both the list
+# cost of a turn and, in its `rate_limit_event`, the windows of a subscription. pi and omp show a cost and no windows.
+[[cost_source]]
+id = "claude"
+doc = "The claude CLI: `total_cost_usd` of the result frame, and the windows of the subscription it is signed in with."
+connector = "claude"
+list = "result.total_cost_usd"
+windows = "rate_limit_info.unifiedWindows"
+# Anthropic keeps a prompt for five minutes after the call that read or wrote it; a pi or omp row has none until it is measured.
+cache = "5m"
+# The list prices' shape: a read of the cache is a tenth of a fresh input token, a write a quarter more, an output five times (the 1-hour write, 2×, is not this row).
+ratio = { read = 0.1, write = 1.25, out = 5.0 }
+
+[[cost_source]]
+id = "pi"
+doc = "pi: a cost per message, and no windows."
+connector = "pi"
+list = "usage.cost"
+windows = "none"
+
+[[cost_source]]
+id = "omp"
+doc = "omp: a cost per message, and no windows."
+connector = "omp"
+list = "usage.cost"
+windows = "none"

@@ -1,0 +1,11 @@
+api = 1
+
+[[need]]
+id = "kit-judge"
+doc = "Code in the kit's kernel may send text to Jev (`kit.judge`), and `j4n.model` asks the small chat model `light`; both need their keys."
+kind = "key"
+connector = "light"
+feature = "kit.judge"
+when = "!off"
+covers = ["kit.judge", "kit.model"]
+without = "a call of the kit that needs Jev raises, as it does with the switch off"

@@ -1,0 +1,110 @@
+doc = "The main chat in the gutter look: one right-aligned word a row, no pipes — the letter and name of a doer, the verb of a step, `you` and `route`; the state of a lane at its right edge; output on a raised box under the text."
+sizes = [[120, 40], [80, 24], [60, 20]]
+theme = { frame = "gutter", marks = "words" }
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "fix the failing test in parser.rs" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 25
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "rename the helper in ui.rs" }, { text = "", tone = "dim" }, { text = "12:21", tone = "dim" }] }, { key = "t1a", cells = [{ text = "omp", icon = "done" }, { text = "renamed draw_rows → render_rows", tone = "dim" }, { text = "3", tone = "dim", icon = "edit" }, { text = "9.8s", tone = "dim" }], parent = "t1" }, { key = "t2", cells = [{ text = "fix the parser, then check it" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "t2r", cells = [{ text = "omp ▸ claude ▸ pi", icon = "route" }, { text = "", tone = "dim" }, { text = "0.4s", tone = "dim" }], parent = "t2", by = "core" }, { key = "t2r1", cells = [{ text = "omp 0.71 · cheap · reads only" }, { text = "", tone = "dim" }], parent = "t2r", by = "model" }, { key = "t2r2", cells = [{ text = "claude 0.66 · edits · b-claude free" }, { text = "", tone = "dim" }], parent = "t2r", by = "model" }, { key = "la", cells = [{ text = "A omp", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "", tone = "dim", icon = "read-only" }, { text = "21s", tone = "dim" }, { text = "$0.03", tone = "dim" }], parent = "t2" }, { key = "la0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la1", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la2", cells = [{ text = "args.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la3", cells = [{ text = "trailing comma", icon = "search" }, { text = "", tone = "dim" }], parent = "la" }, { key = "la4", cells = [{ text = "stops at a trailing comma (parser.rs:212)" }, { text = "", tone = "dim" }], parent = "la" }, { key = "lb", cells = [{ text = "B claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "b-claude", tone = "dim", icon = "worktree" }, { text = "1:04", tone = "dim" }, { text = "$0.11", tone = "dim" }], parent = "t2" }, { key = "lb0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb1", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb2", cells = [{ text = "args.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb3", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+12 −3", tone = "accent" }], parent = "lb", detail = [{ text = "229 − if self.eat(Comma) { continue }" }, { text = "229 + if self.eat(Comma) && self.at(RParen) { break }" }] }, { key = "lb4", cells = [{ text = "cargo test parser", icon = "run" }, { text = "", tone = "dim" }, { text = "3.1s", tone = "good", icon = "done" }], parent = "lb", detail = [{ text = "running 14 tests" }, { text = "test args::case_1 ... ok" }, { text = "test args::case_2 ... ok" }, { text = "test args::case_3 ... ok" }, { text = "test args::case_4 ... ok" }, { text = "test args::case_5 ... ok" }, { text = "test args::case_6 ... ok" }, { text = "test args::case_7 ... ok" }, { text = "test args::case_8 ... ok" }, { text = "test args::case_9 ... ok" }, { text = "test args::case_10 ... ok" }, { text = "test args::case_11 ... ok" }, { text = "test args::trailing_comma ... ok" }, { text = "test result: ok. 14 passed; 0 failed" }] }, { key = "lb5", cells = [{ text = "syntax.md", icon = "edit" }, { text = "", tone = "dim" }, { text = "+4 −4", tone = "accent" }], parent = "lb" }, { key = "lb6", cells = [{ text = "Trailing commas now parse in argument lists and the docs show the new grammar." }, { text = "", tone = "dim" }], parent = "lb" }, { key = "lb7", cells = [{ text = "commit to b-claude?", icon = "ask" }, { text = "", tone = "dim" }, { text = "1", tone = "good", icon = "yes" }, { text = "2", tone = "bad", icon = "no" }, { text = "⇥ 1", tone = "accent" }], parent = "lb", by = "doer" }, { key = "lc", cells = [{ text = "C pi", icon = "queued" }, { text = "sonnet", tone = "dim" }, { text = "queued", tone = "dim" }], parent = "t2" }, { key = "c1", cells = [{ text = "claude-7c1 · resumes 4f2a", icon = "session" }, { text = "", tone = "dim" }], parent = "t2", by = "core" }, { key = "c2", cells = [{ text = "reads · this session · you", icon = "grant" }, { text = "", tone = "dim" }], parent = "t2", by = "core" }, { key = "c3", cells = [{ text = "A at 70% · kept brief + 6 turns", icon = "compact" }, { text = "", tone = "dim" }], parent = "t2", by = "core" }]
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.14", tone = "dim" }, { text = "B", tone = "warn", icon = "ask" }, { text = "⇥ 1", tone = "accent" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { tags = [{ text = "parser.rs", icon = "tag", pct = 88 }, { text = "syntax.md", icon = "tag", pct = 81 }, { text = "plan-work-check", icon = "route", pct = 72 }], gauge = 0.41, route = "claude" }
+rev = 1
+
+[[step]]
+text = "also run clippy before you commit"
+
+[[step]]
+key = "ctrl+t"
+
+[[step]]
+shot = "steer"
+
+[[step]]
+key = "ctrl+up"
+
+[[step]]
+shot = "keys"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "lane-a"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "opened"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "output"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "output-open"
+
+[[step]]
+key = "z"
+
+[[step]]
+shot = "all-open"
+
+[[step]]
+key = "z"
+
+[[step]]
+shot = "all-shut"
+
+[[step]]
+key = "esc"
+
+[[step]]
+shot = "back"
+

@@ -1,0 +1,45 @@
+doc = "The list field: sections that fold, rows on pipes, the hint of the row the keys are on, and the detail under it."
+sizes = [[64, 14], [40, 16]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "agents", title = "", field = { kind = "list", bind = "view:agents" } }] }
+
+[[step]]
+down = "rows"
+bind = "view:agents"
+total = 7
+rev = 1
+rows = [{ key = "ready", cells = [{ text = "ready" }, { text = "3", tone = "dim" }] }, { key = "claude", cells = [{ text = "claude", icon = "done" }, { text = "sonnet", tone = "dim" }], parent = "ready", actions = [{ key = "p", label = "probe", intent = { intent = "run", command = "probe", args = ["claude"] }, risk = 0 }] }, { key = "omp", cells = [{ text = "omp", icon = "done" }, { text = "opus", tone = "dim" }], parent = "ready", actions = [{ key = "p", label = "probe", intent = { intent = "run", command = "probe", args = ["omp"] }, risk = 0 }], detail = [{ text = "last probe 4m ago", tone = "dim" }] }, { key = "pi", cells = [{ text = "pi", icon = "done" }, { text = "pi-rpc", tone = "dim" }], parent = "ready", actions = [{ key = "p", label = "probe", intent = { intent = "run", command = "probe", args = ["pi"] }, risk = 0 }] }, { key = "off", cells = [{ text = "off" }, { text = "2", tone = "dim" }] }, { key = "clef", cells = [{ text = "clef", icon = "queued" }, { text = "not found", tone = "dim" }], parent = "off" }, { key = "gem", cells = [{ text = "gemini", icon = "queued" }, { text = "no key", tone = "dim" }], parent = "off" }]
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "detail"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "folded"
+

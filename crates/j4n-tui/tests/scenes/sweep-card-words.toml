@@ -1,0 +1,27 @@
+doc = "The operator's own line in a core note's card is read, not shown with its marks: `**Release work**` and `docs/TESTING.md` in code ticks stand as words, whether the line has answers under it or not."
+sizes = [[80, 12], [60, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 6
+rev = 1
+rows = [
+  { key = "h", cells = [{ text = "◆ ledger · main · 1 tasks · ✓ 1" }, { text = "", tone = "dim" }], by = "core" },
+  { key = "c1", cells = [{ text = "❯ #1 “say **Release work** (`docs/TESTING.md` §5): open loose ends…” → t1 ✓" }, { text = "", tone = "dim" }], parent = "h", by = "core" },
+  { key = "c2", cells = [{ text = "t1  **Release work** done" }, { text = "", tone = "dim" }], parent = "c1", by = "core" },
+  { key = "c3", cells = [{ text = "❯ #2 “say **Plain** line” → t2 ✓" }, { text = "", tone = "dim" }], parent = "h", by = "core" },
+  { key = "c4", cells = [{ text = "❯ #3 “say - one\n- two” → t3 ✓" }, { text = "", tone = "dim" }], parent = "h", by = "core" },
+  { key = "c5", cells = [{ text = "t3  two" }, { text = "", tone = "dim" }], parent = "c4", by = "core" },
+]

@@ -1,0 +1,4 @@
+# the shape of pi 0.87.1 `pi --mode rpc` with no provider key: the handshake and a prompt refused with `error` as a plain
+# string, nothing after it. Ids and paths made up.
+{"id":"cap-1","type":"response","command":"get_session_stats","success":true,"data":{"sessionFile":"/home/user/.pi/agent/sessions/--work--/2026-01-01T00-00-00-000Z_00000000-0000-4000-8000-0000000000f1.jsonl","sessionId":"00000000-0000-4000-8000-0000000000f1","userMessages":0,"assistantMessages":0,"toolCalls":0,"toolResults":0,"totalMessages":0,"tokens":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0},"cost":0}}
+{"id":"cap-2","type":"response","command":"prompt","success":false,"error":"No API key found for the selected model.\n\nUse /login to log into a provider via OAuth or API key. See:\n  /home/user/.local/lib/pi/docs/providers.md\n  /home/user/.local/lib/pi/docs/models.md"}

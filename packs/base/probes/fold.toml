@@ -1,0 +1,58 @@
+api = 1
+
+# What a decider or a model must get right before it answers `fold`, a line typed while a plan is open.
+# Each case has a twin of the same shape whose right answer is another. `rule:fold` takes the cheap cases; these are the ones it passes.
+
+[[probe]]
+id = "fold-add"
+doc = "A new request that is more work next to what is planned."
+point = "fold"
+slices = { line = "the readme should list the new flag too", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "add"
+pair = "fold-change"
+
+[[probe]]
+id = "fold-change"
+doc = "A request that takes an item of the plan back and puts another in its place."
+point = "fold"
+slices = { line = "wire the flag in main.rs and not in cli.rs", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "change"
+pair = "fold-add"
+
+[[probe]]
+id = "fold-answer"
+doc = "A line that asks to be told something about the plan and asks for no work."
+point = "fold"
+slices = { line = "which file does the wiring touch?", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "answer"
+pair = "fold-add-file"
+
+[[probe]]
+id = "fold-add-file"
+doc = "The same shape of line, which asks for one more piece of work."
+point = "fold"
+slices = { line = "log which file the wiring touches in the changelog", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "add"
+pair = "fold-answer"
+
+[[probe]]
+id = "fold-replace"
+doc = "A request for something else altogether: the plan is for another job."
+point = "fold"
+slices = { line = "forget the flag; move the whole log to sqlite, migrate the old files and benchmark it", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "replace"
+pair = "fold-change-small"
+
+[[probe]]
+id = "fold-change-small"
+doc = "The same words of forgetting, of a part of the plan only."
+point = "fold"
+slices = { line = "forget the test for the flag; the cli test covers it", goal = "the plan: parse the flag, wire it in cli.rs, test it" }
+offered = ["add", "change", "answer", "replace"]
+expect = "change"
+pair = "fold-replace"

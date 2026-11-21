@@ -1,0 +1,20 @@
+api = 1
+
+# What the operator pays for a connector as a plan, and the windows it limits use over. A plan's money is the
+# operator's to say: the base pack names the windows of a connector and leaves `price` out, so a request on it says "plan not set"
+# until a row of the operator's gives the price. A window's money is the price over the windows that fit in a period.
+[[kind]]
+id = "plan"
+doc = "A subscription: what it costs for a period and the windows its limits are counted over."
+examples = [
+  { id = "claude", doc = "The plan the claude CLI is signed in with.", connector = "claude", price = "$24", period = "month", assume = "$1000", windows = ["five_hour=5h", "seven_day=7d"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the plan is." }
+connector = { ty = "str", required = true, doc = "The connector (the doer) whose requests it pays for." }
+account = { ty = "str", doc = "Only the requests that run as this account; left out, every request of the connector." }
+price = { ty = "usd", doc = "What it costs for a `period`. Left out: the plan is not set and no plan cost is said." }
+period = { ty = "enum:month|week", default = "month", doc = "What `price` is for: a month is 30.44 days." }
+assume = { ty = "usd", doc = "What a `period` of the plan is worth in list dollars, taken to be so until the windows are measured (`cost.plan.min_n` pairs): the plan cost is then the list cost times `price` over this, marked `assumed`. Choose it low: a low capacity makes the plan cost an over-estimate. Left out: no plan cost until measured." }
+windows = { ty = "list<str>", required = true, doc = "The windows the provider counts, each `name=length` (`seven_day=7d`); the name is the one its stream uses." }

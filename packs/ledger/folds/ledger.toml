@@ -1,0 +1,9 @@
+api = 1
+
+[[fold]]
+id = "ledger"
+doc = "For each report: the last that was written of it (the report, or its paragraph with the report copied)."
+on = "ledger.*"
+reduce = "last"
+of = "data"
+key = "{data.rid}"

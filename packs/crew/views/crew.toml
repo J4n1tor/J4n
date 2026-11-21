@@ -1,0 +1,56 @@
+api = 1
+
+# The rows of the crew's pages.
+
+[[view]]
+id = "crew-seats"
+doc = "Each seat there is."
+from = { from = "table:seat", order = "id" }
+cells = ["{id}", "{role}", "{mode}", "{paths}", "{doer}"]
+titles = ["seat", "role", "access", "paths", "doer"]
+detail = ["{doc}", "{personality}"]
+
+[[view]]
+id = "crew-links"
+doc = "Each link the operator or a pack declared."
+from = { from = "table:link", order = "id" }
+cells = ["{id}", "{from}", "{to}", "{carries}", "{hops}"]
+titles = ["link", "from", "to", "carries", "hops"]
+detail = ["{doc}"]
+
+[[view]]
+id = "crew-charters"
+doc = "Each charter that was signed, the newest first."
+from = { from = "fold:charters" }
+cells = ["{id}", "{state}", "{goal}", "{spent}", "{until}"]
+titles = ["charter", "state", "goal", "spent", "until"]
+tone = "tone"
+detail = ["in {chat}", "paths {paths}", "may {may}", "watch {watch}", "{why}"]
+
+[[view]]
+id = "crew-chatset"
+doc = "Each setting the chat in hand may hold."
+from = { from = "fold:chatset" }
+cells = ["{id}", "{now}", "{by}"]
+titles = ["setting", "holds", "set by"]
+detail = ["{doc}"]
+data = "{edit}"
+acts = [
+  { key = "enter", label = "set", set = "chat:{chat}.{id}" },
+  { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
+]
+
+[[view]]
+id = "crew-opinions"
+doc = "Each opinion a chat gave, the newest first."
+from = { from = "log:crew.opinion", order = "-seq", limit = 100 }
+cells = ["{data.id}", "{data.chat}", "{data.pick}"]
+titles = ["opinion", "chat", "its pick"]
+detail = ["{data.why}"]
+
+[[view]]
+id = "crew-refusals"
+doc = "Each message a link did not carry, the newest first."
+from = { from = "log:crew.refused", order = "-seq", limit = 100 }
+cells = ["{data.carries}", "{data.from}", "{data.to}", "{data.why}"]
+titles = ["message", "from", "to", "why"]

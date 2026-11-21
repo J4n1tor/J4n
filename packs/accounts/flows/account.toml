@@ -1,0 +1,12 @@
+api = 1
+
+# What the operator asks of an account: `add`, `signin`, `open`, `check` or `remove`, with the account's name.
+# The doer `account` does it, and asks before it signs in or removes anything.
+[[flow]]
+id = "account"
+doc = "Keep an account: add one, sign in, open its window, check who it is, or remove it."
+in = { goal = "text" }
+steps = [
+  { id = "do", do = "account", goal = "{in.goal}", out = { done = "text" } },
+  { id = "done", kind = "end", answer = "{steps.do.answer}" },
+]

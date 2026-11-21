@@ -1,0 +1,12 @@
+
+▌ fix the login page                                 02:09 ▐
+  ├─ ✓ 3 files changed, 12 passed
+  ╰─ Proposed next steps: 1. Deploy the fix to the login
+     page. 2. Add a test for the empty password.
+╭──────────────────────────────────────────────────────────╮
+│ ⇥ :stop  :setup  :switch  :status  :search               │
+│ $0.14   ~➜ claude · sonnet 5.5 ╸───── 15%                │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ :setup                                                   │
+╰──────────────────────────────────────────────────────────╯
+ ⇥ next  ⇧⇥ back  ⏎ keep  esc undo  ⌥1–9 tabs  ? keys

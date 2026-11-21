@@ -1,0 +1,72 @@
+doc = "The map field in each state: focused, at rest, being edited, disabled, with a message. The narrow size puts the label above the value."
+sizes = [[64, 24], [40, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [
+  { id = "a", title = "env", field = { kind = "map", bind = "cfg:map.a" } },
+  { id = "off", title = "env", field = { kind = "map", bind = "cfg:map.off", props = { disabled = "read only" } } },
+  { id = "bad", title = "env", field = { kind = "map", bind = "cfg:map.bad" } },
+  { id = "b", title = "env", field = { kind = "map", bind = "cfg:map.b" } },
+] }
+
+[[step]]
+down = "value"
+bind = "cfg:map.a"
+value = { RUST_LOG = "info", TOKEN = "" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:map.off"
+value = { RUST_LOG = "info", TOKEN = "" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:map.bad"
+value = { "a b" = "1" }
+rev = 1
+
+[[step]]
+down = "value"
+bind = "cfg:map.b"
+value = { RUST_LOG = "info", TOKEN = "" }
+rev = 1
+
+[[step]]
+shot = "focused"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "down"
+
+[[step]]
+shot = "idle"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+key = "down"
+
+[[step]]
+key = "enter"
+
+[[step]]
+text = "xyz"

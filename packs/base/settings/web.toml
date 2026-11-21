@@ -1,0 +1,17 @@
+api = 1
+
+# The web tools of a model that has `web` in its `tools` (`j4n-reach`).
+[[setting]]
+id = "web.local"
+basic = true
+doc = "Whether a fetch may reach the machine J4n runs on and the network around it (loopback, 10.x, 192.168.x, a link-local address such as the cloud's metadata service). Off: only the public internet is fetched."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "web.search"
+doc = "The id of the connector that answers a search of `web`: one with the dialect `http-json`, whose first argument is the query (a SearXNG, a Brave key, any endpoint). Left empty, the tool says how to connect one."
+ty = "str"
+default = ""
+live = false

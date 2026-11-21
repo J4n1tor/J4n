@@ -1,0 +1,20 @@
+
+󰼛 Tasks 󰘥 Asks 2 󰚥 Connectors 󰡌 Settings 󰜘 Spend 󰙧 Archive
+─────────────────━━━━━━━━━━━━───────────────────────────────
+ agents   tools   services
+▔▔▔▔▔▔▔▔
+├ claude  ready        ┃├ dialect  claude-stream
+├ omp     ready        ┃╰ model    sonnet
+╰ pi      off          ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃
+                       ┃

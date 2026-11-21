@@ -1,0 +1,36 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
+ ─────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────
+ Models   Providers   Plans   Trust
+─────────────────────━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────
+  plan      connector  price    assume    windows
+├   claude  claude     —        $1000.00  five_hour=5h, seven_day=7d
+│   The plan the claude CLI is signed in with.
+├   max20   claude     $200.00  $4000.00  five_hour=5h, seven_day=7d
+├   max5    claude     $100.00  $1000.00  five_hour=5h, seven_day=7d
+╰   pro     claude     $20.00   $200.00   five_hour=5h, seven_day=7d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

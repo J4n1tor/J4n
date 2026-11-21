@@ -1,0 +1,10 @@
+api = 1
+
+[[need]]
+id = "reflexes-judge"
+doc = "The judge of a reflex is a Decider that may be sent the digest of this project (`reflexes.judge`); with none set up a reflex is held."
+kind = "decider"
+point = "reflex"
+feature = "reflexes.judge"
+covers = ["reflexes.judge"]
+without = "a reflex that needs the judge is held"

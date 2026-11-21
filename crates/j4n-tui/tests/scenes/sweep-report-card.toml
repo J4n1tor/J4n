@@ -1,0 +1,20 @@
+doc = "A report's card hangs from its row on pipes (the Report page is a tree); a sentence longer than the room is cut with `…`, and the report's number stands at the right."
+sizes = [[64, 12], [40, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "report", title = "", field = { kind = "tree", bind = "view:ledger" } }] }
+
+[[step]]
+down = "rows"
+bind = "view:ledger"
+total = 2
+rev = 1
+rows = [{ key = "r17", cells = [{ text = "◆ ledger · main · 1 tasks · ✓ 1" }, { text = "r17", tone = "dim" }] }, { key = "r17/1", cells = [{ text = "± 0 files · ❱ 1 ran · $0.1200" }], parent = "r17" }, { key = "r17/2", cells = [{ text = "❯ #1 “say Release work (docs/TESTING.md §5): open loose ends…” → t1 ✓" }], parent = "r17" }, { key = "r17/3", cells = [{ text = "t1  Release work (docs/TESTING.md §5): open loose ends X-101 and B12." }], parent = "r17/2" }, { key = "r9", cells = [{ text = "◆ ledger · main · 1 tasks · ✓ 1" }, { text = "r9", tone = "dim" }] }, { key = "r9/1", cells = [{ text = "± 0 files · ❱ 0 ran · $0.0000" }], parent = "r9" }]

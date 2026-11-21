@@ -1,0 +1,21 @@
+api = 1
+
+# A class of branch. The plan keeper starts a branch of a class only when its row
+# lists the switch word `lanes` holds, and gives it what the row says. Without the pack there is no row, and nothing branches.
+[[kind]]
+id = "branch"
+doc = "A class of branch the main lane may start by rule: when the switch allows it, and what the branch is given."
+untrusted = "ignore"
+examples = [
+  { id = "scout", doc = "Reads and reports.", under = ["auto", "wide"], mode = "read", context = "brief", usd = 0.20, wall = "2m" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the class is for." }
+under = { ty = "list", of = { ty = "str" }, required = true, doc = "The words of the setting `lanes` under which a branch of this class is started: `auto`, `wide`." }
+mode = { ty = "str", required = true, doc = "`read` (the Gate refuses a write whatever the doer does) or `write`." }
+context = { ty = "str", required = true, doc = "What the branch is given beside its goal: `brief`, `clean` or `verbatim`." }
+usd = { ty = "num", doc = "Dollars the branch may take; left out: the flow's own." }
+wall = { ty = "str", doc = "Time the branch may take, such as `2m`; left out: the flow's own." }
+wall_file = { ty = "str", doc = "More time for each file the branch is given past the first, such as `1m`; left out: none." }
+wall_top = { ty = "str", doc = "The most time `wall_file` may make it, such as `15m`; left out: no ceiling." }

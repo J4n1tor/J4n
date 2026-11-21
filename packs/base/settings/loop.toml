@@ -1,0 +1,195 @@
+api = 1
+
+# The numbers the loop's rules read (kind `setting`). A layer above the pack says its `value`.
+[[setting]]
+id = "loop.followups"
+doc = "How many times in a row a task that ended with work left is carried on by itself, in its own session."
+ty = "int"
+default = 3
+min = 0
+max = 20
+
+[[setting]]
+id = "flow.map_width"
+doc = "How many items of a flow's `map` step run at once, each a task of its own (a claude process, each). The default is four; a machine with little memory says less."
+ty = "int"
+default = 4
+min = 1
+max = 16
+
+[[setting]]
+id = "compact.at"
+doc = "How full a doer's context may be (0 to 1) before the session is shrunk at the next boundary."
+ty = "num"
+default = 0.7
+min = 0.1
+max = 1.0
+
+[[setting]]
+id = "compact.max"
+doc = "How many times one chain of tasks may have its session shrunk."
+ty = "int"
+default = 3
+min = 0
+max = 20
+
+[[setting]]
+id = "cool.max"
+doc = "The longest a task is let wait out a limit; a limit that ends later stops the task, and it can be carried on from the menu."
+ty = "dur"
+default = "6h"
+
+[[setting]]
+id = "wall.warn.at"
+doc = "How much of a task's time (0 to 1) may pass before its doer is told the time is nearly up and to write its files now; 0 tells it nothing. Only a doer that takes words while it works is told."
+ty = "num"
+default = 0.88
+min = 0.0
+max = 0.99
+
+[[setting]]
+id = "wall.warn.min"
+doc = "The shortest time given to a task that its doer is told about before the end; a shorter one is a probe or a test."
+ty = "dur"
+default = "2m"
+
+[[setting]]
+id = "rabbit.reads"
+doc = "How many places a task may read without changing anything before it is asked to say what it has found."
+ty = "int"
+default = 30
+min = 3
+max = 1000
+
+[[setting]]
+id = "stuck.fails"
+doc = "How many commands in a row may fail before a task is asked to step back."
+ty = "int"
+default = 4
+min = 2
+max = 100
+
+[[setting]]
+id = "retry.auto"
+basic = true
+doc = "Whether a turn that failed with what may mend (a dropped connection, not a limit and not a refusal) is put to the ask point `retry`: the same doer again, another doer, or a stop. Off: it stops, and the menu offers `try again`."
+ty = "bool"
+default = false
+
+[[setting]]
+id = "retry.max"
+doc = "How many failures in a row end with a try again or a hand to another doer; the failed turn is not counted, so 1 is two tries at most."
+ty = "int"
+default = 1
+min = 0
+max = 5
+
+[[setting]]
+id = "session.mode"
+basic = true
+doc = "When a line carries on in the doer's session: `resume` always (a session is for ever), `auto` (a line starts a new session when carrying on would be cold, the provider's cache having lapsed, and the session holds more than `session.big` tokens; a provider whose cache life is not said is never cold), `each` (every line you type starts its own session). A new session is told the chat's last answers, the open plan line and the files changed, made from the Log, never the old transcript; a row in the chat says why, and `:resume` takes the old one back."
+ty = "str"
+default = "auto"
+words = ["resume", "auto", "each"]
+
+[[setting]]
+id = "profile"
+basic = true
+doc = "What a CLI doer is started with: `full` (every task as the tool would load it by itself: all its tools, MCP servers, skills and memory; the default), `auto` (a task whose role the connector's row names in `profile.lean_for`, a chore or a decider, is started lean, the rest full), `lean` (every task lean: `Read` is its only tool and no MCP server, skill or memory file is loaded, much less to read on a first turn). A session begins with its profile and keeps its prompt when it is resumed."
+ty = "str"
+default = "full"
+words = ["full", "auto", "lean"]
+live = false
+
+[[setting]]
+id = "weigh.on"
+doc = "On: before a line is sent it is weighed, and the weight chooses where it goes: `answer` (a greeting, thanks, a general question: a cheap model with no tools and no project answers it, the doer `weigh.answer`), `light` (a short question about the project: a lean session on the cheap tier, `plan.cheap_doer` and `plan.cheap_model`, when its doer has a lean profile) or `task` (the doer of the chat, as always). The weight never changes the model of the chat's own session. The local table of wordings (`phrase` rows with a `weight`) is tried first, then Jev, and a line is a task when Jev is not there or has not passed its cases; each row in the chat says what the line was taken as, and `:ask <line>` sends it to the chat's doer as it is. Off by default: with it off nothing is weighed and nothing is written. Read at the start."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "weigh.answer"
+doc = "The doer that answers a line weighed as `answer`: a chat model with no tools (the pack `jev` has one, `light`). Not ready (no key, not installed): the line is a task, and the Log says why."
+ty = "str"
+default = "light"
+
+[[setting]]
+id = "session.big"
+doc = "How many tokens a session holds before `session.mode auto` may end it: a session at or under this is resumed even when it is cold, since writing a small one to the cache again costs less than the carry-over's start."
+ty = "int"
+default = 40000
+min = 0
+max = 100000000
+
+[[setting]]
+id = "librarian.on"
+doc = "On: a task's context is made for that task and that doer: code picks what a model's Brief holds (the project card is held back from a short line and from a plain question that names no file), the skills are the ones that fit, and where two fit equally and there is room for one, Jev chooses at the ask point `librarian`. What is held back is named to the doer, which asks for it with the tool `context` (a CLI doer through `j4n.call('context', …)` in the kit), and each addition is a `brief.added` event with its reason. Off by default: with it off the Brief is what it was, byte for byte, nothing is probed, nothing is asked and `context` is offered to nobody. Read at the start."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "librarian.more"
+doc = "The most a task may ask the librarian for with `context`: past it the tool says so and the task works with what it has."
+ty = "int"
+default = 3
+min = 0
+max = 100
+
+[[setting]]
+id = "packs.full"
+basic = true
+doc = "J4n full: on, every pack built in is loaded (the empty `test` pack is left out) and J4n is whole; off, the default, J4n basic loads the gate, the guard, the way to grow J4n and the connectors of the other CLI agents, plus the packs your folder already uses, and every other pack waits on Grow › Packs. A pack you turn on or off there wins over this switch. Read at the start."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "chats.on"
+doc = "On: every prompt can be a chat of its own: a chat is a thread with its own doer session (`c3`), a plan's branch is a chat under it (`c3.1`), and the first screen is the orchestrator, which has no doer and shows a pinned list of the chats and the rows of what it did with your lines. A line typed there goes to the chat it matches (a file it names, a subject it shares) and opens a new chat only when it matches none; Jev (the ask point `chats`) is asked only when code has no match, and you are asked only when more than one chat matches or the one that does is cooling or failed. `:new`, `:fresh`, `:clear`, `:chats`, `:top` act on chats, `⏎` goes into one, `esc` goes up. Off until it has been used: with it off the screen and the core are what they were, nothing is probed, asked or written. Read at the start."
+ty = "bool"
+default = false
+live = false
+
+[[setting]]
+id = "chats.message.chars"
+doc = "The most characters of a message between chats: a longer one is cut and the row says so. It may be set lower, never above the core's own floor of 2,000."
+ty = "int"
+default = 2000
+min = 1
+max = 2000
+
+[[setting]]
+id = "chats.message.hops"
+doc = "How long a cause chain of messages may be: a message sent because of a message is one hop, and the one past this is held, and you are asked `hold their messages?`. Never above the core's floor of 3."
+ty = "int"
+default = 3
+min = 1
+max = 3
+
+[[setting]]
+id = "chats.message.rate"
+doc = "How many messages one sender may send in a minute: the next is held and you are asked `hold their messages?`; nothing is dropped. Never above the core's floor of 6."
+ty = "int"
+default = 6
+min = 1
+max = 6
+
+[[setting]]
+id = "chats.archive.auto"
+doc = "On: a chat whose plan is done, every item shown to hold by its check or its review (none left `unproven`), is archived by itself once it has been done for half an hour, the time the list waits before it folds it. A chat with no plan has no such proof and is archived by `/archive` only. Off: only you archive."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "chats.archive.idle"
+doc = "How long a chat is left alone before `/archive` takes it: its turns over and ok, nothing waiting, cooling or queued, no open plan item, and no line or turn for this long. A day: a chat you come back to the next morning is not taken, and the list still folds it from sight after half an hour."
+ty = "dur"
+default = "1d"
+
+[[setting]]
+id = "chats.archive.keep"
+doc = "How long a chat stays in the archive before it is removed: it leaves every list, the Log row `chat.removed` says what was deleted, and the doer's own session files of the chat go with it; the Log's other rows stay, it is a chain. Two weeks is long enough to find an answer again and short enough that the session files do not pile up. `0s` keeps the archive for ever."
+ty = "dur"
+default = "14d"

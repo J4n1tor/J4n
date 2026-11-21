@@ -1,0 +1,12 @@
+  model        uses  $/run ⇓  score
+┃ haiku         412   $0.004   0.71                            ┃
+  sonnet        188   $0.031   0.86
+  gemini-2.5     41   $0.022   0.64
+  opus            9   $0.210      —
+  qwen3-coder    77   $0.006   0.69
+  deepseek-v3    64   $0.003   0.66
+  glm-4.6        52   $0.005   0.70
+  kimi-k2        33   $0.008   0.72
+  grok-code      21   $0.012   0.61
+  gpt-5-mini     18   $0.009   0.74
+ 10 of 1,204 · s sort · / find

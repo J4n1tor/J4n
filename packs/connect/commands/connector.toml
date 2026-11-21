@@ -1,0 +1,20 @@
+api = 1
+
+[[command]]
+id = "connector"
+doc = "Run a connection's canary once, in the box (`:connector test claude`), or turn it off (`:connector off claude`, which asks first, and takes effect at the next start) or on again. Connect › Overview has `t` and `o` on its row, and `r` learns it again."
+words = [":connector"]
+args = ["test | off | on", "name"]
+core = "connector"
+
+[[command]]
+id = "connections"
+doc = "Show Connect › Overview: what J4n is connected to, the programs on this machine that it is not, and a line to add one."
+words = [":connections"]
+open = "connect"
+
+[[command]]
+id = "lab"
+doc = "Show Connect › Lab: the runs of the connect lab, and the table of each. The lab is run from the command line, never from here."
+words = [":lab"]
+open = "lab"

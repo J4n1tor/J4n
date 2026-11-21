@@ -1,0 +1,44 @@
+
+  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+ ─────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰝖 Tasks   󰘥 Decisions   󰗡 Habits   󰏖 Catalogue   Seats   Links   Charters   Chat settings   Opinions   Refusals
+─────────────────────────────────────────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────
+  charter  state  goal           spent           until
+╰ k1       live   tidy the docs  $0.00 of $2.00  until you end it
+    in c9
+    paths docs
+    may read, write
+    watch docs-check
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a charter is signed in its envoy chat; a change is signed again
+ ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

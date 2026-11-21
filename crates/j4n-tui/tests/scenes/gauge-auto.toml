@@ -1,0 +1,57 @@
+doc = "A meter by the width it has (look.gauge auto): the composer's context is one slice of a circle and its number at every width, warm from 80 %; a page meter is a thin line of at most eight cells, never the long bar."
+sizes = [[160, 14], [80, 14], [60, 14], [40, 14]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } }, grow = 1 }, { id = "ctx", title = "context", field = { kind = "meter", bind = "m:a" } }, { id = "cap", title = "limit 5h", field = { kind = "meter", bind = "m:b" } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 1
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "fix the parser" }, { text = "", tone = "dim" }, { text = "11:01", tone = "dim" }] }]
+
+[[step]]
+down = "value"
+bind = "m:a"
+value = 0.42
+rev = 1
+
+[[step]]
+down = "value"
+bind = "m:b"
+value = 0.91
+rev = 1
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { gauge = 0.42, route = "claude · sonnet 5.5", form = "auto", cost = "$0.33", mode = "write" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "idle", tone = "dim", icon = "queued" }, { text = "$0.33", tone = "dim" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+shot = "cool"
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { gauge = 0.86, route = "claude · sonnet 5.5", form = "auto", cost = "$0.33", mode = "write" }
+rev = 2
+
+[[step]]
+shot = "warm"

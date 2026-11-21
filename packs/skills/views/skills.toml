@@ -1,0 +1,11 @@
+api = 1
+
+[[view]]
+id = "skills"
+doc = "Every skill: its name, whether it is on, where it came from (the home folder or a pack) and what it is for; under the selected one its words, its size and the skill itself."
+from = { from = "fold:skills", order = "id" }
+key = "{id}"
+cells = ["{id}", "{state}", "{from}", "{about}"]
+titles = ["skill", "", "from", "for"]
+detail = ["when: {when}", "~{tokens} tokens", "{body}"]
+acts = [{ key = "x", label = "on / off", run = ":skill {flip} {id}" }]

@@ -1,0 +1,50 @@
+api = 1
+
+# What J4n knows of the tools it follows, kept from the Log so a restart does not ask again: for each source
+# the validators of its last change and the releases seen, and when the last pass was.
+[[fold]]
+id = "watch_seen"
+doc = "For each source: its validators, its latest version and the releases seen, as of the last change."
+on = "watch.seen"
+reduce = "last"
+of = "data"
+key = "{data.source}"
+
+[[fold]]
+id = "watch_pass"
+doc = "When J4n last counted its passes (it counts at most once an hour, when it has asked something)."
+on = "watch.counts"
+reduce = "max"
+of = "at_ms"
+
+[[fold]]
+id = "watch_set"
+doc = "For each thing that offers a set of names (the tools of a server, the models of a provider): the set as of the last change, with a hash of each."
+on = "watch.set"
+reduce = "last"
+of = "data"
+key = "{data.of}"
+
+[[fold]]
+id = "watch_shape"
+doc = "For each tool: the shape of the last scripted run that was the same as the good one."
+on = "watch.shape"
+reduce = "last"
+of = "data"
+key = "{data.of}"
+
+[[fold]]
+id = "watch_items"
+doc = "The releases that touch or break something J4n uses, one row for each source and version: what the digest and the Upstream tab list."
+on = "watch.release"
+when = "ev.data.class == 'breaks' or ev.data.class == 'touches'"
+reduce = "last"
+of = "data"
+key = "{data.source}:{data.version}"
+
+[[fold]]
+id = "watch_digest"
+doc = "When the digest was last delivered."
+on = "watch.digest"
+reduce = "max"
+of = "data.at_ms"

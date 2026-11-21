@@ -1,0 +1,77 @@
+doc = "The log field: time, mark, text and meta on a line; a row with detail opens under itself; a row that carries its event is drawn as a line and opens into a tree, or its raw JSON (r); a window of a million rows."
+sizes = [[64, 10], [40, 12]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "log", title = "", field = { kind = "log", bind = "log:all" } }] }
+
+# the look file as the core sends it, the entries of `packs/base/look/look.toml` this Log's events take
+[[step]]
+down = "value"
+bind = "look:file"
+rev = 1
+value = { family = { "" = { glyph = "control", role = "faint" }, "run." = { glyph = "run", role = "run" }, "task." = { glyph = "working", role = "accent" } }, summary = { "run.shell" = "{data.cmd}" }, field = { "_ms" = "duration", "_at_ms" = "time", "at_ms" = "time", "usd" = "money", "cmd" = "cmd" }, tone = { "error" = "bad", "failed" = "bad" } }
+
+[[step]]
+down = "rows"
+bind = "log:all"
+total = 1000000
+from = 999985
+rev = 1
+rows = [{ key = "p0", cells = [{ text = "12:29:40", tone = "dim" }, { text = "B read lib.rs", icon = "read" }] }, { key = "p1", cells = [{ text = "12:29:41", tone = "dim" }, { text = "B read main.rs", icon = "read" }] }, { key = "p2", cells = [{ text = "12:29:42", tone = "dim" }, { text = "A ls src", icon = "run" }] }, { key = "p3", cells = [{ text = "12:29:43", tone = "dim" }, { text = "B read mod.rs", icon = "read" }] }, { key = "p4", cells = [{ text = "12:29:44", tone = "dim" }, { text = "A grep parse", icon = "search" }] }, { key = "p5", cells = [{ text = "12:29:45", tone = "dim" }, { text = "B read lib.rs", icon = "read" }] }, { key = "p6", cells = [{ text = "12:29:46", tone = "dim" }, { text = "B read main.rs", icon = "read" }] }, { key = "p7", cells = [{ text = "12:29:47", tone = "dim" }, { text = "A ls src", icon = "run" }] }, { key = "e4", cells = [{ text = "4", tone = "dim" }, { text = "run.shell        {\"cmd\":\"cargo test -p parser\"}" }, { text = "t3", tone = "dim" }, { text = "×3", tone = "dim" }], data = { seq = 4, at_ms = 1762416700000, kind = "run.shell", task = "t3", by = "doer:claude", class = "project", data = { cmd = "cargo test -p parser", exit = 0 }, repeats = 3, last_seq = 6, last_at_ms = 1762416712500 } }, { key = "2", cells = [{ text = "12:30:04", tone = "dim" }, { text = "B cargo test parser", icon = "run" }, { text = "", icon = "done" }] }, { key = "3", cells = [{ text = "12:30:09", tone = "dim" }, { text = "C clippy: 2 errors", tone = "bad", icon = "error" }], detail = [{ text = "src/parser.rs:230 identical blocks", tone = "dim" }, { text = "src/parser.rs:244 needless borrow", tone = "dim" }] }, { key = "4", cells = [{ text = "12:30:11", tone = "dim" }, { text = "grant reads · session", icon = "grant" }] }, { key = "e10", cells = [{ text = "10" }], data = { seq = 10, at_ms = 1762416724120, kind = "run.shell", task = "t3", by = "doer:claude", class = "project", data = { cmd = "cargo test -p parser", exit = 101, out = "running 12 tests\ntest result: FAILED. 11 passed; 1 failed", took_ms = 8400 } } }, { key = "e11", cells = [{ text = "11" }], data = { seq = 11, at_ms = 1762416725300, kind = "task.settled", task = "t3", by = "core", cause = 10, class = "project", data = { state = "failed", spent = { usd = 0.0412, tokens = 18234 }, why = "the parser tests failed after the second try; the doer stopped and asked for a person" } } }, { key = "e12", cells = [{ text = "12" }], data = { seq = 12, at_ms = 1762416726000, kind = "zz.unknown", by = "pack:demo", class = "public", data = "a kind nobody here knows" } }]
+
+[[step]]
+shot = "following"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "open"
+
+[[step]]
+key = "r"
+
+[[step]]
+shot = "raw"
+
+[[step]]
+key = "G"
+
+[[step]]
+shot = "follow"
+
+# the row of a run of the same line: the core sent the first event of three, `×3` as the fourth cell, and where the run ends
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "up"
+
+[[step]]
+key = "enter"
+
+[[step]]
+shot = "folded"

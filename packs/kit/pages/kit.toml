@@ -1,0 +1,14 @@
+api = 1
+
+[[page]]
+id = "kit"
+doc = "The kit's kernel at work: every cell that ran in a task's Python kernel, from the own agent's `py` and from an agent's shell (`j4n py`), with the kernel's state and the host calls the cell made."
+parent = "home"
+title = "Kit"
+icon = "output"
+group = "connectors"
+order = 60
+field = "list"
+view = "kit"
+when = "set.kit.mode == 'on'"
+help = ":kit export writes the cells of a task as a notebook, <task>.ipynb"

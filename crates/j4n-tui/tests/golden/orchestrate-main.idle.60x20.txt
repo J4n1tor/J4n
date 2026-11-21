@@ -1,0 +1,20 @@
+
+
+
+
+
+
+▌ explain what the code in src/a does                12:21 ▐
+  ├─ taken as split (1 chat) · haiku 5.5 · $0.0003 · 2.9s
+  │  · one part apart
+  ├─ 󰙁  split · c1: read the code and say what it does
+  ╰─ c1 read the code and say what it does · scout
+     reviewed · $0.00 · no claims · sure high · open: none
+
+▌ c1 · read the code and say what it does            12:22 ▐
+╭──────────────────────────────────────────────────────────╮
+│ 󰼛 1  plan 0/1  󰝖 lanes orchestrate  󰙁 claude · haiku 5.5 │
+│╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+│ fix the failing test in parser.rs                        │
+╰──────────────────────────────────────────────────────────╯
+                                                 idle  demo

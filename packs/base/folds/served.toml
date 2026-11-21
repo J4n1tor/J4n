@@ -1,0 +1,18 @@
+api = 1
+
+# Every model a run was ever served by, from the Log and not from the Book (which keeps the last 5000 tasks): how often `run.served` named it, and
+# when last. The library counts a model it finds here as seen, however long ago the task was.
+[[fold]]
+id = "models_served"
+doc = "How often each model served a run, over the whole Log."
+on = "run.served"
+reduce = "count"
+key = "{data.model}"
+
+[[fold]]
+id = "models_last"
+doc = "When each model last served a run (the event's own time)."
+on = "run.served"
+reduce = "max"
+of = "at_ms"
+key = "{data.model}"

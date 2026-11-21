@@ -1,0 +1,22 @@
+doc = "The frame, `theme.density = compact`: the tab row is back at the top, with no blank row above it (the side margin stays)."
+sizes = [[80, 24]]
+
+[theme]
+density = "compact"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "auto", children = [
+  { id = "chat", title = "Chat", icon = "chat", field = { kind = "chat", bind = "chat:main" } },
+  { id = "tasks", title = "Tasks", icon = "tasks", field = { kind = "list", bind = "tasks:all" } },
+] }
+
+[[step]]
+shot = "page"

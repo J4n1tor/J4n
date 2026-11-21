@@ -1,0 +1,6 @@
+doc = "Every glyph slot in the tier `unicode`."
+sizes = [[100, 24], [60, 36]]
+theme = { marks = "unicode" }
+
+[[step]]
+preview = "glyphs"

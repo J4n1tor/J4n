@@ -1,0 +1,39 @@
+doc = "The frame: the page with a blank row and a margin round the tabs, then the `?` sheet: a round box with the title in its edge, one cell of padding, a long description wrapped under its key, and each key once (the page's `⌥1–9 tabs` is the only ⌥1–9)."
+sizes = [[120, 36], [80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "auto", children = [
+  { id = "chat", title = "Chat", icon = "chat", field = { kind = "chat", bind = "chat:main" } },
+  { id = "tasks", title = "Tasks", icon = "tasks", field = { kind = "list", bind = "tasks:all" } },
+  { id = "models", title = "Models", icon = "models", field = { kind = "list", bind = "models:all" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "keys:row"
+total = 5
+rev = 1
+rows = [
+  { key = "chat/tabs", cells = [{ text = "⌥1–9" }, { text = "tabs" }], detail = [{ text = "Tab n. On a Mac, let the terminal send Option as Meta or Alt." }] },
+  { key = "chat/send", cells = [{ text = "⏎" }, { text = "send" }], detail = [{ text = "Send the line." }] },
+  { key = "chat/newline", cells = [{ text = "⌃j" }, { text = "newline" }], detail = [{ text = "A new line in the draft." }] },
+  { key = "chat/history", cells = [{ text = "↑" }, { text = "history" }], detail = [{ text = "An older line of the history." }] },
+  { key = "global/find", cells = [{ text = "⌃k" }, { text = "find" }], detail = [{ text = "Find anything: the commands and the tree." }] },
+]
+
+[[step]]
+shot = "page"
+
+[[step]]
+key = "?"
+
+[[step]]
+shot = "sheet"

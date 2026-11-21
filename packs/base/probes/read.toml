@@ -1,0 +1,111 @@
+api = 1
+
+# What a decider or a model must get right before it answers a question of the read. Each case has a twin of the same shape whose right answer is another.
+
+[[probe]]
+id = "read-kind-thanks"
+doc = "A thanks that ends the talk needs no work."
+point = "read:kind"
+slices = { line = "thanks, that is all for now" }
+offered = ["answer", "one", "split"]
+expect = "answer"
+pair = "read-kind-thanks-work"
+
+[[probe]]
+id = "read-kind-thanks-work"
+doc = "The same opening, which asks for one piece of work."
+point = "read:kind"
+slices = { line = "thanks, now add a --verbose flag to the cli" }
+offered = ["answer", "one", "split"]
+expect = "one"
+pair = "read-kind-thanks"
+
+[[probe]]
+id = "read-with-a-thanks"
+doc = "The same small words in a thanks, which needs no work."
+point = "read:kind"
+slices = { line = "thanks, I will use it with a lot of care" }
+offered = ["answer", "one", "split"]
+expect = "answer"
+pair = "read-with-a"
+
+[[probe]]
+id = "read-kind-split"
+doc = "Two pieces of work in different places, each worth a lane of its own."
+point = "read:kind"
+slices = { line = "rewrite the parser in src/parse and, separately, port the docs site in web/ to the new theme" }
+offered = ["answer", "one", "split"]
+expect = "split"
+pair = "read-kind-steps"
+
+[[probe]]
+id = "read-kind-steps"
+doc = "Steps of one change in one place stay one lane."
+point = "read:kind"
+slices = { line = "rename the parse function in src/parse, update its callers and fix the tests that call it" }
+offered = ["answer", "one", "split"]
+expect = "one"
+pair = "read-kind-split"
+
+[[probe]]
+id = "read-with-a"
+doc = "`with a` and `use` are words of the sentence, not a doer's name: one piece of work."
+point = "read:kind"
+slices = { line = "build me a tetris clone in python with a clean screen and use the arrow keys" }
+offered = ["answer", "one", "split"]
+expect = "one"
+pair = "read-with-a-thanks"
+
+[[probe]]
+id = "read-goes-on-yes"
+doc = "A short yes goes on from what was just said."
+point = "read:goes_on"
+slices = { line = "yes, go on" }
+offered = ["yes", "no"]
+expect = "yes"
+pair = "read-goes-on-new"
+
+[[probe]]
+id = "read-goes-on-new"
+doc = "A new request opens with a word of agreement and stands alone."
+point = "read:goes_on"
+slices = { line = "okay, now write the release notes for 0.2 from the changelog" }
+offered = ["yes", "no"]
+expect = "no"
+pair = "read-goes-on-yes"
+
+[[probe]]
+id = "read-asked-codex"
+doc = "The operator asks for a doer by name."
+point = "read:asked"
+slices = { line = "ask codex what the retry module does", doers = "claude codex pi" }
+offered = ["claude", "codex", "pi", "none"]
+expect = "codex"
+pair = "read-asked-prose"
+
+[[probe]]
+id = "read-asked-prose"
+doc = "A doer's name that is part of what the line is about asks for no doer."
+point = "read:asked"
+slices = { line = "compute pi to twelve digits in a small script", doers = "claude codex pi" }
+offered = ["claude", "codex", "pi", "none"]
+expect = "none"
+pair = "read-asked-codex"
+
+[[probe]]
+id = "read-chat-same"
+doc = "A line about the work one chat holds belongs to it."
+point = "read:chat"
+slices = { line = "also make the parser accept trailing commas", chats = "c1: rewrite the json parser; c2: port the docs site" }
+offered = ["c1", "c2", "none"]
+expect = "c1"
+pair = "read-chat-none"
+
+[[probe]]
+id = "read-chat-none"
+doc = "A line about something none of the chats holds belongs to none."
+point = "read:chat"
+slices = { line = "what does the release workflow do?", chats = "c1: rewrite the json parser; c2: port the docs site" }
+offered = ["c1", "c2", "none"]
+expect = "none"
+pair = "read-chat-same"

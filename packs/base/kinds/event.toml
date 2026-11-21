@@ -1,0 +1,17 @@
+api = 1
+
+# A kind of event. The core's own event kinds are Rust; a pack declares its own here, so that
+# what they carry is checked when they are written, and so that a streaming kind can be marked as never written.
+[[kind]]
+id = "event"
+doc = "A kind of event: what it carries, how its data is classed, and whether it is only ever flashed to the screen."
+examples = [
+  { id = "lamp.lit", doc = "A lamp was lit.", fields = { name = { ty = "str", required = true }, brightness = { ty = "int", min = 1, max = 9 } } },
+  { id = "lamp.flicker", doc = "A lamp flickers; seen, never kept.", class = "public", ephemeral = true },
+]
+
+[kind.fields]
+doc = { ty = "text", required = true, doc = "What the event says happened." }
+fields = { ty = "fields", doc = "What `data` holds, by name. Left out, the data is not checked." }
+class = { ty = "enum:public|project|private|secret", default = "project", doc = "How far the data may travel: the egress Gate checks it against where a provider is." }
+ephemeral = { ty = "bool", default = false, doc = "True: the event is only flashed to subscribers and never written; False: it is written and never flashed." }

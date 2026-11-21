@@ -1,0 +1,20 @@
+
+
+
+▌ /usage                                                                 12:29 ▐
+  ╰─ usage
+     claude · default
+       5h ━━━━━━━━──────── 50%
+          resets in 3:00 (13:00 UTC) · 25%/h · at this pace ends in 2:00
+       7d ━╸────────────── 10%   resets in 3d 22h · 3%/day · lasts past reset
+     claude · work · max5 $100/mo
+       5h ━━━━━━━━━━━━━━── 90%
+          resets in 3:00 (13:00 UTC) · 45%/h · at this pace ends in 0:13
+       7d ──────────────── 0%    resets in 5d 4h · unused
+     openrouter
+       credits: unknown (a gateway call, not made here)
+       today $0.31 · 2 calls (UTC day)
+╭──────────────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ idle  write                                                        $0.33  demo

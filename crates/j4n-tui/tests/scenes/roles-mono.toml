@@ -1,0 +1,6 @@
+doc = "The twenty roles of the palette `mono`, how each is made, and the contrast of the three that must be read."
+sizes = [[80, 26]]
+theme = { palette = "mono" }
+
+[[step]]
+preview = "roles"

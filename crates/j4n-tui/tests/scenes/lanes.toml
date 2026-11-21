@@ -1,0 +1,40 @@
+doc = "One turn, five lanes from different agents and a never-seen CLI: a failed lane stays open, older settled lanes fold, a retry, rate limit, unmapped output."
+sizes = [[120, 44], [80, 36], [60, 30]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "stack", children = [{ id = "chat", title = "", field = { kind = "chat", bind = "chat:main", props = { placeholder = "" } } }, { id = "bar", title = "", field = { kind = "bar", bind = "bar:main", props = { right = 2, drop = [1, 2] } } }] }
+
+[[step]]
+down = "rows"
+bind = "chat:main"
+total = 32
+rev = 1
+rows = [{ key = "t1", cells = [{ text = "fix the parser so trailing commas work, update the docs, then check it" }, { text = "", tone = "dim" }, { text = "12:29", tone = "dim" }] }, { key = "r1", cells = [{ text = "omp ▸ claude ▸ pi ▸ gemini", icon = "route" }, { text = "", tone = "dim" }, { text = "3:12", tone = "dim" }, { text = "$0.31", tone = "dim" }], parent = "t1", by = "core" }, { key = "la", cells = [{ text = "A omp", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "", tone = "dim", icon = "read-only" }, { text = "21s", tone = "dim" }, { text = "$0.03", tone = "dim" }], parent = "t1" }, { key = "la0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la1", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la2", cells = [{ text = "args.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "la", merge = true }, { key = "la3", cells = [{ text = "trailing comma", icon = "search" }, { text = "", tone = "dim" }], parent = "la" }, { key = "lb", cells = [{ text = "B claude", icon = "done" }, { text = "sonnet", tone = "dim" }, { text = "b-claude", tone = "dim", icon = "worktree" }, { text = "", tone = "dim", icon = "read-only" }, { text = "4f2a1c", tone = "dim", icon = "commit" }, { text = "2:01", tone = "dim" }, { text = "$0.19", tone = "dim" }], parent = "t1" }, { key = "lb0", cells = [{ text = "parser.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb1", cells = [{ text = "lexer.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb2", cells = [{ text = "args.rs", icon = "read" }, { text = "", tone = "dim" }], parent = "lb", merge = true }, { key = "lb3", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "dim" }], parent = "lb" }, { key = "lb4", cells = [{ text = "cargo test", icon = "run" }, { text = "", tone = "dim" }], parent = "lb" }, { key = "lc", cells = [{ text = "C pi", icon = "failed" }, { text = "sonnet", tone = "dim" }, { text = "b-claude", tone = "dim", icon = "worktree" }, { text = "14s", tone = "dim" }, { text = "$0.01", tone = "dim" }], parent = "t1", by = "doer" }, { key = "lc0", cells = [{ text = "cargo clippy -- -D warnings", icon = "run" }, { text = "", tone = "dim" }, { text = "101", tone = "bad", icon = "no" }, { text = "9.2s", tone = "dim" }], parent = "lc", detail = [{ text = "error: this `if` has identical blocks  --> src/parser.rs:230" }, { text = "error: could not compile `parser` (lib) due to 2 previous errors" }, { text = "note: line 0" }, { text = "note: line 1" }, { text = "note: line 2" }, { text = "note: line 3" }, { text = "note: line 4" }, { text = "note: line 5" }, { text = "note: line 6" }, { text = "note: line 7" }, { text = "note: line 8" }, { text = "note: line 9" }, { text = "note: line 10" }, { text = "note: line 11" }, { text = "note: line 12" }, { text = "note: line 13" }, { text = "note: line 14" }, { text = "note: line 15" }] }, { key = "lc1", cells = [{ text = "two clippy errors, both in the new comma branch of parse_args", icon = "error" }, { text = "", tone = "dim" }], parent = "lc", by = "model" }, { key = "r2", cells = [{ text = "claude ▸ pi", icon = "round" }, { text = "", tone = "dim" }, { text = "12:32", tone = "dim" }], parent = "t1", by = "core" }, { key = "lb2n", cells = [{ text = "B claude", icon = "working" }, { text = "sonnet", tone = "dim" }, { text = "b-claude", tone = "dim", icon = "worktree" }, { text = "0:22", tone = "dim" }, { text = "$0.02", tone = "dim" }], parent = "t1" }, { key = "n0", cells = [{ text = "parser.rs:220–240", icon = "read" }, { text = "", tone = "dim" }], parent = "lb2n" }, { key = "n1", cells = [{ text = "6s", icon = "think" }, { text = "", tone = "dim" }], parent = "lb2n", fold = "folded", detail = [{ text = "the comma branch eats the separator first, so the check for the closing paren must come before it" }] }, { key = "n2", cells = [{ text = "trailing", icon = "search" }, { text = "", tone = "dim" }, { text = "7", tone = "dim" }], parent = "lb2n" }, { key = "n3", cells = [{ text = "parser.rs", icon = "edit" }, { text = "", tone = "dim" }, { text = "+3 −7", tone = "dim" }], parent = "lb2n" }, { key = "ld", cells = [{ text = "D gemini", icon = "cooling" }, { text = "2.5-pro", tone = "dim" }, { text = "", tone = "dim", icon = "connector" }, { text = "0:40", tone = "warn", icon = "cooling" }], parent = "t1" }, { key = "ld0", cells = [{ text = "doc.rust-lang.org/reference/expressions", icon = "fetch" }, { text = "", tone = "dim" }, { text = "200", tone = "dim" }, { text = "31k", tone = "dim" }], parent = "ld" }, { key = "ld1", cells = [{ text = "429 rate limit · retry 12:33", tone = "warn", icon = "cooling" }, { text = "", tone = "dim" }], parent = "ld" }, { key = "le", cells = [{ text = "E newagent", icon = "working" }, { text = "", tone = "dim" }, { text = "", tone = "dim", icon = "connector" }, { text = "0:31", tone = "dim" }], parent = "t1" }, { key = "le0", cells = [{ text = "plain text", icon = "output" }, { text = "", tone = "dim" }, { text = "142", tone = "dim" }], parent = "le", detail = [{ text = "[newagent] scanning 41 files" }, { text = "[newagent] done: 2 suggestions written to notes.md" }] }, { key = "k1", cells = [{ text = "claude-7c1 · resumes 4f2a", icon = "session" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "k2", cells = [{ text = "reads · this session", icon = "grant" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "k3", cells = [{ text = "A at 70% · kept brief + 6 turns", icon = "compact" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "k4", cells = [{ text = "C read 9 files, wrote none", icon = "notice" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }, { key = "k5", cells = [{ text = "D cooled 0:40", icon = "notice" }, { text = "", tone = "dim" }], parent = "t1", by = "core" }]
+
+[[step]]
+down = "value"
+bind = "composer:strip"
+value = { gauge = 0.18, route = "claude" }
+rev = 1
+
+[[step]]
+down = "rows"
+bind = "bar:main"
+total = 1
+rev = 1
+rows = [{ key = "bar", cells = [{ text = "claude ▸ sonnet", tone = "accent", icon = "working" }, { text = "$0.33", tone = "dim" }, { text = "2", tone = "accent", icon = "working" }, { text = "D 0:40", tone = "warn", icon = "cooling" }, { text = "F1", tone = "dim" }] }]
+
+[[step]]
+key = "ctrl+t"
+
+[[step]]
+text = "use the same tests as the lexer"
+

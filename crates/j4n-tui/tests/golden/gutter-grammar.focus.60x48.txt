@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      you  lane states: the name breathes while       12:29
+           working
+    A omp                                            queued
+    A omp                              working  0:22  $0.02
+    A omp                                             ask A
+    A omp                                         cool 0:40
+    A omp                                     ✓  21s  $0.03
+    A omp                                      ✗  9s  $0.01
+    A omp                                stopped  you 12:30
+
+      you  prose · code · diff                        12:30
+ B claude  sonnet                             working  1:04
+           The comma branch now eats the separator first.
+
+           • parse_args accepts f(a, b,)
+
+           ▏ a quoted aside
+
+                                                        rs
+            if self.eat(Comma) { break }
+     edit  parser.rs                                +3 −7 ▸
+           ~a model's guess about the next step
+
+      you  folding: newer folds older, failed stays   12:31
+    A omp  read 3  grep 1                          ✓  21s ▸
+     C pi                                             ✗  3s
+     fail  clippy: 2 errors
+ B claude                                     working  0:10
+     read  a.rs · b.rs · c.rs                             3
+    think  6s
+        ·  4                                              ▸
+╭──────────────────────────────────────────────────────────╮
+│                                                          │
+╰──────────────────────────────────────────────────────────╯

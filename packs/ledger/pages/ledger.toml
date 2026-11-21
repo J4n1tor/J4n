@@ -1,0 +1,14 @@
+api = 1
+
+[[page]]
+id = "report"
+doc = "What came of each settled thread: the facts, the lines and their receipts, the answers."
+parent = "home"
+title = "Report"
+icon = "output"
+group = "spend"
+order = 60
+field = "tree"
+view = "ledger"
+when = "set.ledger.mode != 'off'"
+help = "the facts are J4n's, read from the Log; `~` is a model's paragraph that the facts held · :report all says the answers whole"

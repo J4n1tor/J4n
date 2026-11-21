@@ -1,0 +1,27 @@
+api = 1
+
+# A place where a decision is made. The entry says what is asked, what a wrong answer costs, how far
+# the question's data may travel, who is asked in what order, and what stands when no one answers. `fallback` is required: a
+# point without one is refused, so J4n works with no model and no key. `shape`, `impact`, `data` and `options` are floors; a
+# project that is not trusted cannot declare a point (the default for a kind). The lint that goes with it is
+# `answer::point::lint`: an approval never reaches a model, a gate-impact point ends with `human` and falls back to `safe`.
+[[kind]]
+id = "ask_point"
+doc = "A place where a decision is made: the shape of the question, what a wrong answer costs, the chain of answerers and the fallback."
+examples = [
+  { id = "route", doc = "Which way a line goes.", shape = "choice", impact = "mid", data = "project", chain = ["rule:route", "decider:jev?min_conf=0.6", "human"], fallback = "pick:task", options = ["answer", "task"] },
+  { id = "who:demo", doc = "Who does the work, ordered by the standing numbers.", shape = "choice", impact = "low", chain = ["rank", "human?after=60s"], fallback = "rank" },
+  { id = "allow", doc = "May this effect happen: never put to a model.", shape = "approval", impact = "gate", data = "private", chain = ["rule:gate", "human"], fallback = "safe" },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What is decided here." }
+shape = { ty = "enum:yesno|choice|approval|text", required = true, floor = true, doc = "What kind of question: yes or no, one of the options, permission for one action, a line of text." }
+impact = { ty = "enum:low|mid|gate", required = true, floor = true, doc = "What a wrong answer costs: cosmetic, costly, unsafe. At `gate` two distinct machine answerers must agree, else the operator." }
+data = { ty = "enum:public|project|private|secret", default = "project", floor = true, doc = "The most sensitive class of data the question carries: what egress checks before a remote answerer sees it." }
+chain = { ty = "list<str>", default = [], doc = "Who is asked, in order: `rule:<name>`, `rank`, `decider:<name>[?min_conf=0.6]`, `model:<name>`, `human[?after=60s]`. `human` is last." }
+fallback = { ty = "str", required = true, doc = "What stands when no one answers: `rank`, `safe`, `pick:<id>` or `text:<line>`." }
+rank = { ty = "ref:rank", doc = "The Rank spec for `rank`, when the point has its own." }
+says = { ty = "map<str>", default = {}, doc = "For each option id, one line on what it means: what a decider that reads is shown beside the id when the asker offers the bare ids. Only options the point declares." }
+breaker = { ty = "bool", default = true, doc = "`false`: a failed answer here never counts toward the answerer's breaker, which every point shares, and an answer here never ends a streak of failures elsewhere. For a point that is only a nicety, so it cannot switch an answerer off for the points that matter; it keeps its own count." }
+options = { ty = "list<str>", floor = true, doc = "The fixed option ids of a closed vocabulary; left out, the options come from the machine." }

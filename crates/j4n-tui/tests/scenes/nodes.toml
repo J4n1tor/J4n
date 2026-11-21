@@ -1,0 +1,156 @@
+doc = "The node tree: tabs with icons and counts, sub-tabs, sections that fold, a split, a grid, a node whose children come when it is first shown, and the jump to a node."
+sizes = [[160, 48], [80, 24], [60, 20]]
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "auto", children = [
+  { id = "tasks", title = "Tasks", icon = "working", field = { kind = "list", bind = "tasks:all" } },
+  { id = "asks", title = "Asks", icon = "ask", count = 2, field = { kind = "list", bind = "asks:all" } },
+  { id = "connectors", title = "Connectors", icon = "connector", present = "auto", children = [
+    { id = "agents", title = "agents", present = "split", ratio = 40, children = [
+      { id = "agent-list", title = "", field = { kind = "list", bind = "agents:all" } },
+      { id = "agent-card", title = "", field = { kind = "list", bind = "agent:card" } },
+    ] },
+    { id = "tools", title = "tools", field = { kind = "list", bind = "tools:all" } },
+    { id = "services", title = "services", field = { kind = "list", bind = "services:all" } },
+  ] },
+  { id = "settings", title = "Settings", icon = "compact", present = "auto", children = [
+    { id = "look", title = "look", present = "auto", children = [
+      { id = "look-theme", title = "theme", count = 3, field = { kind = "list", bind = "look:theme" } },
+      { id = "look-chat", title = "chat", count = 5, field = { kind = "list", bind = "look:chat" } },
+      { id = "look-keys", title = "keys", count = 31, field = { kind = "list", bind = "look:keys" } },
+    ] },
+    { id = "loop", title = "loop", field = { kind = "list", bind = "loop:all" } },
+  ] },
+  { id = "spend", title = "Spend", icon = "commit", present = "grid", cols = 2, children = [
+    { id = "today", title = "", field = { kind = "list", bind = "spend:today" } },
+    { id = "count", title = "", field = { kind = "list", bind = "spend:tasks" } },
+    { id = "week", title = "", field = { kind = "list", bind = "spend:week" } },
+    { id = "left", title = "", field = { kind = "list", bind = "spend:left" } },
+  ] },
+  { id = "archive", title = "Archive", icon = "stopped", lazy = true },
+] }
+
+[[step]]
+down = "rows"
+bind = "tasks:all"
+total = 2
+rev = 1
+rows = [{ key = "t2", cells = [{ text = "t2" }, { text = "running", tone = "accent" }, { text = "fix the thing" }] }, { key = "t1", cells = [{ text = "t1" }, { text = "done", tone = "good" }, { text = "look around" }] }]
+
+[[step]]
+down = "rows"
+bind = "agents:all"
+total = 3
+rev = 1
+rows = [{ key = "claude", cells = [{ text = "claude" }, { text = "ready", tone = "good" }] }, { key = "omp", cells = [{ text = "omp" }, { text = "ready", tone = "good" }] }, { key = "pi", cells = [{ text = "pi" }, { text = "off", tone = "dim" }] }]
+
+[[step]]
+down = "rows"
+bind = "agent:card"
+total = 2
+rev = 1
+rows = [{ key = "dialect", cells = [{ text = "dialect" }, { text = "claude-stream" }] }, { key = "model", cells = [{ text = "model" }, { text = "sonnet" }] }]
+
+[[step]]
+down = "rows"
+bind = "spend:today"
+total = 1
+rev = 1
+rows = [{ key = "usd", cells = [{ text = "$1.24" }, { text = "today", tone = "dim" }] }]
+
+[[step]]
+down = "rows"
+bind = "spend:tasks"
+total = 1
+rev = 1
+rows = [{ key = "n", cells = [{ text = "38" }, { text = "tasks", tone = "dim" }] }]
+
+[[step]]
+shot = "tasks"
+
+[[step]]
+key = "3"
+[[step]]
+shot = "connectors"
+
+[[step]]
+key = "}"
+[[step]]
+shot = "tools"
+
+[[step]]
+key = "{"
+[[step]]
+key = "right"
+[[step]]
+shot = "split-right"
+
+[[step]]
+key = "4"
+[[step]]
+shot = "settings"
+
+[[step]]
+key = "down"
+[[step]]
+key = "enter"
+[[step]]
+shot = "folded"
+
+[[step]]
+key = "z"
+[[step]]
+shot = "all-folded"
+
+[[step]]
+key = "5"
+[[step]]
+shot = "grid"
+
+[[step]]
+key = "right"
+[[step]]
+key = "down"
+[[step]]
+shot = "grid-last"
+
+[[step]]
+key = "6"
+[[step]]
+shot = "lazy-wait"
+
+[[step]]
+down = "tree"
+node = { id = "archive", title = "Archive", icon = "stopped", present = "sections", children = [
+  { id = "old", title = "old runs", count = 2, field = { kind = "list", bind = "archive:old" } },
+] }
+
+[[step]]
+down = "rows"
+bind = "archive:old"
+total = 1
+rev = 1
+rows = [{ key = "a", cells = [{ text = "t0" }, { text = "done", tone = "good" }] }]
+
+[[step]]
+shot = "lazy-loaded"
+
+[[step]]
+key = "ctrl+k"
+[[step]]
+text = "thm"
+[[step]]
+shot = "jump"
+
+[[step]]
+key = "enter"
+[[step]]
+shot = "jumped"

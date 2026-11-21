@@ -1,0 +1,21 @@
+api = 1
+
+# The old form of a reflex (before reflexes became rules): a reflex is now a rule with `then = "ask"` (`kinds/rule.toml`). A row of this kind
+# still loads: the front reads it as the rule it says (`do` is `do`, `when` the sentence is `text`, `check` is `when`, `event` is `on`, `on = false` is `off = true`,
+# `cool` is `limit.within`), so a reflex an operator wrote before keeps working. `:reflex add` writes the rule.
+[[kind]]
+id = "reflex"
+doc = "The old form of a reflex; it is read as a rule that asks (`kind rule`, `then = \"ask\"`)."
+untrusted = "ignore"
+examples = [
+  { id = "compact-junk", doc = "Shrink the session when much of it is junk.", do = ":compact junk", when = "the context holds more than a twentieth of junk", check = "ctx.grew >= 0.01", event = "task.settled", on = false },
+]
+
+[kind.fields]
+doc = { ty = "text", default = "", doc = "What the reflex is for, in a line." }
+do = { ty = "str", required = true, doc = "The command that runs when the judge says yes (`rule`'s `do`)." }
+when = { ty = "text", required = true, doc = "The operator's sentence (`rule`'s `text`)." }
+check = { ty = "text", default = "", doc = "The condition (`rule`'s `when`). Required: a reflex with none is refused." }
+event = { ty = "enum:task.settled|chat.say", default = "task.settled", doc = "When the check is made (`rule`'s `on`)." }
+on = { ty = "bool", default = false, doc = "Whether the reflex is on (`rule`'s `off`, the other way round)." }
+cool = { ty = "dur", default = "10m", doc = "The least time between two times the judge is asked, in one chat (`rule`'s `limit.within`)." }

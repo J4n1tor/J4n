@@ -1,0 +1,12 @@
+api = 1
+
+# An agent that speaks ACP: the manifest says only how to start it in that mode.
+[[connector]]
+id = "acpagent"
+doc = "An agent over the Agent Client Protocol."
+is = "agent"
+dialect = "acp"
+program = "{bin}/acp-agent"
+probe = { argv = ["{bin}/acp-agent", "--version"] }
+start = ["--acp"]
+env = { ACP_LOG = "{bin}/log" }

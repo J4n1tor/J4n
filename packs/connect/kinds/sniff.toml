@@ -1,0 +1,24 @@
+api = 1
+
+# How a program shows how it speaks (the Connect flow). After the flow has asked a program for `--version`,
+# `--help` and its manual, the rows are tried in the order of `rank`, lowest first, and the first whose `when` holds says which
+# dialect the program is spoken to in. A row with `ask` leaves one thing to the operator, whether the program is an agent you talk
+# with or a command run for its output. A `when` reads `program` (its name), `help`, `version`, `man` as they were said, and
+# `text`, all three in lower case together. Nothing here runs anything: it is words about words.
+[[kind]]
+id = "sniff"
+doc = "A rule for how a program speaks, read from what it says about itself."
+untrusted = "ignore"
+examples = [
+  { id = "acp", doc = "A program that offers the Agent Client Protocol.", when = "contains(text, '--acp')", is = "agent", dialect = "acp", rank = 10, start = ["--acp"] },
+]
+
+[kind.fields]
+doc = { ty = "text", doc = "What the row recognises." }
+when = { ty = "expr", roots = ["program", "help", "version", "man", "text"], required = true, doc = "True when the program is of this kind." }
+is = { ty = "enum:agent|tool|service|mcp", required = true, doc = "What it is taken to be, unless `ask` leaves that to the operator." }
+dialect = { ty = "enum:text|json-last|jsonl-map|acp|claude-stream|pi-rpc|mcp|http-json", required = true, doc = "How it is spoken to." }
+rank = { ty = "int", default = 50, doc = "The order the rows are tried in: the lowest first." }
+ask = { ty = "bool", default = false, doc = "Whether the operator is asked if it is an agent or a tool; with it unset, `is` stands." }
+start = { ty = "list<str>", default = [], doc = "The arguments that make the program speak this way (`--acp`), told to the model that drafts the manifest." }
+note = { ty = "text", doc = "What the model that drafts the manifest is told about this dialect." }

@@ -1,0 +1,24 @@
+ glyphs · ascii · corners round
+ >        you          ^        route        o        queued       >        working
+ ?        ask          z        cooling      v        done         x        failed
+ #        stopped      r        read         /        search       e        edit
+ +        new          $        run          @        fetch        *        tool
+ |        output       [ ]      todo         [x]      todo-done    :        think
+ !        error        .        control      =        session      g        grant
+ c        compact      i        notice       w        worktree     %        commit
+ -        read-only    &        connector    m        message      d        decide
+ d        decide-off   '        round        y        yes          n        no
+ >        fold-closed  v        fold-open    tab      hint         ~        made
+ ]        pane         |        pipe-bar     |-       pipe-tee     `-       pipe-elbow
+ .-       pipe-top     `-       pipe-square  .        airy-top     >        airy-child
+ [        you-cap-l    ]        you-cap-r    |        branch-tee   `        branch-elbow
+ `        branch-square:        hang-bar     #        focus        +        box-tl
+ +        box-tr       +        box-bl       +        box-br       +        pop-tl
+ +        pop-tr       +        pop-bl       +        pop-br       -        box-h
+ |        box-v        .        rule-dashed  -        rule-top     =        rule-heavy
+ [        fill-left    ]        fill-right   #        fill-full    #        fill-half
+ -        fill-empty   _.-#     spark        enter    key-enter    tab      key-tab
+ S-       key-shift    C-       key-ctrl     M-       key-alt      ^v<>     key-arrows
+ [x]      bool-on      [ ]      bool-off     (*)      radio-on     ( )      radio-off
+ [x]      tick-on      [ ]      tick-off     /        folder       +        add
+ -        remove       <        step-left    >        step-right   >        chevron

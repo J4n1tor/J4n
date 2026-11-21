@@ -1,0 +1,24 @@
+├ models
+│ ├ haiku
+│ ├ sonnet-2▏
+│ ├ opus
+│ ╰ 󰐕  d 󰍴  ⇧↑↓ move
+├ models                                             haiku +2 󰍁
+├ models                                                 none 󰗖
+│ at least 1
+╰ models                                                haiku +2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

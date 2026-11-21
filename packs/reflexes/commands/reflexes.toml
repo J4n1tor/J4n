@@ -1,0 +1,17 @@
+api = 1
+
+[[command]]
+id = "reflex"
+doc = "Reflexes: `:reflex add <id> do <command> when <your sentence> check <condition> [at task.settled|chat.say]` makes one (on), `:reflex off <id>` / `:reflex on <id>` switches one, `:reflex remove <id>`, `:reflex case <id> fire|hold <state in words>` adds a probe case; `:reflex` alone lists them with the judge's last reason. They run only while the setting reflexes.on is on. `:toggle` and `:toggles`, the old names, still work."
+words = [":reflex", "/reflex"]
+was = [":toggle", "/toggle"]
+core = "reflex"
+args = ["add | on | off | remove | case", "id", "…"]
+takes = ["add <id> do <command> when <sentence> check <condition> [at <event>]", "on <id>", "off <id>", "remove <id>", "case <id> fire|hold <state>"]
+
+[[command]]
+id = "reflexes"
+doc = "Show the reflexes: what each does, when, whether it is on, and what the judge last said."
+words = [":reflexes"]
+was = [":toggles"]
+open = "reflexes"

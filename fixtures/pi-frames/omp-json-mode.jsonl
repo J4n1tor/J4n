@@ -1,0 +1,283 @@
+# the shape of omp 18.4.2 `omp --mode json --model fireworks/glm-5.3-flash --thinking high -p ...` (bash + write tools); workdir /work; ids, times and numbers made up
+{"type":"session","version":3,"id":"00000000-0000-4000-8000-0000000000f4","timestamp":"2026-01-01T00:00:00.000Z","cwd":"/work"}
+{"type":"advisor_cost_changed"}
+{"type":"agent_start"}
+{"type":"turn_start"}
+{"type":"message_start","message":{"role":"user","content":[{"type":"text","text":"Think step by step about which is larger, 9.11 or 9.9. Then run 'cat a.txt' with bash, then write file b.txt containing x, then reply with the answer."}],"attribution":"user","timestamp":1767225600100}}
+{"type":"message_end","message":{"role":"user","content":[{"type":"text","text":"Think step by step about which is larger, 9.11 or 9.9. Then run 'cat a.txt' with bash, then write file b.txt containing x, then reply with the answer."}],"attribution":"user","timestamp":1767225600100}}
+{"type":"message_start","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Simple: compare","thinkingSignature":"reasoning_content"}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"stop","timestamp":1767225600146,"responseId":"chatcmpl-fixture-1","credentialId":1}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_start","contentIndex":0}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"Simple"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":":"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" compare"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" run"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" write"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" file"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" >"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" since"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" >"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" Steps"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" must"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" be"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" sequential"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"?"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" and"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" write"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" are"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" independent"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" But"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" write"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" after"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" per"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" instruction"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" order"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":";"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" they"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"'re"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" independent"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" can"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" parallel"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" Let"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" me"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" do"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" bash"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" first"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" then"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" write"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" then"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" answer"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_end","contentIndex":0,"content":"Simple: compare, run cat, write file. 9.9 > 9.11 since 0.9 > 0.11. Steps must be sequential? cat and write are independent. But write after cat per instruction order; they're independent, can parallel. Let me do bash cat first, then write, then answer."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_start","contentIndex":1}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" vs"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":":"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" compare"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" fractional"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" parts"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" —"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" vs"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" >"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" ("}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"90"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" vs"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"),"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" so"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" **"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" is"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" larger"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"**"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" ("}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"The"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" decimal"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"-string"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" intuition"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" >"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"\""}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" is"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" the"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" trap"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":".)"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_end","contentIndex":1,"content":"9.9 vs 9.11: compare fractional parts — 0.9 vs 0.11. 0.9 > 0.11 (0.90 vs 0.11), so **9.9 is larger**. (The decimal-string intuition \"11 > 9\" is the trap.)"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_start","contentIndex":2}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":"{\"command\": \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":"cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":" a"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":"\", \"i\": \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":"Reading"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":" a"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":2,"delta":"\"}"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_start","contentIndex":3}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"{\"content\": \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"x"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"\", \"i\": \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"Writing"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":" b"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":" with"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":" content"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":" x"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"\", \"path\": \""}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"b"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_delta","contentIndex":3,"delta":"\"}"}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_end","contentIndex":2,"toolCall":{"type":"toolCall","id":"chatcmpl-tool-fixture-1","name":"bash","arguments":{"command":"cat a.txt","i":"Reading a.txt"},"partialArgs":"{\"command\": \"cat a.txt\", \"i\": \"Reading a.txt\"}","streamIndex":0}}}
+{"type":"message_update","assistantMessageEvent":{"type":"toolcall_end","contentIndex":3,"toolCall":{"type":"toolCall","id":"chatcmpl-tool-fixture-2","name":"write","arguments":{"content":"x","i":"Writing b.txt with content x","path":"b.txt"},"partialArgs":"{\"content\": \"x\", \"i\": \"Writing b.txt with content x\", \"path\": \"b.txt\"}","streamIndex":1}}}
+{"type":"message_end","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Simple: compare, run cat, write file. 9.9 > 9.11 since 0.9 > 0.11. Steps must be sequential? cat and write are independent. But write after cat per instruction order; they're independent, can parallel. Let me do bash cat first, then write, then answer.","thinkingSignature":"reasoning_content"},{"type":"text","text":"9.9 vs 9.11: compare fractional parts — 0.9 vs 0.11. 0.9 > 0.11 (0.90 vs 0.11), so **9.9 is larger**. (The decimal-string intuition \"11 > 9\" is the trap.)"},{"type":"toolCall","id":"chatcmpl-tool-fixture-1","name":"bash","arguments":{"command":"cat a.txt","i":"Reading a.txt"},"partialArgs":"{\"command\": \"cat a.txt\", \"i\": \"Reading a.txt\"}","streamIndex":0,"intent":"Reading a.txt"},{"type":"toolCall","id":"chatcmpl-tool-fixture-2","name":"write","arguments":{"content":"x","i":"Writing b.txt with content x","path":"b.txt"},"partialArgs":"{\"content\": \"x\", \"i\": \"Writing b.txt with content x\", \"path\": \"b.txt\"}","streamIndex":1,"intent":"Writing b.txt with content x"}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":7000,"output":150,"cacheRead":0,"cacheWrite":0,"totalTokens":7150,"reasoningTokens":60,"cost":{"input":0.00105,"output":0.000075,"cacheRead":0,"cacheWrite":0,"total":0.001125}},"stopReason":"toolUse","timestamp":1767225600146,"responseId":"chatcmpl-fixture-1","duration":2700,"ttft":1300,"credentialId":1,"completedAt":1767225602928}}
+{"type":"tool_execution_start","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","args":{"command":"cat a.txt"},"intent":"Reading a.txt"}
+{"type":"tool_execution_update","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","args":{"command":"cat a.txt"},"partialResult":{"content":[{"type":"text","text":"hello\n"}],"details":{}}}
+{"type":"tool_execution_update","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","args":{"command":"cat a.txt"},"partialResult":{"content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975}}}
+{"type":"tool_execution_end","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","result":{"content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975}},"isError":false}
+{"type":"message_start","message":{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975},"isError":false,"timestamp":1767225602972}}
+{"type":"message_end","message":{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975},"isError":false,"timestamp":1767225602972}}
+{"type":"tool_execution_start","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","args":{"content":"x","path":"b.txt"},"intent":"Writing b.txt with content x"}
+{"type":"tool_execution_update","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","args":{"content":"x","path":"b.txt"},"partialResult":{"content":[{"type":"text","text":"Writing 1 bytes to b.txt..."}],"details":{"resolvedPath":"/work/b.txt"}}}
+{"type":"tool_execution_end","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","result":{"content":[{"type":"text","text":"Successfully wrote 1 bytes to b.txt"}],"details":{"resolvedPath":"/work/b.txt"}},"isError":false}
+{"type":"message_start","message":{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","content":[{"type":"text","text":"Successfully wrote 1 bytes to b.txt"}],"details":{"resolvedPath":"/work/b.txt"},"isError":false,"timestamp":1767225602984}}
+{"type":"message_end","message":{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","content":[{"type":"text","text":"Successfully wrote 1 bytes to b.txt"}],"details":{"resolvedPath":"/work/b.txt"},"isError":false,"timestamp":1767225602984}}
+{"type":"turn_end","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Simple: compare, run cat, write file. 9.9 > 9.11 since 0.9 > 0.11. Steps must be sequential? cat and write are independent. But write after cat per instruction order; they're independent, can parallel. Let me do bash cat first, then write, then answer.","thinkingSignature":"reasoning_content"},{"type":"text","text":"9.9 vs 9.11: compare fractional parts — 0.9 vs 0.11. 0.9 > 0.11 (0.90 vs 0.11), so **9.9 is larger**. (The decimal-string intuition \"11 > 9\" is the trap.)"},{"type":"toolCall","id":"chatcmpl-tool-fixture-1","name":"bash","arguments":{"command":"cat a.txt","i":"Reading a.txt"},"partialArgs":"{\"command\": \"cat a.txt\", \"i\": \"Reading a.txt\"}","streamIndex":0,"intent":"Reading a.txt"},{"type":"toolCall","id":"chatcmpl-tool-fixture-2","name":"write","arguments":{"content":"x","i":"Writing b.txt with content x","path":"b.txt"},"partialArgs":"{\"content\": \"x\", \"i\": \"Writing b.txt with content x\", \"path\": \"b.txt\"}","streamIndex":1,"intent":"Writing b.txt with content x"}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":7000,"output":150,"cacheRead":0,"cacheWrite":0,"totalTokens":7150,"reasoningTokens":60,"cost":{"input":0.00105,"output":0.000075,"cacheRead":0,"cacheWrite":0,"total":0.001125}},"stopReason":"toolUse","timestamp":1767225600146,"responseId":"chatcmpl-fixture-1","duration":2700,"ttft":1300,"credentialId":1},"toolResults":[{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975},"isError":false,"timestamp":1767225602972},{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","content":[{"type":"text","text":"Successfully wrote 1 bytes to b.txt"}],"details":{"resolvedPath":"/work/b.txt"},"isError":false,"timestamp":1767225602984}]}
+{"type":"turn_start"}
+{"type":"notice","level":"warning","message":"Advisor unavailable for openrouter/z-ai/glm-5.3: 402 This request requires more credits, or fewer max_tokens. You requested up to 131072 tokens, but can only afford 1000. To increase, visit https://openrouter.ai/settings/credits and add more credits","source":"advisor"}
+{"type":"message_start","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Report","thinkingSignature":"reasoning_content"}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"stop","timestamp":1767225603050,"responseId":"chatcmpl-fixture-2","credentialId":1}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_start","contentIndex":0}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"Report"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":" results"}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_delta","contentIndex":0,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"thinking_end","contentIndex":0,"content":"Report results."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_start","contentIndex":1}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"All"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" done"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":":\n\n"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"-"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"cat"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" a"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" →"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"hello"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"\n"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"-"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"b"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":".txt"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" written"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" containing"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"x"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"`"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"\n\n"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"**"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"Answer"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":":"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" is"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" larger"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"**"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" Reason"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"ing"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":":"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" $"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" ="}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"90"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"$"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" and"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" $"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"9"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"$,"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" and"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" $"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"90"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" >"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" "}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"0"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"11"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"$"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" —"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" the"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" trailing"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" digits"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" compare"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" as"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" decimals"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":","}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" not"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" as"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":" integers"}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_delta","contentIndex":1,"delta":"."}}
+{"type":"message_update","assistantMessageEvent":{"type":"text_end","contentIndex":1,"content":"All done:\n\n- `cat a.txt` → `hello`\n- `b.txt` written containing `x`\n\n**Answer: 9.9 is larger.** Reasoning: $9.9 = 9.90$ and $9.11$, and $0.90 > 0.11$ — the trailing digits compare as decimals, not as integers."}}
+{"type":"message_end","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Report results.","thinkingSignature":"reasoning_content"},{"type":"text","text":"All done:\n\n- `cat a.txt` → `hello`\n- `b.txt` written containing `x`\n\n**Answer: 9.9 is larger.** Reasoning: $9.9 = 9.90$ and $9.11$, and $0.90 > 0.11$ — the trailing digits compare as decimals, not as integers."}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":1500,"output":80,"cacheRead":6000,"cacheWrite":0,"totalTokens":7580,"reasoningTokens":3,"cost":{"input":0.000225,"output":0.00004,"cacheRead":0.00018,"cacheWrite":0,"total":0.000445}},"stopReason":"stop","timestamp":1767225603050,"responseId":"chatcmpl-fixture-2","duration":1500,"ttft":900,"credentialId":1,"completedAt":1767225604620}}
+{"type":"turn_end","message":{"role":"assistant","content":[{"type":"thinking","thinking":"Report results.","thinkingSignature":"reasoning_content"},{"type":"text","text":"All done:\n\n- `cat a.txt` → `hello`\n- `b.txt` written containing `x`\n\n**Answer: 9.9 is larger.** Reasoning: $9.9 = 9.90$ and $9.11$, and $0.90 > 0.11$ — the trailing digits compare as decimals, not as integers."}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":1500,"output":80,"cacheRead":6000,"cacheWrite":0,"totalTokens":7580,"reasoningTokens":3,"cost":{"input":0.000225,"output":0.00004,"cacheRead":0.00018,"cacheWrite":0,"total":0.000445}},"stopReason":"stop","timestamp":1767225603050,"responseId":"chatcmpl-fixture-2","duration":1500,"ttft":900,"credentialId":1},"toolResults":[]}
+{"type":"agent_end","messages":[{"role":"user","content":[{"type":"text","text":"Think step by step about which is larger, 9.11 or 9.9. Then run 'cat a.txt' with bash, then write file b.txt containing x, then reply with the answer."}],"attribution":"user","timestamp":1767225600100},{"role":"assistant","content":[{"type":"thinking","thinking":"Simple: compare, run cat, write file. 9.9 > 9.11 since 0.9 > 0.11. Steps must be sequential? cat and write are independent. But write after cat per instruction order; they're independent, can parallel. Let me do bash cat first, then write, then answer.","thinkingSignature":"reasoning_content"},{"type":"text","text":"9.9 vs 9.11: compare fractional parts — 0.9 vs 0.11. 0.9 > 0.11 (0.90 vs 0.11), so **9.9 is larger**. (The decimal-string intuition \"11 > 9\" is the trap.)"},{"type":"toolCall","id":"chatcmpl-tool-fixture-1","name":"bash","arguments":{"command":"cat a.txt","i":"Reading a.txt"},"partialArgs":"{\"command\": \"cat a.txt\", \"i\": \"Reading a.txt\"}","streamIndex":0,"intent":"Reading a.txt"},{"type":"toolCall","id":"chatcmpl-tool-fixture-2","name":"write","arguments":{"content":"x","i":"Writing b.txt with content x","path":"b.txt"},"partialArgs":"{\"content\": \"x\", \"i\": \"Writing b.txt with content x\", \"path\": \"b.txt\"}","streamIndex":1,"intent":"Writing b.txt with content x"}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":7000,"output":150,"cacheRead":0,"cacheWrite":0,"totalTokens":7150,"reasoningTokens":60,"cost":{"input":0.00105,"output":0.000075,"cacheRead":0,"cacheWrite":0,"total":0.001125}},"stopReason":"toolUse","timestamp":1767225600146,"responseId":"chatcmpl-fixture-1","duration":2700,"ttft":1300,"credentialId":1},{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-1","toolName":"bash","content":[{"type":"text","text":"hello\n\n\nWall time: 0.03 seconds"}],"details":{"timeoutSeconds":300,"wallTimeMs":25.07300099999975},"isError":false,"timestamp":1767225602972},{"role":"toolResult","toolCallId":"chatcmpl-tool-fixture-2","toolName":"write","content":[{"type":"text","text":"Successfully wrote 1 bytes to b.txt"}],"details":{"resolvedPath":"/work/b.txt"},"isError":false,"timestamp":1767225602984},{"role":"assistant","content":[{"type":"thinking","thinking":"Report results.","thinkingSignature":"reasoning_content"},{"type":"text","text":"All done:\n\n- `cat a.txt` → `hello`\n- `b.txt` written containing `x`\n\n**Answer: 9.9 is larger.** Reasoning: $9.9 = 9.90$ and $9.11$, and $0.90 > 0.11$ — the trailing digits compare as decimals, not as integers."}],"api":"openai-completions","provider":"fireworks","model":"glm-5.3-flash","usage":{"input":1500,"output":80,"cacheRead":6000,"cacheWrite":0,"totalTokens":7580,"reasoningTokens":3,"cost":{"input":0.000225,"output":0.00004,"cacheRead":0.00018,"cacheWrite":0,"total":0.000445}},"stopReason":"stop","timestamp":1767225603050,"responseId":"chatcmpl-fixture-2","duration":1500,"ttft":900,"credentialId":1}],"isTerminal":true,"yielded":true}

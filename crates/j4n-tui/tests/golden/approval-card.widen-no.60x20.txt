@@ -1,0 +1,20 @@
+
+  󰍩 Chat   󰧑 Accounts   󰹦 Grow   󰒓 Settings      j4n 0.0.0
+ ──────────────────────━━━━━━━━────────────────────────────
+├ p27  open  let the reflex tests run cargo  3     ⏎ accept
+│   the reflex tests ran cargo by hand three times
+│   by J4n
+│   widens tests runs a shell command
+╰ p28  open  keys row: dusk palette          2
+
+
+
+
+
+
+
+
+
+
+
+

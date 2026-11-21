@@ -1,0 +1,27 @@
+doc = "The frame, `theme.fill = terminal`: no background is painted, so the terminal's own shows (the golden's ANSI has no background colour on the page); the overlays keep their Raise fill."
+sizes = [[80, 24], [60, 20]]
+
+[theme]
+fill = "terminal"
+
+[[step]]
+down = "hello"
+api = 1
+name = "j4n"
+version = "0.0.0"
+project = "demo"
+
+[[step]]
+down = "tree"
+node = { id = "root", title = "", present = "auto", children = [
+  { id = "chat", title = "Chat", icon = "chat", field = { kind = "chat", bind = "chat:main" } },
+  { id = "tasks", title = "Tasks", icon = "tasks", field = { kind = "list", bind = "tasks:all" } },
+] }
+
+[[step]]
+down = "toast"
+text = "nothing is bound as `x`"
+tone = "warn"
+
+[[step]]
+shot = "page"

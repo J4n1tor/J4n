@@ -1,0 +1,67 @@
+api = 1
+
+# The one switch of the pack `offload` and what it is bound by. Read at the start; the next start reads
+# a change. The switch is `offload.on`: a setting called `offload` cannot stand beside `offload.cap_usd` (a setting is a leaf or a branch of the tree,
+# not both), and `qc.on`, `shape.on` are the same shape.
+[[setting]]
+id = "offload.on"
+doc = "On: a light chore (a read, a search, a test, lint or build run, a digest of a log or a diff) goes by rule to a cheaper doer and comes back as a row under the turn, told to the main lane in its next Brief; a review of the main lane's change asks first. The main lane is the only writer: nothing offloaded writes. Off: every line is the main lane's."
+ty = "bool"
+default = true
+full = true
+
+[[setting]]
+id = "offload.cap_usd"
+doc = "What the chores that are paid per request (a gateway key) may take in a day, in dollars (UTC). Use of a subscription's window does not count. Past it a chore stays with the main lane, and a row says so."
+ty = "num"
+default = 2
+min = 0
+max = 1000
+
+[[setting]]
+id = "offload.busy_at"
+doc = "How full a subscription's five-hour window is to be called busy (0 to 1): a chore does not start on a busy window while another is free."
+ty = "num"
+default = 0.8
+min = 0
+max = 1
+
+[[setting]]
+id = "offload.order"
+doc = "Where a model chore goes, first that is free: `haiku` (claude, haiku, on the main lane's account), `pro` (claude, haiku, on an account whose plan is `pro`, while the main account's window is busy) and `own` (a model on the gateway key, counted against `offload.cap_usd`). Words missing from the list are never used."
+ty = "str"
+default = "haiku pro own"
+
+[[setting]]
+id = "offload.model"
+doc = "The model of a chore on claude, as a model word of its doer (the newest match is taken)."
+ty = "str"
+default = "haiku"
+
+[[setting]]
+id = "offload.own_model"
+doc = "The model of a chore on the gateway key, as a model word of the doer `own` (empty: the doer's own default)."
+ty = "str"
+default = ""
+
+[[setting]]
+id = "offload.writes"
+doc = "Words that make a line the main lane's however it starts: it asks for something to be changed, not read."
+ty = "str"
+default = "fix change edit write add implement create remove delete update refactor rename replace rewrite commit push install migrate"
+
+[[setting]]
+id = "offload.max_words"
+doc = "The longest line that is a chore: a long line is a task, and says more than the rule can read."
+ty = "int"
+default = 30
+min = 4
+max = 200
+
+[[setting]]
+id = "offload.worth"
+doc = "How many times dearer per token the main model must be than the chore model (`offload.model`) before a chore goes to a second claude session. A chore costs a session of its own, so with a main model that is not much dearer it only adds cost. Under it the chore stays with the main lane and the row says why; the gateway key (`own`) is not held to it. 0: always send. A main model with no price in `offload.prices` is sent as before."
+ty = "num"
+default = 3
+min = 0
+max = 100

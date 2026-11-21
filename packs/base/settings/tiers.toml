@@ -1,0 +1,25 @@
+api = 1
+
+# Which of a doer's models is the cheap one, the standard one and the strong one is found by code, never by asking a model: by what the
+# models have cost when they have all run enough to tell, else by these price words. They are in J4n basic, whatever packs are on, because the
+# orchestrate mode and the cheap branches pick by them.
+[[setting]]
+id = "offload.prices"
+doc = "What each model costs per token, relative to the others, as `word=number` pairs: the first word that a model's name holds, as a whole word, gives its price (`claude-sonnet-5-5` holds `sonnet`; `gemini` does not hold `mini`). They are the shape of the providers' list prices, yours to correct. A tier is found by them: `cheap` is the lowest price, `standard` the next one up, and Opus and Fable are never picked by a tier, only by a pin. A model no word matches has no tier. Offload reads them too."
+ty = "str"
+default = "haiku=1 sonnet=3 opus=5 fable=8 nano=1 mini=1 flash=1 lite=1 pro=3"
+
+# What a feature needs and the operator went on without: `need.waived` is the list of the needs' ids. A card (`needs`) asks once; going on without a need is
+# written here as the operator's edit, and `:undo` takes it back.
+[[setting]]
+id = "need.waived"
+doc = "The needs of a feature that you chose to go on without, by id (`orchestrate`). A feature whose need is waived does not pick a model by itself, and its card is not shown again; a need that is not in the list is asked about once while the feature is on and lacks it."
+ty = "str"
+default = ""
+
+# The ask points the operator picks at by hand: each gets the `human` step at the end of its chain, and a person at the keyboard is shown one pick row at each ask.
+[[setting]]
+id = "pick.hand"
+doc = "The ask points you pick at yourself, by id (`chats look`): at each of their asks one pick row shows the options numbered, the suggested one first. A digit picks, Enter takes the suggested one, Esc takes the point's fallback, and a minute without a key does too. The needs card offers it where a Decider would answer and none is set up."
+ty = "str"
+default = ""

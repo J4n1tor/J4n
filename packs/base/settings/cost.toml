@@ -1,0 +1,49 @@
+api = 1
+
+# What a request costs the operator as a plan. The plan itself is a row of kind `plan`.
+[[setting]]
+id = "cost.plan.min_n"
+doc = "How many pairs of a window's movement and the list cost spent in it a plan's window needs before its plan cost is measured and not assumed. Fewer pairs: the plan cost is the over-estimate the plan's `assume` says, marked `assumed`."
+ty = "int"
+default = 5
+min = 1
+max = 100
+
+[[setting]]
+id = "cost.calibrate.size"
+doc = "How many whole numbers `:calibrate yes` has the doer write: the size of the request that makes a pair for a plan's window. Raise it when the announced list cost is more than one request of this size takes; the announcement says what a request has to cost, and the Log says what it did."
+ty = "int"
+default = 3000
+min = 100
+max = 30000
+
+[[setting]]
+id = "context.line.in"
+doc = "The size of a typical small line, in fresh input tokens, that `/context` adds to what a session holds to say what the next line costs."
+ty = "int"
+default = 200
+min = 0
+max = 100000
+
+[[setting]]
+id = "context.line.out"
+doc = "The size of the answer to a typical small line, in output tokens, for the same sum."
+ty = "int"
+default = 150
+min = 0
+max = 100000
+
+[[setting]]
+id = "cost.plan.on"
+basic = true
+doc = "Whether J4n reads the limit windows a provider shows and says what a request cost the plan, next to its list cost. Off: no window is read or written, `run.metrics` carries the list cost alone, and a cap is in list cost. On: the plan cost is measured or assumed (`cost.plan.min_n`), and a cap is in plan cost."
+ty = "bool"
+default = true
+
+[[setting]]
+id = "cost.show"
+basic = true
+doc = "Which money the status bar, the chat and the Spend page say for a request that ran on a plan: `plan` (what it took of the plan), `list` (what it costs at list price) or `both` (the plan cost first, the list cost beside it). A request on no plan has one number."
+ty = "str"
+default = "both"
+words = ["plan", "list", "both"]

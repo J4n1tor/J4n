@@ -1,0 +1,28 @@
+
+  󰍩 Chat 1   󰧑 Accounts   󰹦 Grow   󰒓 Settings                                            j4n 0.0.0
+ ───────────━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────
+├ 󰗡 claude-1  claude  max5  signed in                                                      ⏎ remove
+╰ 󰔛 claude-2  claude  max5  needs sign-in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
