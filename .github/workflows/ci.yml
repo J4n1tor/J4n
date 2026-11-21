@@ -33,13 +33,35 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel]
     # macOS is built on every push; its tests are reported but do not block until they are green
     continue-on-error: ${{ startsWith(matrix.os, 'macos') }}
+    # The tests run as scripts/check.sh runs them: through scripts/t, the hermetic runner (docs/TESTING.md), with an empty HOME, a
+    # TMPDIR of its own under ~/.cache, no agent CLI on the PATH and a dead proxy. The runners have four cores.
+    env:
+      J4N_T_JOBS: 4
     steps:
       - uses: actions/checkout@v4
       - uses: Swatinem/rust-cache@v2
-      - name: build
+      # scripts/t gives cargo a dead proxy: the pinned toolchain and every crate are fetched before, with the network
+      - name: fetch
+        run: cargo fetch --locked
+      - name: build (macOS)
+        if: runner.os == 'macOS'
         run: cargo build --locked -p j4n
+      - name: build
+        if: runner.os == 'Linux'
+        run: scripts/t build --locked -p j4n
+      - name: runner selftest
+        if: runner.os == 'Linux'
+        run: scripts/selftest-t
+      - name: kit python tests
+        run: for f in packs/*/tests/test_*.py; do python3 -I -B "$f" || exit 1; done
       - name: test
-        run: cargo test --workspace --locked --no-fail-fast -- --skip tty_cases
+        run: scripts/t test --workspace --locked --no-fail-fast -- --skip tty_cases
+      # the real binary on a pty (util-linux `script`), as the gate's own stage; the speed ratchet is the gate's alone, for a shared
+      # runner's times are not this machine's
+      - name: tty
+        run: scripts/t test --locked -p j4n --test laws tty_cases
       - name: clippy
         if: matrix.os == 'ubuntu-latest'
-        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+        run: |
+          rustup component add clippy
+          scripts/t clippy --workspace --all-targets --locked -- -D warnings

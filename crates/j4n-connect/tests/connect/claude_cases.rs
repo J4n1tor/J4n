@@ -342,9 +342,9 @@ fn a_steer_reaches_the_running_turn_as_a_line_of_its_own() {
     let program = script(
         &bin,
         "claude",
-        r#"IFS= read -r first; echo "$first" >> "$FAKE_LOG"
+        r#"IFS= read -r first; printf '%s\n' "$first" >> "$FAKE_LOG"
 printf '%s\n' '{"type":"system","subtype":"init","session_id":"S"}'
-IFS= read -r second; echo "$second" >> "$FAKE_LOG"
+IFS= read -r second; printf '%s\n' "$second" >> "$FAKE_LOG"
 printf '%s\n' '{"type":"result","subtype":"success","is_error":false,"result":"steered","session_id":"S","total_cost_usd":0,"usage":{}}'
 while IFS= read -r l; do :; done"#,
     );
@@ -645,8 +645,8 @@ fn several_questions_asked_at_once_are_put_one_at_a_time_in_the_order_they_came(
 printf '%s\n' '{"type":"system","subtype":"init","session_id":"S"}'
 printf '%s\n' '{"type":"control_request","request_id":"r1","request":{"subtype":"can_use_tool","tool_name":"Bash","input":{"command":"make one"}}}'
 printf '%s\n' '{"type":"control_request","request_id":"r2","request":{"subtype":"can_use_tool","tool_name":"Bash","input":{"command":"make two"}}}'
-IFS= read -r a; echo "$a" >> "$FAKE_LOG"
-IFS= read -r b; echo "$b" >> "$FAKE_LOG"
+IFS= read -r a; printf '%s\n' "$a" >> "$FAKE_LOG"
+IFS= read -r b; printf '%s\n' "$b" >> "$FAKE_LOG"
 printf '%s\n' '{"type":"result","subtype":"success","is_error":false,"result":"both","session_id":"S","total_cost_usd":0,"usage":{}}'
 while IFS= read -r l; do :; done"#,
     );
@@ -819,7 +819,7 @@ const REST: &str = r#"while IFS= read -r l; do :; done"#;
 #[test]
 fn a_tool_that_asks_several_questions_puts_them_one_at_a_time_and_answers_the_child_once() {
     let questions = r#"{"questions":[{"question":"First?","options":[{"label":"x"},{"label":"y"}]},{"question":"Second?","options":[{"label":"p"},{"label":"q"}]}]}"#;
-    let body = format!("IFS= read -r first\n{INIT}\n{}\nIFS= read -r a; echo \"$a\" >> \"$FAKE_LOG\"\n{}\n{REST}", request("r1", "AskUserQuestion", questions), result("done"));
+    let body = format!("IFS= read -r first\n{INIT}\n{}\nIFS= read -r a; printf '%s\\n' \"$a\" >> \"$FAKE_LOG\"\n{}\n{REST}", request("r1", "AskUserQuestion", questions), result("done"));
     let rig = Rig::scripted(&body);
     let id = rig.spawn("x");
     let first = rig.waiting_on(&id);
@@ -854,7 +854,7 @@ fn a_child_that_ended_between_turns_is_not_reused_and_its_session_is_resumed() {
 
 #[test]
 fn an_answer_to_a_question_the_child_took_back_is_not_written_to_it() {
-    let body = format!("IFS= read -r first\n{INIT}\n{}\nprintf '%s\\n' '{{\"type\":\"control_cancel_request\",\"request_id\":\"r1\"}}'\nIFS= read -r a; echo \"$a\" >> \"$FAKE_LOG\"\n{}\n{REST}", request("r1", "Bash", r#"{"command":"make"}"#), result("done"));
+    let body = format!("IFS= read -r first\n{INIT}\n{}\nprintf '%s\\n' '{{\"type\":\"control_cancel_request\",\"request_id\":\"r1\"}}'\nIFS= read -r a; printf '%s\\n' \"$a\" >> \"$FAKE_LOG\"\n{}\n{REST}", request("r1", "Bash", r#"{"command":"make"}"#), result("done"));
     let rig = Rig::scripted(&body);
     let id = rig.spawn("x");
     let ask = rig.waiting_on(&id);
@@ -1018,7 +1018,7 @@ fn assistant_using(tokens: u64) -> String {
 
 #[test]
 fn a_session_is_shrunk_by_the_clis_own_command_in_the_same_child_and_the_task_goes_on_after_it() {
-    let read = |n: &str| format!("IFS= read -r {n}; echo \"${n}\" >> \"$FAKE_LOG\"");
+    let read = |n: &str| format!("IFS= read -r {n}; printf '%s\\n' \"${n}\" >> \"$FAKE_LOG\"");
     let body = format!(
         "echo \"start $*\" >> \"$FAKE_LOG\"\n{}\n{INIT}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{REST}",
         read("a"),
@@ -1053,7 +1053,7 @@ fn a_session_is_shrunk_by_the_clis_own_command_in_the_same_child_and_the_task_go
 
 #[test]
 fn a_session_that_will_not_shrink_is_a_note_and_the_task_goes_on() {
-    let read = |n: &str| format!("IFS= read -r {n}; echo \"${n}\" >> \"$FAKE_LOG\"");
+    let read = |n: &str| format!("IFS= read -r {n}; printf '%s\\n' \"${n}\" >> \"$FAKE_LOG\"");
     let refused = r#"printf '%s\n' '{"type":"result","subtype":"success","is_error":true,"result":"Not enough messages to compact","session_id":"S","total_cost_usd":0,"usage":{}}'"#;
     let body = format!("{}\n{INIT}\n{}\n{}\n{refused}\n{}\n{}\n{REST}", read("a"), result("one"), read("b"), read("c"), result("two"));
     let rig = Rig::scripted(&body);
@@ -1246,9 +1246,9 @@ IFS= read -r first
 case "$*" in *'"ask":["Bash"'*) ASKED=1;; esac
 if [ -n "$ASKED" ]; then
 {}
-IFS= read -r a; echo "$a" >> "$FAKE_LOG"
+IFS= read -r a; printf '%s\n' "$a" >> "$FAKE_LOG"
 {}
-IFS= read -r b; echo "$b" >> "$FAKE_LOG"
+IFS= read -r b; printf '%s\n' "$b" >> "$FAKE_LOG"
 else echo RAN-WITHOUT-THE-GATE >> "$FAKE_LOG"; fi
 case "$*" in *'Read(**/.env)'*) echo read-denied >> "$FAKE_LOG";; *) echo "READ-ENV $(cat .env)" >> "$FAKE_LOG";; esac
 {}
@@ -1288,9 +1288,9 @@ fn a_read_of_its_own_transcript_folder_is_allowed_with_no_card_and_another_proje
 {INIT}
 ENC=$(pwd | sed 's/[^a-zA-Z0-9]/-/g')
 printf '%s\n' "{{\"type\":\"control_request\",\"request_id\":\"r1\",\"request\":{{\"subtype\":\"can_use_tool\",\"tool_name\":\"Read\",\"input\":{{\"file_path\":\"/h/.claude/projects/$ENC/memory/MEMORY.md\"}}}}}}"
-IFS= read -r a; echo "$a" >> "$FAKE_LOG"
+IFS= read -r a; printf '%s\n' "$a" >> "$FAKE_LOG"
 {}
-IFS= read -r b; echo "$b" >> "$FAKE_LOG"
+IFS= read -r b; printf '%s\n' "$b" >> "$FAKE_LOG"
 {}
 {REST}"#,
         read("r2", "/h/.claude/projects/-h-Projects-other/9c1.jsonl"),
@@ -1314,7 +1314,7 @@ IFS= read -r b; echo "$b" >> "$FAKE_LOG"
 fn a_remote_shell_the_operator_allows_runs_inside_the_relay_and_the_card_says_so() {
     let ask = |id: &str, cmd: &str| request(id, "Bash", &format!(r#"{{"command":"{cmd}"}}"#));
     let body = format!(
-        "IFS= read -r first\n{INIT}\n{}\nIFS= read -r a; echo \"$a\" >> \"$FAKE_LOG\"\n{}\nIFS= read -r b; echo \"$b\" >> \"$FAKE_LOG\"\n{}\n{REST}",
+        "IFS= read -r first\n{INIT}\n{}\nIFS= read -r a; printf '%s\\n' \"$a\" >> \"$FAKE_LOG\"\n{}\nIFS= read -r b; printf '%s\\n' \"$b\" >> \"$FAKE_LOG\"\n{}\n{REST}",
         ask("r1", "ssh h cat /srv/app.conf | tail -5"),
         ask("r2", "ssh h cat /srv/x > out.txt"),
         result("done")

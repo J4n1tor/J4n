@@ -50,14 +50,14 @@ while IFS= read -r line; do
         *)
           if [ "${FAKE_DIALOG:-0}" = 1 ]; then
             echo '{"type":"agent_start"}'
-            echo '{"type":"extension_ui_request","id":"ui1","method":"select","title":"Allow tool: bash\nCommand: make build","options":["Approve","Deny"]}'
+            printf '%s\n' '{"type":"extension_ui_request","id":"ui1","method":"select","title":"Allow tool: bash\nCommand: make build","options":["Approve","Deny"]}'
             IFS= read -r resp; printf '%s\n' "$resp" >> "$log"
             case "$resp" in *'"value":"Approve"'*) play | grep -v '"agent_start"';; *) echo '{"type":"notice","message":"denied"}'; echo '{"type":"agent_end"}'; echo '{"type":"agent_settled"}'; echo '{"type":"prompt_result"}'; echo '{"type":"session_settled"}';; esac
           else
             play
           fi
           if [ "${FAKE_LATE:-0}" = 1 ]; then
-            echo '{"type":"extension_ui_request","id":"late1","method":"select","title":"Allow tool: bash\nCommand: rm -rf x","options":["Approve","Deny"]}'
+            printf '%s\n' '{"type":"extension_ui_request","id":"late1","method":"select","title":"Allow tool: bash\nCommand: rm -rf x","options":["Approve","Deny"]}'
             IFS= read -r resp; printf '%s\n' "$resp" >> "$log"
           fi;;
       esac;;

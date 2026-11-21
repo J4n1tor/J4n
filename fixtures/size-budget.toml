@@ -4,7 +4,7 @@ api = 1
 [ceiling]
 j4n-proto = 800
 j4n-core = 51984
-j4n-connect = 18536
+j4n-connect = 18547
 j4n-reach = 1258
 j4n-memory = 552
 j4n-bench = 267

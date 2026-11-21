@@ -213,6 +213,8 @@ fn version_prints_its_name_fast_and_writes_nothing_into_home() {
             if e.path().is_dir() { stack.push(e.path()) } else { found.push(e.path().strip_prefix(d.home()).unwrap().to_path_buf()) }
         }
     }
+    // a folder lists its entries in the file system's own order, which is not the same on every machine
+    found.sort();
     assert_eq!(found, [PathBuf::from(".j4n/legacy-packs.toml"), PathBuf::from(".j4n/settings/no-watch.toml"), PathBuf::from(".j4n/settings/setup-card.toml")], "HOME is as it was");
     assert!(fs::read_dir(d.project()).unwrap().next().is_none(), "and so is the project");
 }

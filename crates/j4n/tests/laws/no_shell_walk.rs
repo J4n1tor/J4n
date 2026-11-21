@@ -64,6 +64,15 @@ exit 1
     path
 }
 
+/// A `chromium` that stands in for the window of an account, beside the stand-in `claude`: an account is added only on a machine with a
+/// browser for its window, and the walk must not need one installed. It is never started (the stand-in's sign-in opens no link); a machine
+/// that has a real one finds that first.
+fn stand_in_browser(bin: &Path) {
+    let path = bin.join("chromium");
+    fs::write(&path, "#!/bin/sh\ncase \"$1\" in --version) echo 'Chromium 1.0'; exit 0 ;; esac\nexit 1\n").unwrap();
+    fs::set_permissions(&path, fs::Permissions::from_mode(0o755)).unwrap();
+}
+
 /// Every file under `dir`, by its path.
 fn files(dir: &Path) -> Vec<PathBuf> {
     let mut out = Vec::new();
@@ -204,6 +213,7 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     assert!(!no_pty(), "util-linux `script` gives the binary a pty; it is not on this machine");
     let d = Dirs::bare("no-shell-walk-keys");
     let claude = stand_in_claude(&d.dir.join("bin"));
+    stand_in_browser(&d.dir.join("bin"));
     // (1) before J4n starts, HOME and the project hold nothing at all: every file found in them later is J4n's
     assert!(files(&d.home()).is_empty() && files(&d.project()).is_empty(), "a fresh HOME and project");
     assert!(!claude.starts_with(d.home()) && !claude.starts_with(d.project()));

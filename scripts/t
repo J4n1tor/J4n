@@ -7,6 +7,7 @@
 #      J4N_BLESS   passed on to the run when set
 #      CARGO_INCREMENTAL  passed on; 0 (no incremental cache) when unset
 #      J4N_SWEEP   passed on to the run when set: the folder the screen sweep writes its pages in (with J4N_SWEEP_ONLY)
+#      J4N_T_JOBS  how many jobs cargo builds with (default 2)
 # Out: J4N_CAP     "on" when the run is under the 5G memory cap, "off" when no systemd user manager is there
 #      J4N_HERMETIC  1, so a test can tell that it runs under this script
 #      TZ           UTC, so the time of day on a turn (otherwise the machine's zone) is the same on every machine and the goldens keep their ##:##
@@ -29,7 +30,8 @@ for f in "$REAL_CARGO_HOME"/*; do
   [ "${f##*/}" = bin ] || mirror+=("$f")
 done
 shopt -u nullglob dotglob
-[ "${#mirror[@]}" -gt 0 ] && ln -s -t "$RUN/cargo" "${mirror[@]}"
+# `ln <files…> <dir>`, not `ln -t`, which BSD's ln (macOS) does not have
+[ "${#mirror[@]}" -gt 0 ] && ln -s "${mirror[@]}" "$RUN/cargo"
 # One `ln` per directory: a link per file costs a fork each (about 6 s for the 4,000 tools of /usr/bin).
 for d in /usr/local/bin /usr/bin /bin "$REAL_CARGO_HOME/bin"; do
   [ -d "$d" ] || continue
@@ -38,7 +40,7 @@ for d in /usr/local/bin /usr/bin /bin "$REAL_CARGO_HOME/bin"; do
     case "${f##*/}" in claude|omp|codex|opencode|pi|gemini|msb|j4n) continue ;; esac
     [ -f "$f" ] && [ -x "$f" ] && tools+=("$f")
   done
-  [ "${#tools[@]}" -gt 0 ] && ln -sf -t "$RUN/bin" "${tools[@]}" 2>/dev/null
+  [ "${#tools[@]}" -gt 0 ] && ln -sf "${tools[@]}" "$RUN/bin" 2>/dev/null
 done
 CAP=()
 capped=off
@@ -51,7 +53,7 @@ fi
 ENVV=(
   HOME="$RUN/home" PATH="$RUN/bin" TMPDIR="$RUN/tmp" J4N_HERMETIC=1 J4N_CAP="$capped" TZ=UTC
   CARGO_HOME="$RUN/cargo" RUSTUP_HOME="${RUSTUP_HOME:-$REAL_HOME/.rustup}"
-  CARGO_BUILD_JOBS=2 CARGO_PROFILE_DEV_DEBUG=0
+  CARGO_BUILD_JOBS="${J4N_T_JOBS:-2}" CARGO_PROFILE_DEV_DEBUG=0
   # off unless the caller asks: the incremental cache grows by gigabytes per build
   CARGO_INCREMENTAL="${CARGO_INCREMENTAL:-0}"
   CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target}"
@@ -61,7 +63,8 @@ ENVV=(
 )
 [ -n "${J4N_BLESS:-}" ] && ENVV+=(J4N_BLESS="$J4N_BLESS")
 [ -n "${J4N_SWEEP:-}" ] && ENVV+=(J4N_SWEEP="$J4N_SWEEP" J4N_SWEEP_ONLY="${J4N_SWEEP_ONLY:-}")   # the sweep writes its pages there (tests/laws/sweep.rs)
-"${CAP[@]}" env -i "${ENVV[@]}" cargo "$@"
+# an empty array spelled so that a bash older than 4.4 (macOS's own) does not take it for an unset one
+${CAP[@]+"${CAP[@]}"} env -i "${ENVV[@]}" cargo "$@"
 rc=$?
 h=$(find "$RUN/home" -mindepth 1 | wc -l)
 if [ "$h" -ne 0 ]; then

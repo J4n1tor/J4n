@@ -12,7 +12,7 @@ runner is what stops that. It runs one cargo command from the repository root wi
 - a `PATH` of the system tools with no agent CLI on it (`claude`, `codex`, `opencode`, `pi`, `gemini`, `omp` and the like);
 - a private `CARGO_HOME` that mirrors the real one (registry, git, config) with an empty `bin/`, because `rustup` puts
   `$CARGO_HOME/bin` on the `PATH` of every tool it starts;
-- a dead proxy (`127.0.0.1:9`, every spelling), two build jobs, no debug info, `TZ=UTC`;
+- a dead proxy (`127.0.0.1:9`, every spelling), two build jobs (`J4N_T_JOBS` sets another number), no debug info, `TZ=UTC`;
 - a memory cap of 5 GB (`systemd-run --user --scope`) when a systemd user manager exists, announced as `J4N_CAP=on|off`;
 - `J4N_HERMETIC=1`. The laws binary fails without it, so a bare `cargo test` cannot pass them.
 

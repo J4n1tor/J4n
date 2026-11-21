@@ -18,6 +18,8 @@ use std::time::{Duration, Instant};
 pub const LINE_MAX: usize = 16 << 20;
 /// How much of the end of stderr is kept.
 pub const TAIL_MAX: usize = 2048;
+/// What uutils' `env` (a child is often started under `env -i`) says after the error of a program it cannot start: not the last word of a tail.
+const ENV_HINT: &str = "use -[v]S to pass options in shebang lines";
 /// How long a leader that has closed its output is given to exit on its own.
 const GRACE: Duration = Duration::from_millis(300);
 /// How many times a program that is "busy" is tried (the pauses between them double from 1 ms: 127 ms in all).
@@ -111,13 +113,15 @@ fn lock<T>(m: &Mutex<T>) -> MutexGuard<'_, T> {
 }
 
 // SAFETY: both declarations match the libc functions of the same names (`kill(2)` and `prctl(2)`: integer arguments, an
-// integer result, `unsigned long` as `u64` on the 64-bit Linux this runs on), and the process links libc.
+// integer result, `unsigned long` as `u64` on the 64-bit Linux this runs on; only Linux has `prctl`), and the process links libc.
 unsafe extern "C" {
     fn kill(pid: i32, sig: i32) -> i32;
+    #[cfg(target_os = "linux")]
     fn prctl(option: i32, arg2: u64, arg3: u64, arg4: u64, arg5: u64) -> i32;
 }
 
 const SIGKILL: i32 = 9;
+#[cfg(target_os = "linux")]
 const PR_SET_PDEATHSIG: i32 = 1;
 
 /// Kill the group of `pid`. Only while the leader is not yet reaped: its zombie keeps the group id reserved.
@@ -188,7 +192,8 @@ pub fn spawn(
 }
 
 /// [`spawn`] for a child that is to end with J4n (a sign-in waiting for a browser): it is killed when the thread that started it ends, which is
-/// when J4n is killed in the middle of the wait. The caller waits for the child on that thread, and [`hold`]s it for the ends that run code.
+/// when J4n is killed in the middle of the wait (on Linux; elsewhere it can outlive that). The caller waits for the child on that thread, and
+/// [`hold`]s it for the ends that run code.
 pub fn spawn_bound(
     launch: &Launch,
     piped_stdin: bool,
@@ -218,6 +223,7 @@ fn spawn_with(
         .stderr(Stdio::piped())
         .stdin(if piped_stdin { Stdio::piped() } else { Stdio::null() })
         .process_group(0);
+    #[cfg(target_os = "linux")]
     if bound {
         // SAFETY: between fork and exec only this one syscall of two integers runs, which is async-signal-safe.
         unsafe {
@@ -227,6 +233,8 @@ fn spawn_with(
             });
         }
     }
+    #[cfg(not(target_os = "linux"))]
+    let _ = bound;
     let mut child = start(&mut cmd)?;
     let pid = child.id();
     let (Some(stdout), Some(stderr)) = (child.stdout.take(), child.stderr.take()) else {
@@ -243,7 +251,10 @@ fn spawn_with(
             let mut reader = BufReader::new(stderr);
             let mut buf = Vec::new();
             while read_line(&mut reader, &mut buf).unwrap_or(false) {
-                keep_tail(&tail, &String::from_utf8_lossy(&buf));
+                let line = String::from_utf8_lossy(&buf);
+                if !line.ends_with(ENV_HINT) {
+                    keep_tail(&tail, &line);
+                }
             }
         })
     };

@@ -200,7 +200,8 @@ fn a_draft_that_is_wrong_is_sent_back_with_what_is_wrong_and_one_that_names_anot
         std::thread::sleep(Duration::from_millis(20));
     }
     let s = op.until("the end", |s| s.contains("needs you: t1"));
-    assert!(s.contains("runs that program and no other"), "{s}");
+    // the concern names the program by its path, so where its words wrap depends on how long the path is
+    assert!(flat(&s).contains("runs that program and no other"), "{s}");
     assert!(!s.contains("once, to see"), "the canary never ran: {s}");
     assert_eq!(held(&d, "connectors/newagent.toml"), "");
     assert_eq!(world.front.log().read(0).filter(|e| e.kind == "proposal.made").count(), 0);

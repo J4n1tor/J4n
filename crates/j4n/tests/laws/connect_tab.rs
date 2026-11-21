@@ -259,7 +259,9 @@ fn a_run_that_said_nothing_the_map_could_read_marks_its_row_and_learns_the_progr
     wait("the flow for the program", || queued(&world, "flow:connect") == [agent.display().to_string()]);
     op.until("learning", |s| s.lines().any(|l| l.contains("mytool") && l.contains("learning")));
     // the flow asks leave to look at the program; not given, so it ends and the row is still the one that drifted
-    op.until("the leave to look", |s| s.contains("what it is"));
+    // the card names the program by its path, so where its words wrap depends on how long the path is, and it stands over the rows: it is
+    // known by a word that never wraps
+    op.until("the leave to look", |s| s.contains("(`--version`,"));
     keys(&mut op, vec![alt('n')]);
     wait("the flow to end", || world.front.tasks().book().rows().iter().all(|r| r.state.is_terminal()));
     op.until("drifted", |s| s.lines().any(|l| l.contains("mytool") && l.contains("drifted")));
