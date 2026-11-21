@@ -1,24 +1,24 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                   j4n 0.1.0
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                                j4n 0.1.0
  ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
                                                 ╭─ find ───────────────────────────────────────────────────────╮
                                                 │ › ▏                                                          │
                                                 │                                                              │
                                                 │ ▸ 󰍩 Chat                                                     │
-                                                │   󰧑 Library                                                  │
-                                                │   󰚥 Connect                                                  │
+                                                │   󰇁 Usage                                                    │
+                                                │   󰚥 Agents                                                   │
                                                 │ Tasks                                                        │
                                                 │   󰝖 Tasks                                                    │
                                                 │   󰘥 Decisions                                                │
                                                 │   󰛐 Inbox                                                    │
                                                 │   󰗡 Habits                                                   │
-                                                │ Library                                                      │
-                                                │   󰧑 Models                                                   │
-                                                │   󰧑 Providers                                                │
-                                                │   󰧑 Plans                                                    │
-                                                │   󰧑 Trust                                                    │
-                                                │ Library › Models                                             │
-                                                │   󰧑 task time                                                │
+                                                │ Usage                                                        │
+                                                │   󰇁 usage                                                    │
+                                                │   󰇁 a day                                                    │
+                                                │   󰧭 Report                                                   │
+                                                │ Agents                                                       │
+                                                │   󰚥 Setup                                                    │
+                                                │   󰚥 Overview                                                 │
                                                 │                                                              │
                                                 │ ⏎ jump   esc close                                           │
                                                 ╰──────────────────────────────────────────────────────────────╯

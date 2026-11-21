@@ -1,14 +1,19 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────
- Models   Providers   Plans   Trust
-─────────────────────━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────
-  plan      connector  price    assume    windows
-├   claude  claude     —        $1000.00  five_hour=5h, seven_day=7d
-│   The plan the claude CLI is signed in with.
-├   max20   claude     $200.00  $4000.00  five_hour=5h, seven_day=7d
-├   max5    claude     $100.00  $1000.00  five_hour=5h, seven_day=7d
-╰   pro     claude     $20.00   $200.00   five_hour=5h, seven_day=7d
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧮 󰒓
+─────────────────────────────────────────────━━━━━━─────────────────────────────────────────────────────────────────────
+  task time  —
+  model                     had through  now            price       window  used  last
+├ deepseek-v4.1-flash-1017  own          no key         not priced  131072  0     —
+│   own · no key · sends deepseek/deepseek-v4.1-flash-1017
+│   not used yet
+├ gpt-oss-20b               light        no key         not priced  131072  0     —
+├ haiku                     claude       not installed  not priced  —       0     —
+├ jev-latest                jev          no key         not priced  —       0     —
+├ opus                      claude       not installed  not priced  —       0     —
+├ sonnet                    claude       not installed  not priced  —       0     —
+╰ span 01                   span         no key         not priced  —       0     —
 
 
 
@@ -28,9 +33,4 @@
 
 
 
-
-
-
-
-
- • ⏎ set price  ⌥1–9 tabs  ↑↓ move  ? keys  ⌃k find  ⌃g state
+ ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

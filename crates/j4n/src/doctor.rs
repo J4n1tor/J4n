@@ -14,7 +14,7 @@ use j4n_core::redact::Redactor;
 use j4n_core::table::{Layer, LayerKind, Tables};
 use std::sync::Arc;
 
-/// The line that mends a doer that is not ready: the row of Connect › Setup that does it, never a line for a terminal.
+/// The line that mends a doer that is not ready: the row of Agents › Setup that does it, never a line for a terminal.
 fn fix(c: &Connector, installed: bool) -> String {
     let row = format!("{AGENT} › {}", c.id);
     if c.key.is_some() && c.program.is_none() {
@@ -31,12 +31,12 @@ fn fix(c: &Connector, installed: bool) -> String {
     }
 }
 
-/// Where a missing key is typed: the OpenRouter key on the Decider's row of Connect › Setup (one key for the Decider, the small model and
-/// J4n's own agent); a key of another place on the connector's row in Library › Providers. Either `⏎` is the secret field.
+/// Where a missing key is typed: the OpenRouter key on the Decider's row of Agents › Setup (one key for the Decider, the small model and
+/// J4n's own agent); a key of another place on the connector's row in Agents › Providers. Either `⏎` is the secret field.
 fn key_fix(c: &Connector) -> String {
     match c.key.as_deref() {
         Some(k) if k.contains("OPENROUTER_API_KEY") || k == "kept:openrouter" => format!("{SPAN}: ⏎ types the key"),
-        _ => format!("Library › Providers › {}: ⏎ types the key", c.id),
+        _ => format!("Agents › Providers › {}: ⏎ types the key", c.id),
     }
 }
 

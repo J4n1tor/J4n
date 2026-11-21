@@ -348,11 +348,11 @@ impl Book {
         // the real program is looked for first, so that a machine without a browser is told so before anything is started
         if !b.candidates.is_empty() {
             if b.found.is_none() {
-                return Err(format!("no browser for account windows: none of Chromium, Google Chrome, Brave or Edge is on this machine (install one; Connect › Services › {BROWSER} lists the paths J4n looks for)"));
+                return Err(format!("no browser for account windows: none of Chromium, Google Chrome, Brave or Edge is on this machine (install one; Agents › Services › {BROWSER} lists the paths J4n looks for)"));
             }
         } else {
             let probe = b.probe.argv.first().map_or(b.program(), String::as_str);
-            find(probe, Path::new("/")).map_err(|_| format!("no browser for account windows: `{probe}` is not on this machine (Connect › Services › {BROWSER} is the one J4n looks for)"))?;
+            find(probe, Path::new("/")).map_err(|_| format!("no browser for account windows: `{probe}` is not on this machine (Agents › Services › {BROWSER} is the one J4n looks for)"))?;
         }
         let program = find(b.program(), Path::new("/"))?;
         let v = self.vars(a, None, Some(url));
@@ -403,7 +403,7 @@ impl Book {
                 return Err(format!("account `{id}` is a login of `{}`, and this task runs `{}`", c.id, spec.doer));
             }
             if !a.is_yours() && !book.dir(id).join("home").is_dir() {
-                return Err(format!("account `{id}` has no folder yet: Connect › Accounts, s signs it in"));
+                return Err(format!("account `{id}` has no folder yet: Agents › Accounts, s signs it in"));
             }
             book.proxy_ready(&a)?;
             // an account is a sign-in: a key J4n keeps, given to the program for its tasks of no account, would win over it
@@ -545,7 +545,7 @@ fn add(job: &Job, book: &Book, link: &Link, log: &Log, connector: &str, id: &str
     }
 }
 
-/// `use <connector> [<id>]` (Connect › Add account › found on this machine › `u`): the operator's own login of the connector, which a task
+/// `use <connector> [<id>]` (Agents › Add account › found on this machine › `u`): the operator's own login of the connector, which a task
 /// with no account runs on, named as an account. Nothing is copied and no folder is made: the row says `keeps = "yours"`, and the
 /// harness is asked, as the operator, whether it is signed in before the row is written.
 fn adopt(job: &Job, book: &Book, link: &Link, log: &Log, connector: &str, id: Option<&str>) -> Result<String, String> {
@@ -564,7 +564,7 @@ fn adopt(job: &Job, book: &Book, link: &Link, log: &Log, connector: &str, id: Op
     let a = Account { id: id.clone(), doc: String::new(), connector: connector.into(), remark: "your own login".into(), proxy: system(), view: window(), keeps: YOURS.into(), plan: None };
     let who = looked_at(book, &a, c, &c.signin.clone().unwrap_or_default(), book.env(&a, c), &job.cx.site.dir)?;
     if !who.ok {
-        return Err(format!("`{connector}` is not signed in on this machine: Connect › Add account makes an account of its own and signs it in"));
+        return Err(format!("`{connector}` is not signed in on this machine: Agents › Add account makes an account of its own and signs it in"));
     }
     let mut row = toml::Table::new();
     row.insert("connector".into(), connector.into());
@@ -670,12 +670,12 @@ fn signin(job: &Job, book: &Book, log: &Log, id: &str) -> Result<String, String>
     }
 }
 
-/// `login <connector>`: the program's own sign-in, in its own folder, as when nobody keeps accounts (Connect › Setup's `s`, no pack `accounts`).
+/// `login <connector>`: the program's own sign-in, in its own folder, as when nobody keeps accounts (Agents › Setup's `s`, no pack `accounts`).
 /// The connector's `[connector.signin]` runs with the operator's own environment: a word or a variable of an account's (`{account.home}`,
 /// `{account.email}`) is left out, so nothing points it at a folder of J4n's. Its link is shown as it comes; it is done when its check says so.
 fn login(job: &Job, book: &Book, connector: &str) -> Result<String, String> {
-    let c = book.connectors.get(connector).ok_or_else(|| format!("there is no program `{connector}` to sign in: Connect › Setup lists the agents"))?;
-    let s = c.signin.as_ref().filter(|s| !s.argv.is_empty()).ok_or_else(|| format!("{connector} has no sign-in J4n can start: sign in to it its own way, then Connect › Setup › r looks again"))?;
+    let c = book.connectors.get(connector).ok_or_else(|| format!("there is no program `{connector}` to sign in: Agents › Setup lists the agents"))?;
+    let s = c.signin.as_ref().filter(|s| !s.argv.is_empty()).ok_or_else(|| format!("{connector} has no sign-in J4n can start: sign in to it its own way, then Agents › Setup › r looks again"))?;
     let mut argv: Vec<String> = s.argv.iter().filter(|w| !w.contains("{account.")).cloned().collect();
     job.approve("signin", format!("sign in to {connector} with its own login? J4n starts its sign-in, shows the link it gives and asks it who it is after"), &format!("signin {connector}: {}", argv.join(" ")))?;
     // a bare name stands for the program the connector says, where it says one by its path (as the agent itself is started)
@@ -783,7 +783,7 @@ fn ask_who(check: &SigninCheck, v: &[(&str, String)], env: BTreeMap<String, Stri
 fn check(job: &Job, book: &Book, log: &Log, id: &str) -> Result<String, String> {
     let (a, c) = book.get(id)?;
     if !a.is_yours() && !book.dir(id).join("home").is_dir() {
-        return Err(format!("account `{id}` has no folder yet: Connect › Accounts, s signs it in"));
+        return Err(format!("account `{id}` has no folder yet: Agents › Accounts, s signs it in"));
     }
     book.proxy_ready(&a)?;
     let s = c.signin.clone().unwrap_or_default();

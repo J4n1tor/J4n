@@ -282,9 +282,9 @@ fn the_windows_reach_the_log_and_a_request_on_a_plan_without_a_price_says_so() {
     for m in &metrics {
         assert_eq!(m["usd"], json!(0.25), "the list cost stays what it was: {m}");
         assert!(m.get("plan_usd").is_none(), "{m}");
-        // no price is said in words that tell where to set it, not as a bare `not set`: the row of Library › Plans, not a file
+        // no price is said in words that tell where to set it, not as a bare `not set`: the row of Agents › Plans, not a file
         let words = m["plan"].as_str().unwrap();
-        assert!(words.contains("no price") && words.contains("Library › Plans") && words.contains("on claude") && !words.contains("plan.toml"), "{words}");
+        assert!(words.contains("no price") && words.contains("Agents › Plans") && words.contains("on claude") && !words.contains("plan.toml"), "{words}");
         // and the share of the window needs no price: the assumed capacity of the plan says it, of the shortest window
         assert_eq!((m["share_of"].as_str(), m["source"].as_str()), (Some("5h"), Some("assumed")), "{m}");
         assert!((m["share"].as_f64().unwrap() - 0.25 / (1000.0 * 5.0 / 24.0 / 30.44)).abs() < 1e-9, "{m}");

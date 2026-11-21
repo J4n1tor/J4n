@@ -1,24 +1,24 @@
 
- 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
- ──────────────────────────────────────────────────────────━━━━━━━━━━──────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
-━━━━━━━━━━──────────────────────────────────────────────────────────────────────
-  switch                  now   by  what it does
-├ 󰔡 box.net               on    —
-│   Whether a boxed task may use the network. The agents are API clients: leave
-│   it on unless the row can cut it and the work needs none.
-│   default on
-├   box.use               auto  —   Which box row a task in the place box is pu…
-├ 󰔢 check.after           off   —   Whether the project's own check (kind check…
-├ 󰔡 complete.decider      on    —   A Decider puts first the suggestion you mos…
-├   complete.decider_day  300   —   The most times a day the Decider is asked t…
-├ 󰔡 complete.on           on    —   Tab completes what you type: a command, a c…
-├ 󰔡 cost.plan.on          on    —   Whether J4n reads the limit windows a provi…
-├   cost.show             both  —   Which money the status bar, the chat and th…
-├ 󰔢 packs.full            off   —   J4n full: on, every pack built in is loaded…
-├   profile               full  —   What a CLI doer is started with: full (ever…
-├   read.style            calm  —   How prose is drawn: calm leaves a blank row…
-├ 󰔢 retry.auto            off   —   Whether a turn that failed with what may me…
-├   session.mode          auto  —   When a line carries on in the doer's sessio…
-├   theme.palette         jjj   —   The colours: jjj, dusk, paper, ember, mono …
+ 󰍩 Chat 1 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings           j4n 0.1.0
+ ───────────────────────────────────────────────━━━━━━━━━━─────────────────────
+Features Look This Session All Keys Loop Gates 󰏖 Packs Commands
+━━━━━━━━────────────────────────────────────────────────────────────────────────
+  switch             now     by  what it does
+├   approval.inside  auto    —   The Gate says yes by itself to edits and tests…
+│   auto (the default): on while lanes is orchestrate, off else; on and off
+│   that you set win. On: an approval no rule has a say about (or that only the
+│   rule for an unreadable line asks, for invisible characters inside the text
+│   a here-document gives Python) is said yes to by the Gate when its effect
+│   stays inside the project, a chat's worktree or the task's own temporary
+│   folder: an edit, a test run (cargo test, uv run pytest, npm test), a
+│   linter, a script of the project named for a check (scripts/verify.sh), a
+│   remove of build folders, Python on the line that opens only files it names
+│   inside the project. A line that is inside but for the paths of some Python,
+│   built while it runs, is put to a Decider (the point inside), which may say
+│   inside or ask; no Decider, or an unsure one, asks you. You are still asked
+│   for anything outside the project, the network, credentials, a delete that
+│   is not of build folders, git push, a deploy and a remote line, and for what
+│   a rule of yours asks. The Log says who said yes: rule:gate ("inside the
+│   project: …") or decider:<id> ("inside, harmless: …"). A run that denies
+│   every ask keeps it off.
  1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

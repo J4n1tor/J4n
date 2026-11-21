@@ -3,7 +3,6 @@ api = 1
 # The web tools of a model that has `web` in its `tools` (`j4n-reach`).
 [[setting]]
 id = "web.local"
-basic = true
 doc = "Whether a fetch may reach the machine J4n runs on and the network around it (loopback, 10.x, 192.168.x, a link-local address such as the cloud's metadata service). Off: only the public internet is fetched."
 ty = "bool"
 default = false

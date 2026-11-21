@@ -1,44 +1,44 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
-─────────────────────────────────────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────
-├ :account /account  <add | signin | open | check | remove> <what>  Keep an account: :account add claude work [plan=max5|pro] [proxy=<url>], :acc…  experimental
-├ :accounts                                                         Show the accounts: whose login each is, its route, and where it stands.         experimental
-├ :archive /archive  <chat>                                         Tidy the list of the chats (chats.on): :archive c3 archives that chat, in a c…
-├ :calibrate         Say what a request has to cost to teach J4n what a window of your plan is worth, and, with `yes`, run it. It spends part of the window, s…
-├ :chart /chart      <name>                                         Show a chart as a row of the chat that stays up to date: spend (a day's dolla…
-├ :chats             List the chats, the ones that wait for you first (chats.on): `⏎` goes into one, `esc` closes the list.
-├ :clear /clear      Empty what this chat shows and nothing else (chats.on): the Log keeps every row, it is a chain, and `:history` brings them back. In the o…
-├ :compact /compact  <mode>                                         Shrink this chat's doer session now, at a settled boundary (or at the next on…
-├ :config :settings  Show every setting and what it holds.
-├ :connections                                                      Show Connect › Overview: what J4n is connected to, the programs on this machi…  experimental
-├ :connector         <test | off | on> <name>                       Run a connection's canary once, in the box (:connector test claude), or turn …  experimental
-├ :context /context  Show what each chat's doer holds and what the next line costs: per `doer · model`, how full its window is, the session's floor (what its …
-├ :contribute                                                       Show what this J4n found wrong with J4n.                                        experimental
-├ :envoy                                                            Open an envoy (crew.envoys, lanes orchestrate): a chat that talks the work th…  experimental
-├ :grant :grants     <back> <id>                                    The grants you gave that still count (once, this task, this session, always h…
-├ :habit             <what to do>                                   How the habit detectors have done: :habit list says each rule's labels and pr…  experimental
-├ :history           Bring back the rows `:clear` emptied in this chat (chats.on).
-├ :inbox             <what to do>                                   The lines typed while a task works: :inbox lists the open ones; :inbox tag <i…  experimental
-├ :key               <remove> <connector>                           Remove a provider's key that J4n keeps: :key remove own. Library › Providers …
-├ :kit               <export, task>                                 The kit's notebook: :kit export writes the cells of the newest task that ran …  experimental
-├ :lab                                                              Show Connect › Lab: the runs of the connect lab, and the table of each. The l…  experimental
-├ :lanes             Say what acts on its own, or set it: `single` (a line is a task), `auto` (the plan keeper and scout and review branches), `wide` (also pi…
-├ :library :models   Show the models there are and how each is had.
-├ :look              <part> <word>                                  Say how the screen looks (palette, marks, frame, corners, title_place, densit…
-├ :new               <words>                                        Start a new chat (chats.on): :new opens one and goes into it, :new <words> op…
-├ :offload                                                          Say whether light chores (reads, searches, test runs, digests) go to a cheape…  experimental
-├ :pack :packs       List the packs: which are on, which were left out and why.
-├ :parts             <what to do>                                   The part runner: :parts <document> reads its parts into a Draft; :parts keep …  experimental
-├ :plan              <words>                                        Show the plan of the thread, edit it (drop, state, set, add; an edit wins ove…
-├ :plans             Show the plan rows and their prices.
-├ :proposals         Show what J4n has proposed for itself, to accept or decline.
-├ :providers         Show Library › Providers: the connectors that speak a provider's API, and where each one's key comes from (never the key). `⏎` on a row t…
-├ :recall            <words to look for>                            Find what was noted, said or reported by its words: :recall release build.
-├ :reflex /reflex    <add | on | off | remove | case> <id> <…>      Reflexes: :reflex add <id> do <command> when <your sentence> check <condition…  experimental
-├ :reflexes                                                         Show the reflexes: what each does, when, whether it is on, and what the judge…  experimental
-├ :remember          <the note>                                     Keep a note in the memory: :remember the build needs --release.
-├ :report            <thread, all>                                  The ledger: :report says the newest report of this thread again, rebuilt from…  experimental
-├ :resume            Take the session the last change left back: the next line, once, carries on in the doer's old session and not in the new one `session.mod…
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+─────────────────────────────────────────────────────────────━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────
+├ accounts    on   0.0.0  widens  2 commands, 1 connector, 4 events, 1 failure, 1 flow, 1 fold, 1 kind, 2 pages, 2 views
+│   several logins of one harness kept apart: each account has a folder, a browser window and, if it needs one, a proxy of its own
+│   experimental
+├ agent       on   0.0.0  widens  2 connectors, 2 flows
+├ base        on   0.0.0  widens  25 ask points, 1 box, 18 checks, 32 commands, 3 compact modes, 4 connectors, 3 cost sources, 7 failures, 3 flows, 15 folds, 4…
+├ code        on   0.0.0          3 flows, 3 phrases
+├ connect     on   0.0.0  widens  1 ask point, 3 commands, 4 connectors, 3 events, 2 flows, 1 kind, 2 pages, 1 phrase, 1 rule, 2 settings, 5 sniffs, 2 views
+├ contribute  on   0.0.0  widens  2 commands, 2 events, 2 folds, 3 pages, 1 rule, 1 setting, 2 views
+├ crew        on   0.0.0          1 command, 4 kinds, 6 pages, 6 seats, 5 seeds, 8 settings, 6 views
+├ grow        on   0.0.0  widens  1 fold, 3 rules, 2 settings
+├ guard       on   0.0.0  widens  9 gates, 5 incidents, 2 rules, 1 setting
+├ habits      on   0.0.0  widens  1 command, 1 flow, 7 folds, 1 page, 7 rules, 8 settings, 1 view
+├ inbox       on   0.0.0          1 command, 1 event, 3 folds, 5 inbox rules, 1 kind, 1 page, 5 settings, 1 view
+├ jev         on   0.0.0  widens  3 connectors, 1 model
+├ kit         on   0.0.0  widens  1 command, 1 event, 1 flow, 2 gates, 1 need, 1 page, 1 rule, 6 settings, 1 view
+├ lanes       on   0.0.0          3 branches, 1 kind
+├ ledger      on   0.0.0  widens  1 command, 2 events, 1 fold, 1 need, 1 page, 1 rule, 3 settings, 1 view
+├ offload     on   0.1.0          6 chores, 1 command, 1 kind, 2 needs, 9 settings
+├ parts       on   0.0.0  widens  1 command, 3 events, 1 gate, 3 settings
+├ reflexes    on   0.0.0  widens  2 commands, 1 need, 1 page, 4 reflex cases, 2 rules, 4 settings, 1 view
+├ skills      on   0.0.0          2 commands, 1 page, 4 settings, 1 view
+├ bench       off  0.0.0          2 cases, 2 commands, 1 event, 1 flow, 1 fold, 1 kind, 1 page, 1 view
+├ qc          off  0.0.0  widens  3 commands, 5 events, 2 flows, 5 folds, 4 kinds, 1 need, 5 pages, 35 patterns, 10 qc keeps, 3 qc rubrics, 1 qc score, 5 rules…
+├ shape       off  0.0.0  widens  5 events, 1 fold, 3 kinds, 1 need, 6 personas, 1 phrase, 1 rule, 10 settings, 5 shape templates
+├ terminal    off  0.0.0  widens  4 connectors
+╰ test        off  0.0.0          nothing
+
+
+
+
+
+
+
+
+
+
+
+a pack acts from the next start
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

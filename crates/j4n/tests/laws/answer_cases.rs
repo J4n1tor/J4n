@@ -161,7 +161,7 @@ fn gate_gives_the_class_danger_gives_for_each_command() {
     assert!(got[3]["detail"]["classes"].as_array().unwrap().iter().any(|c| c == "wipe"));
     // nothing but the matcher ran: no world was opened, no file was made anywhere
     assert_eq!(files(&d.project(), ""), Vec::<String>::new());
-    assert_eq!(files(&d.home(), ""), [".j4n/legacy-packs.toml", ".j4n/settings/no-watch.toml", ".j4n/settings/setup-card.toml"]);
+    assert_eq!(files(&d.home(), ""), [".j4n/legacy-packs.toml", ".j4n/settings/no-watch.toml", ".j4n/settings/setup-card.toml", ".j4n/settings/tabs-all.toml"]);
 }
 
 #[test]

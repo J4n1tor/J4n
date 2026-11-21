@@ -605,7 +605,7 @@ fn a_new_chat_chosen_at_the_question_says_decider_off_and_the_row_leads_to_the_d
     assert_eq!((r["why"].as_str(), r["detail"].as_str(), r["new"].clone()), (Some("new chat · Decider off"), Some("Decider off"), json!(true)));
     assert!(!r["detail"].as_str().unwrap().contains("no operator"), "{r}");
     let row = f.notes().into_iter().rfind(|n| n.starts_with("→")).unwrap();
-    assert_eq!(row, "→ c3 · new chat · Decider off · ⏎ opens Connect › Deciders");
+    assert_eq!(row, "→ c3 · new chat · Decider off · ⏎ opens Agents › Deciders");
 }
 
 #[test]

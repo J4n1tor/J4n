@@ -34,6 +34,9 @@ impl Dirs {
         // the Setup card of a first start is answered: a screen test that is not about it starts on its own page. A test of the card uses `bare`
         // or `defaults_as_shipped`.
         fs::write(dir.join("home/.j4n/settings/setup-card.toml"), "api = 1\n[[setting]]\nid = \"setup.card\"\nvalue = false\n").unwrap();
+        // every tab and page (`tabs.all`), as an operator who turned it on has it: a screen test that is not about the five tabs of J4n
+        // basic finds the page it drives where it was. A test of the five tabs uses `bare` (and `nine_tabs` reads the tree).
+        fs::write(dir.join("home/.j4n/settings/tabs-all.toml"), "api = 1\n[[setting]]\nid = \"tabs.all\"\nvalue = true\n").unwrap();
         Dirs { dir }
     }
 
@@ -205,7 +208,7 @@ fn version_prints_its_name_fast_and_writes_nothing_into_home() {
     assert!(version_line_ok(o.out.trim_end_matches('\n')), "{:?}", o.out);
     // alone it takes a few hundredths of a second; the bound only says that the command does not wait for something
     assert!(o.secs < 20.0, "{}", o.secs);
-    // HOME is as `Dirs` made it: J4n's folder holds the test's own switches (no watch, the Setup card answered) and nothing else
+    // HOME is as `Dirs` made it: J4n's folder holds the test's own switches (no watch, the Setup card answered, every tab) and nothing else
     let mut found = Vec::new();
     let mut stack = vec![d.home()];
     while let Some(dir) = stack.pop() {
@@ -215,7 +218,7 @@ fn version_prints_its_name_fast_and_writes_nothing_into_home() {
     }
     // a folder lists its entries in the file system's own order, which is not the same on every machine
     found.sort();
-    assert_eq!(found, [PathBuf::from(".j4n/legacy-packs.toml"), PathBuf::from(".j4n/settings/no-watch.toml"), PathBuf::from(".j4n/settings/setup-card.toml")], "HOME is as it was");
+    assert_eq!(found, [PathBuf::from(".j4n/legacy-packs.toml"), PathBuf::from(".j4n/settings/no-watch.toml"), PathBuf::from(".j4n/settings/setup-card.toml"), PathBuf::from(".j4n/settings/tabs-all.toml")], "HOME is as it was");
     assert!(fs::read_dir(d.project()).unwrap().next().is_none(), "and so is the project");
 }
 
@@ -805,7 +808,7 @@ fn a_secret_file_others_can_read_or_a_value_too_short_to_scrub_is_refused_and_no
 /// A made-up key of no vendor's shape, kept in J4n's key file for a provider: the kept-key path is what is proven, not a pattern.
 const KEPT_KEY: &str = "kept-canary-plain-3f8a61c2d9";
 
-/// The key J4n keeps for `provider`, as Library › Providers writes it (mode 0600 in a folder of mode 0700), and the setting `doer.keys`.
+/// The key J4n keeps for `provider`, as Agents › Providers writes it (mode 0600 in a folder of mode 0700), and the setting `doer.keys`.
 fn kept_key(d: &Dirs, provider: &str, given: &str) {
     use std::os::unix::fs::{DirBuilderExt, PermissionsExt};
     let dir = d.j4n_home().join("keys");
@@ -1205,7 +1208,7 @@ fn a_run_on_a_plan_keeps_the_windows_in_the_log_and_says_what_its_price_says() {
     let o = j4n(&d, &["run", goal, "--doer", "test"], None, &[]);
     assert_eq!(o.rc, 0, "{}\n{}", o.out, o.err);
     assert_eq!(log_events(&d).iter().filter(|e| e["kind"] == "run.window").count(), 4);
-    assert!(metrics(&d).iter().all(|m| m["plan"].as_str().is_some_and(|w| w.starts_with("no price: Library › Plans, ⏎ on ")) && m["usd"] == 0.25 && m.get("share").is_none()), "{:?}", metrics(&d));
+    assert!(metrics(&d).iter().all(|m| m["plan"].as_str().is_some_and(|w| w.starts_with("no price: Agents › Plans, ⏎ on ")) && m["usd"] == 0.25 && m.get("share").is_none()), "{:?}", metrics(&d));
     // with the price and an assumption in their own row, a request says what it assumes the plan paid
     let d = Dirs::new("run-priced");
     std::fs::create_dir_all(d.j4n_home()).unwrap();

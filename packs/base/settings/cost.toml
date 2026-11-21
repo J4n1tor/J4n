@@ -35,7 +35,6 @@ max = 100000
 
 [[setting]]
 id = "cost.plan.on"
-basic = true
 doc = "Whether J4n reads the limit windows a provider shows and says what a request cost the plan, next to its list cost. Off: no window is read or written, `run.metrics` carries the list cost alone, and a cap is in list cost. On: the plan cost is measured or assumed (`cost.plan.min_n`), and a cap is in plan cost."
 ty = "bool"
 default = true
@@ -43,7 +42,8 @@ default = true
 [[setting]]
 id = "cost.show"
 basic = true
-doc = "Which money the status bar, the chat and the Spend page say for a request that ran on a plan: `plan` (what it took of the plan), `list` (what it costs at list price) or `both` (the plan cost first, the list cost beside it). A request on no plan has one number."
+doc = "Which money the status bar, the chat and the Usage tab say for a request that ran on a plan: `plan` (what it took of the plan), `list` (what it costs at list price) or `both` (the plan cost first, the list cost beside it). A request on no plan has one number."
+brief = "The money shown for a request on a plan: its share of the plan, the list price, or both."
 ty = "str"
 default = "both"
 words = ["plan", "list", "both"]

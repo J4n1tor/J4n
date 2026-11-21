@@ -7,14 +7,14 @@
 use crate::redact::{MIN_SECRET, Redactor};
 use std::path::{Path, PathBuf};
 
-/// The Log's word for a key typed in Library › Providers (data: `connector`, nothing else).
+/// The Log's word for a key typed in Agents › Providers (data: `connector`, nothing else).
 pub const SET: &str = "key.set";
 /// The Log's word for a key that J4n kept and the operator removed (`x` on the row, through the card).
 pub const REMOVED: &str = "key.removed";
 /// The folder under J4n's own, where each connector's key is one file.
 pub const DIR: &str = "keys";
 
-/// Where J4n keeps the keys typed in Library › Providers.
+/// Where J4n keeps the keys typed in Agents › Providers.
 #[derive(Debug, Clone)]
 pub struct Keys {
     dir: PathBuf,
@@ -94,8 +94,8 @@ impl Keys {
             }
             match std::fs::read_to_string(entry.path()) {
                 Ok(v) if red.register(&marker(&name), v.trim()) => {}
-                Ok(_) => found.push(format!("the key J4n keeps for {name} is too short to be kept out of the Log; Library › Providers › {name}: ⏎ types it again")),
-                Err(e) => found.push(format!("the key J4n keeps for {name} cannot be read ({e}); Library › Providers › {name}: ⏎ types it again")),
+                Ok(_) => found.push(format!("the key J4n keeps for {name} is too short to be kept out of the Log; Agents › Providers › {name}: ⏎ types it again")),
+                Err(e) => found.push(format!("the key J4n keeps for {name} cannot be read ({e}); Agents › Providers › {name}: ⏎ types it again")),
             }
         }
         found

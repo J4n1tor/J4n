@@ -263,7 +263,7 @@ fn the_first_start_says_the_place_and_the_mode_in_the_one_row_the_doctor_already
     let w = crate::doctor_flow::world(&d, false);
     let place = "new folder app · write here · a checkpoint before work";
     let note = j4n::first_start_note(&w.front, true, place).expect("a new folder says its place");
-    assert_eq!(note, format!("{place} · pi not found · ⏎ opens Connect › Setup"), "the place, then what is missing, in one row");
+    assert_eq!(note, format!("{place} · pi not found · ⏎ opens Agents › Setup"), "the place, then what is missing, in one row");
     assert_eq!(j4n::first_start_note(&w.front, false, place), None, "a folder J4n has worked in before says nothing");
     w.close();
     let d = Dirs::new("safe-anywhere-note-fine");

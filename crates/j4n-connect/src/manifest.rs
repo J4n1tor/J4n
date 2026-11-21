@@ -490,7 +490,7 @@ pub struct Connector {
     /// Off by default: a server's answers are untrusted and its effects are outside J4n.
     #[serde(default)]
     pub code: bool,
-    /// The operator turned it off (Connect › Overview, `o`): the row stays, and it is not read into the doers at the start.
+    /// The operator turned it off (Agents › Overview, `o`): the row stays, and it is not read into the doers at the start.
     #[serde(default)]
     pub off: bool,
 }
@@ -670,7 +670,7 @@ impl Connector {
 
     /// The key, read now from where it is kept; empty when there is none (`secret` says why not, and that is no failure here: a
     /// model without a key is a doer that is not logged in).
-    /// The order: an `env:` name that is set wins; then the key J4n keeps for the connector (typed in Library › Providers);
+    /// The order: an `env:` name that is set wins; then the key J4n keeps for the connector (typed in Agents › Providers);
     /// then the row's own `file:`. Each is read now, so what was typed or removed a moment ago is what the next child gets.
     pub fn api_key(&self, secret: &dyn Fn(&str, &str) -> Result<String, String>) -> String {
         self.read_key(secret).unwrap_or_default()
@@ -715,7 +715,7 @@ impl Connector {
             let reference = match (reference.strip_prefix("kept:"), &self.keyed) {
                 (None, _) => reference.clone(),
                 (Some(_), None) => continue,
-                (Some(p), Some(keys)) => keys.path(p).filter(|f| f.is_file()).map(|f| format!("file:{}", f.display())).ok_or_else(|| format!("secret {name}: no key is kept for {p} · Library › Providers › {p}: ⏎ types it"))?,
+                (Some(p), Some(keys)) => keys.path(p).filter(|f| f.is_file()).map(|f| format!("file:{}", f.display())).ok_or_else(|| format!("secret {name}: no key is kept for {p} · Agents › Providers › {p}: ⏎ types it"))?,
             };
             env.insert(name.clone(), secret(name, &reference).map_err(|e| format!("secret {name}: {e}"))?);
         }
@@ -1002,7 +1002,7 @@ impl Connectors {
     }
 
     /// Say that the program of `id` is `program` (the operator's own, from the environment).
-    /// Where J4n keeps the keys typed in Library › Providers (`<home>/keys`): each row that has a `key` reads its own file there.
+    /// Where J4n keeps the keys typed in Agents › Providers (`<home>/keys`): each row that has a `key` reads its own file there.
     /// `providers` is `(provider id, its key reference)`: a connector with the same reference reads the provider's file after its own.
     pub fn keep_keys(&mut self, dir: &std::path::Path, providers: &[(String, String)]) {
         for c in self.list.iter_mut().filter(|c| c.key.is_some()) {

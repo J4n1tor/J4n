@@ -1,6 +1,6 @@
 api = 1
 
-# A program's own sign-in, in its own folder, with no account: Connect › Setup's `s` says `:signin <program>`. The doer `account`
+# A program's own sign-in, in its own folder, with no account: Agents › Setup's `s` says `:signin <program>`. The doer `account`
 # runs the program's `[connector.signin]` and asks before it starts it.
 [[flow]]
 id = "signin"

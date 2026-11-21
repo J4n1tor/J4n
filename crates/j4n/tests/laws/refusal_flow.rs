@@ -1,7 +1,7 @@
 //! A refusal leads somewhere. The note that says why carries the act that mends it, and `⏎` on
 //! an empty composer does it while the note is the chat's newest row. `:chats` while the chats are off offers the Features switch, so
 //! the first refusal a new user meets leads on; a command of a pack that is off turns the pack on; the first start's row, a line no agent can take and the
-//! Setup card each open Connect › Setup, and the card asks once per J4n home.
+//! Setup card each open Agents › Setup, and the card asks once per J4n home.
 //! The real front, Serve, proposer and TUI, with keys only.
 
 use crate::screen_drive::{Operator, flat};
@@ -102,7 +102,7 @@ fn a_command_of_a_pack_that_is_off_leads_to_turning_it_on() {
     op.press(vec![press(KeyCode::Enter)]);
     op.until("the pack on from the next start", |s| flat(s).contains("inbox is on from the next start") && flat(s).contains("⏎ restarts now"));
     assert!(world.front.proposer().unwrap().proposals().rows().is_empty(), "the operator's edit, no Grow row");
-    // Grow › Packs has the same key on the row
+    // Settings › Packs has the same key on the row
     let packs = world.front.screen().pack_rows();
     let qc = packs.iter().find(|r| r.key == "qc").expect("the pack qc");
     let keys: Vec<(&str, &Intent, u8)> = qc.actions.iter().map(|a| (a.key.as_str(), &a.intent, a.risk)).collect();
@@ -113,7 +113,7 @@ fn a_command_of_a_pack_that_is_off_leads_to_turning_it_on() {
     world.close();
 }
 
-/// Connect › Setup on the screen: its steps.
+/// Agents › Setup on the screen: its steps.
 fn on_setup(s: &str) -> bool {
     s.contains("Agent") && s.contains("Decider") && s.contains("Custom")
 }
@@ -125,32 +125,32 @@ fn the_first_start_row_opens_connect_setup() {
     let world = open(&d);
     let mut op = Operator::sit(&world);
     // what the first start in a new folder says when a doer is missing, with the key that mends it
-    world.front.first_note("main", "here · pi not found · ⏎ opens Connect › Setup");
-    op.until("the first-start row", |s| flat(s).contains("pi not found · ⏎ opens Connect › Setup"));
+    world.front.first_note("main", "here · pi not found · ⏎ opens Agents › Setup");
+    op.until("the first-start row", |s| flat(s).contains("pi not found · ⏎ opens Agents › Setup"));
     assert_eq!(last_act(&world).map(|a| a["intent"].clone()), Some(json!({ "intent": "open", "node": "setup" })));
     op.press(vec![press(KeyCode::Enter)]);
-    op.until("Connect › Setup", on_setup);
+    op.until("Agents › Setup", on_setup);
     world.close();
 }
 
 /// No agent is installed and signed in, and none is pinned: the first line is refused with words that say so and the key that opens
-/// Connect › Setup.
+/// Agents › Setup.
 #[test]
 fn a_line_no_agent_can_take_is_refused_with_the_key_that_opens_connect_setup() {
     let d = Dirs::bare("refusal-noagent");
     let world = open_in(&d, &d.project(), None);
     let mut op = Operator::sit(&world);
     op.type_line("make the tests pass");
-    op.until("the refusal", |s| flat(s).contains("no agent works") && flat(s).contains("⏎ opens Connect › Setup"));
+    op.until("the refusal", |s| flat(s).contains("no agent works") && flat(s).contains("⏎ opens Agents › Setup"));
     assert_eq!(last_act(&world).map(|a| a["intent"].clone()), Some(json!({ "intent": "open", "node": "setup" })));
     assert!(events(&world, "task.queued").is_empty(), "no task was started");
     op.press(vec![press(KeyCode::Enter)]);
-    op.until("Connect › Setup", |s| on_setup(s) && s.contains("none works"));
+    op.until("Agents › Setup", |s| on_setup(s) && s.contains("none works"));
     world.close();
 }
 
-/// In J4n basic the pack `jev` is off, and Connect › Deciders is not an empty list with no word: it is one row that says
-/// why and whose `⏎` turns the pack on, the same command as Grow › Packs.
+/// In J4n basic the pack `jev` is off, and Agents › Deciders is not an empty list with no word: it is one row that says
+/// why and whose `⏎` turns the pack on, the same command as Settings › Packs.
 #[test]
 fn connect_deciders_with_the_pack_jev_off_has_one_row_whose_enter_turns_it_on() {
     let d = Dirs::new("refusal-deciders");
@@ -186,7 +186,7 @@ fn answered(d: &Dirs) -> bool {
 }
 
 /// A fresh J4n home (J4n basic: the Decider is off): the start raises the Setup card, which says where the agent, the Decider and the test
-/// stand. `esc` puts it off and marks nothing, so the next start asks again; `⏎` opens Connect › Setup and answers it in the home's own
+/// stand. `esc` puts it off and marks nothing, so the next start asks again; `⏎` opens Agents › Setup and answers it in the home's own
 /// layer, so neither this project nor a second one of the same home asks again. The old welcome card is folded into it: the Decider is
 /// set up on Setup's own row.
 #[test]
@@ -198,7 +198,7 @@ fn a_fresh_home_raises_the_setup_card_once_esc_puts_it_off_and_its_answer_holds_
     assert_eq!((a.shape, a.asker.as_str(), a.question.as_str()), (j4n_proto::Shape::Approval, "j4n", "Set up J4n?"));
     assert_eq!(a.options.iter().map(|o| (o.id.as_str(), o.label.as_str(), o.recommended)).collect::<Vec<_>>(), [("yes", "open Setup", true), ("no", "later", false)]);
     assert!(a.effect.contains("Agent: test · ready · pinned at start") && a.effect.contains("Decider: not set") && a.effect.contains("Test: not run"), "{}", a.effect);
-    assert!(a.why.contains("Connect › Setup") && a.why.contains("asks again at the next start"), "{}", a.why);
+    assert!(a.why.contains("Agents › Setup") && a.why.contains("asks again at the next start"), "{}", a.why);
     assert_eq!(events(&world, "setup.asked").len(), 1);
     // asked once in a run: a second look raises no second card
     world.front.setup_card_open();
@@ -220,7 +220,7 @@ fn a_fresh_home_raises_the_setup_card_once_esc_puts_it_off_and_its_answer_holds_
     let mut op = Operator::sit(&world);
     op.until("the card", |s| s.contains("Set up J4n?"));
     op.press(vec![press(KeyCode::Char('1'))]);
-    op.until("Connect › Setup", on_setup);
+    op.until("Agents › Setup", on_setup);
     wait_for(&mut op, "the home marked", || answered(&d));
     // the project's Log keeps what was said at each start, a record only: the mark is the home's
     assert_eq!(events(&world, "setup.answered").iter().map(|e| e["answer"].clone()).collect::<Vec<_>>(), [json!("later"), json!("open")]);

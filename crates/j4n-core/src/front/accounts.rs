@@ -1,4 +1,4 @@
-//! Connect › Add account: the form of a new account and the logins found on this machine, as the rows
+//! Agents › Add account: the form of a new account and the logins found on this machine, as the rows
 //! of one view (`fold:account-add`, pack `accounts`).
 //!
 //! - **The draft** is the core's: each field row carries its editor (`data.edit`) bound as `draft:account.<field>`, so the
@@ -47,7 +47,7 @@ fn field(m: &toml::Table, k: &str) -> String {
 impl Front {
     /// A field of a form's draft, as the screen sent it (`Intent::Set { kind: "draft" }`): kept, never written.
     pub fn draft_set(&self, form: &str, field: &str, value: &serde_json::Value) -> Result<(), String> {
-        // the add line of Connect › Overview: a program or a path, kept under its own key
+        // the add line of Agents › Overview: a program or a path, kept under its own key
         if form == super::connect::FORM && field == super::connect::FIELD {
             let word = value.as_str().unwrap_or_default().trim().to_string();
             let mut d = self.0.drafts.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
@@ -82,7 +82,7 @@ impl Front {
     pub(super) fn account_form_open(&self, thread: &str, connector: Option<&str>) -> Said {
         if let Some(c) = connector {
             if !self.account_connectors().iter().any(|(id, _)| id == c) {
-                return self.refuse(thread, format!("`{c}` keeps no accounts: Connect › Add account lists the connectors that do"));
+                return self.refuse(thread, format!("`{c}` keeps no accounts: Agents › Add account lists the connectors that do"));
             }
             let _ = self.draft_set(FORM, "connector", &serde_json::Value::String(c.into()));
         }

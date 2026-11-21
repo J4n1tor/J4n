@@ -1,10 +1,18 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────────────────────────────━━━━━━━━━──────────────────────────────────────────────────────────────────
- 󰇁 Spend   󰧭 Report
-━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ───────────────────━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────
+claude
+  no runs yet
+codex · gemini
+  these doers report no window: nothing to show
+openrouter
+  credits: unknown (a gateway call, not made here)
+  today: nothing spent
+typesafe
+  credits: unknown (a gateway call, not made here)
+  today: nothing spent
   a day  —
-• nothing here
+• each task's cost shows here once a task has run
 
 
 
@@ -15,6 +23,7 @@
 
 
 
+• the report of each settled thread shows here: its facts, its lines and their receipts, its answers
 
 
 
@@ -24,13 +33,4 @@
 
 
 
-
-
-
-
-
-
-
-
-
- ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state
+ ⌥1–9 tabs  ? keys  ⌃k find  ⌃g state

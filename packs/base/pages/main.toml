@@ -3,6 +3,10 @@ api = 1
 # The tabs of the screen a front has when nobody gave it another; the rest of the screen, the questions and
 # the status bar under the tabs, is the template `main` (templates/main.toml). A pack adds a tab with a page whose `parent` is `home`,
 # and a sub-tab with one whose parent is a page.
+#
+# Five tabs stand by default: Chat, Usage, Agents, Log and Settings. A page that is only worth a look now and then waits behind
+# the switch `tabs.all` (Settings › Features), and a page whose props say `hide_empty` stands only while its list has rows; with
+# `tabs.all` on, every page is there. A pack's own pages come with its pack or its switch.
 
 [[page]]
 id = "chat"
@@ -23,6 +27,7 @@ icon = "tasks"
 order = 20
 field = "list"
 bind = "tasks:all"
+when = "set.tabs.all or set.lanes in ['auto', 'wide', 'orchestrate']"
 chart = { id = "tasks-lanes", title = "branches a line", field = "bars", bind = "chart:lanes", when = "set.lanes != 'single'", props = { orient = "horizontal", rows = 6, series = [{ name = "branches", unit = "n" }] } }
 
 [[page]]
@@ -52,9 +57,9 @@ help = "Main reads this list, cut to a size, before a line: a feature marked not
 
 [[page]]
 id = "connectors"
-doc = "What J4n is connected to: the connections and the programs on this machine it is not (Connect), the lab runs, the accounts of the agents (Accounts, Add account, with the pack accounts on), and the agents, the tools, the services, the MCP servers, the deciders, and the kit, the skills and the reflexes it gives a task."
+doc = "The agents J4n works with, set up first: the agent, the model and the Decider (Setup), the connections and the programs on this machine it is not (Overview), the models, the providers and the plans, the lab runs, the accounts of the agents (Accounts, Add account, with the pack accounts on), and the agents, the tools, the services, the MCP servers, the deciders, and the kit, the skills and the reflexes it gives a task."
 parent = "home"
-title = "Connect"
+title = "Agents"
 icon = "connector"
 order = 40
 present = "tabs"
@@ -71,9 +76,9 @@ help = "⏎ opens a step or does what its row says · u takes an edit back · J4
 
 [[page]]
 id = "agents"
-doc = "The agents a thread can be bound to."
+doc = "The agents a thread can be bound to, with the roles each takes and its models."
 parent = "connectors"
-title = "Agents"
+title = "List"
 order = 10
 field = "list"
 view = "connector-agents"
@@ -86,6 +91,7 @@ title = "Tools"
 order = 20
 field = "list"
 view = "connector-tools"
+props = { hide_empty = true, empty = "a program J4n runs for its output shows here once a pack or Agents › Overview adds one" }
 
 [[page]]
 id = "services"
@@ -95,6 +101,7 @@ title = "Services"
 order = 30
 field = "list"
 view = "connector-services"
+props = { hide_empty = true, empty = "a service J4n reaches over the network shows here once a pack or Agents › Overview adds one" }
 
 [[page]]
 id = "deciders"
@@ -113,6 +120,7 @@ title = "MCP"
 order = 40
 field = "list"
 view = "connector-mcp"
+props = { hide_empty = true, empty = "an MCP server and its tools show here once Agents › Overview connects one" }
 
 [[page]]
 id = "upstream-news"
@@ -123,6 +131,7 @@ group = "proposals"
 order = 62
 field = "list"
 view = "upstream-news"
+props = { empty = "a release of a tool J4n follows shows here when it touches something J4n uses" }
 help = "a line you plan becomes a proposal, accepted in the Grow tab"
 
 [[page]]
@@ -134,54 +143,53 @@ group = "proposals"
 order = 64
 field = "list"
 view = "upstream-todo"
+props = { empty = "a release planned from Updates leaves its note here" }
 
 [[page]]
 id = "plans"
 doc = "The plan rows, with their prices."
 parent = "home"
 title = "Plans"
-group = "models"
+group = "connectors"
 order = 16
 field = "list"
 view = "plans"
 
-[[page]]
-id = "models"
-doc = "What J4n can run on and what it costs: the models, the providers, the plans and their prices, and how far each answerer is trusted."
-parent = "home"
-title = "Library"
-icon = "models"
-order = 35
-present = "tabs"
-
+# What J4n can run on and what it costs (the models, the providers, the plans and their prices, and how far each answerer is trusted)
+# are sub-tabs of Agents.
 [[page]]
 id = "library"
 doc = "The models, and the connector each is had through."
-parent = "models"
+parent = "home"
 title = "Models"
-order = 10
+group = "connectors"
+order = 12
 field = "list"
 view = "library"
 chart = { id = "models-wall", title = "task time", field = "line", bind = "chart:wall", props = { scale = "log", window = 14, rows = 7, series = [{ name = "median", unit = "s" }, { name = "slowest", role = "run", unit = "s" }] } }
 
 [[page]]
 id = "providers"
-doc = "The connectors that speak a provider's API, and their keys."
-parent = "models"
+doc = "The connectors that speak a provider's API, and their keys: the ones with a kept key or whose program is here, and with `tabs.all` every one."
+parent = "home"
 title = "Providers"
+group = "connectors"
 order = 15
 field = "list"
 view = "providers"
-help = "J4n keeps a key and never shows it"
+help = "J4n keeps a key and never shows it · Settings › Features › tabs.all lists the providers nobody set up too"
+props = { empty = "no provider is set up yet: Agents › Setup signs an agent in or takes a key" }
 
 [[page]]
 id = "trust"
 doc = "How far each machine answerer is trusted."
-parent = "models"
+parent = "home"
 title = "Trust"
+group = "connectors"
 order = 17
 field = "list"
 view = "trust"
+props = { hide_empty = true, empty = "a Decider's answers are scored here once it has answered a question" }
 help = "an answerer that is wrong too often at a point is shadowed there until it is trusted again"
 
 [[page]]
@@ -193,6 +201,8 @@ icon = "grow"
 order = 55
 field = "list"
 view = "proposals"
+when = "set.tabs.all"
+props = { empty = "what J4n proposes for itself shows here, to accept or decline" }
 chart = { id = "grow-bench", title = "bench pass", field = "line", bind = "chart:bench", props = { style = "wave", rows = 7, series = [{ name = "pass", unit = "pct" }] } }
 help = "a proposal changes nothing until it is accepted; an accepted one can be undone"
 
@@ -202,22 +212,25 @@ doc = "The packs there are, and which are on. `⏎` or `space` turns one on or o
 parent = "home"
 title = "Packs"
 icon = "packs"
-group = "proposals"
-order = 60
+group = "system"
+order = 75
 field = "list"
 bind = "packs:all"
 help = "a pack acts from the next start"
 
 [[page]]
 id = "spend"
-doc = "What each task cost this week."
+doc = "Where each plan's limit windows and each gateway's spend stand (what `/usage` says), what was spent a day, and what each task cost this week."
 parent = "home"
-title = "Spend"
+title = "Usage"
 icon = "spend"
-order = 52
-field = "list"
-view = "spend"
-chart = { id = "spend-days", title = "a day", field = "line", bind = "chart:spend", props = { window = 14, series = [{ name = "usd", axis = "left", unit = "usd" }, { name = "tokens", axis = "right", role = "run", unit = "n" }] } }
+order = 25
+present = "stack"
+children = [
+  { id = "usage-now", title = "usage", field = "meter", bind = "usage:all" },
+  { id = "spend-days", title = "a day", field = "line", bind = "chart:spend", props = { window = 14, series = [{ name = "usd", axis = "left", unit = "usd" }, { name = "tokens", axis = "right", role = "run", unit = "n" }] } },
+  { id = "spend-tasks", field = "list", view = "spend", grow = 1, props = { empty = "each task's cost shows here once a task has run" } },
+]
 
 [[page]]
 id = "log"
@@ -240,7 +253,7 @@ present = "tabs"
 
 [[page]]
 id = "features"
-doc = "The switches J4n basic shows, flipped in place; every other setting is under All."
+doc = "The switches an operator changes, each with one line on what it does, flipped in place; every other setting is under All."
 parent = "system"
 title = "Features"
 order = 5
@@ -255,6 +268,7 @@ title = "Look"
 order = 10
 field = "list"
 view = "settings-look"
+when = "set.tabs.all"
 
 [[page]]
 id = "settings"
@@ -265,6 +279,7 @@ order = 20
 field = "list"
 bind = "form:thread"
 props = { titles = ["setting", "now"] }
+when = "set.tabs.all"
 
 [[page]]
 id = "keys"
@@ -283,6 +298,7 @@ title = "Loop"
 order = 40
 field = "list"
 view = "settings-loop"
+when = "set.tabs.all"
 
 [[page]]
 id = "gates"
@@ -292,13 +308,14 @@ title = "Gates"
 order = 50
 field = "list"
 view = "settings-gates"
+when = "set.tabs.all"
 
 [[page]]
 id = "config"
 doc = "Every setting."
 parent = "system"
 title = "All"
-order = 70
+order = 25
 field = "list"
 view = "settings"
 

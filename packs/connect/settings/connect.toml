@@ -15,7 +15,7 @@ live = false
 
 [[setting]]
 id = "connect.relearn"
-doc = "Whether a connected program that changes what it says is learned again: when a run of it says nothing J4n can read, the Connect flow is run for it in the box. `on` (the default) swaps its row where `connect.auto` is on, and proposes the new row where it is off; `off` leaves the row as it is and the Connect tab says `drifted`."
+doc = "Whether a connected program that changes what it says is learned again: when a run of it says nothing J4n can read, the Connect flow is run for it in the box. `on` (the default) swaps its row where `connect.auto` is on, and proposes the new row where it is off; `off` leaves the row as it is and the Agents tab says `drifted`."
 ty = "bool"
 default = true
 live = true

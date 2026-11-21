@@ -174,7 +174,7 @@ fn a_key_need_with_no_key_shows_its_card_before_the_feature_acts_and_never_a_key
     let open = asks(&mut serve);
     let a = open.iter().find(|a| a.question.contains("key of light")).unwrap_or_else(|| panic!("{open:?}"));
     assert_eq!(a.options.iter().map(|o| o.id.as_str()).collect::<Vec<_>>(), ["key", "without", "off"]);
-    assert!(a.options[0].label.contains("Library › Providers › light"), "{:?}", a.options[0]);
+    assert!(a.options[0].label.contains("Agents › Providers › light"), "{:?}", a.options[0]);
     assert!(events(&world, "task.queued").is_empty(), "the card came before anything acted");
     // never a key: not on the card, not in the Log
     let shown = serde_json::to_string(a).unwrap();

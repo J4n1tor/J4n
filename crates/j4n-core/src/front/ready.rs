@@ -70,7 +70,7 @@ impl Front {
     pub(super) fn ready_said(&self, thread: &str, args: &[String]) -> Said {
         let said = Said::Command("pack".into());
         let (Some(word), Some(id)) = (args.first().map(String::as_str).filter(|w| matches!(*w, "on" | "off")), args.get(1)) else {
-            return self.refuse(thread, "`:pack ready on <pack>` or `:pack ready off <pack>`: Grow › Packs `g` does the same".into());
+            return self.refuse(thread, "`:pack ready on <pack>` or `:pack ready off <pack>`: Settings › Packs `g` does the same".into());
         };
         let on = word == "on";
         let screen = self.screen();

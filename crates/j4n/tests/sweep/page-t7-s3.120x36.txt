@@ -1,0 +1,36 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+──────────────────━━━━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────
+  setting  now
+├ doer     test
+├ model    (the doer's own)
+├ how      pinned
+╰ mode     write
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

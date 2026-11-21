@@ -1,4 +1,4 @@
-//! A provider's key is set with keys only. Library › Providers, `⏎` on the own
+//! A provider's key is set with keys only. Agents › Providers, `⏎` on the own
 //! agent's row opens the secret field, the key is typed masked and `⏎` sends it once; the row says `set · J4n file`, Grow has no row, the
 //! Log has `key.set` and no part of the key, and the doer reads it at its next start with no restart. The real wire, front, Serve and TUI.
 
@@ -41,9 +41,9 @@ fn a_key_set_with_keys_only_says_set_has_no_grow_row_and_the_log_has_no_value() 
     // the row is the provider's, OpenRouter, whose key is typed once for every connector that names it (`light`, `own`, `span`)
     let at = rows.iter().position(|r| r.key == "openrouter").expect("OpenRouter is a provider");
     assert!(rows[at].cells.iter().any(|c| c.text == "not set"), "{:?}", rows[at]);
-    // Library › Providers, the cursor to `own`, ⏎ opens its secret field
+    // Agents › Providers, the cursor to `own`, ⏎ opens its secret field
     op.type_line(":providers");
-    op.until("Library › Providers", |s| s.contains("Providers") && s.contains("not set"));
+    op.until("Agents › Providers", |s| s.contains("Providers") && s.contains("not set"));
     op.press(vec![press(KeyCode::Home)]);
     op.press((0..at).map(|_| press(KeyCode::Down)).collect());
     op.press(vec![press(KeyCode::Enter)]);
@@ -95,7 +95,7 @@ fn a_lone_key_on_a_line_is_held_drop_sends_nothing_and_keep_writes_key_set_only(
     crate::screen_drive::wait_idle(&world);
     let log = log_text(&world);
     assert!(!log.contains("chat.say") && !log.contains(&LONE[..8]), "drop sends nothing:\n{log}");
-    // again, and keep it as a key: the card asks which provider, from the rows of Library › Providers
+    // again, and keep it as a key: the card asks which provider, from the rows of Agents › Providers
     op.type_line(LONE);
     op.until("the card", |s| s.contains("looks like a key"));
     op.press(vec![press(KeyCode::Char('1'))]);

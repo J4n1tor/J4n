@@ -274,7 +274,7 @@ impl Drop for Claude {
 pub fn describe(auth: Option<&str>, api_key_in_env: bool, version: Option<&str>) -> (bool, String) {
     let parsed = auth.and_then(|t| serde_json::from_str::<Value>(t).ok());
     if !parsed.as_ref().and_then(|v| v.get("loggedIn")).and_then(Value::as_bool).unwrap_or(false) {
-        return (false, "not logged in — Connect › Setup › Agent › claude: s signs it in".into());
+        return (false, "not logged in — Agents › Setup › Agent › claude: s signs it in".into());
     }
     let method = parsed.as_ref().and_then(|v| v.get("authMethod")).and_then(Value::as_str).unwrap_or("unknown");
     let mut detail = format!("logged in ({method})");

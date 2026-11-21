@@ -1,7 +1,7 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
 ───────────━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────
   setting              now      what it does
 ├   theme.corners      round

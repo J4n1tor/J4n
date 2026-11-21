@@ -3481,7 +3481,7 @@ mod key_guard {
         ups.iter().filter_map(|u| if let Up::Intent { intent: Intent::Key { id, value } } = u { Some((id.clone(), value.expose().to_string())) } else { None }).collect()
     }
 
-    /// A row of Library › Providers: `⏎` types the key of `keyid` when it takes one.
+    /// A row of Agents › Providers: `⏎` types the key of `keyid` when it takes one.
     fn provider(id: &str, keyid: Option<&str>) -> Row {
         let acts = keyid.map(|k| Act { key: "enter".into(), label: "type the key".into(), intent: Intent::Set { kind: "key".into(), id: k.into(), field: "value".into(), value: Json::Null }, risk: 0 });
         Row { key: id.into(), cells: vec![Cell::new(id, Tone::Plain), Cell::new("api", Tone::Dim), Cell::new("", Tone::Dim), Cell::new("not set", Tone::Dim)], actions: acts.into_iter().collect(), ..Row::default() }

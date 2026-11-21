@@ -46,7 +46,7 @@ impl Front {
                 let wired = if to == Switch::Orchestrate && self.0.cfg().chats.screen && !self.0.cfg().chats.wired { " · ⟳ the tools `tell`, `chat` and the envoy's, and the chat point of the Decider, wait for the next start" } else { "" };
                 self.said_edit(thread, &format!("lanes is {word}{back}{wired}"), "dim");
                 if to != Switch::Single && !self.0.cfg().branches.allows(Class::Scout, to) {
-                    self.note(thread, "the pack `lanes` is off: the plan is kept, but no scout, reviewer or piece starts · Grow › Packs › lanes: ⏎ turns it on, from the next start", "warn");
+                    self.note(thread, "the pack `lanes` is off: the plan is kept, but no scout, reviewer or piece starts · Settings › Packs › lanes: ⏎ turns it on, from the next start", "warn");
                 }
             }
             Err(why) => return self.refuse(thread, why),

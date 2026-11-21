@@ -1,24 +1,24 @@
 
- 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
- ───────────────────────────━━━━━━━━━──────────────────────────────────────────
-Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮 󰒓
-───────────────────────────────────────────────────────────────────────━────────
-  skill                       from                    for
-├ connector-claude        on  connector:claude        claude: Clau…  ⏎ on / off
-│   when: claude
-│   ~128 tokens
-│   claude: Claude Code, a live session kept between turns; its questions come
-│   back in-band.
-│   ──────────────────────────────────────────────────────────────────────────
-│
-│   • use: --doer claude, or name it in the line (use claude …); it is offered
-│     for the role plan, work, main, scout, review, validate
-│   • prompt: as an argument
-│   • session: a later line carries on in its session
-│   • tools: its tool calls are shown as tool rows
-│   • gate: what it asks to write goes to the Gate first, as for any doer
-│   • limit: its usage limit is not read; when it says it is out, the turn ends
-│     with its words
-├ connector-codex         on  connector:codex         codex: OpenAI's Codex CLI…
-the few that fit a task go into that doer's brief (:skill tests searches)
+ 󰍩 Chat 1 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings           j4n 0.1.0
+ ─────────────────────────━━━━━━━━─────────────────────────────────────────────
+Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 󰧮 󰒓
+────────────────────────────────────────────────────━━━━━━━━────────────────────
+  service  dialect  url
+╰ browser  text     —
+    A Chromium window with a data dir and a proxy of an account's own.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

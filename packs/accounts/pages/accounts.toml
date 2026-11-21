@@ -1,6 +1,6 @@
 api = 1
 
-# Connect › Accounts and Connect › Add account: the third and fourth sub-tabs of the Connect tab, after Connect and Lab. Accounts is one page: each account, where it stands, the email it signed in as and the keys.
+# Agents › Accounts and Agents › Add account: the third and fourth sub-tabs of the Agents tab, after Connect and Lab. Accounts is one page: each account, where it stands, the email it signed in as and the keys.
 
 [[page]]
 id = "accounts"

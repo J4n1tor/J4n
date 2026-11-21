@@ -1,5 +1,5 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
  ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
  project                                                                                                        2 chats
  ╭─󰗡 c2 what does the budget gate check                                                                     test  ##:##
@@ -16,7 +16,7 @@
 
 ▌ fix trailing commas in parser.rs                                                                               ##:## ▐
   ├─ new folder project · write here · a checkpoint before work · claude, codex,
-  │  gemini, opencode, pi not found; no key for own, light · ⏎ opens Connect ›
+  │  gemini, opencode, pi not found; no key for own, light · ⏎ opens Agents ›
   │  Setup
   ╰─ → c1 · new chat · none matched
 
@@ -25,8 +25,8 @@
 
 ▌ what does the budget gate check                                                                                ##:## ▐
   ├─ which chat takes this? c1 · fix trailing commas in parser.rs · new chat ·
-  │  Decider off · ⏎ opens Connect › Deciders
-  ╰─ → c2 · new chat · Decider off · ⏎ opens Connect › Deciders
+  │  Decider off · ⏎ opens Agents › Deciders
+  ╰─ → c2 · new chat · Decider off · ⏎ opens Agents › Deciders
 
 󰗡  c2 · what does the budget gate check                                                                         ##:## ▸
    what does the budget gate check

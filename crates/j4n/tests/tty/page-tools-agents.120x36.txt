@@ -1,9 +1,20 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
-─────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────
-• nothing here
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧮 󰒓
+────────────────────────────────────────━━━━────────────────────────────────────────────────────────────────────────────
+  agent         dialect        roles                                      models
+├ claude        claude-stream  plan, work, main, scout, review, validate  haiku, sonnet, opus                  ⏎ switch
+│   Claude Code, a live session kept between turns; its questions come back in-band.
+│   runs claude
+├ codex         jsonl-map      —                                          —
+├ gemini        acp            —                                          —
+├ omp           pi-rpc         plan, work, main, scout, review, validate  —
+├ opencode      jsonl-map      —                                          —
+├ opencode-acp  acp            —                                          —
+├ own           openai         plan, work, main, scout, review, validate  deepseek/deepseek-v4.1-flash-1017
+├ pi            pi-rpc         plan, work, main, scout, review, validate  —
+╰ test          test           scripted                                   —
 
 
 
@@ -22,15 +33,4 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-each account has a window and a folder of its own
- ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state
+ • s switch  ⌥1–9 tabs  ↑↓ move  ⏎ open  ? keys  ⌃k find  ⌃g state

@@ -36,7 +36,7 @@ default = true               # ready to go is on for a pack you enable (a pack t
 lanes = "orchestrate"
 ```
 
-With `[ready]` the pack's row on Grow › Packs has a **ready to go** switch (`g`). Enabling the pack with it on writes the settings in the same edit as the enable
+With `[ready]` the pack's row on Settings › Packs has a **ready to go** switch (`g`). Enabling the pack with it on writes the settings in the same edit as the enable
 (one `:undo` takes all of it back) and shows the card for anything the feature lacks; turning the switch off, or the pack off, takes back what it wrote unless you
 changed a value since.
 

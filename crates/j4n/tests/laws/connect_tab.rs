@@ -116,7 +116,7 @@ fn furnish(d: &Dirs) -> (PathBuf, PathBuf) {
 /// The Connect tab with the cursor on the row of `id`: the line the cursor marks starts with `┃`.
 fn on_row(op: &mut Operator, id: &str) -> String {
     op.type_line(":connections");
-    op.until("the Connect tab", |s| s.contains(id) && s.contains("connected"));
+    op.until("the Agents tab", |s| s.contains(id) && s.contains("connected"));
     for _ in 0..30 {
         let s = op.look();
         if s.lines().any(|l| l.starts_with('┃') && l.contains(id)) {

@@ -296,7 +296,7 @@ fn a_kept_key_reaches_only_a_program_given_it_and_one_given_it_with_no_key_kept_
     // given, and no key kept: refused before the child, in words that lead to the row and name no value
     assert!(list.bind_keys(&keys, &["claude"]).is_empty());
     let why = list.get("claude").unwrap().environment(&read).unwrap_err();
-    assert!(why.contains("ANTHROPIC_API_KEY") && why.contains("no key is kept for anthropic") && why.contains("Library › Providers"), "{why}");
+    assert!(why.contains("ANTHROPIC_API_KEY") && why.contains("no key is kept for anthropic") && why.contains("Agents › Providers"), "{why}");
     keys.set(&red, "anthropic", KEPT).unwrap();
     let env = list.get("claude").unwrap().environment(&read).unwrap();
     assert_eq!(env.get("ANTHROPIC_API_KEY").map(String::as_str), Some(KEPT), "given: the key J4n keeps for its provider");
@@ -345,7 +345,7 @@ fn claude_codex_and_gemini_take_the_key_kept_for_their_provider_and_a_project_gi
     assert_eq!(j4n_core::setting::Settings::load(&tables).0.word("doer.keys", ""), "", "the project's setting is ignored");
 }
 
-/// The Decider jev reads the TypeSafe key from the environment or from J4n's key file (Library › Providers › typesafe), and an operator's
+/// The Decider jev reads the TypeSafe key from the environment or from J4n's key file (Agents › Providers › typesafe), and an operator's
 /// row of their own that names a `file:` still gives it the key from there.
 #[test]
 fn the_decider_jev_reads_the_typesafe_key_and_a_row_of_the_operators_own_keeps_its_file() {

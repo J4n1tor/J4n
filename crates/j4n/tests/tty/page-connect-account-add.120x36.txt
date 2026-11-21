@@ -1,0 +1,36 @@
+
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧮 󰒓
+────────────────────────────━━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────
+├   connector  claude             Claude Code, a live session kept between turns; its questions come back in-band.
+├   name       claude-1           the next free name
+├   plan       none               the plan its requests are paid by
+├   proxy      system             optional: system, or http://host:port, socks5://host:port
+╰ add account  claude-1 · claude  ⏎ adds it and opens the sign-in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ • ⏎ change  ⌥1–9 tabs  ↑↓ move  ? keys  ⌃k find  ⌃g state

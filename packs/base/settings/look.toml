@@ -3,6 +3,14 @@ api = 1
 # The parts of the screen that can be turned off (kind `setting`). A template part with `when = "set.look.…"` is
 # there only while the switch is on. A layer above the pack says its `value`.
 [[setting]]
+basic = true
+id = "tabs.all"
+doc = "Every tab and page there is. Off, the default: five tabs (Chat, Usage, Agents, Log, Settings), Tasks while `lanes` acts on its own, a pack's pages while its pack or switch is on, and a page that lists nothing is left out where nothing would be missed (Agents › Tools, Services, MCP, Trust; Providers leaves out the ones with no connector and the ones whose program is not here). On: Tasks and Decisions, Grow, Updates and TODO, Agents › Lab, Settings › Look, This Session, Loop and Gates, every provider, and the empty pages too."
+brief = "Show every tab and page, the ones that have nothing to show yet too."
+ty = "bool"
+default = false
+
+[[setting]]
 id = "look.keys_row"
 doc = "The keys row, the last row of the screen: the keys of the page that is open, a few words each. Off, the row goes back to the page."
 ty = "bool"
@@ -45,21 +53,18 @@ words = ["dither", "plain"]
 
 [[setting]]
 id = "complete.on"
-basic = true
 doc = "Tab completes what you type: a command, a chat, a command's words, a file, a name in a field. The rest of the best one stands dim after the cursor; ⇥ takes it and steps on, ⇧⇥ steps back, → takes it, ⌃→ one word, esc puts back what was typed. Off, ⇥ only takes a question's recommended option."
 ty = "bool"
 default = true
 
 [[setting]]
 id = "complete.decider"
-basic = true
 doc = "A Decider puts first the suggestion you most likely mean, marked ~, after a pause in typing: it picks among what code found and writes nothing. It acts only where a Decider is set up and has passed its cases, at most complete.decider_day times a day; off, or with none, code's order alone."
 ty = "bool"
 default = true
 
 [[setting]]
 id = "complete.decider_day"
-basic = true
 doc = "The most times a day the Decider is asked to order the suggestions in this project. Past it, code's order alone until the next day, said once in the chat."
 ty = "int"
 default = 300

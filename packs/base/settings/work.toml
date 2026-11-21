@@ -4,7 +4,6 @@ api = 1
 # `value`.
 [[setting]]
 id = "work.apply"
-basic = true
 doc = "What happens to the change of a task that worked in a worktree when it is over: `auto` lays it into your folder at once if it applies cleanly and touches nothing you changed there but an empty file git does not track, where the task made that file; `off` keeps the worktree until it is taken. A change that cannot be laid down is always kept, with the reason."
 ty = "str"
 default = "auto"
@@ -12,7 +11,6 @@ words = ["auto", "off"]
 
 [[setting]]
 id = "box.use"
-basic = true
 doc = "Which `box` row a task in the place `box` is put behind: `auto` is the first whose probe passes."
 ty = "str"
 default = "auto"
@@ -28,7 +26,6 @@ live = false
 
 [[setting]]
 id = "box.net"
-basic = true
 doc = "Whether a boxed task may use the network. The agents are API clients: leave it on unless the row can cut it and the work needs none."
 ty = "bool"
 default = true
@@ -38,6 +35,7 @@ live = false
 id = "check.after"
 basic = true
 doc = "Whether the project's own check (kind `check`) is run after a task that changed files, where it worked. On by default: the project's tests run unasked and may take long, so turn it off here when they do."
+brief = "Run the project's own tests after a task changed files."
 ty = "bool"
 default = true
 

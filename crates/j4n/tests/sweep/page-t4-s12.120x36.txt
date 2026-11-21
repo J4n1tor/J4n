@@ -1,36 +1,36 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
-Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
-─────────────────────────────────────────────────────────────────────────────────━━━━━━━━───────────────────────────────
-  skill                       from                    for
-├ connector-claude        on  connector:claude        claude: Claude Code, a live session kept between tur…  ⏎ on / off
-│   when: claude
-│   ~128 tokens
-│   claude: Claude Code, a live session kept between turns; its questions come back in-band.
-│   ────────────────────────────────────────────────────────────────────────────────────────
-│
-│   • use: --doer claude, or name it in the line (use claude …); it is offered for the role plan, work, main, scout,
-│     review, validate
-│   • prompt: as an argument
-│   • session: a later line carries on in its session
-│   • tools: its tool calls are shown as tool rows
-│   • gate: what it asks to write goes to the Gate first, as for any doer
-│   • limit: its usage limit is not read; when it says it is out, the turn ends with its words
-├ connector-codex         on  connector:codex         codex: OpenAI's Codex CLI, one turn per run.
-├ connector-gemini        on  connector:gemini        gemini: Google's Gemini CLI, over ACP.
-├ connector-omp           on  connector:omp           omp: OMP in RPC mode: like Pi, and it asks leave for each tool in…
-├ connector-opencode      on  connector:opencode      opencode: The opencode CLI.
-├ connector-opencode-acp  on  connector:opencode-acp  opencode-acp: The opencode CLI over ACP: its permission asks are …
-├ connector-pi            on  connector:pi            pi: Pi in RPC mode: a live session, steered and aborted without l…
-├ culprit-commit          on  pack:skills             Find the commit that introduced a bug
-├ debug-cause             on  pack:skills             Fix a bug at its cause
-├ j4n-checks              on  pack:skills             Run this project's checks
-├ j4n-docs                on  pack:skills             Keep the docs' rows straight
-├ j4n-log                 on  pack:skills             Read a J4n Log
-├ j4n-pack                on  pack:skills             Write or change a pack
-├ log-hunt                on  pack:skills             Hunt a failure through logs
-├ narrow-reads            on  pack:skills             Read narrowly
-╰ release-chores          on  pack:skills             Do the release chores as written
-the few that fit a task go into that doer's brief (:skill tests searches)
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 󰧮 󰒓
+────────────────────────────────────────────────────────────────────────────────━━━━━━━━────────────────────────────────
+  service  dialect  url
+╰ browser  text     —
+    A Chromium window with a data dir and a proxy of an account's own.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

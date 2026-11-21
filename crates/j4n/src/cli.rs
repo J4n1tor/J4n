@@ -121,7 +121,7 @@ pub const DOCTOR_HELP: &str = "Usage: j4n doctor
 
 What J4n has to work with, a line each: the doers (claude, codex, gemini, opencode, pi, own, light) found, signed in or missing and the one line
 that mends it; the plans and their prices; whether an OpenRouter key is set (never its value); the safety defaults in words; and the doer a first
-election falls to. Nothing is started or written. The Connect tab shows the same in the screen.
+election falls to. Nothing is started or written. Agents › Overview shows the same in the screen.
 Exit status: 0 the default doer works, 1 none does, 2 the arguments make no sense.
 ";
 

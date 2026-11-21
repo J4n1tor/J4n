@@ -1,26 +1,24 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ─────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
- Models   Providers   Plans   Trust
-━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  task time  • median  • slowest
-  • 0s  median
-  • 0s  slowest
-  model                     had through  now            price       window  used  last
-├ deepseek-v4.1-flash-1017  own          no key         not priced  131072  0     —
-│   own · no key · sends deepseek/deepseek-v4.1-flash-1017
-│   not used yet
-├ gpt-oss-20b               light        no key ╭─ keys · Models ──────────────────────────────────────────────╮
-├ haiku                     claude       not ins│                                                              │
-├ jev-latest                jev          no key │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
-├ opus                      claude       not ins│                    Option as Meta or Alt.                    │
-├ sonnet                    claude       not ins│ ↑↓       move      The row above or below.                   │
-╰ span 01                   span         no key │ ⏎        open      Open, edit or press the row; fold a       │
-                                                │                    section.                                  │
-                                                │ ?        keys      All the keys of this page.                │
-                                                │ ⌃k       find      Find anything: the commands and the tree. │
-                                                │ ⌃g       state     Turn the bottom row over: the keys, or    │
-                                                │                    what the whole screen is doing (tasks,    │
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ─────────────────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+claude
+  no runs yet
+test · default
+  five_hour ━━━━━━━━━━━━━━╸─ 92%   the plan row does not say how long this window is
+  seven_day ━━━━━━━━──────── 50%   the plan row does not say how long this window is
+codex · gemini
+  these doers report no window: nothing to show
+openrouter
+  credits: unknown (a gateway call, not made here)
+  today: nothing spent
+typesafe                                        ╭─ keys · usage ───────────────────────────────────────────────╮
+  credits: unknown (a gateway call, not made her│                                                              │
+  today: nothing spent                          │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+  a day  • usd  • tokens                        │                    Option as Meta or Alt.                    │
+  • $0.12  usd                                  │ ?        keys      All the keys of this page.                │
+  • 15  tokens                                  │ ⌃k       find      Find anything: the commands and the tree. │
+  task  cost                                    │ ⌃g       state     Turn the bottom row over: the keys, or    │
+╰ t1    $0.1200                                 │                    what the whole screen is doing (tasks,    │
                                                 │                    what waits for you, today's spend, a      │
                                                 │                    window that runs low).                    │
                                                 │                                                              │
@@ -31,11 +29,13 @@
                                                 │                                               any key closes │
                                                 ╰──────────────────────────────────────────────────────────────╯
 
-
-
-
-
-
+┃ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1                                                                                 r56
+  ├─ ± 0 files · ❱ 0 ran · $0.0000
+  ├─ ❯ #1 “write notes.txt hello” → t4 ✗ it ended with no answer and no sign of work: nothing was said, run or changed
+  ╰─ ◇ needs you: t4 ✗ it ended with no answer and no sign of work: nothing was said, run or changed
+  ◆ ledger · main · 1 tasks · ✓ 1                                                                                       r34                                   ▸
+  ◆ ledger · main · 1 tasks · ✓ 1                                                                                       r26                                   ▸
+  ◆ ledger · main · 1 tasks · ✓ 1                                                                                       r17                                   ▸
 
 
 

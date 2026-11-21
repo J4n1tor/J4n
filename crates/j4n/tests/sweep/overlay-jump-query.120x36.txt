@@ -1,10 +1,10 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
  ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
                             ╭─ find ───────────────────────────────────────────────────────╮
                             │ › pack▏                                                      │
                             │                                                              │
-                            │ Grow                                                         │
+                            │ Settings                                                     │
                             │ ▸ 󰏖 Packs                                                    │
                             │ commands                                                     │
                             │   :pack :packs  List the packs: which are on, which were le… │

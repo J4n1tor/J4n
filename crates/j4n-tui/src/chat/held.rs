@@ -1,14 +1,14 @@
 //! The composer's guard: a line that may hold a key goes nowhere a line is kept. A `:key …` line is said (the core keeps only `:key …` of
 //! it in the Log, and refuses it), but it is kept in neither the history nor the echo, and it is never asked of the completion. A line
 //! that is one key-like word is held before anything of it goes (no line, no draft, no completion), on a card: `keep it as a key` sends it
-//! on the key's one road, `Intent::Key`, for the provider picked on the card from the rows of Library › Providers; `send it as text` says it
+//! on the key's one road, `Intent::Key`, for the provider picked on the card from the rows of Agents › Providers; `send it as text` says it
 //! as it was typed; `drop it` (or `esc`) sends nothing. The card shows nothing of the line.
 
 use crate::app::App;
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use j4n_proto::{AskView, Choice, FieldKind, Intent, Secret, Shape, Tone, Up};
 
-/// The rows of Library › Providers, watched while a line is held: a row whose `⏎` types a key is a provider the card offers.
+/// The rows of Agents › Providers, watched while a line is held: a row whose `⏎` types a key is a provider the card offers.
 pub(crate) const PROVIDERS: &str = "view:providers";
 
 /// The fewest characters of a word that may be a key, and the longest run of letters and digits it has at the least.
@@ -147,7 +147,7 @@ impl App {
         ups
     }
 
-    /// The providers the card offers: the rows of Library › Providers whose `⏎` types a key, as the key's id and the row's name.
+    /// The providers the card offers: the rows of Agents › Providers whose `⏎` types a key, as the key's id and the row's name.
     fn held_rows(&self) -> Vec<(String, String)> {
         let rows = self.rows.get(PROVIDERS).map_or(&[][..], Vec::as_slice);
         rows.iter()

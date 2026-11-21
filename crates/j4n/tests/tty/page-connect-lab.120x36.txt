@@ -1,8 +1,8 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
-───────────────────━━━━━────────────────────────────────────────────────────────────────────────────────────────────────
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧮 󰒓
+───────────────━━━──────────────────────────────────────────────────────────────────────────────────────────────────────
 ┃ no lab runs yet  the lab keeps its runs; this page only reads them
 
 

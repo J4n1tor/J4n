@@ -8,7 +8,7 @@
 use crate::manifest::{Connector, Dialect};
 use crate::proc;
 use j4n_core::front::models::ModelLists;
-use j4n_core::listing::{Cache, ROUTER};
+use j4n_core::listing::{Cache, ROUTER, prose};
 use j4n_core::place::Launch;
 use j4n_core::setting::Live;
 use std::collections::BTreeMap;
@@ -144,7 +144,8 @@ fn ask(c: &Connector, secret: &Secret) -> Result<Vec<String>, String> {
     from_endpoint(&reply.text().map_err(|e| e.to_string())?)
 }
 
-/// The model of each line of a listing: the `model` column when the first line is a header that has one, else the first word.
+/// The model of each line of a listing: the `model` column when the first line is a header that has one, else the first word of each
+/// line that is not prose (one that ends a sentence, or starts with a path or a word like `Warning:`).
 pub fn from_table(text: &str) -> Vec<String> {
     let lines: Vec<&str> = text.lines().map(str::trim).filter(|l| !l.is_empty() && !l.starts_with('#')).collect();
     let header = lines.first().and_then(|l| l.split_whitespace().position(|w| w.eq_ignore_ascii_case("model")));
@@ -153,7 +154,9 @@ pub fn from_table(text: &str) -> Vec<String> {
         None => (0, &lines[..]),
     };
     let mut out: Vec<String> = Vec::new();
-    for m in rows.iter().filter_map(|l| l.split_whitespace().nth(col)) {
+    // with no header, a line of prose (`No models available. … See:`, `Warning: …`) or a path it points at names no model
+    let model = |l: &&str| header.is_some() || !(l.ends_with([':', '.']) || l.split_whitespace().next().is_some_and(prose));
+    for m in rows.iter().copied().filter(model).filter_map(|l| l.split_whitespace().nth(col)) {
         if !out.iter().any(|o| o == m) {
             out.push(m.to_string());
         }

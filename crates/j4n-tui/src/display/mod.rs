@@ -54,6 +54,8 @@ pub fn height(app: &App, n: &Node, width: u16) -> Option<u16> {
     let v = app.value(&f.bind);
     let rows = match f.kind {
         FieldKind::Stat => gauge::stat(&app.theme, v, w).len(),
+        // a list of entries (the usage view) is drawn as the chat draws it: a bar a window
+        FieldKind::Meter if v.is_array() => gauge::meters(&app.theme, v, w).len(),
         FieldKind::Meter => gauge::meter(&app.theme, &n.title, v, f, w).len(),
         FieldKind::Spark => gauge::spark(&app.theme, &n.title, v, f, w).len(),
         // a chart whose value has not come takes the one row of its sign
@@ -72,6 +74,7 @@ pub fn draw(app: &mut App, n: &Node, area: Rect, f: &mut Frame) {
     let w = usize::from(area.width);
     let lines = match field.kind {
         FieldKind::Stat => gauge::stat(&app.theme, app.value(&field.bind), w),
+        FieldKind::Meter if app.value(&field.bind).is_array() => gauge::meters(&app.theme, app.value(&field.bind), w),
         FieldKind::Meter => gauge::meter(&app.theme, &n.title, app.value(&field.bind), field, w),
         FieldKind::Spark => gauge::spark(&app.theme, &n.title, app.value(&field.bind), field, w),
         // a chart whose value has not come: its label, and the sign once the wait is long enough to see (a chart with no data says `—`)

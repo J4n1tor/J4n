@@ -416,14 +416,17 @@ fn the_palette_lists_each_command_with_its_words_what_follows_and_a_key_only_whe
 #[test]
 fn the_base_screen_has_the_tabs_the_trust_page_under_accounts_and_the_commands_that_open_pages() {
     let s = Screen::builtin();
+    // out of the box five tabs: Chat, Usage (`spend`), Agents (`connectors`, which holds the Library's pages too), Log, Settings (`system`)
     let tree = s.pages.tree("main", &outer(s.set.clone()));
-    let tabs = &tree.children[0];
-    assert_eq!(ids(tabs), ["chat", "tasks", "models", "connectors", "spend", "proposals", "log", "system"], "the tree of the tabs: Models (`models`, once the Accounts tab) before Connect (`connectors`), Spend before Grow");
+    assert_eq!(ids(&tree.children[0]), ["chat", "spend", "connectors", "log", "system"], "the five tabs");
+    assert_eq!(ids(find(&tree, "connectors").unwrap()), ["setup", "agents", "library", "providers", "plans", "trust", "tools", "services", "mcp", "deciders"]);
+    assert_eq!(ids(find(&tree, "system").unwrap()), ["features", "config", "keys", "packs", "commands"]);
+    // `tabs.all` brings back Tasks, Grow (`proposals`) and the Settings pages for a look now and then
+    let tree = s.pages.tree("main", &outer(Value::from_json(&serde_json::json!({ "tabs": { "all": true } }))));
+    assert_eq!(ids(&tree.children[0]), ["chat", "tasks", "spend", "connectors", "proposals", "log", "system"], "the tree of the tabs with `tabs.all`");
     assert_eq!(ids(find(&tree, "tasks").unwrap()), ["tasks.own", "points"]);
-    assert_eq!(ids(find(&tree, "proposals").unwrap()), ["proposals.own", "packs", "upstream-news", "upstream-todo"]);
-    assert_eq!(ids(find(&tree, "system").unwrap()), ["features", "look", "settings", "keys", "loop", "gates", "config", "commands"]);
-    assert_eq!(ids(find(&tree, "connectors").unwrap()), ["setup", "agents", "tools", "services", "mcp", "deciders"]);
-    assert_eq!(ids(find(&tree, "models").unwrap()), ["library", "providers", "plans", "trust"]);
+    assert_eq!(ids(find(&tree, "proposals").unwrap()), ["proposals.own", "upstream-news", "upstream-todo"]);
+    assert_eq!(ids(find(&tree, "system").unwrap()), ["features", "look", "settings", "config", "keys", "loop", "gates", "packs", "commands"]);
     assert!(s.views.get("trust").is_some() && s.views.get("settings").is_some());
     let words: Vec<&str> = s.commands.all().iter().flat_map(|c| c.words.iter().map(String::as_str)).collect();
     assert_eq!(words, [":archive", "/archive", ":calibrate", ":chart", "/chart", ":chats", ":clear", "/clear", ":compact", "/compact", ":config", ":settings", ":context", "/context", ":grant", ":grants", ":history", ":key", ":lanes", ":library", ":models", ":look", ":new", ":pack", ":packs", ":plan", ":plans", ":proposals", ":providers", ":resume", ":roster", ":setup", ":doctor", ":signin", ":term", ":top", ":trust", ":unarchive", ":usage", "/usage", ":watch"]);
@@ -596,10 +599,15 @@ fn a_view_may_name_its_columns_and_a_view_file_with_no_titles_still_loads() {
     assert_eq!(new.get("v").map(|v| v.titles().to_vec()), Some(vec!["what".to_string(), "how".to_string()]));
 }
 
+/// The settings with `tabs.all` on, so Look, This Session and Loop (which wait for it) are in the tree.
+fn every_tab() -> Value {
+    Value::from_json(&serde_json::json!({ "tabs": { "all": true } }))
+}
+
 #[test]
 fn the_list_of_a_view_is_sent_with_the_titles_of_the_view_in_the_props_of_its_field() {
     let screen = Screen::builtin();
-    let tree = screen.titled(screen.pages.tree("main", &outer(screen.set.clone())));
+    let tree = screen.titled(screen.pages.tree("main", &outer(every_tab())));
     for page in ["look", "loop", "config"] {
         let node = find(&tree, page).unwrap_or_else(|| panic!("the page {page}"));
         assert_eq!(titles_of(node), ["setting", "now", "what it does"], "{page}");
@@ -614,7 +622,7 @@ fn the_list_of_a_view_is_sent_with_the_titles_of_the_view_in_the_props_of_its_fi
 #[test]
 fn settings_chat_is_a_list_like_the_other_sub_tabs() {
     let screen = Screen::builtin();
-    let tree = screen.titled(screen.pages.tree("main", &outer(screen.set.clone())));
+    let tree = screen.titled(screen.pages.tree("main", &outer(every_tab())));
     let chat = find(&tree, "settings").expect("the Chat page of Settings");
     let look = find(&tree, "look").expect("the Look page");
     assert_eq!(chat.field.as_ref().map(|f| (f.kind, f.bind.as_str())), Some((FieldKind::List, "form:thread")));

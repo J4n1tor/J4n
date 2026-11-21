@@ -1,4 +1,4 @@
-//! A provider's key typed in Library › Providers is kept in J4n's own key file, mode 0600,
+//! A provider's key typed in Agents › Providers is kept in J4n's own key file, mode 0600,
 //! written by a rename; the Log gets `key.set` with the connector and no value; the redactor scrubs the value from the moment it is typed and
 //! from the file at every start; `env:` wins when it is set; `:key remove` (the row's `x`) writes `key.removed`.
 
@@ -97,7 +97,7 @@ fn a_key_that_is_there_and_refused_says_not_used_and_why_on_its_row() {
     unsafe { std::env::remove_var(name) };
 }
 
-/// Its row in Library › Providers says the J4n file that others can read is not used, and the provider is not usable for it.
+/// Its row in Agents › Providers says the J4n file that others can read is not used, and the provider is not usable for it.
 #[test]
 fn a_kept_key_others_can_read_is_said_not_used_on_its_provider_row() {
     let home = Scratch::new("key-refused-row");
@@ -136,7 +136,7 @@ fn a_provider_whose_program_takes_its_kept_key_has_the_key_editor_on_its_row() {
     let (tables, problems) = Tables::load(vec![Layer::new(LayerKind::Pack, "base", files)]);
     assert!(problems.is_empty(), "{problems:?}");
     let (settings, _) = Settings::load(&tables);
-    let screen = Screen::load(tables, &settings, Vec::new(), &BTreeMap::new()).0;
+    let screen = every_provider(Screen::load(tables, &settings, Vec::new(), &BTreeMap::new()).0);
     let home = Scratch::new("kept-row");
     let kept = Keys::new(home.path());
     let f = fx_screened(Vec::new(), screen, |c| c.keys = Some(kept.clone()));
@@ -166,6 +166,12 @@ fn screen() -> Screen {
     let (tables, _) = Tables::load(vec![Layer::new(LayerKind::Pack, "base", files)]);
     let (settings, _) = Settings::load(&tables);
     Screen::load(tables, &settings, Vec::new(), &BTreeMap::new()).0
+}
+
+/// The screen with `tabs.all` on, so Agents › Providers lists the providers nobody set up yet (no connector, its program not here) too.
+fn every_provider(mut screen: Screen) -> Screen {
+    screen.set = Settings::from_pairs([("tabs.all", j4n_core::value::Value::Bool(true))]).tree();
+    screen
 }
 
 fn provider(s: &mut Serve, key: &str) -> Row {
@@ -244,7 +250,7 @@ fn screen_with_provider() -> Screen {
 fn a_key_typed_on_a_provider_with_no_connector_is_kept_for_the_provider_and_any_connector_of_it_reads_it() {
     let home = Scratch::new("t574-front");
     let kept = Keys::new(home.path());
-    let f = fx_screened(Vec::new(), screen_with_provider(), |c| c.keys = Some(kept.clone()));
+    let f = fx_screened(Vec::new(), every_provider(screen_with_provider()), |c| c.keys = Some(kept.clone()));
     let mut s = Serve::new(f.front.clone());
     s.up(Up::Hello { api: j4n_proto::API });
     let row = provider(&mut s, "acme");
@@ -270,7 +276,7 @@ fn a_key_typed_on_a_provider_with_no_connector_is_kept_for_the_provider_and_any_
 }
 
 /// A key typed on a `:key` line, in any case, said to a chat, or as `:key remove <it>`, reaches no Log line, no event
-/// and no screen text; the line is kept as `:key …` and refused with the way to Library › Providers. A value of no vendor's shape, so the
+/// and no screen text; the line is kept as `:key …` and refused with the way to Agents › Providers. A value of no vendor's shape, so the
 /// redactor's shapes would not have caught it.
 #[test]
 fn a_key_typed_on_a_key_line_is_in_no_log_line_event_or_screen_text() {

@@ -4,7 +4,6 @@ api = 1
 # nothing here goes into any prompt: the reader draws the doer's words as they were written. A layer above the pack says its `value`.
 [[setting]]
 id = "read.style"
-basic = true
 doc = "How prose is drawn: `calm` leaves a blank row between paragraphs, before headings and folds long code; `full` is denser, with no extra blank rows and code not folded."
 ty = "str"
 default = "calm"

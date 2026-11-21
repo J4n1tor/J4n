@@ -416,8 +416,8 @@ impl Front {
         if used >= cap {
             if kept.said.told != Some(day) {
                 kept.said.told = Some(day);
-                let text = format!("{CAPPED}: the Decider was asked {used} times today, as complete.decider_day allows · ⏎ opens Settings › Features");
-                self.note_to(thread, &text, "dim", super::Lead::open("open Features", "features"));
+                let text = format!("{CAPPED}: the Decider was asked {used} times today, as complete.decider_day allows · ⏎ opens Settings › All");
+                self.note_to(thread, &text, "dim", super::Lead::open("open All", "config"));
             }
             return landed;
         }

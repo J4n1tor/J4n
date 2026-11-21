@@ -198,7 +198,11 @@ fn the_models_and_providers_pages_read_the_library_and_not_the_connector_table()
     let mut names: Vec<&str> = models.iter().map(|r| r.cells[0].text.as_str()).collect();
     names.sort_unstable();
     assert_eq!(names, ["haiku", "opus", "sonnet"]);
+    // the providers nobody set up (no connector, no program) wait for `tabs.all`: here only Anthropic, whose claude is signed in
     let providers = s.views.get("providers").unwrap().rows(&fake, &outer(s.set.clone()));
+    assert_eq!(providers.iter().map(|r| r.cells[0].text.as_str()).collect::<Vec<_>>(), ["anthropic"]);
+    let all = Value::from_json(&serde_json::json!({ "tabs": { "all": true } }));
+    let providers = s.views.get("providers").unwrap().rows(&fake, &outer(all));
     assert_eq!(providers.len(), 6);
     assert_eq!(providers[0].cells[0].text, "anthropic");
 }

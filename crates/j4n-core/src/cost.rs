@@ -129,9 +129,9 @@ impl Plan {
         })
     }
 
-    /// What a request says when its plan has no price: the row of Library › Plans whose `⏎` sets one.
+    /// What a request says when its plan has no price: the row of Agents › Plans whose `⏎` sets one.
     pub fn unset(&self) -> String {
-        format!("no price: Library › Plans, ⏎ on {} sets it", self.id)
+        format!("no price: Agents › Plans, ⏎ on {} sets it", self.id)
     }
 }
 

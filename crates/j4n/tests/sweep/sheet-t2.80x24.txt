@@ -1,5 +1,5 @@
 
- 󰍩 Chat ╭─ keys · Tasks ───────────────────────────────────────────────╮
+ 󰍩 Chat ╭─ keys · Tasks ───────────────────────────────────────────────╮ 0.1.0
  ───────│                                                              │───────
  󰝖 Tasks│ a        abort     Now: a key of the row under the cursor.   │
 ━━━━━━━━│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │────────

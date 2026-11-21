@@ -136,10 +136,26 @@ impl Serve {
     /// The tree of the pages as the settings say now (a page's `when` reads them), its fields noted.
     fn tree(&mut self) -> Node {
         let screen = self.front.screen();
-        let tree = screen.titled(screen.pages.tree_lazy(&self.home, &crate::view::outer(screen.set.clone()), LAZY));
+        let mut tree = screen.titled(screen.pages.tree_lazy(&self.home, &crate::view::outer(screen.set.clone()), LAZY));
+        self.leave_empty_out(&mut tree);
         self.note_fields(&tree);
         self.sent_tree = Some(tree.clone());
         tree
+    }
+
+    /// Leave out of `node` the pages whose field says `hide_empty` and whose view lists nothing now, unless `tabs.all` is on: a sub-tab
+    /// that would open on an empty list is not there until it has a row (the tree is made again when a setting changes).
+    fn leave_empty_out(&self, node: &mut Node) {
+        if self.front.screen().set.pointer("/tabs/all") == crate::value::Value::Bool(true) {
+            return;
+        }
+        let empty = |n: &Node| {
+            n.field.as_ref().is_some_and(|f| f.props.get(page::HIDE_EMPTY) == Some(&Json::Bool(true)) && f.bind.strip_prefix("view:").and_then(|v| self.view_rows(v)).is_some_and(|r| r.is_empty()))
+        };
+        node.children.retain(|c| !empty(c));
+        for c in &mut node.children {
+            self.leave_empty_out(c);
+        }
     }
 
     /// Note the fields of `node` that show a window of their rows, and the columns they sort by.
@@ -257,7 +273,7 @@ impl Serve {
                     Said::Refused(why)
                 })
             }
-            // a field of a form the screen fills (Connect › Add account): the core keeps the draft, and the form's rows are sent again
+            // a field of a form the screen fills (Agents › Add account): the core keeps the draft, and the form's rows are sent again
             Intent::Set { kind, id, field, value } if kind == "draft" => {
                 return match self.front.draft_set(&id, &field, &value) {
                     Ok(()) => (self.views_again(), false),
@@ -281,7 +297,8 @@ impl Serve {
                 let screen = self.front.screen();
                 return match screen.pages.subtree(&node, &self.home, &crate::view::outer(screen.set.clone()), LAZY) {
                     Some(sub) => {
-                        let sub = screen.titled(sub);
+                        let mut sub = screen.titled(sub);
+                        self.leave_empty_out(&mut sub);
                         self.note_fields(&sub);
                         (vec![Down::Tree { node: sub }], false)
                     }
@@ -382,6 +399,10 @@ impl Serve {
         if matches!(k, "task.cooling" | "account.signin" | "account.checked") {
             self.front.limits_sweep();
         }
+        // the usage page, on what `/usage` counts: a window read, a run's cost, a login
+        if self.watched.contains(page::USAGE) && matches!(k, "run.window" | "run.metrics" | "run.error" | "account.signin" | "account.checked" | "account.removed") {
+            out.extend(self.snapshot(page::USAGE));
+        }
         if matches!(k, "run.metrics" | "bench.case" | "task.settled" | "task.stopped") {
             let binds: Vec<String> = self.watched.iter().filter(|b| super::charts::is_chart(b)).cloned().collect();
             out.extend(binds.iter().flat_map(|b| self.snapshot(b)));
@@ -419,7 +440,7 @@ impl Serve {
                 out.extend(self.snapshot(page::BAR));
             }
         }
-        // a run that said nothing J4n could read is on the Connect tab, the one view a `run.` event changes
+        // a run that said nothing J4n could read is on the Agents tab, the one view a `run.` event changes
         if !k.starts_with("run.") || matches!(k, "run.metrics" | "run.served" | "run.health") {
             out.extend(self.views_again());
         }
@@ -465,6 +486,7 @@ impl Serve {
             j4n_proto::LOOK_FILE => vec![Down::Value { bind: bind.into(), value: super::lookfile::json(&self.front.look_rows()), rev }],
             j4n_proto::TERMS => vec![Down::Value { bind: bind.into(), value: self.front.terms_value(), rev }],
             page::SHAPE_ON => vec![Down::Value { bind: bind.into(), value: Json::Bool(self.front.desk().is_some_and(|d| d.on())), rev }],
+            page::USAGE => vec![Down::Value { bind: bind.into(), value: self.front.view_value(super::usage::VIEW).map(|v| v["value"].clone()).unwrap_or(Json::Null), rev }],
             b if super::charts::is_chart(b) => vec![Down::Value { bind: b.into(), value: self.front.chart(&mut self.charts, b, &self.thread).unwrap_or(Json::Null), rev }],
             // the newest tasks of the thread, unless the screen asked for a window of them
             page::TASKS if !self.asked.contains_key(bind) => {
@@ -602,7 +624,7 @@ impl Serve {
             let Some(rows) = bind.strip_prefix("view:").and_then(|id| self.view_rows(id)) else { continue };
             out.extend(self.send_rows(&bind, rows, false));
         }
-        // Grow › Packs reads the packs, whose rows say a switch that waits for the next start (⟳)
+        // Settings › Packs reads the packs, whose rows say a switch that waits for the next start (⟳)
         if self.watched.contains(page::PACKS) {
             out.extend(self.rows_now(page::PACKS, false));
         }
@@ -1048,12 +1070,12 @@ impl crate::view::Sources for Src<'_> {
                     m.insert("state".into(), Value::text(&word));
                     m.insert("tone".into(), Value::text(tone));
                     m.insert("email".into(), Value::text(said("email")));
-                    // why it stands so, opened under the row: Connect › Accounts is one page
+                    // why it stands so, opened under the row: Agents › Accounts is one page
                     m.insert("reason".into(), Value::text(said("reason")));
                 }
                 rows
             }
-            // a plan with its price as the editor of Library › Plans has it
+            // a plan with its price as the editor of Agents › Plans has it
             Coll::Table(kind) if kind == "plan" => {
                 use crate::value::Value;
                 let mut rows = screen.tables.rows(kind);
@@ -1115,7 +1137,7 @@ impl crate::view::Sources for Src<'_> {
                 "answerers" => front.asks().state.rows(front.log().clock().now_ms()),
                 "packs" => screen.pack_values(),
                 "skills" => front.cfg().skills.as_ref().map(|l| l.rows()).unwrap_or_default(),
-                // Connect › Setup's steps, then the doctor's lines (`view:setup`)
+                // Agents › Setup's steps, then the doctor's lines (`view:setup`)
                 "setup" => {
                     let report = front.cfg().setup.as_ref().map(|c| c.report_for(front.main_pick()));
                     let mut rows = front.setup_steps(report.as_ref());

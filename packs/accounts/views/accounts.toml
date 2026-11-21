@@ -17,7 +17,7 @@ acts = [
 
 [[view]]
 id = "account-add"
-doc = "Connect › Add account: the fields of a new account, each changed in place with its editor; the add row, whose ⏎ says `:account add` (the line is the approval, and the sign-in card follows); and the logins found on this machine, which `u` names as an account."
+doc = "Agents › Add account: the fields of a new account, each changed in place with its editor; the add row, whose ⏎ says `:account add` (the line is the approval, and the sign-in card follows); and the logins found on this machine, which `u` names as an account."
 from = { from = "fold:account-add" }
 cells = ["{label}", "{now}", "{note}"]
 tone = "tone"

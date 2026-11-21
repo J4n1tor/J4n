@@ -1,5 +1,5 @@
 //! The Setup card: at a start while no agent works or the Decider was never set up, one approval card says where the agent, the
-//! Decider and the test stand, and `⏎` opens Connect › Setup. It takes the place of the old welcome card: whether to turn the Decider on
+//! Decider and the test stand, and `⏎` opens Agents › Setup. It takes the place of the old welcome card: whether to turn the Decider on
 //! is asked on Setup itself, with its key typed on the same page.
 //! It is asked once per J4n home, not per project. `open Setup` answers it: the setting `setup.card` is written off in the home's own
 //! layer, which every project reads, so no project of this home asks again. `later` (and `esc`) writes nothing, and the next start asks
@@ -49,7 +49,7 @@ impl Front {
             shape: Shape::Approval,
             options: vec![Choice { id: "yes".into(), label: "open Setup".into(), recommended: true, by: By::Core, ..Choice::default() }, Choice { id: "no".into(), label: "later".into(), by: By::Core, ..Choice::default() }],
             effect: format!("Agent: {}; Decider: {decider}; Test: {test}", words("Agent")),
-            why: "Connect › Setup leads you through an agent that works, its model and the Decider, which answers the small questions so you are asked less, and proves them with one short call. Put off, the card asks again at the next start.".into(),
+            why: "Agents › Setup leads you through an agent that works, its model and the Decider, which answers the small questions so you are asked less, and proves them with one short call. Put off, the card asks again at the next start.".into(),
             ..AskView::default()
         };
         let mut held = self.0.welcome.lock().unwrap_or_else(|e| e.into_inner());
@@ -74,7 +74,7 @@ impl Front {
         let yes = matches!(reply, Reply::Yes);
         self.write("main", "setup.answered", Actor::Operator, json!({ "ask": ASK, "answer": if yes { "open" } else { "later" } }));
         if !yes {
-            self.note("main", "Setup waits · Connect › Setup has it, and this card asks again at the next start", "dim");
+            self.note("main", "Setup waits · Agents › Setup has it, and this card asks again at the next start", "dim");
             return Some(Said::Nothing);
         }
         // answered for this home: its own layer says so, below every project's

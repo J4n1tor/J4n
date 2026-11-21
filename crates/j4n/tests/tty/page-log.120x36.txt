@@ -1,6 +1,6 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ──────────────────────────────────────────────────────────────━━━━━━━─────────────────────────────────────────────────
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────────────────────────━━━━━━━──────────────────────────────────────────────────────────────
 ┃ ##:##:## 󰍩 chat.note  new folder project · write here · a checkpoint before work · claude, codex, gemini, openco…  ▸
 
 

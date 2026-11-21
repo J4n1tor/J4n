@@ -456,7 +456,7 @@ fn a_line_steers_the_lane_chosen_with_ctrl_t_on_the_real_screen() {
     t.send(&[0x03]);
 }
 
-/// the tabs and the sub-tabs. `⌥2` and `F3` move among the tabs, `⌥→` among the sub-tabs of the Library tab, and each shows its own page.
+/// the tabs and the sub-tabs. `⌥2` and `F4` move among the tabs, `⌥→` among the sub-tabs of the Agents tab, and each shows its own page.
 /// `⌥2` is sent as a terminal without the kitty protocol sends it, `esc` then `2`, and is still the second tab.
 #[test]
 fn the_tabs_and_the_sub_tabs_of_the_real_screen_move_and_show_their_pages() {
@@ -466,21 +466,21 @@ fn the_tabs_and_the_sub_tabs_of_the_real_screen_move_and_show_their_pages() {
     t.until_screen("the first frame", |s| s.contains("Chat"));
     t.send(b"\x1b2");
     t.until_screen("the Tasks tab", |s| !s.lines().any(|l| l.starts_with('╭')));
-    t.send(b"\x1bOR");
-    let accounts = t.until_screen("the Library tab with its sub-tabs", |s| s.contains("Providers") && s.contains("Trust"));
-    assert!(accounts.lines().nth(1).is_some_and(|l| l.contains("Library")), "{accounts}");
+    t.send(b"\x1bOS");
+    let accounts = t.until_screen("the Agents tab with its sub-tabs", |s| s.contains("Providers") && s.contains("Trust"));
+    assert!(accounts.lines().nth(1).is_some_and(|l| l.contains("Agents")), "{accounts}");
     // the sub-tab whose title is underlined, in the strip of the sub-tabs
     let under = |s: &str, word: &str| {
         let rows: Vec<&str> = s.lines().collect();
         let col = rows.get(3).and_then(|r| r.find(word)).map(|b| rows[3][..b].chars().count());
         col.is_some_and(|c| rows.get(4).and_then(|r| r.chars().nth(c)) == Some('━'))
     };
-    // the sub-tab to the right of Models: Providers
+    // the sub-tab to the right of Setup: Overview
     t.send(b"\x1b[1;3C");
-    t.until_screen("the Providers page", |s| under(s, "Providers"));
-    // the key of the open tab goes on to the next sub-tab: the Plans
-    t.send(b"\x1bOR");
-    t.until_screen("the Plans", |s| under(s, "Plans"));
+    t.until_screen("the Overview page", |s| under(s, "Overview"));
+    // the key of the open tab goes on to the next sub-tab: the Lab
+    t.send(b"\x1bOS");
+    t.until_screen("the Lab", |s| under(s, "Lab"));
     t.send(&[0x03]);
 }
 
@@ -553,8 +553,8 @@ fn a_command_is_typed_or_found_with_ctrl_k_on_the_real_screen() {
     let mut t = Tty::start(&d);
     t.until_screen("the first frame", |s| s.contains("Chat"));
     t.send(b":library\r");
-    t.until_screen("the Library page, opened by the word", |s| !s.lines().any(|l| l.starts_with('╭')) && s.contains("Providers"));
-    // from the Library page, the jump finds `:pack` among the nodes and says it in the chat
+    t.until_screen("the Agents tab, opened by the word", |s| !s.lines().any(|l| l.starts_with('╭')) && s.contains("Providers"));
+    // from the Agents tab, the jump finds `:pack` among the nodes and says it in the chat
     t.send(&[0x0b]);
     t.send(b":pack");
     let jump = t.until_screen("the command in the jump", |s| s.contains(":pack :packs") && s.contains("List the packs"));
@@ -747,41 +747,42 @@ fn is_golden(name: &str, (cols, rows): (usize, usize), screen: &str) -> bool {
 const SESSIONS: [(usize, usize); 3] = [(120, 36), (80, 24), (60, 20)];
 
 const RIGHT: &[u8] = b"\x1b[1;3C";
-// nine tabs: Chat F1, Tasks F2, Library F3, Connect F4 (Setup · Overview · Lab · then the Tools tab's), Spend F5, Grow F6, Log F7, Settings F8 (no more
-// with these packs on; the Inbox, Habits, Kit and Report pages wait for their switches, and a sub-tab that is not there is not stepped to)
+// the tabs with tabs.all (`Dirs::new`): Chat F1, Tasks F2, Usage F3, Agents F4 (Setup · Overview · Lab · Accounts · Add account · List · then the
+// Library's pages and the tools), Grow F5, Log F6, Settings F7 (no more with these packs on; the Inbox, Habits, Kit and Report pages wait for their
+// switches, and a sub-tab that is not there is not stepped to)
 const PAGES: [(&str, &[u8]); 34] = [
     ("tasks", b"\x1bOQ"),
     ("asks", RIGHT),
-    ("accounts", b"\x1bOR"),
-    ("accounts-add", RIGHT),
+    ("spend", b"\x1bOR"),
+    ("connect-setup", b"\x1bOS"),
+    ("connect-connect", RIGHT),
+    ("connect-lab", RIGHT),
+    ("connect-accounts", RIGHT),
+    ("connect-account-add", RIGHT),
+    ("tools-agents", RIGHT),
     ("accounts-models", RIGHT),
     ("accounts-providers", RIGHT),
     ("accounts-plans", RIGHT),
     ("accounts-trust", RIGHT),
-    ("connect-setup", b"\x1bOS"),
-    ("connect-connect", RIGHT),
-    ("connect-lab", RIGHT),
-    ("tools-agents", RIGHT),
     ("tools-tools", RIGHT),
     ("tools-services", RIGHT),
     ("tools-mcp", RIGHT),
     ("tools-deciders", RIGHT),
     ("tools-skills", RIGHT),
     ("tools-reflexes", RIGHT),
-    ("spend", b"\x1b[15~"),
-    ("grow", b"\x1b[17~"),
+    ("grow", b"\x1b[15~"),
     ("contribute", RIGHT),
-    ("packs", RIGHT),
     ("grow-releases", RIGHT),
     ("grow-notes", RIGHT),
-    ("log", b"\x1b[18~"),
-    ("settings-features", b"\x1b[19~"),
+    ("log", b"\x1b[17~"),
+    ("settings-features", b"\x1b[18~"),
     ("settings-look", RIGHT),
     ("settings-chat", RIGHT),
+    ("settings-all", RIGHT),
     ("settings-keys", RIGHT),
     ("settings-loop", RIGHT),
     ("settings-gates", RIGHT),
-    ("settings-all", RIGHT),
+    ("packs", RIGHT),
     ("settings-commands", RIGHT),
     ("chat", b"\x1bOP"),
 ];
@@ -879,7 +880,7 @@ fn a_row_of_the_look_page_changes_with_its_own_key() {
     let d = Dirs::new("tty-lookkey");
     let mut t = Tty::start(&d);
     t.until_screen("the first frame", |s| s.contains("Chat") && s.contains("⌥1–9 tabs"));
-    t.send(b"\x1b[19~");
+    t.send(b"\x1b[18~");
     t.until_screen("the Features page, the first of Settings", |s| s.contains("packs.full"));
     t.send(RIGHT);
     t.until_screen("the Look page", |s| s.contains("theme.corners") && s.contains("round"));
@@ -975,9 +976,9 @@ fn the_connect_tab_and_the_lab_with_two_connections_and_a_run_are_their_goldens(
         };
         // Connect opens on Setup; Overview is the next sub-tab
         t.send(b"\x1bOS");
-        settle(&mut t, "Connect › Setup", &|s| s.contains("Agent") && s.contains("Custom"));
+        settle(&mut t, "Agents › Setup", &|s| s.contains("Agent") && s.contains("Custom"));
         t.send(RIGHT);
-        let s = settle(&mut t, "the Connect tab", &|s| s.contains("mytool") && s.contains("newagent") && s.contains("connected"));
+        let s = settle(&mut t, "the Agents tab", &|s| s.contains("mytool") && s.contains("newagent") && s.contains("connected"));
         golden("connect-rows", size, &s);
         // the cursor goes down to the connection `mytool` (add, found here, newagent, connected, claude, codex, gemini, lint, mytool), and ⏎ opens its page
         t.send(&b"\x1b[B".repeat(8));
@@ -1085,9 +1086,9 @@ fn the_log_tab_of_the_real_screen_scrolls_and_finds_through_the_core() {
         t.until("the doer answers", m, |s| s.contains("├─"));
         thread::sleep(Duration::from_millis(500));
     }
-    // F7: the Log
+    // F6: the Log
     let m = t.mark();
-    t.send(b"\x1b[18~");
+    t.send(b"\x1b[17~");
     let shown = t.until("the events as rows in the Log tab", m, |s| s.contains("task.settled"));
     assert!(shown.contains("task.queued") || shown.contains("task.started") || shown.contains("run.session"), "{shown:?}");
     // the first event, and its place among all of them

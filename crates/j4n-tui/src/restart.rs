@@ -33,7 +33,7 @@ impl App {
 }
 
 /// The name the restart card says for a row whose key acts from the next start and leaves it other than at the start (`restart_after`,
-/// a pack of Grow › Packs); a setting row has its own check (`fields/edit.rs`).
+/// a pack of Settings › Packs); a setting row has its own check (`fields/edit.rs`).
 pub(crate) fn after(row: &j4n_proto::Row) -> Option<String> {
     row.data.as_ref().and_then(|d| d.get("restart_after")).and_then(j4n_proto::Json::as_bool).filter(|b| *b).map(|_| row.key.clone())
 }

@@ -1,8 +1,8 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ──────────────────────────────────────────────────────────────────────━━━━━━━━━━━━────────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
-───────────────────────────────────────────────━━━━━━━──────────────────────────────────────────────────────────────────
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────────────────────────────────━━━━━━━━━━━━─────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+─────────────────────────────────────────────────────━━━━━━━────────────────────────────────────────────────────────────
   gate                             on            verdict  grant  why
 ├ core-owns-j4n                    write, apply  block    —
 │   The Log is the receipt a plan item is checked from, so no doer or model writes under a .j4n folder. The operator

@@ -34,8 +34,10 @@ pub struct SettingRow {
     pub words: Option<Vec<String>>,
     /// False: it decides what is wired at the start, so an edit waits for the next start (`⟳ next start`); left out, it is live.
     pub live: Option<bool>,
-    /// True for a setting J4n basic shows first (Settings › Features); the rest are under All.
+    /// True for a switch an operator changes (Settings › Features); the rest are under All.
     pub basic: Option<bool>,
+    /// What it does in one plain line, for Settings › Features; none: its `doc`.
+    pub brief: Option<String>,
     /// What the setting holds under `packs.full`: the pack's own switch for its feature, turned on. A layer above the packs (the operator's)
     /// still wins. Left out: `packs.full` does not touch it.
     pub full: Option<toml::Value>,

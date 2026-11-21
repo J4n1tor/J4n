@@ -261,7 +261,7 @@ fn type_a_line_see_the_streamed_answer_allow_an_approval_and_the_same_child_goes
     op.press(vec![j4n_tui::headless::press(j4n_tui::headless::KeyCode::F(2))]);
     let s = op.until("the tasks", |s| s.contains("t1") && s.contains("t3"));
     assert!(s.contains("build the thing") && s.contains("was it clean?"), "{s}");
-    op.press(vec![j4n_tui::headless::press(j4n_tui::headless::KeyCode::F(7))]);
+    op.press(vec![j4n_tui::headless::press(j4n_tui::headless::KeyCode::F(6))]);
     op.until("the log", |s| s.contains("task.settled"));
 
     op.press(vec![ctrl('c')]);

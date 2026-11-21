@@ -2,7 +2,7 @@ api = 1
 
 [[command]]
 id = "skill"
-doc = "The skill library: `:skill` lists the skills, `:skill tests` searches them, `:skill show <name>` reads one, `:skill on|off <name>` switches one, as `x` on Connect › Skills does (`:undo` takes it back)."
+doc = "The skill library: `:skill` lists the skills, `:skill tests` searches them, `:skill show <name>` reads one, `:skill on|off <name>` switches one, as `x` on Agents › Skills does (`:undo` takes it back)."
 words = [":skill"]
 args = ["what to do"]
 core = "skill"

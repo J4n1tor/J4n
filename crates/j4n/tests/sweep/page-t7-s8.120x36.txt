@@ -1,0 +1,36 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+─────────────────────────────────────────────────────────────━━━━━━━━━──────────────────────────────────────────────────
+├ accounts    on   0.0.0  widens  2 commands, 1 connector, 4 events, 1 failure, 1 flow, 1 fold, 1 kind, 2 pages, 2 views
+│   several logins of one harness kept apart: each account has a folder, a browser window and, if it needs one, a proxy
+│   of its own
+│   experimental
+├ agent       on   0.0.0  widens  2 connectors, 2 flows
+├ base        on   0.0.0  widens  25 ask points, 1 box, 18 checks, 32 commands, 3 compact modes, 4 connectors, 3 cost s…
+├ code        on   0.0.0          3 flows, 3 phrases
+├ connect     on   0.0.0  widens  1 ask point, 3 commands, 4 connectors, 3 events, 2 flows, 1 kind, 2 pages, 1 phrase, …
+├ contribute  on   0.0.0  widens  2 commands, 2 events, 2 folds, 3 pages, 1 rule, 1 setting, 2 views
+├ crew        on   0.0.0          1 command, 4 kinds, 6 pages, 6 seats, 5 seeds, 8 settings, 6 views
+├ grow        on   0.0.0  widens  1 fold, 3 rules, 2 settings
+├ guard       on   0.0.0  widens  9 gates, 5 incidents, 2 rules, 1 setting
+├ habits      on   0.0.0  widens  1 command, 1 flow, 7 folds, 1 page, 7 rules, 8 settings, 1 view
+├ inbox       on   0.0.0          1 command, 1 event, 3 folds, 5 inbox rules, 1 kind, 1 page, 5 settings, 1 view
+├ jev         on   0.0.0  widens  3 connectors, 1 model
+├ kit         on   0.0.0  widens  1 command, 1 event, 1 flow, 2 gates, 1 need, 1 page, 1 rule, 6 settings, 1 view
+├ lanes       on   0.0.0          3 branches, 1 kind
+├ ledger      on   0.0.0  widens  1 command, 2 events, 1 fold, 1 need, 1 page, 1 rule, 3 settings, 1 view
+├ offload     on   0.1.0          6 chores, 1 command, 1 kind, 2 needs, 9 settings
+├ parts       on   0.0.0  widens  1 command, 3 events, 1 gate, 3 settings
+├ reflexes    on   0.0.0  widens  2 commands, 1 need, 1 page, 4 reflex cases, 2 rules, 4 settings, 1 view
+├ skills      on   0.0.0          2 commands, 1 page, 4 settings, 1 view
+├ bench       off  0.0.0          2 cases, 2 commands, 1 event, 1 flow, 1 fold, 1 kind, 1 page, 1 view
+├ qc          off  0.0.0  widens  3 commands, 5 events, 2 flows, 5 folds, 4 kinds, 1 need, 5 pages, 35 patterns, 10 qc …
+├ shape       off  0.0.0  widens  5 events, 1 fold, 3 kinds, 1 need, 6 personas, 1 phrase, 1 rule, 10 settings, 5 shape…
+├ terminal    off  0.0.0  widens  4 connectors
+╰ test        off  0.0.0          nothing
+
+
+a pack acts from the next start
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

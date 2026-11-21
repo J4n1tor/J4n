@@ -1,13 +1,13 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧮 Skills   󰒓 Reflexes
-───────────────────────────────────────────────────────────────────━━━━━━━━━━───────────────────────────────────────────
-  service  dialect  url
-╰ browser  text     —
-    A Chromium window with a data dir and a proxy of an account's own.
-
-
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧮 󰒓
+─────────────────────────────────────────────────────────────────────────────────────────────━━━━━━━━───────────────────
+  decider  dialect    url
+├ jev      systemone  https://api.typesafe.ai
+│   A Decider (System One): typed judgment, a probability for a yes/no and for each option of a choice, in about a
+│   second.
+╰ span     decisions  https://openrouter.ai
 
 
 

@@ -11,7 +11,7 @@ cd your-project
 j4n
 ```
 
-The first time, J4n shows the **Setup card**. `⏎` opens **Connect › Setup**, one page of steps done with keys: an agent that
+The first time, J4n shows the **Setup card**. `⏎` opens **Agents › Setup**, one page of steps done with keys: an agent that
 works (its sign-in, or its key), a model, the Decider, and a test that makes one short call to each part. `esc` puts the card
 off until the next start. Once you have opened Setup from it, no project asks again. `:setup` opens the page at any time, and
 a line typed while no agent works leads there. The [install guide](INSTALL.md) walks through the steps.
@@ -19,13 +19,13 @@ a line typed while no agent works leads there. The [install guide](INSTALL.md) w
 `j4n doctor` lists the same facts without starting the screen:
 
 - each agent it found on your machine (Claude Code, Codex, Gemini CLI, OpenCode, Pi) and whether it is signed in, with the
-  row of Connect › Setup that mends it;
+  row of Agents › Setup that mends it;
 - the keys it knows of (shown as "set", never the value) and the plan rows with their prices;
 - the safety defaults: a write outside the project asks first, J4n's own folder and git's internals are blocked, a
   checkpoint is made before work, and an agent's writes and commands come to the gate first;
 - which packs are off, and why.
 
-J4n never reads or stores an agent's login. Sign an agent in from its row on Connect › Setup (`s` starts the program's own
+J4n never reads or stores an agent's login. Sign an agent in from its row on Agents › Setup (`s` starts the program's own
 sign-in and shows its link), or the way you always do; J4n uses the agent as it is.
 
 `j4n` in a terminal opens the screen on the **Chat** tab. In a folder it has not worked in, it makes `.j4n/` there (a
@@ -48,23 +48,25 @@ let the terminal send Option as Meta or Alt. The last row shows the keys of the 
 Anything you can do with a key can also be asked for in words in the Chat, or by name with `:` (the palette lists every
 command).
 
+Five tabs stand out of the box:
+
 | # | Tab | Sub-tabs | What it is for |
 |---|---|---|---|
 | 1 | **Chat** | | the conversation; approval cards appear here, above the line you type |
-| 2 | **Tasks** | Tasks · Decisions · Inbox · Habits | what is running and what ran; who answers each question |
-| 3 | **Library** | Models · Providers · Plans · Trust | every model J4n can use and how it is had; each provider's key (never shown); plan prices; how far each machine answerer is trusted |
-| 4 | **Connect** | Setup · Overview · Lab · Accounts · Add account · Agents · Tools · Services · MCP · Deciders · Kit · Skills · Reflexes | setting up an agent, a model and the Decider; what J4n is connected to, and a line to connect a new program (some sub-tabs appear only with their pack on) |
-| 5 | **Spend** | Spend · Report | what each task cost this week, and the report of each settled thread |
-| 6 | **Quality** | Runs · Marks · Patterns · Labels · Bench | the checks and marks of the quality pack and the bench cases |
-| 7 | **Grow** | Grow · Contribute · Packs · Updates · TODO | what J4n proposes for itself; which packs are on; releases of the tools J4n follows |
-| 8 | **Log** | | every event, as it happens |
-| 9 | **Settings** | Features · Look · This Session · Keys · Loop · Gates · All · Commands | how J4n is set up |
+| 2 | **Usage** | | where each plan's limit windows and each gateway's spend stand (what `/usage` says), what was spent a day, and what each task cost this week |
+| 3 | **Agents** | Setup · Overview · List · Models · Providers · Plans · Deciders | setting up an agent, a model and the Decider; what J4n is connected to, and a line to connect a new program; every model J4n can use and how it is had; each provider's key (never shown); plan prices |
+| 4 | **Log** | | every event, as it happens |
+| 5 | **Settings** | Features · All · Keys · Packs · Commands | the switches you change, each with one line on what it does; every setting; the keys; which packs are on |
 
-Tabs that belong to a pack appear when the pack is on. Settings are documented where you change them: each setting row shows
-its own explanation.
+**Tasks** (Tasks · Decisions) comes while `lanes` acts on its own (`auto`, `wide`, `orchestrate`). A pack's tabs and sub-tabs come
+with the pack or its switch (Quality, Agents › Accounts, Kit, Skills, Reflexes, the reports under Usage…). Agents › Tools, Services, MCP
+and Trust stand only while they list something, and Agents › Providers lists the providers with a key kept or whose program is here.
+The switch **Settings › Features › tabs.all** brings back everything else: Tasks, **Grow** (Grow · Contribute · Updates · TODO), Agents ›
+Lab, Settings › Look, This Session, Loop and Gates, every provider, and the pages that are still empty. Settings are documented
+where you change them: each setting row shows its own explanation.
 
 The marks (the icons of the tabs and rows) are `auto` out of the box: icons where the terminal draws them itself or a Nerd
-Font is installed, plain Unicode where neither is found. **Settings › Look** says which one `auto` chose and why. If the marks
+Font is installed, plain Unicode where neither is found. The row `theme.marks` (Settings › Features) says which one `auto` chose and why. If the marks
 show as boxes, pick `unicode` there; for the icons, install a Nerd Font and choose it as the terminal's font
 ([install guide](INSTALL.md#icons-and-fonts)).
 
@@ -84,15 +86,15 @@ widens what is allowed needs its digit pressed twice.
 - **Gates by pack.** A pack that adds a gate, a check or a box asks twice before it turns on, because it widens what J4n may
   do.
 
-The setting pages under **Settings › Gates** and **Settings › Loop** show every rule and every limit with its reason.
+The setting pages under **Settings › Gates** and **Settings › Loop** (with `tabs.all` on) show every rule and every limit with its reason.
 [docs/GATE.md](GATE.md) explains the gate, the key guard and the known attacks it watches for.
 
 ## 4. Cost and checks
 
 Each task carries a cost line. For an agent on a subscription, J4n reads the limit windows the provider shows and says what a
-task took of the plan; for a gateway, it says dollars. The setting `cost.show` picks `plan`, `list` or `both`. **Spend** shows
+task took of the plan; for a gateway, it says dollars. The setting `cost.show` picks `plan`, `list` or `both`. **Usage** shows
 the week, per task and per account. `:usage` shows where each window stands and when it runs out at the current pace. Set the
-price of a plan under **Library › Plans**. `--usd N` bounds a task: past the limit it is parked.
+price of a plan under **Agents › Plans**. `--usd N` bounds a task: past the limit it is parked.
 
 After a task that changed files, J4n runs the project's own check where the work happened (for example `cargo test`, `go test`
 or `pytest`, found from the files in the folder) and reports whether it passed. The setting `check.after` turns this off for
@@ -104,24 +106,24 @@ Say what you want in the Chat ("add a check for…", "route reviews to a cheaper
 it under **Grow** as a proposal with its reason and what it widens. Nothing applies until you accept it (`a`); you can decline
 (`d`), and an accepted proposal can be undone (`u`). Accepting a proposal that widens what J4n may do asks again first.
 
-Under **Grow › Packs** each pack can be turned on or off (`⏎`). A pack acts from the next start.
+Under **Settings › Packs** each pack can be turned on or off (`⏎`). A pack acts from the next start.
 
 ## 6. Connect, models and accounts
 
-**Connect › Setup** is where a first agent, its sign-in or key, a model and the Decider are set up, and where one short call
-proves them. J4n connects a program by describing how it speaks, not by code. **Connect › Overview** lists what J4n is connected to and
+**Agents › Setup** is where a first agent, its sign-in or key, a model and the Decider are set up, and where one short call
+proves them. J4n connects a program by describing how it speaks, not by code. **Agents › Overview** lists what J4n is connected to and
 the programs on this machine that it is not; use its line to add a program or a path. The **Connect** flow
 looks at the program, drafts how to speak to it, tries it once in a box and proposes it as a pack row. Codex, OpenCode and Gemini
 CLI come with the `connect` pack as samples of the same thing.
 
-**Library** lists every model once, however it is reached: the connector, the account and its plan, a router. A model's row says
+**Agents › Models** lists every model once, however it is reached: the connector, the account and its plan, a router. A model's row says
 whether it can be used now (usable, limited, no key, not signed in, not installed) and what it costs. A provider's key is typed
-on its row in **Library › Providers**, kept by J4n and never shown again.
+on its row in **Agents › Providers**, kept by J4n and never shown again.
 
 ## 7. Packs
 
 J4n basic loads `base`, `guard`, `grow`, `connect`, `lanes` and `crew`, plus any pack your folder already uses. `lanes` and `crew` act only under the word `orchestrate` of the setting `lanes`, the one switch of that mode. The setting `packs.full` loads
-every built-in pack. A pack you turn on or off under **Grow › Packs** wins over both. Every pack below is *experimental*.
+every built-in pack. A pack you turn on or off under **Settings › Packs** wins over both. Every pack below is *experimental*.
 
 | Pack | What it adds | Default |
 |---|---|---|
@@ -170,7 +172,7 @@ and the plan keeper act by themselves; `orchestrate.look`, `crew.on` and `crew.e
 1. **Turn it on** in one of these ways:
    - type `:lanes orchestrate`, or run `j4n lanes orchestrate` in the project's folder;
    - Settings › `lanes`;
-   - on **Grow › Packs**, the `crew` row's `g` key, *ready to go*: enabling the crew with it on sets `lanes = orchestrate`.
+   - on **Settings › Packs**, the `crew` row's `g` key, *ready to go*: enabling the crew with it on sets `lanes = orchestrate`.
 
    The switch's row on the Tasks page says what it turned on and what is missing. `⏎` on it turns the mode off, `u` takes the last
    change back, and `:undo` takes back any setting edit.

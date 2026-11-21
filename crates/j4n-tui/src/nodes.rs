@@ -275,6 +275,15 @@ impl App {
             }
             n.children.iter_mut().any(|c| put(c, new))
         }
+        // the tab and the sub-tabs that are open, by id: a tree sent again with a tab more or less (a setting's `when`) keeps them open
+        fn find<'a>(n: &'a Node, id: &str) -> Option<&'a Node> {
+            if n.id == id {
+                return Some(n);
+            }
+            n.children.iter().find_map(|c| find(c, id))
+        }
+        let open_tab = self.top().and_then(|t| self.open_of(t)).map(|c| c.id.clone());
+        let open_subs: Vec<(String, String)> = self.root().map(|r| self.sub.iter().filter_map(|(g, at)| Some((g.clone(), find(r, g)?.children.get(*at)?.id.clone()))).collect()).unwrap_or_default();
         self.asked.remove(&node.id);
         let part = self.tree.as_mut().is_some_and(|t| t.id != node.id && put(std::sync::Arc::make_mut(t), &node));
         if !part {
@@ -282,6 +291,14 @@ impl App {
             self.tree = Some(std::sync::Arc::new(node));
         }
         self.top = self.root().and_then(find_top);
+        if let Some(at) = open_tab.and_then(|id| self.top().and_then(|t| t.children.iter().position(|c| c.id == id))) {
+            self.tab = at;
+        }
+        for (g, id) in open_subs {
+            if let Some(at) = self.root().and_then(|r| find(r, &g)).and_then(|n| n.children.iter().position(|c| c.id == id)) {
+                self.sub.insert(g, at);
+            }
+        }
         // the chats, wherever they are: found once here, not on every key
         fn chats(n: &Node, out: &mut std::collections::BTreeSet<String>) {
             if let Some(f) = n.field.as_ref().filter(|f| f.kind == FieldKind::Chat) {

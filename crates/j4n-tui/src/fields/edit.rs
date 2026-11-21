@@ -615,7 +615,7 @@ fn rows_json(map: bool, rows: &[(String, String)]) -> Json {
 }
 
 /// Why a key was not taken: a key has one road, its masked editor on a provider's row, to J4n's key file.
-pub(crate) const NO_ROAD: &str = "a key is typed only in its masked editor: Library › Providers, ⏎ on its row · nothing was sent";
+pub(crate) const NO_ROAD: &str = "a key is typed only in its masked editor: Agents › Providers, ⏎ on its row · nothing was sent";
 
 /// `←→` on a number: by `step`, held to `min` and `max`.
 fn step(spec: &Spec, ed: &mut Ed, up: bool) {

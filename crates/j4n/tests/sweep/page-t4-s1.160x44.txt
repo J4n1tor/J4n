@@ -1,8 +1,8 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧭 Kit   󰧮 Skills   󰒓 Reflexes
-━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
+━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ┃ 󰄬 Agent                test · ready · pinned at start                       ⏎ change                                                                        ▸
   󰄬 Model                default · the agent picks                            ⏎ pick
   󰄰 Decider              on · its key is not typed yet                        ⏎ set up
@@ -11,7 +11,7 @@
   ├─ 󰐽 Jev · System One  not set                                              needs a TypeSafe key
   ╰─ 󰐽 none              —                                                    every question keeps its fixed pick or comes to you · ⏎ turns the Decider off
   󰄰 Test                 not run · one short call to each part above          ⏎ runs it
-  Custom                 any other program, a key of your own, every setting  ⏎ opens Connect › Overview · Library › Providers and Settings › All hold every…
+  Custom                 any other program, a key of your own, every setting  ⏎ opens Agents › Overview · Agents › Providers and Settings › All hold every k…
 
 
 

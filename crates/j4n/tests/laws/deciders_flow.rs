@@ -1,4 +1,4 @@
-//! A Decider made live by its key. The pack `jev` on and no key: `decider:jev` is made and not asked. A key typed in Library › Providers
+//! A Decider made live by its key. The pack `jev` on and no key: `decider:jev` is made and not asked. A key typed in Agents › Providers
 //! puts its probe cases at once (a person is at the screen, so no line waits for them), and once it passed them it answers the next
 //! point, in the same run. A key typed for a connector that is not on says what turns it on. A gateway on the loopback is Jev, so what
 //! is tested is the real wire, front, Serve and TUI; nothing of either key reaches the Log, the notes or a frame.
@@ -96,10 +96,10 @@ pub fn jev_probes(world: &World) -> Vec<(u64, Value)> {
     events(world).into_iter().filter(|(_, k, d)| k == "probe.result" && d["answerer"] == "decider:jev").map(|(s, _, d)| (s, d)).collect()
 }
 
-/// Library › Providers, `⏎` on the row `key`, the key typed masked and `⏎`.
+/// Agents › Providers, `⏎` on the row `key`, the key typed masked and `⏎`.
 fn type_key(op: &mut Operator, world: &World, key: &str, value: &str, frames: &mut Vec<String>) {
     if !op.look().contains("J4n keeps a key and never shows it") {
-        frames.push(op.go(":providers", "Library › Providers", |s| s.contains("Providers") && s.contains("typesafe")));
+        frames.push(op.go(":providers", "Agents › Providers", |s| s.contains("Providers") && s.contains("typesafe")));
     }
     // the row as the screen draws it, one line a row
     let shown = op.look();

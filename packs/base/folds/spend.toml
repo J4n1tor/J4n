@@ -1,6 +1,6 @@
 api = 1
 
-# What each task of this project cost, this week, as the list cost the doer reported (the Spend tab, `views/f1.toml`); `spend_plan` is
+# What each task of this project cost, this week, as the list cost the doer reported (the Usage tab, `views/f1.toml`); `spend_plan` is
 # what it took of the plan, for the requests that ran on one (`plan_usd` on the same event). The page puts them
 # together (`Screen::spend_rows`).
 [[fold]]

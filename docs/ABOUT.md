@@ -29,7 +29,7 @@ stores a login.
 You may want one agent for planning, a cheaper one for reading and test runs, and a third for a language it handles well.
 J4n treats them as interchangeable doers:
 
-- **Library** lists every model you can reach once, however it is reached (an agent, an account, a gateway key), with
+- **Agents › Models** lists every model you can reach once, however it is reached (an agent, an account, a gateway key), with
   its price and whether it can be used right now.
 - `@claude sonnet …`, `@pi …` or `:use` pick a doer for one line. Nothing guesses a doer from the words of a line.
 - The `offload` pack (experimental) sends light chores to a cheaper agent by rule, while the main agent stays the only
@@ -40,7 +40,7 @@ J4n treats them as interchangeable doers:
 ### 3. One screen instead of several
 
 Each agent has its own interface, its own way of asking permission and its own idea of cost. In J4n they all appear on
-one screen with nine tabs: Chat, Tasks, Library, Connect, Spend, Quality, Grow, Log and Settings. An approval looks the
+one screen with five tabs: Chat, Usage, Agents, Log and Settings (Tasks, Grow and the pages of the packs come when you turn them on). An approval looks the
 same whichever agent asked for it. Cost is shown the same way: dollars for an API key, a share of the limit window for a
 subscription. The Log keeps every turn, tool call, approval and cost of every agent in one readable list per project.
 
@@ -87,7 +87,7 @@ them the same way you add something new.
 ### 7. A record of the work
 
 The Log is append-only and kept per project in `.j4n/`. A fold turns it into tasks, spend, open questions and grants, so
-the Spend tab, a thread's report and a restart all read the same events. After a restart the chat comes back where it
+the Usage tab, a thread's report and a restart all read the same events. After a restart the chat comes back where it
 was.
 
 ## What J4n is not

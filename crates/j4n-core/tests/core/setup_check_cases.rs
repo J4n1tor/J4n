@@ -1,4 +1,4 @@
-//! The pre-flight never holds the screen: Connect › Setup and Library › Models answer at once while a program's probe is out, its rows say
+//! The pre-flight never holds the screen: Agents › Setup and Agents › Models answer at once while a program's probe is out, its rows say
 //! `checking…` (never "not found" or "none works"), each doer's answer lands as it comes and the next tick draws it; one look runs at a
 //! time, its facts are stamped when it ends, and a program that is not there (or did not answer in time) is asked again only after a while or on `r`.
 
@@ -94,7 +94,7 @@ fn until(what: &str, ok: impl Fn() -> bool) {
     }
 }
 
-/// The base pack's pages and views, and a claude connector with two models, which Library › Models lists.
+/// The base pack's pages and views, and a claude connector with two models, which Agents › Models lists.
 fn screen() -> Screen {
     let files = [
         ("pages/main.toml", include_str!("../../../../packs/base/pages/main.toml")),

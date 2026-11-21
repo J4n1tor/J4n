@@ -1,5 +1,5 @@
 
- 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ 󰍩 Chat 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings             j4n 0.1.0
  ━━━━━━────────────────────────────────────────────────────────────────────────
 
 ▌ say **Release work** (`docs/TESTING.md` §5): open loose     0s  $0.12  HH:MM ▐

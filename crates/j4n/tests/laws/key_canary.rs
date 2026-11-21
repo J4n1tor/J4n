@@ -1,8 +1,8 @@
 //! The leak canary: a key given to J4n is kept in its own key file and given to the one doer bound to its provider, and is nowhere else.
 //! In a fresh HOME the headless TUI (the real wire, front, Serve and TUI) is given made-up keys of no vendor's shape, so what keeps them out
 //! is the registered value and not a pattern. The walk ([`STEPS`]):
-//! - a key typed on a key row of Connect › Setup (OpenRouter's, on the Decider's `Span through OpenRouter`);
-//! - one pasted into Library › Providers as an environment line (TypeSafe's, the Decider's), one typed there and then typed over
+//! - a key typed on a key row of Agents › Setup (OpenRouter's, on the Decider's `Span through OpenRouter`);
+//! - one pasted into Agents › Providers as an environment line (TypeSafe's, the Decider's), one typed there and then typed over
 //!   (Anthropic's: the old value is replaced), one typed and removed with `x` on its card (Google's);
 //! - a key mistyped on a chat line: `:key <value>`, and a line that is one key-like word, held on its card and dropped.
 //!
@@ -89,13 +89,13 @@ pub const VALUES: [&Canary; 7] = [&TYPED, &PASTED, &OLD, &NEW, &GONE, &LINE, &LO
 
 /// One step of the walk, done through the screen.
 enum Step {
-    /// Connect › Setup, `⏎` on the first row whose line holds the words, the value typed key by key in its masked editor, `⏎`.
+    /// Agents › Setup, `⏎` on the first row whose line holds the words, the value typed key by key in its masked editor, `⏎`.
     Setup(&'static str, &'static Canary),
-    /// Library › Providers, `⏎` on the row, the value typed key by key, `⏎`.
+    /// Agents › Providers, `⏎` on the row, the value typed key by key, `⏎`.
     Type(&'static str, &'static Canary),
-    /// Library › Providers, `⏎` on the row, `<NAME>=<value>` pasted whole, `⏎`.
+    /// Agents › Providers, `⏎` on the row, `<NAME>=<value>` pasted whole, `⏎`.
     Paste(&'static str, &'static str, &'static Canary),
-    /// Library › Providers, `x` on the row, `y` on the card.
+    /// Agents › Providers, `x` on the row, `y` on the card.
     Remove(&'static str),
     /// A chat line, the word and then the value typed key by key, `⏎`.
     Line(&'static str, &'static Canary),
@@ -283,7 +283,7 @@ pub fn until(op: &mut Operator, world: &World, what: &str, ok: impl Fn() -> bool
 /// The cursor on the Providers row `row`, the page opened first when it is not open.
 fn to_row(op: &mut Operator, row: &str) {
     if !op.look().contains("J4n keeps a key and never shows it") {
-        op.go(":providers", "Library › Providers", |s| s.contains("Providers") && s.contains("typesafe"));
+        op.go(":providers", "Agents › Providers", |s| s.contains("Providers") && s.contains("typesafe"));
     }
     let shown = op.look();
     let rows: Vec<&str> = shown.lines().filter(|l| l.starts_with(['├', '╰'])).collect();

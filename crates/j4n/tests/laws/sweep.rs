@@ -134,6 +134,11 @@ impl Out {
     fn put(&mut self, s: &mut Sitting, name: &str) {
         let mut snap = s.snap();
         self.write(name, &snap);
+        // a page of the Usage tab is marked, for the length of its meters
+        let app = &s.op.app;
+        if app.top().and_then(|t| app.open_of(t)).is_some_and(|t| t.title == "Usage") {
+            fs::write(self.dir.join(format!("{name}.usage")), "").unwrap();
+        }
         // A page whose rows come from the core a moment after its frame (a probe of the machine, which a loaded one is slow at) holds
         // still before it is whole. Its golden is what whole is: the page is taken again until it is its golden, and one that never is
         // goes on to be reported with its difference, once the patience is out.
@@ -229,7 +234,7 @@ fn sit(world: &World, size: (u16, u16), dir: &Path, want: Option<&Path>) -> Vec<
         s.keys(vec![press(KeyCode::Esc)]);
     }
     // an event of the Log opened into its tree
-    s.keys(vec![press(KeyCode::F(7))]);
+    s.keys(vec![press(KeyCode::F(6))]);
     s.keys(vec![press(KeyCode::Enter)]);
     o.put(&mut s, "log-open");
     s.keys(vec![press(KeyCode::Esc)]);
@@ -267,10 +272,10 @@ fn the_sweep() {
     }
 }
 
-/// What differs from one run to the next and is left out of the committed set: the Log (its rows hold the clock and the sequence numbers
-/// of events that come when they come), the Report (its rows are named by sequence number), the opened event and the Models chart (its dot is how long a task took;
-/// Library › Models, the first sub-tab of the third tab).
-const UNSTEADY: [&str; 5] = ["page-t7", "sheet-t7", "log-open", "page-t5-s2", "page-t3-s1"];
+/// What differs from one run to the next and is left out of the committed set: the Log, the sixth tab (its rows hold the clock and the
+/// sequence numbers of events that come when they come), Usage, the third (the ledger's reports stacked under it are named by sequence
+/// number), the opened event and the Models chart (its dot is how long a task took; Agents › Models, the seventh sub-tab of the fourth tab).
+const UNSTEADY: [&str; 5] = ["page-t6", "sheet-t6", "log-open", "page-t3-s1", "page-t4-s7"];
 
 /// A screen without its clocks: `17:16` and `17:16:28` are `HH:MM`; the seconds a task took (`3s`, in the column at the end of its
 /// line) and the seconds a question has waited (`󰔛 0:07`) are `0s` and `0:00`, with the blanks that kept them at the right edge. Both
@@ -424,7 +429,12 @@ fn pages_at((cols, rows): (u16, u16), tag: &str) {
     // the pages and the chat at 80 columns hold no meter longer than eight cells: the long bar is for the page about that number
     if cols <= 80 {
         for name in &names {
-            let long = longest_meter(&read_text(&dir.join(name)).unwrap());
+            let screen = read_text(&dir.join(name)).unwrap();
+            // the Usage tab is the page about those numbers: its usage view keeps the long bar the chat's `/usage` has
+            if dir.join(name.replace(".txt", ".usage")).exists() {
+                continue;
+            }
+            let long = longest_meter(&screen);
             if long > 8 {
                 found.push(format!("{name}: a meter {long} cells long at {cols} columns; outside Usage one is at most 8"));
             }

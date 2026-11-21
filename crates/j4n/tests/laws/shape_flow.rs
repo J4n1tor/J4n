@@ -592,7 +592,7 @@ fn with_the_pack_that_declares_the_default_doer_off_the_line_says_which_pack_and
     let rows = drafted(&r.w, "add a --verbose flag to the cli");
     let said = texts(&rows).join("\n");
     assert_eq!(state_of(&rows), "failed", "{said}");
-    assert!(said.contains("`light`") && said.contains("pack jev") && said.contains("Grow › Packs › jev"), "the reason names the doer, its pack and the way to turn it on: {said}\n{}", dump(&r.w));
+    assert!(said.contains("`light`") && said.contains("pack jev") && said.contains("Settings › Packs › jev"), "the reason names the doer, its pack and the way to turn it on: {said}\n{}", dump(&r.w));
     assert!(shaper_calls(&r.gateway).is_empty() && doer_calls(&r.gateway).is_empty(), "nothing was sent");
     r.w.close();
 }

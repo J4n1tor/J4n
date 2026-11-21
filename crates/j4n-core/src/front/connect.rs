@@ -1,4 +1,4 @@
-//! The Connect tab: what J4n is connected to, what on this machine is not, and what the lab found.
+//! Agents › Overview and Lab: what J4n is connected to, what on this machine is not, and what the lab found.
 //! Two folds, `fold:connect` and `fold:lab`, drawn by the views of the pack `connect`; the TUI draws rows, this reads the files and the Log.
 //!
 //! - **Connect.** An add line (the program typed, kept as the draft `connect.program`), then `programs found on this machine and not
@@ -45,7 +45,7 @@ pub struct Seen {
     found: Mutex<Option<(Instant, Vec<Program>)>>,
     lab: Mutex<Option<(Instant, Vec<Run>)>>,
     canary: Mutex<Canaries>,
-    /// Connect › Setup's proof call: the last one the Log holds, and whether one is being made.
+    /// Agents › Setup's proof call: the last one the Log holds, and whether one is being made.
     pub(super) proof: Mutex<super::setup::Proof>,
 }
 
@@ -330,13 +330,13 @@ impl Front {
         resolve(program, &path).is_some() || (!program.contains('/') && PROJECT_BINS.iter().any(|d| is_executable(&self.0.cfg().root.join(d).join(program))))
     }
 
-    /// The one row Connect › Deciders shows when J4n has no decider: the pack `jev` is off, so the ask points use their fixed
-    /// pick and `⏎` turns the pack on; or it is on and no decider was made, for want of the key, which Library › Providers types.
+    /// The one row Agents › Deciders shows when J4n has no decider: the pack `jev` is off, so the ask points use their fixed
+    /// pick and `⏎` turns the pack on; or it is on and no decider was made, for want of the key, which Agents › Providers types.
     pub fn decider_gap(&self) -> Option<Value> {
         let screen = self.screen();
         let jev = screen.packs.iter().find(|p| p.id == "jev")?;
         let (kind, now, note) = if jev.on {
-            ("no-key", "no key", "no decider is made until its key is typed · ⏎ opens Library › Providers")
+            ("no-key", "no key", "no decider is made until its key is typed · ⏎ opens Agents › Providers")
         } else {
             ("pack-off", "off", "the ask points use their fixed pick · ⏎ turns the pack on")
         };
@@ -470,17 +470,17 @@ impl Front {
     }
 
     /// `:connector test <id>`: the canary of a connection, run once in the box (the Connect flow's own step), the Gate asking as it does there.
-    /// `:connector off <id>` and `on` switch it: an operator's edit of the row (a Change with an undo), which the Connect tab asks about first and
+    /// `:connector off <id>` and `on` switch it: an operator's edit of the row (a Change with an undo), which the Agents tab asks about first and
     /// which is read at the next start.
     pub(super) fn connector_said(&self, thread: &str, args: &[String]) -> Said {
         let (verb, Some(id)) = (args.first().map(String::as_str), args.get(1)) else {
-            return self.refuse(thread, "`:connector test <name>` runs a connection's canary, `off` and `on` switch it: Connect › Overview has `t` and `o` on its row".into());
+            return self.refuse(thread, "`:connector test <name>` runs a connection's canary, `off` and `on` switch it: Agents › Overview has `t` and `o` on its row".into());
         };
         if !matches!(verb, Some("test" | "off" | "on")) {
-            return self.refuse(thread, "`:connector` takes `test`, `off` or `on` and the name of a connection: Connect › Overview has `t` and `o` on its row".into());
+            return self.refuse(thread, "`:connector` takes `test`, `off` or `on` and the name of a connection: Agents › Overview has `t` and `o` on its row".into());
         }
         let Some((_, f)) = self.connections().into_iter().find(|(c, _)| c == id) else {
-            return self.refuse(thread, format!("there is no connection `{id}`: Connect › Overview lists them"));
+            return self.refuse(thread, format!("there is no connection `{id}`: Agents › Overview lists them"));
         };
         if verb != Some("test") {
             return self.set_said(thread, "connector", id, "off", &Json::Bool(verb == Some("off")));

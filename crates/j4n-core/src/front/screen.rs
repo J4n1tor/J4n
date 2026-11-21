@@ -166,7 +166,7 @@ impl Screen {
         }
     }
 
-    /// The rows of the Spend page: what each task cost at list price (`value`) and, for a task that ran on a plan, what it took of the
+    /// The rows of the Usage tab: what each task cost at list price (`value`) and, for a task that ran on a plan, what it took of the
     /// plan, said as `cost.show` says in `money`.
     pub fn spend_rows(&self, now_ms: u64) -> Vec<Value> {
         let show = self.show();
@@ -215,6 +215,11 @@ impl Screen {
                 // `full` when what stands is what `packs.full` put there and the operator has not said otherwise
                 let via = self.tables.raw("setting", &id).and_then(|r| r.from.get("value")).is_some_and(|l| l == crate::pack::FULL_LAYER);
                 m.insert("via".into(), Value::text(if via { "full" } else { "" }));
+                // the one line Settings › Features says, else the doc
+                if !m.contains_key("brief") {
+                    let doc = m.get("doc").cloned().unwrap_or_else(|| Value::text(""));
+                    m.insert("brief".into(), doc);
+                }
                 // the marks' `auto` says what it comes to on this machine, and why
                 let auto = id == "theme.marks" && now == Value::text(super::fonts::AUTO);
                 m.insert("now".into(), if auto { Value::text(super::fonts::row_word(super::fonts::AUTO)) } else { now });

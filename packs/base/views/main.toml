@@ -78,7 +78,7 @@ detail = ["{why}", "{of} {version}"]
 
 [[view]]
 id = "setup-flow"
-doc = "Connect › Setup: Agent, Model, Decider, Test and Custom, each step with its mark and where it stands, its choices under it. `⏎` uses an agent, picks the model or types a key in the masked editor; `s` signs a program in with its own login, `r` looks again, `o` turns the Decider on for every project (and `r` restarts J4n while that waits for the next start), `u` takes an edit back. `⏎` on Test makes one short call to each part that is set, and each part's row says ok or failed, its time and its cost; a failed part's row mends it."
+doc = "Agents › Setup: Agent, Model, Decider, Test and Custom, each step with its mark and where it stands, its choices under it. `⏎` uses an agent, picks the model or types a key in the masked editor; `s` signs a program in with its own login, `r` looks again, `o` turns the Decider on for every project (and `r` restarts J4n while that waits for the next start), `u` takes an edit back. `⏎` on Test makes one short call to each part that is set, and each part's row says ok or failed, its time and its cost; a failed part's row mends it."
 from = { from = "fold:setup", filter = "step" }
 cells = ["{label}", "{now}", "{note}"]
 tone = "tone"
@@ -88,7 +88,7 @@ data = "{edit}"
 folded = "done"
 acts = [
   { key = "enter", label = "use", set = "setting:lane.doer.value", value = "{doer}", when = "kind == 'agent' and declared and not using and not picked" },
-  # a pack that widens what J4n may do asks on the card, and its yes is the whole of it, as on Grow › Packs
+  # a pack that widens what J4n may do asks on the card, and its yes is the whole of it, as on Settings › Packs
   { key = "enter", label = "turn on, which widens what J4n may do", run = ":pack on {pack} yes all", risk = 60, when = "kind == 'agent' and not declared and not waits" },
   { key = "s", label = "sign in", run = ":signin {doer}", when = "kind == 'agent' and signin and not ready" },
   { key = "r", label = "look again", run = ":setup again", when = "kind == 'agent'" },
@@ -105,7 +105,7 @@ acts = [
   { key = "r", label = "restart now", run = ":restart", when = "restart" },
   # the proof call: one short call to each part that is set; a part that failed is drawn as the row that mends it
   { key = "enter", label = "run the test", run = ":setup test", when = "kind == 'test' and not running" },
-  { key = "enter", label = "open Connect › Overview", run = ":connections", when = "kind == 'custom'" },
+  { key = "enter", label = "open Agents › Overview", run = ":connections", when = "kind == 'custom'" },
   { key = "u", label = "undo", run = ":undo {undo}", when = "undo != ''" },
 ]
 
@@ -120,7 +120,7 @@ detail = ["{fix}"]
 acts = [
   { key = "p", label = "set price", run = ":plans", when = "kind == 'plan' and what == 'no price'" },
   { key = "a", label = "add account", run = ":account add {id}", when = "account == 'yes'" },
-  # each mend leads to the row of Connect › Setup that does it
+  # each mend leads to the row of Agents › Setup that does it
   { key = "enter", label = "open Setup", run = ":setup", when = "contains(fix, 'Setup')" },
 ]
 

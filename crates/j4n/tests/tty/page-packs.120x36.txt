@@ -1,8 +1,8 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ─────────────────────────────────────────────────────━━━━━━━━─────────────────────────────────────────────────────────
- 󰹦 Grow   󰐕 Contribute   󰏖 Packs   Updates   TODO
-────────────────────────━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
+ ─────────────────────────────────────────────────────────━━━━━━━━━━━━─────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+─────────────────────────────────────────────────────────────━━━━━━━━━──────────────────────────────────────────────────
 ├ accounts    on   0.0.0  widens  2 commands, 1 connector, 4 events, 1 failure, 1 flow, 1 fold, 1 kind, 2 pages, 2 views
 │   several logins of one harness kept apart: each account has a folder, a browser window and, if it needs one, a proxy
 │   of its own
@@ -33,4 +33,4 @@
 
 
 a pack acts from the next start
- • ⏎ turn off  • space turn off  ⌥1–9 tabs  ↑↓ move  ? keys  ⌃k find  ⌃g state
+ • ⏎ turn off  • space turn off  ⌥1–9 tabs  ↑↓ move  / find  ? keys  ⌃g state

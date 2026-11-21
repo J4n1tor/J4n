@@ -46,7 +46,7 @@ The list is data you can read and change under **Settings › Gates**. Where a p
 
 ## 2. Keys and secrets
 
-**No agent is shown a key that J4n holds.** A key you give J4n (typed on its row in Library › Providers, or in the
+**No agent is shown a key that J4n holds.** A key you give J4n (typed on its row in Agents › Providers, or in the
 environment J4n starts) is kept by J4n. Everything J4n writes to its Log and everything it shows a model goes through the
 redactor first.
 

@@ -12,7 +12,7 @@ dialect = "builtin"
 
 [[connector]]
 id = "own"
-doc = "J4n's own agent: a model with the builtin tools, `web`, `ask` and any MCP server that was connected. Its gateway and model are rows of Library › Providers; its key is read from `OPENROUTER_API_KEY`."
+doc = "J4n's own agent: a model with the builtin tools, `web`, `ask` and any MCP server that was connected. Its gateway and model are rows of Agents › Providers; its key is read from `OPENROUTER_API_KEY`."
 is = "agent"
 dialect = "openai"
 url = "https://openrouter.ai/api/v1"

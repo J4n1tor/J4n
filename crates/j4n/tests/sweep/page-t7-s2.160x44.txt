@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+───────────━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  setting              now      what it does
+├   theme.corners      round
+│   The corners of a box: round or square.
+│   default round
+├   theme.density      normal   How much room a row takes: compact, normal or roomy.
+├   theme.fill         match    What paints the background: match sets the terminal's own background to the palette's while J4n runs (so its padding is the sam…
+├   theme.frame        round    How the trees and the chat are drawn: round (a tree of pipes with rounded corners, the default), pipes (the same tree with squa…
+├   theme.marks        icons    What the marks are drawn with: auto, icons (a Nerd Font), unicode, ascii or words. auto draws icons where the terminal draws th…
+├ 󰔡 theme.motion       true     Whether the name of a doer that works breathes, and whether the track under a line that is being taken (sent, routed, a chat op…
+├   theme.mouse        on       Whether the wheel (and the touchpad) scrolls the chat and the pages: on asks the terminal to report the mouse, so ⇧-drag select…
+├   theme.palette      jjj      The colours: jjj, dusk, paper, ember, mono or contrast.
+├   theme.title_place  inside   Where the title of a box goes: inside, border or none.
+╰   theme.you          bracket  How the operator's own line is drawn in the chat: bracket is the words plain between two caps in the accent colour, the head of…
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

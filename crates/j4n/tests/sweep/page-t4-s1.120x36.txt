@@ -1,7 +1,7 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
-Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 󰧮 󰒓
 ━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ┃ 󰄬 Agent                test · ready · pinned at start                       ⏎ change                                ▸
   󰄬 Model                default · the agent picks                            ⏎ pick
@@ -11,7 +11,7 @@ Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 
   ├─ 󰐽 Jev · System One  not set                                              needs a TypeSafe key
   ╰─ 󰐽 none              —                                                    every question keeps its fixed pick or…
   󰄰 Test                 not run · one short call to each part above          ⏎ runs it
-  Custom                 any other program, a key of your own, every setting  ⏎ opens Connect › Overview · Library ›…
+  Custom                 any other program, a key of your own, every setting  ⏎ opens Agents › Overview · Agents › P…
 
 
 

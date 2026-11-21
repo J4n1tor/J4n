@@ -237,7 +237,7 @@ impl Front {
             return said;
         };
         if !self.knows_doer(id) || !self.0.who.ready("work", &[]).iter().any(|o| o.id == *id) {
-            return self.refuse_to(thread, format!("`{id}` is not ready for work: it is not installed, not signed in or not for work · ⏎ opens Connect, which says which"), super::Lead::open("open Connect", "connectors"));
+            return self.refuse_to(thread, format!("`{id}` is not ready for work: it is not installed, not signed in or not for work · ⏎ opens Agents, which says which"), super::Lead::open("open Agents", "connectors"));
         }
         if let Err(why) = self.set_setting(thread, "lane.doer", "lane.toml", toml::Value::String(id.clone()), &format!("The main lane's doer: {id}")) {
             return self.refuse(thread, why);

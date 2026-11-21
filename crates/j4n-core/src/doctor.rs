@@ -28,7 +28,7 @@ pub fn pack_of(id: &str) -> &'static str {
 pub fn no_doer(what: &str, id: &str) -> String {
     match pack_of(id) {
         "base" => format!("{what} names `{id}`, and there is no such doer"),
-        pack => format!("{what} names `{id}`, and there is no such doer: the pack {pack} declares it, and it is off · Grow › Packs › {pack}: ⏎ turns it on"),
+        pack => format!("{what} names `{id}`, and there is no such doer: the pack {pack} declares it, and it is off · Settings › Packs › {pack}: ⏎ turns it on"),
     }
 }
 
@@ -151,7 +151,7 @@ pub fn report(f: &Facts) -> Report {
     for p in &f.plans {
         rows.push(match p.price {
             Some(usd) => row("plan", &format!("plan {}", p.id), "good", format!("${usd:.0} a {}", p.per), ""),
-            None => row("plan", &format!("plan {}", p.id), "warn", "no price".into(), &format!("Library › Plans: ⏎ on {} sets its price a {}", p.id, p.per)),
+            None => row("plan", &format!("plan {}", p.id), "warn", "no price".into(), &format!("Agents › Plans: ⏎ on {} sets its price a {}", p.id, p.per)),
         });
     }
     for (id, what) in SAFE {
@@ -204,11 +204,11 @@ pub fn report(f: &Facts) -> Report {
         rows.push(row("kept", "packs.full leaves", "dim", "yours".into(), "contribute.mode, inbox.mode, kit.judge, qc.jev, reflexes.judge, librarian.on, weigh.on and the accounts: each sends text or a line out of the project or acts for you, so each stays as you set it"));
     }
     for (id, why) in &f.kept {
-        rows.push(row("kept", &format!("pack {id}"), "good", "on".into(), &format!("{why} · Grow › Packs › {id}: ⏎ turns it off")));
+        rows.push(row("kept", &format!("pack {id}"), "good", "on".into(), &format!("{why} · Settings › Packs › {id}: ⏎ turns it off")));
     }
     let kept = |id: &str| f.kept.iter().any(|(k, _)| id == format!("pack {k}"));
     for (id, what) in BASIC_OFF.iter().filter(|(id, _)| !kept(&format!("pack {id}"))) {
-        rows.push(row("off", &format!("pack {id}"), "dim", "off".into(), &format!("{what}; not in J4n basic · Grow › Packs › {id}: ⏎, or Settings › Features › packs.full for all")));
+        rows.push(row("off", &format!("pack {id}"), "dim", "off".into(), &format!("{what}; not in J4n basic · Settings › Packs › {id}: ⏎, or Settings › Features › packs.full for all")));
     }
     // a key that is set while the pack that would use it is off: said once, with the key that turns the pack on
     if f.key && !kept("pack jev") {
@@ -234,9 +234,9 @@ fn unknown() -> Report {
     r
 }
 
-/// Where a mend line leads: the Agent step of Connect › Setup, and the Decider row that takes the OpenRouter key.
-pub const AGENT: &str = "Connect › Setup › Agent";
-pub const SPAN: &str = "Connect › Setup › Decider › Span through OpenRouter";
+/// Where a mend line leads: the Agent step of Agents › Setup, and the Decider row that takes the OpenRouter key.
+pub const AGENT: &str = "Agents › Setup › Agent";
+pub const SPAN: &str = "Agents › Setup › Decider › Span through OpenRouter";
 
 /// The defaults that hold in any folder, in words.
 const SAFE: [(&str, &str); 4] = [
@@ -263,12 +263,12 @@ const BASIC_OFF: [(&str, &str); 13] = [
 
 /// What is off when the operator has said nothing, and why: `(what, the reason it is off, how to
 /// turn it on)`. A test keeps this list the same as the packs that are not in `ON` and the settings whose default is off.
-const OFF: [(&str, &str, &str); 27] = [
-    ("pack qc", "marks on code, `qc.on`; not measured yet", "Grow › Packs › qc: ⏎"),
-    ("pack shape", "notes under your line, `shape.on`; it has not been shown that they help", "Grow › Packs › shape: ⏎"),
-    ("pack bench", "runs cases that spend money; yours to start", "Grow › Packs › bench: ⏎"),
-    ("pack terminal", "gives a model your tmux panes; a pack to choose", "Grow › Packs › terminal: ⏎"),
-    ("pack test", "empty: the scripted test doer is in base (never for work)", "Grow › Packs › test: ⏎"),
+const OFF: [(&str, &str, &str); 28] = [
+    ("pack qc", "marks on code, `qc.on`; not measured yet", "Settings › Packs › qc: ⏎"),
+    ("pack shape", "notes under your line, `shape.on`; it has not been shown that they help", "Settings › Packs › shape: ⏎"),
+    ("pack bench", "runs cases that spend money; yours to start", "Settings › Packs › bench: ⏎"),
+    ("pack terminal", "gives a model your tmux panes; a pack to choose", "Settings › Packs › terminal: ⏎"),
+    ("pack test", "empty: the scripted test doer is in base (never for work)", "Settings › Packs › test: ⏎"),
     ("packs.full", "J4n basic is the default; J4n full loads every pack built in, to try the whole of J4n", "Settings › Features › packs.full"),
     ("connect.auto", "/connect takes the best guess instead of asking what a program is; off until the lab shows the guess is right", "Settings › All › connect.auto"),
     ("lanes", "single: auto planning did not beat it in our benchmarks; `orchestrate` is the one switch of Main, the chats, the crew and the envoys", "Settings › All › lanes"),
@@ -279,10 +279,10 @@ const OFF: [(&str, &str, &str); 27] = [
     ("route.hosts", "the host pick waits for more measured runs", "Settings › All › route.hosts"),
     ("watch.upstream", "asks the internet, quietly and on a timer, whether the tools J4n uses have a new release; off until you want it", "Settings › All › watch.upstream"),
     ("watch.canary", "installs and runs a new release once; yours to allow", "Settings › All › watch.canary"),
-    ("web.local", "a fetch may not reach your machine or network", "Settings › Features › web.local"),
+    ("web.local", "a fetch may not reach your machine or network", "Settings › All › web.local"),
     ("brief.recall", "off until a measured run shows fewer turns and no drop in pass", "Settings › All › brief.recall"),
     ("brief.plain_answer", "off until an A/B run shows no drop in pass", "Settings › All › brief.plain_answer"),
-    ("retry.auto", "acts by itself on a failed turn; off until it is checked on real work", "Settings › Features › retry.auto"),
+    ("retry.auto", "acts by itself on a failed turn; off until it is checked on real work", "Settings › All › retry.auto"),
     ("read.big_heads", "only kitty 0.40 and later draws it", "Settings › All › read.big_heads"),
     ("weigh.on", "routes a line by its weight (a ping to a cheap model); off until it is measured on a drill of mixed lines", "Settings › All › weigh.on"),
     ("librarian.on", "a task's context is made for the task and the doer; off until it is measured against the fixed context", "Settings › All › librarian.on"),
@@ -291,6 +291,7 @@ const OFF: [(&str, &str, &str); 27] = [
     ("chats.on", "every prompt can be a chat of its own; off until it has been used on a real project", "Settings › All › chats.on"),
     ("qc.jev", "sends the code of a change to Jev; yours to allow", "Settings › All › qc.jev"),
     ("qc.provenance", "changes what Jev is sent; off until measured", "Settings › All › qc.provenance"),
+    ("tabs.all", "five tabs out of the box; the other pages are for a look now and then, and come back with it", "Settings › Features › tabs.all"),
 ];
 
 impl Row {
@@ -324,11 +325,11 @@ impl Report {
             .filter(|(ids, _)| !ids.is_empty())
             .map(|(ids, what)| if what.is_empty() { format!("no key for {ids}") } else { format!("{ids} {what}") })
             .collect();
-        // `⏎` opens Connect › Setup, whose rows mend each of them: a program, its sign-in, a key, a pack that is off
-        (!parts.is_empty()).then(|| format!("{} · ⏎ opens Connect › Setup", parts.join("; ")))
+        // `⏎` opens Agents › Setup, whose rows mend each of them: a program, its sign-in, a key, a pack that is off
+        (!parts.is_empty()).then(|| format!("{} · ⏎ opens Agents › Setup", parts.join("; ")))
     }
 
-    /// The doctor's rows of `fold:setup`, which `view:setup` lists (after the steps of Connect › Setup, which it leaves out).
+    /// The doctor's rows of `fold:setup`, which `view:setup` lists (after the steps of Agents › Setup, which it leaves out).
     pub fn values(&self) -> Vec<Value> {
         self.rows
             .iter()
@@ -446,7 +447,7 @@ impl Check {
         Check { clock, ..self }
     }
 
-    /// The doers are asked again at the next report, one that was not there too: a program was installed or signed in (Connect › Setup `r`). What was
+    /// The doers are asked again at the next report, one that was not there too: a program was installed or signed in (Agents › Setup `r`). What was
     /// found stands until the new answers land.
     pub fn again(&self) {
         let mut s = lock(&self.held.state);

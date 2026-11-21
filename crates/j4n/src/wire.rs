@@ -142,7 +142,7 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
     for (name, value) in std::env::vars().filter(|(n, _)| j4n_core::host::key_like(n)) {
         red.register(&name, &value);
     }
-    // the keys typed in Library › Providers: the redactor knows each before the Log is opened
+    // the keys typed in Agents › Providers: the redactor knows each before the Log is opened
     let keys = j4n_core::keys::Keys::new(&home);
     notices.extend(keys.register_all(&red));
     let (log, found) = Log::open(&root.join(".j4n"), Scope::Project, LogOpts::default(), red.clone()).map_err(|p| p.to_string())?;
@@ -265,7 +265,7 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
     // a pack that is on and has no key says so on the Packs page: it costs nothing, and does nothing, until the key is there
     let keyless: Vec<&str> = connectors.keyless(&|name, reference| secret(&red, name, reference));
     if let Some(p) = screen.packs.iter_mut().find(|p| p.id == "jev" && p.on).filter(|_| !keyless.is_empty()) {
-        p.note = format!("the key is missing for {}: until it is typed in Library › Providers every point answers by its rule, rank or fallback", keyless.join(", "));
+        p.note = format!("the key is missing for {}: until it is typed in Agents › Providers every point answers by its rule, rank or fallback", keyless.join(", "));
     }
     let session = format!("s{}-{}", std::process::id(), SystemTime::now().duration_since(UNIX_EPOCH).map_or(0, |d| d.as_millis()));
     let state = Answerers::new().with_limits(Limits { max_wrong: settings.num("trust.max_wrong", 0.25), min_n: settings.num("trust.min_n", 20.0) as usize });
@@ -478,7 +478,7 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
             desk.force_on();
         }
     } else if opts.shape {
-        notices.push("--shape needs the pack shape: Grow › Packs › shape, ⏎".into());
+        notices.push("--shape needs the pack shape: Settings › Packs › shape, ⏎".into());
     }
     // the result ledger, when the pack is on (its switch, the setting `ledger.mode`, is on): the book and the doer of its paragraph
     let ledger = harness.info.iter().any(|i| i.id == "ledger" && i.on).then(|| Arc::new(j4n_ledger::Book::new(&log, &settings)));

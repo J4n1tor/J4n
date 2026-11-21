@@ -492,7 +492,8 @@ fn a_chart_over_a_leaf_is_checked_against_what_the_screen_draws_and_the_base_pag
     assert!(said(&found, "[[page]] g", "a chart stands over a leaf"), "{found:?}");
     let (pages, found) = load(vec![base()]);
     assert!(found.is_empty(), "{found:?}");
-    let root = tree(&pages);
+    // with `tabs.all` on: Grow and Tasks wait for it out of the box
+    let root = pages.tree("t1", &Scope::new().with("set", Value::from_json(&json!({ "tabs": { "all": true } }))));
     for (id, kind) in [("spend-days", FieldKind::Line), ("models-wall", FieldKind::Line), ("grow-bench", FieldKind::Line)] {
         assert_eq!(find(&root, id).and_then(|n| n.field.as_ref()).map(|f| f.kind), Some(kind), "{id}");
     }

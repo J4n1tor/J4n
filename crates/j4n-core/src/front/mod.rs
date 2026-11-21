@@ -153,7 +153,7 @@ pub struct Cfg {
     pub parts: Option<Arc<dyn parts::Parts>>,
     /// The models each doer has, which a model word is matched against; the default knows none.
     pub models: Arc<dyn models::ModelLists>,
-    /// The pre-flight: Connect › Setup, `view:setup` and the notice of a new folder; none: the agents are not known.
+    /// The pre-flight: Agents › Setup, `view:setup` and the notice of a new folder; none: the agents are not known.
     pub setup: Option<crate::doctor::Check>,
     /// The project's folder: where the claims of a branch's report are looked up (empty: the process's own folder).
     pub root: std::path::PathBuf,
@@ -226,7 +226,7 @@ pub struct Cfg {
     /// What else keeps a copy of some settings and takes new ones after an edit: the worktree's `work.apply`, the trust
     /// limits, the probe wait, the kit's host, the watcher.
     pub tunes: Vec<Arc<dyn crate::setting::Tune>>,
-    /// Where a provider's key typed in Library › Providers is kept; none: no key is kept and the row's `⏎` says so.
+    /// Where a provider's key typed in Agents › Providers is kept; none: no key is kept and the row's `⏎` says so.
     pub keys: Option<crate::keys::Keys>,
     /// The free model lists kept for the library (`<home>/cache/models.json`); none: the library has only what J4n read for a model word.
     pub listing: Option<crate::listing::Cache>,
@@ -442,11 +442,11 @@ struct Core {
     reload: Option<Reload>,
     /// How many times the settings changed while J4n runs: a screen that was sent fewer is sent the look and the tree again.
     settings_rev: std::sync::atomic::AtomicU64,
-    /// The draft of a form the screen fills (Connect › Add account): a field to the words typed; never a file, never the Log.
+    /// The draft of a form the screen fills (Agents › Add account): a field to the words typed; never a file, never the Log.
     drafts: std::sync::Mutex<std::collections::BTreeMap<String, String>>,
-    /// The logins of the operator's own the connectors' probes found (Connect › Add account).
+    /// The logins of the operator's own the connectors' probes found (Agents › Add account).
     found: Arc<accounts::Found>,
-    /// What the Connect tab has read: the programs found, the lab runs, the canaries of the Log.
+    /// What the Agents tab has read: the programs found, the lab runs, the canaries of the Log.
     connect: connect::Seen,
     /// What makes, applies and takes back proposals; none, and `:accept` says there is nothing to accept with.
     proposer: Option<Arc<Proposer>>,
@@ -696,12 +696,12 @@ impl Front {
         }
     }
 
-    /// A command of a pack that is off: `⏎` turns the pack on; Grow › Packs has the same key.
+    /// A command of a pack that is off: `⏎` turns the pack on; Settings › Packs has the same key.
     pub(super) fn pack_off(&self, thread: &str, pack: &str) -> Said {
-        self.refuse_to(thread, format!("the pack `{pack}` is not on · ⏎ turns it on (Grow › Packs)"), Lead::run(&format!("turn on {pack}"), "pack", &["on", pack]))
+        self.refuse_to(thread, format!("the pack `{pack}` is not on · ⏎ turns it on (Settings › Packs)"), Lead::run(&format!("turn on {pack}"), "pack", &["on", pack]))
     }
 
-    /// The first start's row in a new folder: when something is missing, `⏎` opens Connect › Setup, whose rows mend each part.
+    /// The first start's row in a new folder: when something is missing, `⏎` opens Agents › Setup, whose rows mend each part.
     pub fn first_note(&self, thread: &str, text: &str) {
         if text.contains('⏎') {
             self.note_to(thread, text, "warn", Lead::open("open Setup", "setup"));
@@ -1374,7 +1374,7 @@ impl Front {
     /// bound, elected for, or written here, and the flow's steps say what they may touch.
     fn flow(&self, thread: &str, args: &[String]) -> Said {
         let Some((id, goal)) = args.split_first() else { return self.refuse(thread, "a flow command needs its flow".into()) };
-        // `:account add` with no name (`:setup` opens the form too) is the form of Connect › Add account, the connector in it
+        // `:account add` with no name (`:setup` opens the form too) is the form of Agents › Add account, the connector in it
         if id == "account" && goal.first().is_some_and(|w| w == "add") && goal.len() <= 2 {
             return self.account_form_open(thread, goal.get(1).map(String::as_str));
         }
@@ -1417,7 +1417,7 @@ impl Front {
             Ok(b) if plan => self.plan_turn(thread, text, How::Begin, &b),
             Ok(b) => self.turn(thread, text, &b, keys),
             // no agent works: the refusal leads to the page that sets one up
-            Err(why) if self.0.cfg().doer.is_none() && self.0.who.ready(self.elects_as(thread), &[]).is_empty() => self.refuse_to(thread, format!("no agent works: {why} · ⏎ opens Connect › Setup"), Lead::open("open Setup", "setup")),
+            Err(why) if self.0.cfg().doer.is_none() && self.0.who.ready(self.elects_as(thread), &[]).is_empty() => self.refuse_to(thread, format!("no agent works: {why} · ⏎ opens Agents › Setup"), Lead::open("open Setup", "setup")),
             Err(why) => self.refuse(thread, why),
         }
     }
@@ -1526,7 +1526,7 @@ impl Front {
                 let (b, route) = self.bind_to(pick, self.0.cfg().main.model.as_deref().or(cfg.model.as_deref()), "picked");
                 return Ok((b, None, route));
             }
-            self.note_to(thread, &format!("the doer you picked, {pick}, is not ready: the election chooses · ⏎ opens Connect › Setup, which says what to mend"), "warn", Lead::open("open Setup", "setup"));
+            self.note_to(thread, &format!("the doer you picked, {pick}, is not ready: the election chooses · ⏎ opens Agents › Setup, which says what to mend"), "warn", Lead::open("open Setup", "setup"));
         }
         let (doer, said, _) = self.0.who.doer(self.elects_as(thread), Some(thread), text, &[])?;
         let model = self.named(thread, text).filter(|(n, _)| *n == doer).and_then(|(_, m)| m);
@@ -1634,7 +1634,7 @@ impl Front {
         }
         // a pack with `[ready]` writes its settings with the enable (ready to go on), or takes back what it wrote: the same edit, so one `:undo` is all of it
         let mut ready = self.ready_enable_steps(info, on, &mut row);
-        // `all`: the home's own layer, so every project has it (Connect › Setup's Decider); else this project's folder of the operator's rules
+        // `all`: the home's own layer, so every project has it (Agents › Setup's Decider); else this project's folder of the operator's rules
         let to = if args.iter().skip(2).any(|w| w == "all") { crate::change::Where::Home } else { crate::change::Where::User };
         ready.iter_mut().for_each(|s| s.to = to);
         let step = crate::proposal::Step { to, file: Some("harness.toml".into()), kind: "enable".into(), id: id.to_string(), op: crate::proposal::StepOp::Set(row) };
@@ -1827,7 +1827,7 @@ impl Front {
             "probe" => return self.probe(thread, cmd.args.first().map(String::as_str)),
             "reflex" => return self.reflex_said(thread, &cmd.args),
             "grant" => return self.grant_said(thread, &cmd.args),
-            // `:setup` opens Connect › Setup; `:setup doer …` is still the pick, `:setup again` asks the programs again, `:setup test` makes the proof call
+            // `:setup` opens Agents › Setup; `:setup doer …` is still the pick, `:setup again` asks the programs again, `:setup test` makes the proof call
             command::OPEN if cmd.args.first().is_some_and(|p| p == "setup") && cmd.args.get(1).is_some_and(|w| w == "test") => return self.setup_test(thread),
             command::OPEN if cmd.args.first().is_some_and(|p| p == "setup") && cmd.args.get(1).is_some_and(|w| w == "doer") => return self.setup_pick(thread, &cmd.args[2..]),
             command::OPEN if cmd.args.first().is_some_and(|p| p == "setup") && cmd.args.get(1).is_some_and(|w| w == "again") => return self.setup_again(thread),

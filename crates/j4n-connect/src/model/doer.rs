@@ -216,7 +216,7 @@ impl Doer for ModelDoer {
         let key = self.key();
         if !self.cfg.keyless && key.is_empty() {
             let why = self.refused.as_ref().and_then(|f| f()).map_or_else(|| "there is no key for it".to_string(), |why| format!("its key is not used: {why}"));
-            return Err(Problem::refused(&self.cfg.id, format!("{why} · Library › Providers › {}: ⏎ types it", self.cfg.id)));
+            return Err(Problem::refused(&self.cfg.id, format!("{why} · Agents › Providers › {}: ⏎ types it", self.cfg.id)));
         }
         let model = cx.spec.tune.model.clone().unwrap_or_else(|| self.cfg.model.clone());
         if model.is_empty() {

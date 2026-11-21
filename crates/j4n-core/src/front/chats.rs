@@ -400,7 +400,7 @@ impl Front {
         // the Decider is off: the row leads to the page that turns it on
         if *detail == DECIDER_OFF {
             let lead = super::Lead::open("open the deciders", "deciders");
-            self.note_to(line.thread, &if row.ends_with(DECIDER_OFF) { format!("{row} · ⏎ opens Connect › Deciders") } else { format!("{row} · {DECIDER_OFF} · ⏎ opens Connect › Deciders") }, "dim", lead);
+            self.note_to(line.thread, &if row.ends_with(DECIDER_OFF) { format!("{row} · ⏎ opens Agents › Deciders") } else { format!("{row} · {DECIDER_OFF} · ⏎ opens Agents › Deciders") }, "dim", lead);
         } else {
             self.note(line.thread, &row, "dim");
         }
@@ -431,7 +431,7 @@ impl Front {
         let said = format!("{question} {}", pending.options.iter().map(|o| o.1.as_str()).collect::<Vec<_>>().join(" · "));
         // the Decider is off: the note leads to the page that turns it on
         if why == DECIDER_OFF {
-            self.note_to(thread, &format!("{said} · {DECIDER_OFF} · ⏎ opens Connect › Deciders"), "warn", super::Lead::open("open the deciders", "deciders"));
+            self.note_to(thread, &format!("{said} · {DECIDER_OFF} · ⏎ opens Agents › Deciders"), "warn", super::Lead::open("open the deciders", "deciders"));
         } else {
             self.note(thread, &said, "warn");
         }

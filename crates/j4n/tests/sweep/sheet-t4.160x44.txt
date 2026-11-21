@@ -1,18 +1,17 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Accounts   Add account   Agents   Tools   Services   MCP   Deciders   󰧭 Kit   󰧮 Skills   󰒓 Reflexes
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────
-  reflex        on   does           when
-├ compact-junk  off  :compact junk  the context holds more than a twentieth of junk                                                                        ⏎ on
-│   Shrink the session when much of it is junk (tool output nothing reads again, failed tries, repeats).
-│   checked task.settled: ctx.grew >= 0.01
-│   every 10m00s at most
-╰ new-session   off  :fresh         the next line is about something other than what this chat has been about
-                                                ╭─ keys · Reflexes ────────────────────────────────────────────╮
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
+─────────────────────────────────────────────────────────────────────────────────────────━━━────────────────────────────────────────────────────────────────────
+• an MCP server and its tools show here once Agents › Overview connects one
+
+
+
+
+
+
+                                                ╭─ keys · MCP ─────────────────────────────────────────────────╮
                                                 │                                                              │
-                                                │ o        on        Now: a key of the row under the cursor.   │
-                                                │ x        off       Now: a key of the row under the cursor.   │
                                                 │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
                                                 │                    Option as Meta or Alt.                    │
                                                 │ ↑↓       move      The row above or below.                   │
@@ -40,5 +39,6 @@
 
 
 
-:reflex add … makes one; they run only while reflexes.on is on (Settings), and a command that throws context away asks you the first times
+
+
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

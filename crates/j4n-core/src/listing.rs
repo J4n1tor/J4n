@@ -13,6 +13,12 @@ pub const ROUTER: &str = "provider:openrouter";
 /// The most models one list keeps.
 const MOST: usize = 5000;
 
+/// Whether `w`, the first word of a line a list command printed, is no model: a path (`/…`, `~/…`, `./…`), a file of words
+/// (a name ending `.md`, `.txt`, `.html`), or a word that ends a clause (`Warning:`, `available.`). `pi --list-models` with no provider signed in prints prose.
+pub fn prose(w: &str) -> bool {
+    w.starts_with('/') || w.starts_with("~/") || w.starts_with("./") || w.ends_with([':', '.', ',']) || [".md", ".txt", ".html"].iter().any(|e| w.ends_with(e))
+}
+
 /// One list as it was read.
 #[derive(Debug, Clone, Default, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct Listed {
@@ -40,7 +46,10 @@ impl Cache {
 
     /// Every list kept; none for a file that is not there or cannot be read (it is only a cache).
     pub fn read(&self) -> BTreeMap<String, Listed> {
-        std::fs::read_to_string(&self.path).ok().and_then(|t| serde_json::from_str::<File>(&t).ok()).map(|f| f.lists).unwrap_or_default()
+        let mut lists = std::fs::read_to_string(&self.path).ok().and_then(|t| serde_json::from_str::<File>(&t).ok()).map(|f| f.lists).unwrap_or_default();
+        // a list an older J4n kept from a command's prose (`No`, the path of a doc) is a bad read: it is left out, and read again when due
+        lists.retain(|_, l| !l.models.iter().any(|m| prose(m)));
+        lists
     }
 
     /// Whether `source` has not been read in the last day.

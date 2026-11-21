@@ -1,5 +1,5 @@
-//! The model library and the providers: Library › Models is one row per model J4n has used, is using or can
-//! use, whatever way it is had, and Library › Providers one row per provider. Both are built here from what J4n already knows, never from a
+//! The model library and the providers: Agents › Models is one row per model J4n has used, is using or can
+//! use, whatever way it is had, and Agents › Providers one row per provider. Both are built here from what J4n already knows, never from a
 //! program or the net: the connectors and their `models`, the lists a doer gave and J4n kept, the `[[model]]` rows, the accounts and their
 //! plans, the pins of the settings, and the tasks the Log folded (the model that served and how it went). A choice of J4n's own (the planner's
 //! pick, offload, the host) reads [`Library`] rather than a page.

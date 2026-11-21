@@ -269,7 +269,7 @@ pub fn below(max: u32) -> Option<u32> {
 }
 
 /// A model on the other end of a URL.
-/// A key read when it is used, from where it is kept now: a key typed in Library › Providers acts with no restart.
+/// A key read when it is used, from where it is kept now: a key typed in Agents › Providers acts with no restart.
 pub type KeyFn = Arc<dyn Fn() -> String + Send + Sync>;
 
 pub struct Client {

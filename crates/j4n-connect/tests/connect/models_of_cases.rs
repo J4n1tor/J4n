@@ -25,6 +25,27 @@ fn a_table_gives_its_model_column_and_other_output_its_first_word() {
     assert!(from_endpoint("<html>").is_err() && from_endpoint("{}").is_err());
 }
 
+/// What `pi --list-models` prints with no provider signed in (exit 0), with and without its warning line (stderr is kept with stdout
+/// or not): prose and the paths of its docs, and no model. Agents › Models once listed `No` and the two doc files as models.
+const PI_NONE: &str = "No models available. Use /login to log into a provider via OAuth or API key. See:\n  /home/user/.local/share/pi/docs/providers.md\n  /home/user/.local/share/pi/docs/models.md\n";
+
+#[test]
+fn a_listing_of_prose_and_paths_names_no_model() {
+    assert!(from_table(PI_NONE).is_empty(), "{:?}", from_table(PI_NONE));
+    let warned = format!("Warning: {PI_NONE}{PI_NONE}");
+    assert!(from_table(&warned).is_empty(), "{:?}", from_table(&warned));
+    // a bare list keeps its words, prose lines among them or not
+    assert_eq!(from_table("alpha one\nSee the docs:\n~/docs/models.md\nbeta two\n"), ["alpha", "beta"]);
+    // a list kept from such a read by an older J4n is a bad read: the cache leaves it out, so it is read again
+    let dir = std::env::temp_dir().join(format!("j4n-prose-{}", std::process::id()));
+    let cache = j4n_core::listing::Cache::new(&dir);
+    cache.put("pi", 1, &["No".to_string(), "/home/user/docs/models.md".to_string()]).unwrap();
+    cache.put("omp", 1, &["a/b".to_string()]).unwrap();
+    let kept = cache.read();
+    let _ = std::fs::remove_dir_all(&dir);
+    assert!(!kept.contains_key("pi") && kept.contains_key("omp"), "{kept:?}");
+}
+
 #[test]
 fn the_fixed_words_and_the_listed_models_are_one_list_read_once_a_day_and_again_on_a_miss() {
     let pi = row("id = \"pi\"\nis = \"agent\"\ndialect = \"pi-rpc\"\nmodels = [\"fixed/one\"]\nlist = { argv = [\"pi\", \"--list-models\"] }\n");

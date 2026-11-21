@@ -1,4 +1,4 @@
-//! Connect › Setup: the steps to a working agent, a model and a Decider, driven with keys on the real wire, front, Serve and TUI. A
+//! Agents › Setup: the steps to a working agent, a model and a Decider, driven with keys on the real wire, front, Serve and TUI. A
 //! fresh J4n home (J4n basic: the Decider's pack and the accounts are off) and a stand-in `claude` outside HOME that is found and
 //! signed in: the Agent step says so; `⏎` on it uses it (`lane.doer`) and `u` takes it back; the model pick sets `lane.model` and its
 //! `default` leaves it empty; the Decider turned on from its row is on for every project, and the row `this project only` for this
@@ -117,7 +117,7 @@ pub fn to_row(op: &mut Operator, what: &str) {
 }
 
 pub fn setup_page(op: &mut Operator) -> String {
-    op.go(":setup", "Connect › Setup", |s| s.contains("Agent") && s.contains("Decider") && s.contains("Custom"))
+    op.go(":setup", "Agents › Setup", |s| s.contains("Agent") && s.contains("Decider") && s.contains("Custom"))
 }
 
 #[test]
@@ -388,7 +388,7 @@ fn no_text_of_the_setup_page_names_a_shell_command_a_path_or_a_file() {
     check("the page at 60 columns", &page);
     drop(op);
     w.close();
-    assert!(found.is_empty(), "texts of Connect › Setup that send the operator out of the TUI:\n{}", found.join("\n"));
+    assert!(found.is_empty(), "texts of Agents › Setup that send the operator out of the TUI:\n{}", found.join("\n"));
 }
 
 // ---- the Test step: the proof call ----
@@ -398,7 +398,7 @@ const RIGHT: &str = "setup-right-7c41e09b2d5f";
 const WRONG: &str = "setup-wrong-3a9f62d18e04";
 
 /// Jev at the loopback, taking `RIGHT` (one field of the operator's own over the pack's row), and `key` kept for TypeSafe as a key typed in
-/// Library › Providers keeps it: for the provider and its connector.
+/// Agents › Providers keeps it: for the provider and its connector.
 fn jev_with(d: &Dirs, cases: &Cases, key: &str) -> Mock {
     let jev = gateway(cases, RIGHT);
     fs::create_dir_all(d.j4n_home().join("connectors")).unwrap();
@@ -558,7 +558,7 @@ fn the_setup_page_at_160_120_and_60_columns_is_its_goldens() {
     for (cols, rows) in [(160u16, 44u16), (120, 36), (60, 24)] {
         let mut sit = crate::sweep::Sitting::new(&w, (cols, rows));
         sit.line(":setup");
-        let got = crate::sweep::steady(&sit.until("Connect › Setup", |s| s.contains("Agent") && s.contains("Custom")));
+        let got = crate::sweep::steady(&sit.until("Agents › Setup", |s| s.contains("Agent") && s.contains("Custom")));
         let path = want.join(format!("setup.{cols}x{rows}.txt"));
         if bless {
             fs::write(&path, &got).unwrap();

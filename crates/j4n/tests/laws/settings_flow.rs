@@ -49,10 +49,14 @@ fn the_basic_switches_are_the_features_rows_and_every_switch_is_flipped_in_all_f
     let world = open(&d);
     let mut serve = Serve::new(world.front.clone());
     serve.up(Up::Hello { api: j4n_proto::API });
-    // Features lists the settings marked `basic` and no other
+    // Features lists the settings marked `basic` and no other: the switches an operator changes, each with its one plain line
     let features = rows(&mut serve, "settings-features");
     let keys: Vec<&str> = features.iter().map(|r| r.key.as_str()).collect();
-    assert_eq!(keys, ["box.net", "box.use", "check.after", "complete.decider", "complete.decider_day", "complete.on", "cost.plan.on", "cost.show", "packs.full", "profile", "read.style", "retry.auto", "session.mode", "theme.palette", "web.local", "work.apply"]);
+    assert_eq!(keys, ["approval.inside", "chats.on", "check.after", "cost.show", "lane.doer", "lane.model", "lanes", "packs.full", "tabs.all", "theme.marks", "theme.palette"]);
+    for r in &features {
+        let brief = &r.cells[3].text;
+        assert!(!brief.is_empty() && brief.chars().count() <= 100 && !brief.contains('`'), "{}: one plain line: {brief:?}", r.key);
+    }
     // every other switch is a row of All, from the settings' own types, flipped there with `space`
     let all = rows(&mut serve, "settings");
     let keys: Vec<&str> = all.iter().map(|r| r.key.as_str()).collect();
@@ -63,13 +67,13 @@ fn the_basic_switches_are_the_features_rows_and_every_switch_is_flipped_in_all_f
         assert!(matches!(act(r, "enter"), Some(Intent::Set { value: Json::Null, .. })), "{id}: ⏎ opens or flips");
         assert!(matches!(act(r, " "), Some(Intent::Set { .. })), "{id}: space flips");
     }
-    // a number is no switch: the Decider's asks a day are changed with ⏎
-    for r in features.iter().filter(|r| r.key != "theme.palette" && r.key != "complete.decider_day") {
+    // a word or a switch flips with space; the agent and its model are words typed with ⏎
+    for r in features.iter().filter(|r| !matches!(r.key.as_str(), "theme.palette" | "lane.doer" | "lane.model")) {
         assert!(matches!(act(r, " "), Some(Intent::Set { .. })), "{}: space flips", r.key);
     }
     let usd = all.iter().find(|r| r.key == "plan.usd_line").unwrap();
     assert!(act(usd, " ").is_none() && act(all.iter().find(|r| r.key == "cool.max").unwrap(), " ").is_none(), "a number is no switch: it has no space");
-    let session = row(&mut serve, "settings-features", "session.mode");
+    let session = row(&mut serve, "settings", "session.mode");
     assert_eq!(session.data.as_ref().unwrap()["edit"]["options"], json!(["resume", "auto", "each"]));
     assert_eq!(act(&session, " "), Some(Intent::Set { kind: "setting".into(), id: "session.mode".into(), field: "value".into(), value: json!("each") }), "space takes the next word");
     // the editor of every other kind: a duration, a number in dollars, a number with its bounds
@@ -219,11 +223,11 @@ fn tab_completes_a_commands_word_from_the_core_and_complete_on_is_flipped_live()
     op.until_app("the ghost of `:pack on`", |a| a.ghost().as_deref() == Some("n"));
     op.press(vec![j4n_tui::headless::press(j4n_tui::headless::KeyCode::Tab)]);
     assert_eq!(op.app.line.buf, ":pack on");
-    // the switch is a row of Features, read live: off, the screen is told at once and completes nothing; on again, the same
+    // the switch is a row of All, read live: off, the screen is told at once and completes nothing; on again, the same
     let mut serve = Serve::new(world.front.clone());
     serve.up(Up::Hello { api: j4n_proto::API });
     let flip = |serve: &mut Serve| {
-        let space = act(&row(serve, "settings-features", "complete.on"), " ").unwrap();
+        let space = act(&row(serve, "settings", "complete.on"), " ").unwrap();
         send(serve, space);
     };
     flip(&mut serve);

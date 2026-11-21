@@ -248,7 +248,7 @@ impl Front {
             return Err(format!("a setting has one field to change, `value`, not `{field}`"));
         }
         let row = self.setting_row(id).ok_or_else(|| format!("there is no setting `{id}`"))?;
-        // the word `default` of a pick (Connect › Setup's model) is the setting left as its default, for one that is empty by default and has no such word
+        // the word `default` of a pick (Agents › Setup's model) is the setting left as its default, for one that is empty by default and has no such word
         let empty = row.default.as_str() == Some("") && row.words.as_ref().is_none_or(|w| !w.iter().any(|w| w == "default"));
         let value = &match value {
             Json::String(s) if empty && s.trim() == "default" => Json::String(String::new()),
@@ -301,7 +301,7 @@ impl Front {
             // a switch of a connection: `off` is a yes or a no, and a no leaves the field out
             Json::Bool(false) => StepOp::Unset(vec![field.to_string()]),
             Json::Bool(b) => StepOp::Set(toml::Table::from_iter([(field.to_string(), toml::Value::Boolean(*b))])),
-            // a price typed in the editor of Library › Plans is a number of dollars: `$20`, not `$20.0`
+            // a price typed in the editor of Agents › Plans is a number of dollars: `$20`, not `$20.0`
             Json::Number(n) if kind == "plan" => {
                 let x = n.as_f64().unwrap_or_default();
                 let words = if x.fract() == 0.0 { format!("${x:.0}") } else { format!("${x:.2}") };

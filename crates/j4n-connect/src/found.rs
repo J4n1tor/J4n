@@ -1,4 +1,4 @@
-//! Programs on the machine that are not on the `PATH`: `/connect` takes a path as well as a name, and the Connect tab's add line lists what
+//! Programs on the machine that are not on the `PATH`: `/connect` takes a path as well as a name, and the Agents tab's add line lists what
 //! is found in the folders programs are put in by `cargo install`, `go install`, `bun`, `pip`/`uv`, `npm`, a build of a repo here, an AppImage or a script.
 
 use std::path::{Path, PathBuf};

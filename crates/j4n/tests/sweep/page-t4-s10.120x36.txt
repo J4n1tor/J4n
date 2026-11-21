@@ -1,13 +1,9 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
-Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
-──────────────────────────────────────────────────────────────────━━━━━━━━──────────────────────────────────────────────
-  decider  dialect    url
-├ jev      systemone  https://api.typesafe.ai
-│   A Decider (System One): typed judgment, a probability for a yes/no and for each option of a choice, in about a
-│   second.
-╰ span     decisions  https://openrouter.ai
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 󰧮 󰒓
+────────────────────────────────────────────────────────────────────━━━━━───────────────────────────────────────────────
+• a Decider's answers are scored here once it has answered a question
 
 
 
@@ -33,4 +29,8 @@ Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 
 
 
 
+
+
+
+an answerer that is wrong too often at a point is shadowed there until it is trusted again
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                         ⌃g keys

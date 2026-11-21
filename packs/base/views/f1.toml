@@ -60,7 +60,9 @@ detail = ["{doc}"]
 [[view]]
 id = "providers"
 doc = "Every provider: a subscription (Anthropic's claude), an API, a router (OpenRouter), a server on this machine, and each harness's own; whether its key is set or its account signed in (never the key), how many models it gives, and the connectors it is spoken to through. `⏎` types a key, which J4n keeps in its own key file, `x` removes it on the card, `s` switches the thread to a model connector."
-from = { from = "fold:providers", order = "id" }
+# a provider nobody set up (no connector, its program not here or not checked) is left out unless `tabs.all` is on; one whose program
+# is here and waits only for a key stays, since its row is where the key is typed (Agents › Setup takes the others' keys)
+from = { from = "fold:providers", filter = "set.tabs.all or kept or state not in ['no connector', 'not installed', 'not checked']", order = "id" }
 cells = ["{id}", "{kind}", "{state}", "{key}", "{accounts}", "{models:n}", "{through}"]
 titles = ["provider", "kind", "now", "key", "accounts", "models", "through"]
 tone = "tone"
@@ -126,9 +128,9 @@ acts = [{ key = "x", label = "take back", run = ":grant back {id}", when = "gran
 
 [[view]]
 id = "settings-features"
-doc = "The switches J4n basic shows (the settings marked `basic`) and the ones `packs.full` turned on, marked `full` in the column `by`: the work, the box, the checks, the cost line, the session, retry, the profile, the web, the palette, the reading style, the completion (`complete.on`: Tab completes what you type; `complete.decider` and `complete.decider_day`: the Decider's order and its asks a day), and J4n full; every other setting is under All. `space` flips one, `⏎` changes it, `u` takes the change back; one that waits for the next start says `⟳`."
+doc = "The switches an operator changes (the settings marked `basic`), each with one line on what it does (its `brief`), and the ones `packs.full` turned on, marked `full` in the column `by`: the colours and the marks, the agent and the model a new chat starts with, the check after edits, the money shown, what the Gate takes by itself, chats, lanes, J4n full and every tab (`tabs.all`); every other setting is under All. `space` flips one, `⏎` changes it, `u` takes the change back; one that waits for the next start says `⟳`."
 from = { from = "table:setting", filter = "basic == true or via == 'full'", order = "id" }
-cells = ["{id}", "{now}", "{via}", "{doc}"]
+cells = ["{id}", "{now}", "{via}", "{brief}"]
 titles = ["switch", "now", "by", "what it does"]
 detail = ["{doc}", "{says}", "default {default}"]
 data = "{edit}"

@@ -18,7 +18,7 @@ modes = { read = ["--permission-mode", "default", "--disallowedTools", "Edit,Wri
 login = ["~/.claude", "~/.claude.json"]
 models = ["haiku", "sonnet", "opus"]
 roles = ["plan", "work", "main", "scout", "review", "validate"]
-# An API key in place of the sign-in: the key J4n keeps for Anthropic (typed in Library › Providers) reaches the program in its
+# An API key in place of the sign-in: the key J4n keeps for Anthropic (typed in Agents › Providers) reaches the program in its
 # environment at start, never in its arguments, and only while the setting `doer.keys` names `claude`. Otherwise it is left out, and the
 # program's own sign-in is what it uses.
 secrets = { ANTHROPIC_API_KEY = "kept:anthropic" }

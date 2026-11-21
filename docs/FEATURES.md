@@ -1,7 +1,7 @@
 # Features
 
 J4n is a core and a set of packs. The core and six packs are on when J4n starts. The others are built in and off until
-you enable them under **Grow › Packs** (or with `:pack on ID`). The setting `packs.full` turns them all on.
+you enable them under **Settings › Packs** (or with `:pack on ID`). The setting `packs.full` turns them all on.
 
 *Experimental* means built and tested, but not yet shown to help on real tasks.
 

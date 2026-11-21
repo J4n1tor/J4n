@@ -110,7 +110,7 @@ fn a_home_that_already_uses_a_pack_keeps_it_and_the_doctor_says_why() {
     assert_eq!(kept["reflexes"], "your folder has rule compact-junk");
     let said = report(&Facts { kept: kept.into_iter().collect(), ..Facts::default() }).rows;
     let line = |id: &str| said.iter().find(|r| r.id == id).unwrap_or_else(|| panic!("no row {id}"));
-    assert!(line("pack accounts").kind == "kept" && line("pack accounts").fix.contains("claude-2") && line("pack accounts").fix.contains("Grow › Packs"), "{:?}", line("pack accounts"));
+    assert!(line("pack accounts").kind == "kept" && line("pack accounts").fix.contains("claude-2") && line("pack accounts").fix.contains("Settings › Packs"), "{:?}", line("pack accounts"));
     assert!(!said.iter().any(|r| r.kind == "off" && matches!(r.id.as_str(), "pack accounts" | "pack reflexes")), "a pack that is on is not listed off");
     assert!(said.iter().any(|r| r.kind == "off" && r.id == "pack kit"), "the others are");
     // the operator's own row still turns a kept pack off

@@ -1,0 +1,44 @@
+
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  switch             now     by  what it does
+├   approval.inside  auto    —   The Gate says yes by itself to edits and tests that stay inside the project.
+│   auto (the default): on while lanes is orchestrate, off else; on and off that you set win. On: an approval no rule has a say about (or that only the rule
+│   for an unreadable line asks, for invisible characters inside the text a here-document gives Python) is said yes to by the Gate when its effect stays inside
+│   the project, a chat's worktree or the task's╭─ keys · Features ────────────────────────────────────────────╮ytest, npm test), a linter, a script of the
+│   project named for a check (scripts/verify.sh│                                                              │ files it names inside the project. A line that
+│   is inside but for the paths of some Python, │ ⏎        change    Change the row: a switch flips, words     │ch may say inside or ask; no Decider, or an
+│   unsure one, asks you. You are still asked fo│                    open their picker.                        │te that is not of build folders, git push, a
+│   deploy and a remote line, and for what a rul│ space    flip      Flip the switch, or take the next of its  │he project: …") or decider:<id> ("inside,
+│   harmless: …"). A run that denies every ask k│                    words; at once, as your edit.             │
+│   default auto                                │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
+├ 󰔢 chats.on         off     —   Every line can │                    Option as Meta or Alt.                    │
+├ 󰔢 check.after      off     —   Run the project│ ↑↓       move      The row above or below.                   │
+├   cost.show        both    —   The money shown│ u        undo      Take back your last change of the row     │ or both.
+├   lane.doer        —       —   The agent a new│                    (:undo eN).                               │
+├   lane.model       —       —   The model of th│ /        find      Find in the rows, as you type; ⏎ keeps    │
+├   lanes            single  —   How much J4n do│                    it, esc clears it.                        │
+├ 󰔢 packs.full       off     —   Load every pack│ ?        keys      All the keys of this page.                │
+├ 󰔡 tabs.all         on      —   Show every tab │ ⌃g       state     Turn the bottom row over: the keys, or    │
+├   theme.marks      icons   —   What the marks │                    what the whole screen is doing (tasks,    │
+╰   theme.palette    jjj     —   The colours of │                    what waits for you, today's spend, a      │
+                                                │                    window that runs low).                    │
+                                                │                                                              │
+                                                │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+                                                │ ⌥←→      sub-tabs  The sub-tab before or after.              │
+                                                │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
+                                                │ F1–F9              Tab n, as ⌥n.                             │
+                                                │                                               any key closes │
+                                                ╰──────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+ 1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

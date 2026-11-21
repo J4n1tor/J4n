@@ -389,14 +389,14 @@ fn the_setup_page_says_the_default_doer_is_the_pick_and_each_doers_start_time() 
     // a doer that has to be mended says the mend: its time is not what starting it costs
     let broken = Facts { doers: vec![DoerFact { id: "codex".into(), probe: probe(false), work: true, ms: Some(12), fix: "install it".into(), ..DoerFact::default() }], ..Facts::default() };
     assert_eq!(report(&broken).rows[1].shown(), "not found");
-    assert_eq!(row(&r, "default doer").fix, "Connect › Setup › Agent: ⏎ on one uses it for the main lane");
+    assert_eq!(row(&r, "default doer").fix, "Agents › Setup › Agent: ⏎ on one uses it for the main lane");
     let r = report(&Facts { pick: Some("codex".into()), ..f.clone() });
     assert_eq!(r.default.as_deref(), Some("codex"));
-    assert_eq!(row(&r, "default doer").fix, "your pick · Connect › Setup › Agent: ⏎ on another uses it");
+    assert_eq!(row(&r, "default doer").fix, "your pick · Agents › Setup › Agent: ⏎ on another uses it");
     assert!(r.text().contains("codex") && r.text().contains("40 ms"), "{}", r.text());
     let r = report(&Facts { pick: Some("gemini".into()), ..f });
     assert_eq!(r.default.as_deref(), Some("claude"), "a pick that is not ready is not the default");
-    assert_eq!(row(&r, "default doer").fix, "your pick, gemini, is not ready · Connect › Setup › Agent › gemini says what mends it");
+    assert_eq!(row(&r, "default doer").fix, "your pick, gemini, is not ready · Agents › Setup › Agent › gemini says what mends it");
     // a doer that was not probed has no time to show
     assert_eq!(row(&r, "gemini").shown(), "not declared");
 }
@@ -508,5 +508,5 @@ fn the_first_start_row_says_off_for_a_doer_whose_pack_is_off_and_not_found_for_a
     };
     let note = report(&facts).notice().expect("something is missing");
     assert!(note.contains("pi not found") && note.contains("own, light off") && !note.contains("own, light not found"), "{note}");
-    assert!(note.ends_with("⏎ opens Connect › Setup"), "{note}");
+    assert!(note.ends_with("⏎ opens Agents › Setup"), "{note}");
 }

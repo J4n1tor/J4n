@@ -333,11 +333,11 @@ impl Front {
         let (n, core) = (&o.unmet.need, |id: &str, label: String, recommended: bool| Choice { id: id.into(), label, recommended, by: By::Core, ..Choice::default() });
         if n.kind != "setting" {
             let (first, label) = match n.kind.as_str() {
-                "key" if o.unmet.why.ends_with("its pack is off") => ("key", format!("turn its pack on: Grow › Packs › {}: ⏎", crate::doctor::pack_of(&n.connector))),
-                "key" => ("key", format!("set the key: Library › Providers › {}: ⏎ types it", n.connector)),
+                "key" if o.unmet.why.ends_with("its pack is off") => ("key", format!("turn its pack on: Settings › Packs › {}: ⏎", crate::doctor::pack_of(&n.connector))),
+                "key" => ("key", format!("set the key: Agents › Providers › {}: ⏎ types it", n.connector)),
                 "login" => ("login", format!("log in: {}", self.sign_in_words(&n.doer))),
                 "git" => ("commit", "make a first commit: `git init` and an empty one".to_string()),
-                _ => ("setup", "set up a Decider: Connect › Deciders".to_string()),
+                _ => ("setup", "set up a Decider: Agents › Deciders".to_string()),
             };
             let mut options = vec![core(first, label, true)];
             if n.kind == "decider" {
@@ -493,10 +493,10 @@ impl Front {
         let n = &o.unmet.need;
         self.write(thread, "need.answered", Actor::Operator, json!({ "ask": o.ask, "need": n.id, "answer": answer }));
         let (text, lead) = match answer {
-            "key" if o.unmet.why.ends_with("its pack is off") => (format!("{}: {} is in the pack {}, which is off · Grow › Packs › {}: ⏎ turns it on", n.feature, n.connector, crate::doctor::pack_of(&n.connector), crate::doctor::pack_of(&n.connector)), super::Lead::open("open Packs", "packs")),
-            "key" => (format!("{}: type the key at Library › Providers › {} · ⏎ opens it", n.feature, n.connector), super::Lead::open("type the key", super::keyfile::PAGE)),
-            "login" => (format!("{}: sign {} in: {} · Connect shows the state", n.feature, n.doer, self.sign_in_words(&n.doer)), super::Lead::open("open Connect", "connectors")),
-            _ => (format!("{}: set up a Decider at Connect › Deciders · ⏎ opens it", n.feature), super::Lead::open("open the deciders", "deciders")),
+            "key" if o.unmet.why.ends_with("its pack is off") => (format!("{}: {} is in the pack {}, which is off · Settings › Packs › {}: ⏎ turns it on", n.feature, n.connector, crate::doctor::pack_of(&n.connector), crate::doctor::pack_of(&n.connector)), super::Lead::open("open Packs", "packs")),
+            "key" => (format!("{}: type the key at Agents › Providers › {} · ⏎ opens it", n.feature, n.connector), super::Lead::open("type the key", super::keyfile::PAGE)),
+            "login" => (format!("{}: sign {} in: {} · Connect shows the state", n.feature, n.doer, self.sign_in_words(&n.doer)), super::Lead::open("open Agents", "connectors")),
+            _ => (format!("{}: set up a Decider at Agents › Deciders · ⏎ opens it", n.feature), super::Lead::open("open the deciders", "deciders")),
         };
         self.note_to(thread, &text, "accent", lead);
         Said::Nothing

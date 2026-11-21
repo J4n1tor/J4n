@@ -22,6 +22,7 @@ min = { ty = "num", doc = "For `int` and `num`: the least." }
 max = { ty = "num", doc = "For `int` and `num`: the most." }
 words = { ty = "list<str>", doc = "For `str`: the words it may hold; an edit of another word is refused and a screen offers these." }
 live = { ty = "bool", doc = "False when it decides what is wired at the start: an edit waits for the next start, and its row says `⟳ next start`. Left out, it is live." }
-basic = { ty = "bool", doc = "True for the few settings J4n basic shows first: Settings › Features lists these, and Settings › All the rest." }
+basic = { ty = "bool", doc = "True for the few switches an operator changes: Settings › Features lists these, and Settings › All the rest." }
+brief = { ty = "text", doc = "What it does in one plain line, for Settings › Features (left out: its `doc`)." }
 auto = { ty = "str", doc = "For a `str` row whose words are `auto`, `on` and `off`: `setting=word`, the one switch `auto` follows (`lanes=orchestrate`: on while that setting holds that word, off else). `on` and `off` that you set win, and a `true` or `false` an older file holds reads as `on` and `off`. Every reader of the row sees a switch." }
 full = { ty = "any", doc = "What it holds under `packs.full`: a pack's own switch for its feature, turned on by the switch of J4n full. The operator's own row still wins. Left out: `packs.full` leaves it as it is." }

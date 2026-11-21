@@ -112,7 +112,7 @@ With no agent program at all, an OpenRouter key is enough: J4n's own agent uses 
 ## 3. The first start: Setup
 
 Start `j4n` in a project folder. The first time, J4n shows the **Setup card**, which says where the agent, the Decider and
-the test stand. `⏎` opens **Connect › Setup**. `esc` puts it off, and the card asks again at the next start. Once you have
+the test stand. `⏎` opens **Agents › Setup**. `esc` puts it off, and the card asks again at the next start. Once you have
 opened Setup from it, the card is not shown again, in this project or any other.
 
 Setup is one page of steps, each done with keys:
@@ -161,7 +161,7 @@ Chromium's `--user-data-dir` and `--proxy-server` flags.
 The marks on the screen (the tabs, the states of a task, the gate) can be drawn as icons from a
 [Nerd Font](https://www.nerdfonts.com), as plain Unicode, as ASCII or as words. The setting `theme.marks` is `auto` out
 of the box: J4n draws icons when the terminal draws them itself (Ghostty, WezTerm, kitty) or a Nerd Font is installed,
-and Unicode when neither is found. **Settings › Look** shows the row with what `auto` chose and why.
+and Unicode when neither is found. **Settings › Features** shows the row `theme.marks` with what `auto` chose and why.
 
 An installed font is not proof that the terminal draws with it. If the marks show as boxes or blanks, pick `unicode` on
 that row (`⏎`, or `n` for the next word), or say `:look marks unicode`. For the icons, install a Nerd Font and choose it
@@ -181,7 +181,7 @@ as the terminal's font, then pick `icons` or `auto`:
 
 ## 5. Check it
 
-Connect › Setup is the check, on the screen. `j4n doctor` prints the same lines without opening it, each with the row of
+Agents › Setup is the check, on the screen. `j4n doctor` prints the same lines without opening it, each with the row of
 Setup that mends it:
 
 ```bash

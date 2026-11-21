@@ -24,7 +24,7 @@ core = "grant"
 
 [[command]]
 id = "key"
-doc = "Remove a provider's key that J4n keeps: `:key remove own`. Library › Providers `x` does the same, on the card. A key is typed on its row there (`⏎`), never on a line: a line is kept in the Log."
+doc = "Remove a provider's key that J4n keeps: `:key remove own`. Agents › Providers `x` does the same, on the card. A key is typed on its row there (`⏎`), never on a line: a line is kept in the Log."
 words = [":key"]
 args = ["remove", "connector"]
 core = "key"
@@ -114,19 +114,19 @@ open = "proposals"
 
 [[command]]
 id = "roster"
-doc = "Show the Agents sub-tab of the Connect tab: the agents first, then the tools, services, MCP servers and deciders."
+doc = "Show the Agents sub-tab of the Agents tab: the agents first, then the tools, services, MCP servers and deciders."
 words = [":roster"]
 open = "agents"
 
 [[command]]
 id = "setup"
-doc = "Open Connect › Setup: the agent, the model and the Decider, each with where it stands and the key that sets it, a key typed on its row and shown to no one (`:setup again` asks the programs again, `:setup test` makes one short call to each part that is set, `:setup doer <id>` picks the main lane's doer)."
+doc = "Open Agents › Setup: the agent, the model and the Decider, each with where it stands and the key that sets it, a key typed on its row and shown to no one (`:setup again` asks the programs again, `:setup test` makes one short call to each part that is set, `:setup doer <id>` picks the main lane's doer)."
 words = [":setup", ":doctor"]
 open = "setup"
 
 [[command]]
 id = "signin"
-doc = "Sign a program in with its own login, in its own folder (no account is made): `:signin claude`. J4n starts the program's sign-in, shows the link it gives and asks before it runs; Connect › Setup has it as `s` on the program's row."
+doc = "Sign a program in with its own login, in its own folder (no account is made): `:signin claude`. J4n starts the program's sign-in, shows the link it gives and asks before it runs; Agents › Setup has it as `s` on the program's row."
 words = [":signin"]
 flow = "signin"
 args = ["the program"]
@@ -139,7 +139,7 @@ open = "plans"
 
 [[command]]
 id = "providers"
-doc = "Show Library › Providers: the connectors that speak a provider's API, and where each one's key comes from (never the key). `⏎` on a row types its key, `x` removes it."
+doc = "Show Agents › Providers: the connectors that speak a provider's API, and where each one's key comes from (never the key). `⏎` on a row types its key, `x` removes it."
 words = [":providers"]
 open = "providers"
 

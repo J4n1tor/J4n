@@ -1,6 +1,6 @@
 api = 1
 
-# A provider: who sells or hosts models, and how J4n reaches them (Library › Providers). The connectors are the programs and
+# A provider: who sells or hosts models, and how J4n reaches them (Agents › Providers). The connectors are the programs and
 # endpoints J4n speaks through; a provider is the one name for what stands behind them, so Anthropic is one row whether it is reached by the
 # claude program on a subscription or on an API key, and OpenRouter is one row whether or not the pack that has a connector for it is on. A
 # connector that no provider row takes is its own row, so nothing is left out. The key here is only where it would come from, to say whether it

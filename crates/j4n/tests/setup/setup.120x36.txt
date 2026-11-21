@@ -1,7 +1,7 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
- ───────────────────────────────━━━━━━━━━━━────────────────────────────────────────────────────────────────────────────
- Setup   Overview   Lab   Agents   Tools   Services   MCP   Deciders
+  󰍩 Chat   󰇁 Usage   󰚥 Agents   󰦪 Log   󰒓 Settings                                                           j4n 0.1.0
+ ───────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────
+ Setup   Overview   List   Models   Providers   Plans   Deciders
 ━━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ┃ 󰄬 Agent                claude · signed in                                       ⏎ change                            ▸
   󰄬 Model                default · the agent picks                                ⏎ pick
@@ -12,7 +12,7 @@
   ├─ 󰐾 none              —                                                        every question keeps its fixed pic…
   ╰─ this project only   —                                                        ⏎ turns the Decider on here and in…
   󰄰 Test                 not run · one short call to each part above              ⏎ runs it
-  Custom                 any other program, a key of your own, every setting      ⏎ opens Connect › Overview · Libra…
+  Custom                 any other program, a key of your own, every setting      ⏎ opens Agents › Overview · Agents…
 
 
 

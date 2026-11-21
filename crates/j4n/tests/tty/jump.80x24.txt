@@ -1,5 +1,5 @@
 
- 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ 󰍩 Chat 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings             j4n 0.1.0
  ━━━━━━────────────────────────────────────────────────────────────────────────
         ╭─ find ───────────────────────────────────────────────────────╮
         │ › :pack▏                                                     │
@@ -9,7 +9,7 @@
 ▌ who   │                                                              │ ##:## ▐
   ├─ new│ ⏎ jump   esc close                                           │,
   │  cod╰──────────────────────────────────────────────────────────────╯ens
-  │  Connect › Setup
+  │  Agents › Setup
   ├─ child 1 turn 1
   ├─ ◆ ledger · main · 1 tasks · ✓ 1
   │  ├─ ± 0 files · ❱ 0 ran · $0.0000

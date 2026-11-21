@@ -1,5 +1,5 @@
 //! The roster and the library (`:roster`, `:library`): pages from data, over the connectors and the models of the Table. `:roster` opens
-//! Tools › Agents since the All page went; the tools are the next sub-tab.
+//! Agents › List; the tools are five sub-tabs on, after the models, the providers, the plans and the trust.
 
 use crate::screen_drive::Operator;
 use crate::run_cases::Dirs;
@@ -23,7 +23,7 @@ fn the_roster_lists_the_connectors_with_their_roles_and_the_library_the_models_a
     let s = op.until("the agents", |s| row(s, "claude", &["claude-stream"]));
     assert!(row(&s, "own", &["openai"]), "{s}");
     assert!(s.contains("plan"), "the roles are shown: {s}");
-    op.press(vec![j4n_tui::headless::alt_key(j4n_tui::headless::KeyCode::Right)]);
+    op.press(vec![j4n_tui::headless::alt_key(j4n_tui::headless::KeyCode::Right); 5]);
     op.until("the tools", |s| s.lines().nth(3).is_some_and(|l| l.contains("Tools")) && row(s, "builtin", &[]));
     // the Models page, by its word, from the chat
     op.press(vec![j4n_tui::headless::press(j4n_tui::headless::KeyCode::F(1))]);

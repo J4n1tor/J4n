@@ -2,7 +2,7 @@ api = 1
 
 [[command]]
 id = "report"
-doc = "The ledger: `:report` says the newest report of this thread again, rebuilt from the Log; `:report <thread>` another thread's; `all` the answers whole and every file and command. Spend › Report lists the same."
+doc = "The ledger: `:report` says the newest report of this thread again, rebuilt from the Log; `:report <thread>` another thread's; `all` the answers whole and every file and command. the reports under Usage lists the same."
 words = [":report"]
 args = ["thread, all"]
 core = "report"

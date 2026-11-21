@@ -386,7 +386,7 @@ fn run(
         }
         let Some(a) = reg.get(&id) else {
             if ledger.first(format!("n:{id}:missing")) {
-                skip(n, if reg.installed(&id) { "not installed until its key is typed (Library › Providers)" } else { "not installed" });
+                skip(n, if reg.installed(&id) { "not installed until its key is typed (Agents › Providers)" } else { "not installed" });
             }
             continue;
         };

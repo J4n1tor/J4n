@@ -94,7 +94,7 @@ fn doctor_says_how_long_each_doers_probe_took_and_calls_nothing_that_costs() {
         assert!(l.contains(" ms"), "a doer that is ready has its time: {l}");
     }
     assert!(o.out.lines().any(|l| l.starts_with("doer") && l.contains("claude") && l.contains("found · signed in · 2.1.0") && l.contains(" ms")), "{}", o.out);
-    assert!(o.out.lines().any(|l| l.starts_with("default") && l.contains("claude") && l.contains("Connect › Setup › Agent: ⏎ on one uses it for the main lane")), "{}", o.out);
+    assert!(o.out.lines().any(|l| l.starts_with("default") && l.contains("claude") && l.contains("Agents › Setup › Agent: ⏎ on one uses it for the main lane")), "{}", o.out);
 }
 
 #[test]

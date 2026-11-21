@@ -1,31 +1,31 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
 ━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  switch                  no╭─ keys · Features ────────────────────────────────────────────╮
-├ 󰔡 box.net               on│                                                              │
-│   Whether a boxed task may│ ⏎        change    Change the row: a switch flips, words     │ the row can cut it and the
-│   work needs none.        │                    open their picker.                        │
-│   default on              │ space    flip      Flip the switch, or take the next of its  │
-├   box.use               au│                    words; at once, as your edit.             │o is the first whose probe …
-├ 󰔢 check.after           of│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │r a task that changed files…
-├ 󰔡 complete.decider      on│                    Option as Meta or Alt.                    │, marked ~, after a pause i…
-├   complete.decider_day  30│ ↑↓       move      The row above or below.                   │uggestions in this project.…
-├ 󰔡 complete.on           on│ u        undo      Take back your last change of the row     │d's words, a file, a name i…
-├ 󰔡 cost.plan.on          on│                    (:undo eN).                               │ says what a request cost t…
-├   cost.show             bo│ /        find      Find in the rows, as you type; ⏎ keeps    │say for a request that ran …
-├ 󰔢 packs.full            of│                    it, esc clears it.                        │est pack is left out) and J…
-├   profile               fu│ ?        keys      All the keys of this page.                │ tool would load it by itse…
-├   read.style            ca│ ⌃g       state     Turn the bottom row over: the keys, or    │graphs, before headings and…
-├ 󰔢 retry.auto            of│                    what the whole screen is doing (tasks,    │ connection, not a limit an…
-├   session.mode          au│                    what waits for you, today's spend, a      │ays (a session is for ever)…
-├   theme.palette         jj│                    window that runs low).                    │
-├ 󰔢 web.local             of│                                                              │e network around it (loopba…
-╰   work.apply            au│ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │rktree when it is over: aut…
-                            │ ⌥←→      sub-tabs  The sub-tab before or after.              │
-                            │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
-                            │ F1–F9              Tab n, as ⌥n.                             │
+  switch             now    ╭─ keys · Features ────────────────────────────────────────────╮
+├   approval.inside  auto   │                                                              │side the project.
+│   auto (the default): on w│ ⏎        change    Change the row: a switch flips, words     │. On: an approval no rule
+│   has a say about (or that│                    open their picker.                        │ters inside the text a
+│   here-document gives Pyth│ space    flip      Flip the switch, or take the next of its  │project, a chat's worktree
+│   or the task's own tempor│                    words; at once, as your edit.             │test), a linter, a script
+│   of the project named for│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │on the line that opens only
+│   files it names inside th│                    Option as Meta or Alt.                    │n, built while it runs, is
+│   put to a Decider (the po│ ↑↓       move      The row above or below.                   │re one, asks you. You are
+│   still asked for anything│ u        undo      Take back your last change of the row     │ not of build folders,
+│   git push, a deploy and a│                    (:undo eN).                               │o said yes: rule:gate
+│   ("inside the project: …"│ /        find      Find in the rows, as you type; ⏎ keeps    │ry ask keeps it off.
+│   default auto            │                    it, esc clears it.                        │
+├ 󰔢 chats.on         off    │ ?        keys      All the keys of this page.                │ session.
+├ 󰔢 check.after      off    │ ⌃g       state     Turn the bottom row over: the keys, or    │
+├   cost.show        both   │                    what the whole screen is doing (tasks,    │lan, the list price, or bot…
+├   lane.doer        —      │                    what waits for you, today's spend, a      │ works).
+├   lane.model       —      │                    window that runs low).                    │
+├   lanes            single │                                                              │ate.
+├ 󰔢 packs.full       off    │ ⌥n again sub-tab   Its next sub-tab; on Chat, the next chat. │
+├ 󰔡 tabs.all         on     │ ⌥←→      sub-tabs  The sub-tab before or after.              │ yet too.
+├   theme.marks      icons  │ ⌥0       numbers   The numbers of the tabs, for a moment.    │or words.
+╰   theme.palette    jjj    │ F1–F9              Tab n, as ⌥n.                             │
                             │                                               any key closes │
                             ╰──────────────────────────────────────────────────────────────╯
 

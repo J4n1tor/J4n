@@ -792,7 +792,7 @@ fn a_secret_is_never_shown_and_never_kept_by_the_screen() {
     assert!(key(&mut a, KeyCode::Enter).is_empty() && a.toast.as_ref().is_some_and(|t| t.0.contains("nothing was sent")), "{:?}", a.toast);
 }
 
-/// The key's field as Library › Providers binds it.
+/// The key's field as Agents › Providers binds it.
 fn key_app(value: Json) -> App {
     let node = Node { id: "f".into(), title: "f".into(), field: Some(Field { kind: FieldKind::Secret, bind: "key:own.value".into(), props: json!({}) }), ..Node::default() };
     let mut a = started(stack(vec![node]));
@@ -824,7 +824,7 @@ fn a_key_of_seven_and_of_seventy_characters_is_drawn_in_the_same_cells() {
     assert_eq!(kept(&sent), vec![("own".to_string(), format!("{}Z", "abcdefghij".repeat(7)))]);
 }
 
-/// Library › Providers as the core sends it: a row that carries the secret editor, and ⏎ that opens it.
+/// Agents › Providers as the core sends it: a row that carries the secret editor, and ⏎ that opens it.
 fn providers_app() -> App {
     let list = Node { id: "providers".into(), title: "Providers".into(), field: Some(Field { kind: FieldKind::List, bind: "view:providers".into(), props: Json::Null }), ..Node::default() };
     let pages = Node { id: "pages".into(), present: Present::Tabs, children: vec![list], ..Node::default() };

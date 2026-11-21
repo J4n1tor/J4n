@@ -1,6 +1,6 @@
 api = 1
 
-# The rows of Connect › Overview and Connect › Lab. Both are folds the core builds (`front/connect.rs`): the Table's connectors, the
+# The rows of Agents › Overview and Agents › Lab. Both are folds the core builds (`front/connect.rs`): the Table's connectors, the
 # folders of this machine, the Log's canaries and the lab's two files per run.
 
 [[view]]

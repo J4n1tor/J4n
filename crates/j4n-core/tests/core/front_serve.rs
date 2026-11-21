@@ -97,8 +97,35 @@ fn hello_is_answered_with_who_this_is_and_the_tree() {
     assert!(matches!(&downs[1], Down::Keys { binds } if binds.len() > 60 && binds.iter().all(|b| b.to == b.key)), "{:?}", downs[1]);
     // the marks' `auto` is sent as the tier it comes to: the icons in a test run, which says `J4N_FONTS=icons`
     assert_eq!(downs[2], Down::Theme { look: j4n_proto::Look { marks: "icons".into(), ..screen.look() } }, "then the look, before the tree");
-    assert_eq!(downs[3], Down::Tree { node: screen.titled(screen.pages.tree("main", &j4n_core::view::outer(screen.set.clone()))) });
+    // the tree the pages make, less the sub-tabs that say `hide_empty` and list nothing here (Tools, Services, MCP, Trust)
+    let mut tree = screen.titled(screen.pages.tree("main", &j4n_core::view::outer(screen.set.clone())));
+    let mut left = Vec::new();
+    leave_empty_out(&mut tree, &mut left);
+    assert_eq!(left, ["trust", "tools", "services", "mcp"]);
+    assert_eq!(downs[3], Down::Tree { node: tree });
     assert_eq!(downs.len(), 4);
+}
+
+/// `node` less its children whose field says `hide_empty`, their ids in `left`.
+fn leave_empty_out(node: &mut j4n_proto::Node, left: &mut Vec<String>) {
+    let hidden = |c: &j4n_proto::Node| c.field.as_ref().is_some_and(|f| f.props.get("hide_empty") == Some(&Value::Bool(true)));
+    left.extend(node.children.iter().filter(|c| hidden(c)).map(|c| c.id.clone()));
+    node.children.retain(|c| !hidden(c));
+    node.children.iter_mut().for_each(|c| leave_empty_out(c, left));
+}
+
+/// With `tabs.all` on, the sub-tabs that list nothing are in the tree too, and the tabs that wait for it (Tasks, Grow) are there.
+#[test]
+fn tabs_all_sends_every_page_the_empty_ones_too() {
+    let mut screen = j4n_core::front::screen::Screen::builtin();
+    screen.set = j4n_core::setting::Settings::from_pairs([("tabs.all", j4n_core::value::Value::Bool(true))]).tree();
+    let f = fx_screened(vec![chatty(&["a"])], screen.clone(), |_| {});
+    let mut s = serve(&f);
+    let downs = up(&mut s, Up::Hello { api: j4n_proto::API });
+    let Some(Down::Tree { node }) = downs.iter().find(|d| matches!(d, Down::Tree { .. })) else { panic!("{downs:?}") };
+    assert_eq!(node, &screen.titled(screen.pages.tree("main", &j4n_core::view::outer(screen.set.clone()))));
+    let tabs: Vec<&str> = node.children[0].children.iter().map(|c| c.id.as_str()).collect();
+    assert_eq!(tabs, ["chat", "tasks", "spend", "connectors", "proposals", "log", "system"]);
 }
 
 #[test]
@@ -164,19 +191,21 @@ fn a_screen_that_speaks_a_newer_protocol_is_told_so_and_closed() {
 fn the_tree_has_the_pages_and_every_field_is_bound_to_something_the_server_answers() {
     let f = fx(vec![chatty(&["a"])], |_| {});
     let mut s = serve(&f);
-    let tree = j4n_core::front::screen::Screen::builtin().pages.tree("main", &j4n_core::eval::Scope::new());
+    // every page: `tabs.all` on
+    let all = j4n_core::eval::Scope::new().with("set", j4n_core::value::Value::from_json(&json!({ "tabs": { "all": true } })));
+    let tree = j4n_core::front::screen::Screen::builtin().pages.tree("main", &all);
     let mut binds = Vec::new();
     fn walk(n: &j4n_proto::Node, out: &mut Vec<String>) {
         out.extend(n.field.iter().map(|f| f.bind.clone()));
         n.children.iter().for_each(|c| walk(c, out));
     }
     walk(&tree, &mut binds);
-    // the tree of TUI-SIMPLE §3: Models (Library, Providers, Plans, Trust with the base pack alone), then Connect › Setup and Tools, then Spend and Grow
-    let views = ["ask-points", "library", "providers", "plans", "trust", "setup-flow", "connector-agents", "connector-tools", "connector-services", "connector-mcp", "connector-deciders"];
-    let settings = ["settings-features", "settings-look", "form:thread", "settings-keys", "settings-loop", "settings-gates", "settings", "commands:all"];
-    let want: Vec<String> = ["chat:main", "tasks:all"].into_iter().map(String::from).chain(views.iter().map(|v| format!("view:{v}"))).chain(["view:spend".into(), "view:proposals".into(), "packs:all".into(), "view:upstream-news".into(), "view:upstream-todo".into(), "log:all".into()]).chain(settings.iter().map(|s| if s.contains(':') { s.to_string() } else { format!("view:{s}") })).chain(["asks:open".into(), "bar:status".into()]).collect();
+    // Chat, Tasks and Decisions, Usage (the usage view, the spend), Agents (Setup, the list, the Library's pages, Tools…), Grow, Log, Settings
+    let views = ["setup-flow", "connector-agents", "library", "providers", "plans", "trust", "connector-tools", "connector-services", "connector-mcp", "connector-deciders"];
+    let settings = ["settings-features", "settings-look", "form:thread", "settings", "settings-keys", "settings-loop", "settings-gates", "packs:all", "commands:all"];
+    let want: Vec<String> = ["chat:main", "tasks:all", "view:ask-points", "usage:all", "view:spend"].into_iter().map(String::from).chain(views.iter().map(|v| format!("view:{v}"))).chain(["view:proposals".into(), "view:upstream-news".into(), "view:upstream-todo".into(), "log:all".into()]).chain(settings.iter().map(|s| if s.contains(':') { s.to_string() } else { format!("view:{s}") })).chain(["asks:open".into(), "bar:status".into()]).collect();
     let (charts, binds): (Vec<String>, Vec<String>) = binds.into_iter().partition(|b| b.starts_with("chart:"));
-    assert_eq!(charts, ["chart:wall", "chart:spend", "chart:bench"], "the charts over Models, Spend and Grow (the one over Tasks stands while the lanes are not single)");
+    assert_eq!(charts, ["chart:spend", "chart:wall", "chart:bench"], "the charts of Usage, Models and Grow (the one over Tasks stands while the lanes are not single)");
     assert_eq!(binds, want);
     for b in binds.iter().chain(&charts) {
         let downs = watch(&mut s, b);
@@ -750,7 +779,7 @@ fn on_a_plan_the_first_money_word_is_the_share_of_the_window_and_an_unpriced_pla
     let bar = |s: &mut Serve| today(rows(&watch(s, "bar:status"), "bar:status"));
     let tasks = |s: &mut Serve| rows(&watch(s, "tasks:all"), "tasks:all")[0].clone();
     // a request on a plan with no price: the share is the number, the list cost beside it, and the way to set the price under the row
-    let how = "no price: Library › Plans, ⏎ on claude sets it";
+    let how = "no price: Agents › Plans, ⏎ on claude sets it";
     f.rig.log.append(j4n_core::log::New::of("run.metrics", Actor::Core, json!({ "usd": 0.25, "share": 0.008, "share_of": "5h", "source": "assumed", "plan": how })).task(&task)).unwrap();
     assert_eq!(bar(&mut s), "0.8% of 5h · $0.7500 list");
     let row = tasks(&mut s);

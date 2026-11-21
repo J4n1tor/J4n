@@ -1,5 +1,5 @@
 
-  󰍩 Chat   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                           j4n 0.1.0
+  󰍩 Chat   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                        j4n 0.1.0
  ━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 
@@ -20,7 +20,7 @@
 
 ▌ who                                                                                                        #s  ##:## ▐
   ├─ new folder project · write here · a checkpoint before work · claude, codex,
-  │  gemini, opencode, pi not found; no key for own, light · ⏎ opens Connect ›
+  │  gemini, opencode, pi not found; no key for own, light · ⏎ opens Agents ›
   │  Setup
   ├─ child 1 turn 1
   ├─ ◆ ledger · main · 1 tasks · ✓ 1

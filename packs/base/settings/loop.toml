@@ -71,7 +71,6 @@ max = 100
 
 [[setting]]
 id = "retry.auto"
-basic = true
 doc = "Whether a turn that failed with what may mend (a dropped connection, not a limit and not a refusal) is put to the ask point `retry`: the same doer again, another doer, or a stop. Off: it stops, and the menu offers `try again`."
 ty = "bool"
 default = false
@@ -86,7 +85,6 @@ max = 5
 
 [[setting]]
 id = "session.mode"
-basic = true
 doc = "When a line carries on in the doer's session: `resume` always (a session is for ever), `auto` (a line starts a new session when carrying on would be cold, the provider's cache having lapsed, and the session holds more than `session.big` tokens; a provider whose cache life is not said is never cold), `each` (every line you type starts its own session). A new session is told the chat's last answers, the open plan line and the files changed, made from the Log, never the old transcript; a row in the chat says why, and `:resume` takes the old one back."
 ty = "str"
 default = "auto"
@@ -94,7 +92,6 @@ words = ["resume", "auto", "each"]
 
 [[setting]]
 id = "profile"
-basic = true
 doc = "What a CLI doer is started with: `full` (every task as the tool would load it by itself: all its tools, MCP servers, skills and memory; the default), `auto` (a task whose role the connector's row names in `profile.lean_for`, a chore or a decider, is started lean, the rest full), `lean` (every task lean: `Read` is its only tool and no MCP server, skill or memory file is loaded, much less to read on a first turn). A session begins with its profile and keeps its prompt when it is resumed."
 ty = "str"
 default = "full"
@@ -140,14 +137,17 @@ max = 100
 [[setting]]
 id = "packs.full"
 basic = true
-doc = "J4n full: on, every pack built in is loaded (the empty `test` pack is left out) and J4n is whole; off, the default, J4n basic loads the gate, the guard, the way to grow J4n and the connectors of the other CLI agents, plus the packs your folder already uses, and every other pack waits on Grow › Packs. A pack you turn on or off there wins over this switch. Read at the start."
+doc = "J4n full: on, every pack built in is loaded (the empty `test` pack is left out) and J4n is whole; off, the default, J4n basic loads the gate, the guard, the way to grow J4n and the connectors of the other CLI agents, plus the packs your folder already uses, and every other pack waits on Settings › Packs. A pack you turn on or off there wins over this switch. Read at the start."
+brief = "Load every pack built in (J4n full) in place of J4n basic."
 ty = "bool"
 default = false
 live = false
 
 [[setting]]
+basic = true
 id = "chats.on"
 doc = "On: every prompt can be a chat of its own: a chat is a thread with its own doer session (`c3`), a plan's branch is a chat under it (`c3.1`), and the first screen is the orchestrator, which has no doer and shows a pinned list of the chats and the rows of what it did with your lines. A line typed there goes to the chat it matches (a file it names, a subject it shares) and opens a new chat only when it matches none; Jev (the ask point `chats`) is asked only when code has no match, and you are asked only when more than one chat matches or the one that does is cooling or failed. `:new`, `:fresh`, `:clear`, `:chats`, `:top` act on chats, `⏎` goes into one, `esc` goes up. Off until it has been used: with it off the screen and the core are what they were, nothing is probed, asked or written. Read at the start."
+brief = "Every line can become a chat of its own, with its own agent session."
 ty = "bool"
 default = false
 live = false

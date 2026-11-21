@@ -25,6 +25,10 @@ pub const COMMANDS: &str = j4n_proto::PALETTE;
 pub const PACKS: &str = "packs:all";
 pub const CATALOGUE: &str = "catalogue:main";
 pub const KEYS_ROW: &str = j4n_proto::KEYS_ROW;
+/// The usage view (`/usage`: each plan's windows and each gateway's spend) as a page's `meter` field: its value is the list of entries.
+pub const USAGE: &str = "usage:all";
+/// A field's prop: a page that lists nothing is left out of the tree, unless `tabs.all` is on.
+pub const HIDE_EMPTY: &str = "hide_empty";
 
 /// The binding of a thread's chat.
 pub fn chat(thread: &str) -> String {

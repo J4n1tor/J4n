@@ -84,7 +84,7 @@ Anything the gate marks as risky comes to an approval card first.
 after edits; the event log; connectors for Claude Code, Codex, Gemini CLI, OpenCode and Pi, plus any CLI J4n learns by
 probing it; Grow (pack proposals with accept and undo); chats, where each prompt can be its own thread.
 
-**Packs (built in, off until enabled under Grow › Packs, or all at once with `packs.full`):** several accounts per
+**Packs (built in, off until enabled under Settings › Packs, or all at once with `packs.full`):** several accounts per
 agent, each with its own browser window and proxy; offload of light chores to a cheaper agent; lanes and an orchestrate
 mode (a planner with branches); a Python tool for J4n's own agent; quality marks; prompt shaping; inbox, habits,
 reflexes, ledger; a skill library; remote places.

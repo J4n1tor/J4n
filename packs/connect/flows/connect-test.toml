@@ -1,6 +1,6 @@
 api = 1
 
-# Connect › Overview `t`: the canary of the Connect flow, on a connector that is already there. The goal is the connector's row as TOML,
+# Agents › Overview `t`: the canary of the Connect flow, on a connector that is already there. The goal is the connector's row as TOML,
 # which the front writes; the step is the flow's own, so it runs in the box, in read mode, and asks the Gate as it does there. Nothing is written.
 [[flow]]
 id = "connect-test"

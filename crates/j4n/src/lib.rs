@@ -229,7 +229,7 @@ fn with_world(opts: &cli::Opts, interactive: bool, thread: &str, go: impl FnOnce
 }
 
 /// The one row a new folder's chat shows: the place and the mode, and, when the doctor's checks find something missing, what and where
-/// to mend it (`… · pi not found · ⏎ opens Connect › Setup`, the key opening that page); none for a folder J4n has worked in before. It
+/// to mend it (`… · pi not found · ⏎ opens Agents › Setup`, the key opening that page); none for a folder J4n has worked in before. It
 /// waits for the doers to answer: it is made off the screen's way.
 pub fn first_start_note(front: &j4n_core::front::Front, new_folder: bool, place: &str) -> Option<String> {
     new_folder.then(|| match front.cfg().setup.as_ref().and_then(|c| c.report_now(None).notice()) {

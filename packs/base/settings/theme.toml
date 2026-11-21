@@ -7,13 +7,16 @@ api = 1
 id = "theme.palette"
 basic = true
 doc = "The colours: `jjj`, `dusk`, `paper`, `ember`, `mono` or `contrast`."
+brief = "The colours of the screen."
 ty = "str"
 default = "jjj"
 words = ["jjj", "dusk", "paper", "ember", "mono", "contrast"]
 
 [[setting]]
+basic = true
 id = "theme.marks"
 doc = "What the marks are drawn with: `auto`, `icons` (a Nerd Font), `unicode`, `ascii` or `words`. `auto` draws icons where the terminal draws them itself (ghostty, WezTerm, kitty) or a Nerd Font is installed, and unicode where neither is found; the row says which and why. An installed font is not proof that the terminal draws with it: if the marks show as boxes or blanks, pick `unicode`. For the icons, install a Nerd Font, choose it as the terminal's font, then pick `icons` or `auto`."
+brief = "What the marks are drawn with: icons, plain symbols, ASCII or words."
 ty = "str"
 default = "auto"
 words = ["auto", "icons", "unicode", "ascii", "words"]

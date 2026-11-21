@@ -1,44 +1,44 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
-─────────────────────────────────━━━━━━─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  key                        keys  native                            what it does
-├ ask/change                 —     Enter
-│   Open the change an approval would make.
-├ ask/later                  —     Esc                               Put the question off; it holds.
-├ ask/next                   —     Down                              The next question.
-├ ask/pick                   —     1–9                               Answer with the option of that number, 1–9.
-├ ask/prev                   —     Up                                The question before.
-├ ask/recommended            —     C-Right, Right, Tab               Take the answer the core recommends: ⇥ on an empty line, → at the end of the line, ⌃→ wher…
-├ ask/why                    —     ?                                 Say why the risk is what it is.
-├ composer/aim               —     C-t                               Steer the next lane that works.
-├ composer/clear             —     C-u                               Clear the line.
-├ composer/end               —     C-e, End                          The end of the line.
-├ composer/home              —     C-a, Home                         The start of the line.
-├ composer/newer             —     Down                              A newer line of the history.
-├ composer/newline           —     S-Enter, C-j                      A new line in the draft (⇧⏎ where the terminal tells it from ⏎; ⌃j everywhere).
-├ composer/older             —     Up                                An older line of the history.
-├ composer/scroll-line-down  —     S-Down                            Scroll the chat a line down; the keys stay in the line.
-├ composer/scroll-line-up    —     S-Up                              Scroll the chat a line up; the keys stay in the line.
-├ composer/send              —     Enter                             Send the line.
-├ composer/to-transcript     —     C-Up                              Put the keys on the newest turn.
-├ global/back                —     Esc                               Close what is open, else go to Chat.
-├ global/bar                 —     C-g                               Turn the bottom row over: the keys, or the state of the whole screen. It turns by itself t…
-├ global/palette             —     C-k                               Find anything: the commands and the tree.
-├ global/quit                —     C-c, C-d                          Leave J4n.
-├ global/scroll-down         —     PgDn                              Scroll half a screen down (a short glide; a jump with theme.motion off).
-├ global/scroll-up           —     PgUp                              Scroll half a screen up (a short glide; a jump with theme.motion off).
-├ global/subtab-next         —     M-Right                           The next sub-tab.
-├ global/subtab-prev         —     M-Left                            The sub-tab before.
-├ global/tab-alt             —     M-1, M-2, M-3, M-4, M-5, M-6, M…  Open tab 1–9; the open tab's own number again opens its next sub-tab, and on Chat the next…
-├ global/tab-numbers         —     M-0                               Show the numbers of the tabs for a moment.
-├ global/tab1                —     F1                                Open tab 1.
-├ global/tab2                —     F2                                Open tab 2.
-├ global/tab3                —     F3                                Open tab 3.
-├ global/tab4                —     F4                                Open tab 4.
-├ global/tab5                —     F5                                Open tab 5.
-├ global/tab6                —     F6                                Open tab 6.
-├ global/tab7                —     F7                                Open tab 7.
-├ global/tab8                —     F8                                Open tab 8.
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
+─────────────────────────────────━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  setting                   now                               what it does
+├   approval.inside         auto
+│   auto (the default): on while lanes is orchestrate, off else; on and off that you set win. On: an approval no rule has a say about (or that only the rule
+│   for an unreadable line asks, for invisible characters inside the text a here-document gives Python) is said yes to by the Gate when its effect stays inside
+│   the project, a chat's worktree or the task's own temporary folder: an edit, a test run (cargo test, uv run pytest, npm test), a linter, a script of the
+│   project named for a check (scripts/verify.sh), a remove of build folders, Python on the line that opens only files it names inside the project. A line that
+│   is inside but for the paths of some Python, built while it runs, is put to a Decider (the point inside), which may say inside or ask; no Decider, or an
+│   unsure one, asks you. You are still asked for anything outside the project, the network, credentials, a delete that is not of build folders, git push, a
+│   deploy and a remote line, and for what a rule of yours asks. The Log says who said yes: rule:gate ("inside the project: …") or decider:<id> ("inside,
+│   harmless: …"). A run that denies every ask keeps it off.
+│   default auto
+├ 󰔡 box.net                 on                                Whether a boxed task may use the network. The agents are API clients: leave it on unless the row …
+├   box.unavailable         refuse                            When no box can run here (a container has no user namespaces): refuse stops the task and says the…
+├   box.use                 auto                              Which box row a task in the place box is put behind: auto is the first whose probe passes.
+├   brief.cli               claude                            Whether a doer that takes no Brief is given one anyway, as text after its goal: the sections that…
+├ 󰔢 brief.plain_answer      off                               Whether the turn that writes your answer is asked, in one sentence, to say what a thing is in wor…
+├ 󰔡 brief.project_card      on                                Whether the first turn of a session is given the project card in its Brief: the stable facts of t…
+├ 󰔢 brief.recall            off                               Whether the first turn of a task whose goal is the goal of an earlier task is shown what that tas…
+├ 󰔡 chats.archive.auto      on                                On: a chat whose plan is done, every item shown to hold by its check or its review (none left unp…
+├   chats.archive.idle      1d00h                             How long a chat is left alone before /archive takes it: its turns over and ok, nothing waiting, c…
+├   chats.archive.keep      14d00h                            How long a chat stays in the archive before it is removed: it leaves every list, the Log row chat…
+├   chats.message.chars     2000                              The most characters of a message between chats: a longer one is cut and the row says so. It may b…
+├   chats.message.hops      3                                 How long a cause chain of messages may be: a message sent because of a message is one hop, and th…
+├   chats.message.rate      6                                 How many messages one sender may send in a minute: the next is held and you are asked hold their …
+├ 󰔢 chats.on                off                               On: every prompt can be a chat of its own: a chat is a thread with its own doer session (c3), a p…
+├ 󰔢 check.after             off                               Whether the project's own check (kind check) is run after a task that changed files, where it wor…
+├   compact.at              0.7                               How full a doer's context may be (0 to 1) before the session is shrunk at the next boundary.
+├   compact.max             3                                 How many times one chain of tasks may have its session shrunk.
+├ 󰔡 complete.decider        on                                A Decider puts first the suggestion you most likely mean, marked ~, after a pause in typing: it p…
+├   complete.decider_day    300                               The most times a day the Decider is asked to order the suggestions in this project. Past it, code…
+├ 󰔡 complete.on             on                                Tab completes what you type: a command, a chat, a command's words, a file, a name in a field. The…
+├ 󰔢 connect.auto            off                               Whether /connect connects a program with no question about connecting: off (the default) asks at …
+├ 󰔡 connect.relearn         on                                Whether a connected program that changes what it says is learned again: when a run of it says not…
+├   context.line.in         200                               The size of a typical small line, in fresh input tokens, that /context adds to what a session hol…
+├   context.line.out        150                               The size of the answer to a typical small line, in output tokens, for the same sum.
+├   contribute.mode         ask                               Whether this J4n notices what is wrong with J4n and keeps it on this machine: ask (the default) a…
+├   cool.max                6h00m                             The longest a task is let wait out a limit; a limit that ends later stops the task, and it can be…
+├   cost.calibrate.size     3000                              How many whole numbers :calibrate yes has the doer write: the size of the request that makes a pa…
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

@@ -1,7 +1,7 @@
 //! The no-shell walk (charter law 11). The real binary on a real pty (the tty harness of
 //! `tty_cases`), in a HOME and a project that are empty, driven with keys only through the `walk` rows: chats on (`:chats` while off
 //! leads to the switch), a Features switch, two of All and the undo of one, the theme, a plan's price, an account added from
-//! Connect › Add account and signed in, a login already on this machine named with `u`, two packs on from Grow › Packs and the restart their rows ask
+//! Agents › Add account and signed in, a login already on this machine named with `u`, two packs on from Settings › Packs and the restart their rows ask
 //! for, an approval card answered over another tab, a grant taken back in Settings › Gates, and a proposal J4n drafted accepted in Grow.
 //!
 //! What it holds to: (1) the test writes no file into HOME, the project or the J4n folder: only J4n does (the stand-in `claude` the test puts
@@ -11,7 +11,7 @@
 //!
 //! And law 11's own check: every `[[command]]` of every pack resolves to a row of the palette.
 //!
-//! The setup walk is the second walk: from an empty HOME to a proven chat with Connect › Setup's keys, every frame looked at for a shell
+//! The setup walk is the second walk: from an empty HOME to a proven chat with Agents › Setup's keys, every frame looked at for a shell
 //! command, a path or a file, and for the key it types (its own doc says how).
 
 use crate::deciders_flow::{Cases, gateway, learn};
@@ -34,7 +34,7 @@ use std::time::{Duration, Instant};
 /// F1–F9: the n-th tab of the strip, as it stands (a pack that is on adds its tab, and the ones after it move up one).
 const F: [&[u8]; 9] = [b"\x1bOP", b"\x1bOQ", b"\x1bOR", b"\x1bOS", b"\x1b[15~", b"\x1b[17~", b"\x1b[18~", b"\x1b[19~", b"\x1b[20~"];
 /// The tabs there can be, in their order.
-const TABS: [&str; 9] = ["Chat", "Tasks", "Library", "Connect", "Spend", "Quality", "Grow", "Log", "Settings"];
+const TABS: [&str; 8] = ["Chat", "Tasks", "Usage", "Agents", "Quality", "Grow", "Log", "Settings"];
 const RIGHT: &[u8] = b"\x1b[1;3C";
 const DOWN: &[u8] = b"\x1b[B";
 const ESC: &[u8] = b"\x1b";
@@ -157,7 +157,7 @@ impl Walk {
 
     /// Step to the sub-tab called `name` with `⌥→`.
     fn sub(&mut self, name: &str) {
-        for _ in 0..12 {
+        for _ in 0..20 {
             if sub_is(&self.t.screen(), name) {
                 return;
             }
@@ -221,14 +221,14 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     let t = Tty::sized(&d, "--doer test", &[("PATH", path)], (140, 44));
     let mut w = Walk { t, cards: 0 };
     w.see("the first frame", |s| s.contains("⌥1–9 tabs"));
-    // a fresh J4n home: the Setup card asks (the Decider is off in J4n basic), and its first option opens Connect › Setup and answers it for
+    // a fresh J4n home: the Setup card asks (the Decider is off in J4n basic), and its first option opens Agents › Setup and answers it for
     // the home, so the start after the restart below asks nothing
     w.see("the Setup card", |s| s.contains("Set up J4n?"));
     w.keys(b"1");
-    w.see("Connect › Setup from the card", |s| sub_is(s, "Setup") && !s.contains("Set up J4n?"));
+    w.see("Agents › Setup from the card", |s| sub_is(s, "Setup") && !s.contains("Set up J4n?"));
     w.tab("Chat");
-    // the first start in a new folder says what is missing in one row, and its ⏎ opens Connect › Setup too
-    w.see("the first-start row", |s| flat(s).contains("⏎ opens Connect › Setup"));
+    // the first start in a new folder says what is missing in one row, and its ⏎ opens Agents › Setup too
+    w.see("the first-start row", |s| flat(s).contains("⏎ opens Agents › Setup"));
     w.keys(ENTER);
     w.see("Connect from the first-start row", |s| sub_is(s, "Setup"));
     w.tab("Chat");
@@ -240,16 +240,17 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     w.keys(ENTER);
     w.see("chats on, from the next start", |s| flat(s).contains("chats.on is true") && flat(s).contains("⏎ restarts now"));
 
-    // Settings › Features, the switches of J4n basic: a word of three (session.mode), the row says the new word, and no restart is asked
+    // Settings › Features, the switches an operator changes: tabs.all (a bool) brings back every tab and page at once, the row says the new
+    // word, and no restart is asked; the walk goes on through the pages it brought back
     w.tab("Settings");
     w.sub("Features");
     w.see("the Features rows", |s| s.contains("space flip"));
-    w.find("session.mode");
-    let before = w.line("session.mode");
+    w.find("tabs.all");
+    let before = w.line("tabs.all");
     w.keys(b" ");
-    w.see("session.mode changed", |s| s.lines().any(|l| l.contains("session.mode") && l != before));
-    w.no_card("session.mode");
-    assert!(!w.line("session.mode").contains("next start"), "session.mode is live: {}", w.line("session.mode"));
+    w.see("tabs.all changed", |s| s.lines().any(|l| l.contains("tabs.all") && l != before));
+    w.no_card("tabs.all");
+    assert!(!w.line("tabs.all").contains("next start"), "tabs.all is live: {}", w.line("tabs.all"));
     w.keys(ESC);
 
     // Settings › Look, the palette's next word with `n`: live (`Down::Theme`), a Change and no Grow row
@@ -289,8 +290,8 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     w.no_card("lanes");
     w.keys(ESC);
 
-    // Library › Plans, a price in place
-    w.tab("Library");
+    // Agents › Plans, a price in place
+    w.tab("Agents");
     w.sub("Plans");
     w.see("the plan rows", |s| s.contains("⏎ set price"));
     w.keys(ENTER);
@@ -298,11 +299,11 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     w.see("the price on its row", |s| s.contains("$24"));
     w.no_card("a plan's price");
 
-    // Grow › Packs, `space` on qc: it acts from the next start, so the card asks, and its ⏎ restarts J4n
-    w.tab("Grow");
+    // Settings › Packs, `space` on qc: it acts from the next start, so the card asks, and its ⏎ restarts J4n
+    w.tab("Settings");
     w.sub("Packs");
     w.see("the packs", |s| s.contains("a pack acts from the next start"));
-    // the pack accounts (Connect › Add account and what follows): it adds connectors, so its card names what it widens, `y`; the restart card is put off with esc,
+    // the pack accounts (Agents › Add account and what follows): it adds connectors, so its card names what it widens, `y`; the restart card is put off with esc,
     // and the restart comes with qc below
     w.find("accounts");
     w.keys(b" ");
@@ -324,9 +325,9 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     // the second J4n: the chats are on (the list is pinned) and the pack qc is its tab, Quality
     w.see("J4n started again, with the chats and qc", |s| s.contains("Quality") && (s.contains("no chats yet") || s.contains("chats")));
 
-    // the pack accounts is on: Connect › Add account and what follows
-    w.tab("Connect");
-    // Connect › Add account, the form filled in with the next free name; ⏎ on its last row adds it, the sign-in card asks, `y`
+    // the pack accounts is on: Agents › Add account and what follows
+    w.tab("Agents");
+    // Agents › Add account, the form filled in with the next free name; ⏎ on its last row adds it, the sign-in card asks, `y`
     w.sub("Add account");
     w.see("the form", |s| s.contains("add account") && s.contains("claude-1"));
     for _ in 0..4 {
@@ -342,7 +343,7 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     }
     w.keys(b"u");
     w.see("the login named", |s| s.contains("named claude-2"));
-    // Connect › Accounts lists both: claude-1 signed in through its own folder, claude-2 your own login
+    // Agents › Accounts lists both: claude-1 signed in through its own folder, claude-2 your own login
     w.sub("Accounts");
     w.see("claude-1 signed in", |s| s.lines().any(|l| l.contains("claude-1") && l.contains("signed in")));
     w.see("claude-2 named", |s| s.lines().any(|l| l.contains("claude-2")));
@@ -431,7 +432,7 @@ fn the_operators_walk_is_keys_only_in_a_fresh_home_and_nothing_of_it_is_a_file_b
     assert_ne!(made[0]["by"], "operator", "{}", made[0]);
     let edits = kind(&evs, "edit.applied");
     let what: Vec<&str> = edits.iter().filter(|e| e["by"] == "operator").flat_map(|e| e["data"]["what"].as_array().into_iter().flatten().filter_map(Json::as_str)).collect();
-    for want in ["setting chats.on", "setting look.keys_row", "setting session.mode", "setting lanes", "setting theme.palette", "plan claude", "account claude-1", "account claude-2", "enable accounts", "enable qc"] {
+    for want in ["setting chats.on", "setting look.keys_row", "setting tabs.all", "setting lanes", "setting theme.palette", "plan claude", "account claude-1", "account claude-2", "enable accounts", "enable qc"] {
         assert!(what.contains(&want), "{want} is an operator edit, a Change with an undo: {what:?}");
     }
     // the pack that widens was said yes to on the card, and the edit keeps what it widened
@@ -477,7 +478,7 @@ fn r1_words(d: &Dirs) -> Vec<String> {
     words
 }
 
-/// Connect › Setup on the screen: its steps.
+/// Agents › Setup on the screen: its steps.
 fn on_setup(s: &str) -> bool {
     s.contains("Agent") && s.contains("Decider") && s.contains("Custom")
 }
@@ -486,7 +487,7 @@ fn count(w: &World, kind: &str) -> usize {
     crate::deciders_flow::events(w).iter().filter(|(_, k, _)| k == kind).count()
 }
 
-/// The steps of Connect › Setup that hang from no other (Agent, Model, Decider, Test, Custom), each with whether it is done.
+/// The steps of Agents › Setup that hang from no other (Agent, Model, Decider, Test, Custom), each with whether it is done.
 fn done_steps(w: &World) -> Vec<(String, bool)> {
     use j4n_core::value::Value;
     let word = |v: &Value, f: &str| match v.pointer(f) {
@@ -497,7 +498,7 @@ fn done_steps(w: &World) -> Vec<(String, bool)> {
 }
 
 /// The setup walk, keys only, in a HOME and a project that are empty. The first start has no agent and no pin: the Setup card says
-/// `Agent: none works` and its `1` opens Connect › Setup; the first-start row says what is missing; a chat line is refused with the key
+/// `Agent: none works` and its `1` opens Agents › Setup; the first-start row says what is missing; a chat line is refused with the key
 /// that opens Setup, and that key opens it. The `test` doer is no agent the Agent step lists (it is not one of the doctor's), so the second
 /// start is pinned to it, as `j4n --doer test` is: the step names it, in use. On Setup the Decider is turned on (`o`, the card's `y`), the
 /// row's `r` starts J4n again, the made-up key is typed on `Jev · System One`'s row in its masked editor and the Decider is made
@@ -527,16 +528,16 @@ fn setup_from_an_empty_home_to_a_proven_chat_is_keys_only_and_no_frame_shows_a_s
     let s = op.until("the Setup card", |s| s.contains("Set up J4n?"));
     assert!(flat(&s).contains("Agent: none works"), "the card says no agent works:\n{s}");
     keys(&mut op, vec![press(KeyCode::Char('1'))]);
-    // (3) Connect › Setup, its Agent step not done
-    op.until("Connect › Setup from the card", |s| on_setup(s) && s.contains("none works") && !s.contains("Set up J4n?"));
+    // (3) Agents › Setup, its Agent step not done
+    op.until("Agents › Setup from the card", |s| on_setup(s) && s.contains("none works") && !s.contains("Set up J4n?"));
     // the first-start row and a line no agent can take each lead to it
     to_chat(&mut op);
-    op.until("the first-start row", |s| flat(s).contains("⏎ opens Connect › Setup"));
+    op.until("the first-start row", |s| flat(s).contains("⏎ opens Agents › Setup"));
     keys(&mut op, typed("make the tests pass", true));
-    op.until("the refusal that leads", |s| flat(s).contains("no agent works") && flat(s).contains("⏎ opens Connect › Setup"));
+    op.until("the refusal that leads", |s| flat(s).contains("no agent works") && flat(s).contains("⏎ opens Agents › Setup"));
     assert_eq!(count(&w, "task.queued"), 0, "no task was started");
     keys(&mut op, vec![press(KeyCode::Enter)]);
-    op.until("Connect › Setup from the refusal", |s| on_setup(s) && s.contains("none works"));
+    op.until("Agents › Setup from the refusal", |s| on_setup(s) && s.contains("none works"));
     hits.extend(in_world(&op, &w, &values));
     shown.append(&mut op.shown);
     drawn += op.drawn;

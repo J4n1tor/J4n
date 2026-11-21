@@ -1,7 +1,7 @@
 
- 󰍩 Chat 1 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings
- ───────────────────────────━━━━━━━━━──────────────────────────────────────────
-Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 󰧮 󰒓
+ 󰍩 Chat 1 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings           j4n 0.1.0
+ ─────────────────────────━━━━━━━━─────────────────────────────────────────────
+Overview Lab Accounts Add account List Models Providers Plans Trust Tools
 ━━━━━━━━────────────────────────────────────────────────────────────────────────
 ┃ add                                a program or a path  ⏎ types it
   connected     ⏎ opens one · t tests · r learns again · o turns off

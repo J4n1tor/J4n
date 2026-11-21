@@ -1,15 +1,14 @@
 
- 󰍩 Chat ╭─ keys · Reflexes ────────────────────────────────────────────╮
- ───────│                                                              │───────
-Overview│ o        on        Now: a key of the row under the cursor.   │ 󰒓
-────────│ x        off       Now: a key of the row under the cursor.   │─━──────
-  reflex│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
-├ compac│                    Option as Meta or Alt.                    │…  ⏎ on
-│   Shri│ ↑↓       move      The row above or below.                   │s
-│   agai│ ⏎        open      Open, edit or press the row; fold a       │
-│   chec│                    section.                                  │
-│   ever│ ?        keys      All the keys of this page.                │
-╰ new-se│ ⌃k       find      Find anything: the commands and the tree. │er than…
+ 󰍩 Chat 1 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings           j4n 0.1.0
+ ───────╭─ keys · MCP ─────────────────────────────────────────────────╮───────
+Add acco│                                                              │s 󰧭 󰧮 󰒓
+────────│ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │────────
+• an MCP│                    Option as Meta or Alt.                    │one
+        │ ↑↓       move      The row above or below.                   │
+        │ ⏎        open      Open, edit or press the row; fold a       │
+        │                    section.                                  │
+        │ ?        keys      All the keys of this page.                │
+        │ ⌃k       find      Find anything: the commands and the tree. │
         │ ⌃g       state     Turn the bottom row over: the keys, or    │
         │                    what the whole screen is doing (tasks,    │
         │                    what waits for you, today's spend, a      │
@@ -20,5 +19,6 @@ Overview│ o        on        Now: a key of the row under the cursor.   │ �
         │ ⌥0       numbers   The numbers of the tabs, for a moment.    │
         │ F1–F9              Tab n, as ⌥n.                             │
         │                                               any key closes │
-:reflex ╰──────────────────────────────────────────────────────────────╯), and …
+        ╰──────────────────────────────────────────────────────────────╯
+
  1 waits for you  today $0.1200  󰗑 Decider off  project                 ⌃g keys

@@ -1,7 +1,7 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ─────────────────────────────────━━━━━━━━━━━──────────────────────────────────────────────────────────────────────────
-Setup Overview Lab Accounts Add account Agents Tools Services MCP Deciders 󰧭 Kit 󰧮 Skills 󰒓 Reflexes
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────
+Setup Overview Lab Accounts Add account List Models Providers Plans Trust Tools Services MCP Deciders 󰧭 󰧮 󰒓
 ────────────────────────────━━━━━━━━━━━─────────────────────────────────────────────────────────────────────────────────
 ├   connector  claude             Claude Code, a live session kept between turns; its questions come back in-band.
 ├   name       claude-1           the next free name

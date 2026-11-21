@@ -1,11 +1,11 @@
 
- 󰍩 Chat 󰝖 Tasks 󰧑 Library 󰚥 Connect 󰇁 Spend 󰹦 Grow 󰦪 Log 󰒓 Settings  j4n 0.1.0
+ 󰍩 Chat 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings             j4n 0.1.0
  ━━━━━━────────────────────────────────────────────────────────────────────────
 
 
 :look you mark                                                            ##:##
 ├─ new folder project · write here · a checkpoint before work · claude, codex,
-│  gemini, opencode, pi not found; no key for own, light · ⏎ opens Connect ›
+│  gemini, opencode, pi not found; no key for own, light · ⏎ opens Agents ›
 │  Setup
 ╰─ you is mark (:undo e1 takes it back)
 

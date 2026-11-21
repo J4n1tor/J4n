@@ -1,7 +1,7 @@
 api = 1
 
-# The Connect tab: the first two sub-tabs of tab 4 (the page `connectors`). Connect: an add
-# line, the programs found on this machine that are not connected, and one row per connection. Lab: the runs the lab left.
+# The Agents tab (the page `connectors`): its Overview and Lab sub-tabs. Overview: an add
+# line, the programs found on this machine that are not connected, and one row per connection. Lab: the runs the lab left (with `tabs.all`).
 
 [[page]]
 id = "connect"
@@ -22,4 +22,5 @@ title = "Lab"
 order = 2
 field = "tree"
 view = "lab"
+when = "set.tabs.all"
 help = "the lab is run from the command line and never from here"

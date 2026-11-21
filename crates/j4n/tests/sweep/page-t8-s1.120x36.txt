@@ -1,31 +1,31 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                         j4n 0.1.0
- ────────────────────────────────────────────────────────────────────────━━━━━━━━━━━━──────────────────────────────────
- Features   Look   This Session   Keys   Loop   Gates   All   Commands
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                      j4n 0.1.0
+ ───────────────────────────────────────────────────────────━━━━━━━━━━━━───────────────────────────────────────────────
+ Features   Look   This Session   All   Keys   Loop   Gates   󰏖 Packs   Commands
 ━━━━━━━━━━──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  switch                  now   by  what it does
-├ 󰔡 box.net               on    —
-│   Whether a boxed task may use the network. The agents are API clients: leave it on unless the row can cut it and the
-│   work needs none.
-│   default on
-├   box.use               auto  —   Which box row a task in the place box is put behind: auto is the first whose probe …
-├ 󰔢 check.after           off   —   Whether the project's own check (kind check) is run after a task that changed files…
-├ 󰔡 complete.decider      on    —   A Decider puts first the suggestion you most likely mean, marked ~, after a pause i…
-├   complete.decider_day  300   —   The most times a day the Decider is asked to order the suggestions in this project.…
-├ 󰔡 complete.on           on    —   Tab completes what you type: a command, a chat, a command's words, a file, a name i…
-├ 󰔡 cost.plan.on          on    —   Whether J4n reads the limit windows a provider shows and says what a request cost t…
-├   cost.show             both  —   Which money the status bar, the chat and the Spend page say for a request that ran …
-├ 󰔢 packs.full            off   —   J4n full: on, every pack built in is loaded (the empty test pack is left out) and J…
-├   profile               full  —   What a CLI doer is started with: full (every task as the tool would load it by itse…
-├   read.style            calm  —   How prose is drawn: calm leaves a blank row between paragraphs, before headings and…
-├ 󰔢 retry.auto            off   —   Whether a turn that failed with what may mend (a dropped connection, not a limit an…
-├   session.mode          auto  —   When a line carries on in the doer's session: resume always (a session is for ever)…
-├   theme.palette         jjj   —   The colours: jjj, dusk, paper, ember, mono or contrast.
-├ 󰔢 web.local             off   —   Whether a fetch may reach the machine J4n runs on and the network around it (loopba…
-╰   work.apply            auto  —   What happens to the change of a task that worked in a worktree when it is over: aut…
-
-
-
+  switch             now     by  what it does
+├   approval.inside  auto    —   The Gate says yes by itself to edits and tests that stay inside the project.
+│   auto (the default): on while lanes is orchestrate, off else; on and off that you set win. On: an approval no rule
+│   has a say about (or that only the rule for an unreadable line asks, for invisible characters inside the text a
+│   here-document gives Python) is said yes to by the Gate when its effect stays inside the project, a chat's worktree
+│   or the task's own temporary folder: an edit, a test run (cargo test, uv run pytest, npm test), a linter, a script
+│   of the project named for a check (scripts/verify.sh), a remove of build folders, Python on the line that opens only
+│   files it names inside the project. A line that is inside but for the paths of some Python, built while it runs, is
+│   put to a Decider (the point inside), which may say inside or ask; no Decider, or an unsure one, asks you. You are
+│   still asked for anything outside the project, the network, credentials, a delete that is not of build folders,
+│   git push, a deploy and a remote line, and for what a rule of yours asks. The Log says who said yes: rule:gate
+│   ("inside the project: …") or decider:<id> ("inside, harmless: …"). A run that denies every ask keeps it off.
+│   default auto
+├ 󰔢 chats.on         off     —   Every line can become a chat of its own, with its own agent session.
+├ 󰔢 check.after      off     —   Run the project's own tests after a task changed files.
+├   cost.show        both    —   The money shown for a request on a plan: its share of the plan, the list price, or bot…
+├   lane.doer        —       —   The agent a new chat starts with (empty: J4n picks one that works).
+├   lane.model       —       —   The model of that agent (empty: the agent's own default).
+├   lanes            single  —   How much J4n does by itself: single, auto, wide or orchestrate.
+├ 󰔢 packs.full       off     —   Load every pack built in (J4n full) in place of J4n basic.
+├ 󰔡 tabs.all         on      —   Show every tab and page, the ones that have nothing to show yet too.
+├   theme.marks      icons   —   What the marks are drawn with: icons, plain symbols, ASCII or words.
+╰   theme.palette    jjj     —   The colours of the screen.
 
 
 

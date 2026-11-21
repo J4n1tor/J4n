@@ -577,8 +577,8 @@ fn the_cap_stops_the_asks_and_says_so_once_with_its_key() {
     let said = notes();
     assert_eq!(said.len(), 1, "said once: {said:?}");
     let note = &said[0].data;
-    assert!(note["text"].as_str().unwrap().ends_with("⏎ opens Settings › Features"), "{note}");
-    assert_eq!(note["act"]["intent"], j4n_proto::json!({ "intent": "open", "node": "features" }), "its key opens the row's page: {note}");
+    assert!(note["text"].as_str().unwrap().ends_with("⏎ opens Settings › All"), "{note}");
+    assert_eq!(note["act"]["intent"], j4n_proto::json!({ "intent": "open", "node": "config" }), "its key opens the row's page: {note}");
     // the next day the Decider is asked again
     f.rig.clock.advance(DAY);
     ask(&mut s, "line deploy the");

@@ -59,9 +59,9 @@ fn doctor_says_each_doer_found_signed_in_or_missing_with_the_line_that_mends_it(
     assert!(claude.contains("found · signed in") && claude.contains("2.1.0"), "{claude}");
     assert!(codex.contains("found · signed in") && opencode.contains("found · signed in"), "{codex} / {opencode}");
     assert!(gemini.contains("found · not signed in — ") && gemini.contains("gemini"), "a mend for a doer that is not signed in: {gemini}");
-    assert!(pi.contains("not found — `pi` is not installed · Connect › Setup › Agent › pi: r looks again"), "{pi}");
+    assert!(pi.contains("not found — `pi` is not installed · Agents › Setup › Agent › pi: r looks again"), "{pi}");
     // the key is typed on its row: the OpenRouter key on Setup's Decider row, which also gives the small model and J4n's own agent
-    let span = "Connect › Setup › Decider › Span through OpenRouter: ⏎ types the key";
+    let span = "Agents › Setup › Decider › Span through OpenRouter: ⏎ types the key";
     assert!(own.contains(&format!("no key — {span}")) && light.contains(&format!("no key — {span}")), "{own} / {light}");
     assert!(line(&o.out, "openrouter key").contains(&format!("not set — {span}")), "{}", o.out);
     assert!(line(&o.out, "default doer").contains("claude"), "{}", o.out);
@@ -76,7 +76,7 @@ fn doctor_names_the_plans_with_their_prices_the_safety_defaults_and_never_prints
     let o = doctor(&d, &[("J4N_CLAUDE", program.as_str()), ("OPENROUTER_API_KEY", "sk-or-very-secret-1234567890")]);
     assert_eq!(o.rc, 0, "{}{}", o.out, o.err);
     assert!(line(&o.out, "plan max5").contains("$100 a month") && line(&o.out, "plan pro").contains("$20 a month"), "{}", o.out);
-    assert!(line(&o.out, "plan claude").contains("no price — Library › Plans: ⏎ on claude sets its price"), "the connector's own plan is the operator's to price: {}", o.out);
+    assert!(line(&o.out, "plan claude").contains("no price — Agents › Plans: ⏎ on claude sets its price"), "the connector's own plan is the operator's to price: {}", o.out);
     for words in ["a write outside the project asks first", "J4n's own folder and git's internals are blocked", "a checkpoint is made before work", "claude's writes and commands come to the Gate first"] {
         assert!(o.out.contains(words), "{words}: {}", o.out);
     }
@@ -93,7 +93,7 @@ fn doctor_exits_non_zero_when_no_doer_works_and_writes_nothing() {
     agent(&d, "codex", None); // there, not signed in: it does not count
     let o = doctor(&d, &[]);
     assert_eq!(o.rc, 1, "{}{}", o.out, o.err);
-    assert!(line(&o.out, "default doer").contains("none works — Connect › Setup › Agent: ⏎ sets one up"), "{}", o.out);
+    assert!(line(&o.out, "default doer").contains("none works — Agents › Setup › Agent: ⏎ sets one up"), "{}", o.out);
     assert!(line(&o.out, "claude").contains("not found — `claude` is not installed"), "{}", o.out);
     assert!(fs::read_dir(d.project()).unwrap().next().is_none(), "no .j4n, nothing in the folder");
     // signed in, the same folder is fine
@@ -170,11 +170,11 @@ fn the_first_start_in_a_new_folder_adds_what_is_missing_to_its_one_row() {
     let d = Dirs::new("doctor-first-missing");
     let w = world(&d, false);
     let note = j4n::first_start_note(&w.front, true, "here").expect("pi is not there");
-    assert_eq!(note, "here · pi not found · ⏎ opens Connect › Setup");
+    assert_eq!(note, "here · pi not found · ⏎ opens Agents › Setup");
     assert_eq!(j4n::first_start_note(&w.front, false, "here"), None, "a folder J4n has worked in before is not checked");
     w.front.note("main", &note, "warn");
     let mut op = Operator::sit(&w);
-    op.until("the notice in the chat", |s| s.contains("pi not found · ⏎ opens Connect › Setup"));
+    op.until("the notice in the chat", |s| s.contains("pi not found · ⏎ opens Agents › Setup"));
     drop(op);
     w.close();
 }
@@ -220,7 +220,7 @@ fn view_rows(w: &wire::World, view: &str) -> Vec<j4n_proto::Row> {
     downs.into_iter().filter_map(|d| if let Down::Rows { rows, .. } = d { Some(rows) } else { None }).flatten().collect()
 }
 
-/// Every mend line of the doctor's (a doer, a key, the default doer) names a row of Connect › Setup and the key that mends it there, and
+/// Every mend line of the doctor's (a doer, a key, the default doer) names a row of Agents › Setup and the key that mends it there, and
 /// that row is on the page with that key; the line's own `⏎` opens the page. Two homes bring out the mends: J4n basic, with the packs of the
 /// other agents, J4n's own agent and the Decider off and an OpenRouter key kept; and one with those packs on, a `claude` that is not signed
 /// in, the other programs missing and no key at all.
@@ -255,8 +255,8 @@ fn every_mend_line_of_the_doctor_opens_a_row_of_setup_with_the_key_that_mends_it
                 continue;
             }
             seen.push(fix.clone());
-            // `… · Connect › Setup › <step> › <row>: <key> …`
-            let Some(at) = fix.split(" · ").find_map(|p| p.strip_prefix("Connect › Setup › ")) else {
+            // `… · Agents › Setup › <step> › <row>: <key> …`
+            let Some(at) = fix.split(" · ").find_map(|p| p.strip_prefix("Agents › Setup › ")) else {
                 wrong.push(format!("{}: names no row of Setup: {fix}", r.key));
                 continue;
             };
@@ -287,7 +287,7 @@ fn every_mend_line_of_the_doctor_opens_a_row_of_setup_with_the_key_that_mends_it
     for want in ["r looks again", "s signs it in", "⏎ turns it on", "o turns it on", "⏎ types the key", "⏎ sets one up"] {
         assert!(seen.iter().any(|f| f.contains(want)), "no mend line says `{want}`: {seen:#?}");
     }
-    assert!(wrong.is_empty(), "mend lines that do not lead to a row of Connect › Setup:\n{}", wrong.join("\n"));
+    assert!(wrong.is_empty(), "mend lines that do not lead to a row of Agents › Setup:\n{}", wrong.join("\n"));
 }
 
 /// The rows of `bind` in a `Down`, one line each, when it holds them.
@@ -320,7 +320,7 @@ fn a_program_that_hangs_in_its_probe_holds_no_page_its_row_says_checking_and_the
         providers = providers.or(rows_of(&d, "view:providers"));
         setup = rows_of(&d, "view:setup").unwrap_or(setup);
     }
-    assert!(providers.is_some(), "Library › Providers was never drawn while opencode hangs");
+    assert!(providers.is_some(), "Agents › Providers was never drawn while opencode hangs");
     assert!(filled(&setup), "the doers that answer at once never filled Setup: {setup:#?}");
     assert!(setup.iter().any(|r| r.starts_with("opencode checking…")), "the program that hangs is neither found nor missing yet: {setup:#?}");
     let _ = up.send(Up::Quit);

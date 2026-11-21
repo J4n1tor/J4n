@@ -415,7 +415,7 @@ impl Session {
         }
         let made = self.inner.request("session/new", json!({ "cwd": cwd, "mcpServers": [] }), Some(HANDSHAKE)).map_err(|e| {
             let methods: Vec<&str> = init.get("authMethods").and_then(Value::as_array).into_iter().flatten().filter_map(|m| m.get("name").and_then(Value::as_str)).collect();
-            if methods.is_empty() { e } else { format!("{e} (the agent signs in by {}, which J4n cannot open for it yet; Connect › Agents › r looks again once it is signed in)", methods.join(", ")) }
+            if methods.is_empty() { e } else { format!("{e} (the agent signs in by {}, which J4n cannot open for it yet; Agents › List › r looks again once it is signed in)", methods.join(", ")) }
         })?;
         let id = made.get("sessionId").and_then(Value::as_str).ok_or("session/new gave no sessionId")?.to_string();
         *lock(&self.inner.session) = Some(id.clone());

@@ -1,4 +1,4 @@
-//! A provider's key typed in Library › Providers: `⏎` on a row that takes a key sends it once from the secret editor, as
+//! A provider's key typed in Agents › Providers: `⏎` on a row that takes a key sends it once from the secret editor, as
 //! `Intent::Key` (a `Secret`, which prints as `«secret»` and is wiped when it goes), and it comes here, not to the Change path: no Change,
 //! no undo, no Grow row, and the Log's `key.set` names the connector and holds no value. `x` says `:key remove <connector>`, which the row
 //! asks on the card first; it writes `key.removed`. No line, form or `Set` takes a key: what is typed on a line is kept in the Log.
@@ -64,11 +64,11 @@ impl Front {
         }
     }
 
-    /// A line [`Front::key_masked`] holds back: the Log gets `:key …`, and the refusal leads to Library › Providers without naming what was typed.
+    /// A line [`Front::key_masked`] holds back: the Log gets `:key …`, and the refusal leads to Agents › Providers without naming what was typed.
     pub(super) fn key_stray(&self, thread: &str, text: &str) -> Said {
         self.write(thread, "chat.say", Actor::Operator, json!({ "text": ":key …" }));
         if text.split_whitespace().any(|w| w == "remove") {
-            return self.refuse_to(thread, "no connector by that name takes a key · ⏎ opens Library › Providers".into(), Lead::open("type the key", PAGE));
+            return self.refuse_to(thread, "no connector by that name takes a key · ⏎ opens Agents › Providers".into(), Lead::open("type the key", PAGE));
         }
         self.key_said(thread, &[])
     }
@@ -110,7 +110,7 @@ impl Front {
         self.key_kept(connector) || self.key_reference(connector).is_some_and(|r| self.key_siblings(connector, &r).iter().any(|s| self.key_kept(s)))
     }
 
-    /// `⏎` on a row of Library › Providers, with what was typed: kept in J4n's own key file, and the Log told only that it was. The value
+    /// `⏎` on a row of Agents › Providers, with what was typed: kept in J4n's own key file, and the Log told only that it was. The value
     /// is read from the `Secret` in place, never copied, and wiped when the intent goes. A connector beside it that names the same reference
     /// and could not be given the key is said by name. A Decider or model it makes ready is put its probe cases at once; one that is not on
     /// is said with what turns it on.
@@ -139,7 +139,7 @@ impl Front {
         }
         if let Some((_, why)) = missed.first() {
             let them = missed.iter().map(|(id, _)| id.as_str()).collect::<Vec<_>>().join(", ");
-            self.note_to(thread, &format!("the same key could not be kept for {them}: {} · ⏎ opens Library › Providers to type it again", unplaced(why)), "warn", Lead::open("type the key", PAGE));
+            self.note_to(thread, &format!("the same key could not be kept for {them}: {} · ⏎ opens Agents › Providers to type it again", unplaced(why)), "warn", Lead::open("type the key", PAGE));
         }
         Said::Command("key".into())
     }
@@ -201,14 +201,14 @@ impl Front {
                 match keys.remove(connector).map(|had| had || any) {
                     Ok(true) => {
                         self.write(thread, keys::REMOVED, Actor::Operator, json!({ "connector": connector }));
-                        self.note(thread, &format!("the key J4n kept for {connector} is removed · ⏎ on its row in Library › Providers types a new one"), "dim");
+                        self.note(thread, &format!("the key J4n kept for {connector} is removed · ⏎ on its row in Agents › Providers types a new one"), "dim");
                         Said::Command("key".into())
                     }
-                    Ok(false) => self.refuse_to(thread, format!("J4n keeps no key for {connector} · ⏎ opens Library › Providers"), lead()),
+                    Ok(false) => self.refuse_to(thread, format!("J4n keeps no key for {connector} · ⏎ opens Agents › Providers"), lead()),
                     Err(why) => self.refuse(thread, why),
                 }
             }
-            _ => self.refuse_to(thread, "a key is typed on its row, never on a line (a line is kept in the Log) · ⏎ opens Library › Providers".into(), lead()),
+            _ => self.refuse_to(thread, "a key is typed on its row, never on a line (a line is kept in the Log) · ⏎ opens Agents › Providers".into(), lead()),
         }
     }
 }

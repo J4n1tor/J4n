@@ -1,7 +1,7 @@
 api = 1
 
 # The deciders and the small model that the base pack's ask points name (`decider:jev`, `model:light`): turn the pack on and give each
-# its key in Library › Providers (`typesafe` for jev, `openrouter` for span and light), or in the environment. With no key a connector below is
+# its key in Agents › Providers (`typesafe` for jev, `openrouter` for span and light), or in the environment. With no key a connector below is
 # not made, and every point answers by its rule, its rank or its fallback, as it does without this file. An answerer here acts
 # for an ask point only after it has passed that point's probe cases (`:probe`; at start for what has not been proved).
 

@@ -3,7 +3,7 @@ api = 1
 # Read when J4n starts. The switch is `ledger.mode` (a setting cannot also be the front of another).
 [[setting]]
 id = "ledger.mode"
-doc = "Whether a thread that settles is reported: `on` (the default) writes one report from the Log each time nothing of the thread is open and a task of it has ended (a chat card, and Spend › Report); `off` says nothing new, as before. An unknown word is `off`."
+doc = "Whether a thread that settles is reported: `on` (the default) writes one report from the Log each time nothing of the thread is open and a task of it has ended (a chat card, and the reports under Usage); `off` says nothing new, as before. An unknown word is `off`."
 ty = "str"
 default = "on"
 words = ["on", "off"]

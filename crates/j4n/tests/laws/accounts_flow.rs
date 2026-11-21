@@ -754,7 +754,7 @@ fn the_flow_account_with_a_goal_it_builds_is_a_proposal_too() {
     world.close();
 }
 
-// ---- Connect › Add account, keys only ----
+// ---- Agents › Add account, keys only ----
 
 /// A login of the operator's own, as a harness keeps one where it always does: `mine` reads `$MINE_HOME`, else its own folder (as `claude`
 /// reads `~/.claude` when no `CLAUDE_CONFIG_DIR` is given), and its probe asks whether it is signed in there.

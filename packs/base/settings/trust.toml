@@ -38,7 +38,7 @@ live = false
 # Which agent programs work on an API key that J4n keeps, in place of their own sign-in.
 [[setting]]
 id = "doer.keys"
-doc = "The agent programs given the API key J4n keeps for their provider (typed in Library › Providers) in place of their own sign-in, as connector ids with spaces between (`claude codex`). A program named here gets that key in its environment when it is started (`kept:` in its row's `secrets`), never in its arguments, and J4n refuses to start it while no key is kept; a task that runs as an account keeps the account's sign-in. A program not named here is started with its own sign-in, and a key typed for its provider reaches only J4n's own HTTP doers. Empty by default. Read at the start."
+doc = "The agent programs given the API key J4n keeps for their provider (typed in Agents › Providers) in place of their own sign-in, as connector ids with spaces between (`claude codex`). A program named here gets that key in its environment when it is started (`kept:` in its row's `secrets`), never in its arguments, and J4n refuses to start it while no key is kept; a task that runs as an account keeps the account's sign-in. A program not named here is started with its own sign-in, and a key typed for its provider reaches only J4n's own HTTP doers. Empty by default. Read at the start."
 ty = "str"
 default = ""
 live = false

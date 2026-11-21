@@ -1,6 +1,6 @@
 
-  󰍩   󰝖   󰧑   󰚥   󰇁   󰹦   󰦪   󰒓                  j4n 0.1.0
- ━━━───────────────────────────────────────────────────────
+ 󰍩 Chat 󰝖 Tasks 󰇁 Usage 󰚥 Agents 󰹦 Grow 󰦪 Log 󰒓 Settings
+ ━━━━━━────────────────────────────────────────────────────
   ├─ 󰗖  it ended with no answer and no sign of work: nothi…
   ╰─ ◆ ledger · main · 1 tasks · ✓ 0 · ✗ 1
      ├─ ± 0 files · ❱ 0 ran · $0.0000

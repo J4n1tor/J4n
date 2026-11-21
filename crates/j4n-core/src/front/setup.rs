@@ -1,4 +1,4 @@
-//! Connect › Setup: the steps to a working agent, a model and a Decider, as the rows of `fold:setup` that the view `setup-flow` draws
+//! Agents › Setup: the steps to a working agent, a model and a Decider, as the rows of `fold:setup` that the view `setup-flow` draws
 //! as a tree (the doctor's lines follow them in the fold, for `view:setup`). What the page knows before anything is typed is read here:
 //! the doctor's probes (each program found, signed in or not), the key store (whether a key is there and where it comes from, never
 //! the value), the packs and the settings. Nothing is sent anywhere.
@@ -13,7 +13,7 @@
 //! - **Test**: `⏎` makes the proof call: one turn of the agent a line would get, on its model, asked a closed question, and the
 //!   Decider's probe cases at one point. Each part's row says ok or failed, its time and its cost, read back from the Log (`setup.tested`,
 //!   written once both are in); a failed part's row is the row that mends it (its key, its sign-in). The step is done only from a pass.
-//! - **Custom** opens Connect › Overview.
+//! - **Custom** opens Agents › Overview.
 
 use super::{Front, Said};
 use crate::change::Actor;
@@ -107,7 +107,7 @@ fn secs(ms: u64) -> String {
     format!("{:.1} s", ms as f64 / 1000.0)
 }
 
-/// The row of Library › Providers that is `id`.
+/// The row of Agents › Providers that is `id`.
 fn provider(providers: &[Value], id: &str) -> Option<Fields> {
     providers.iter().find_map(|r| match r {
         Value::Map(m) if word(m, "id") == id => Some(m.clone()),
@@ -123,7 +123,7 @@ impl Front {
         out.push(self.setup_model(report));
         out.extend(self.setup_decider(&providers));
         out.extend(self.setup_proof(report, &providers));
-        out.push(row("Custom", "custom", "", "", ["Custom", "any other program, a key of your own, every setting", "⏎ opens Connect › Overview · Library › Providers and Settings › All hold every key and setting"]));
+        out.push(row("Custom", "custom", "", "", ["Custom", "any other program, a key of your own, every setting", "⏎ opens Agents › Overview · Agents › Providers and Settings › All hold every key and setting"]));
         out.into_iter().map(Value::Map).collect()
     }
 
@@ -322,7 +322,7 @@ impl Front {
         step.insert("done".into(), Value::Bool(done));
         step.insert("on".into(), Value::Bool(said));
         let mut out = vec![step];
-        // a switch said while J4n runs acts from the next start: each row of the step has the key that restarts now, as Grow › Packs has
+        // a switch said while J4n runs acts from the next start: each row of the step has the key that restarts now, as Settings › Packs has
         let restart = said != loaded;
         // the one whose key is there is recommended; with neither, Span: one key sets up three parts
         let recommend = if jev_key && !span_key { "Jev · System One" } else { "Span through OpenRouter" };
@@ -410,7 +410,7 @@ impl Front {
         {
             let mut p = self.0.connect.proof.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
             if p.running {
-                self.note(thread, "the test is running · Connect › Setup shows each part when it ends", "dim");
+                self.note(thread, "the test is running · Agents › Setup shows each part when it ends", "dim");
                 return Said::Open("setup".into());
             }
             p.running = true;
@@ -441,7 +441,7 @@ impl Front {
             let data = json!({ "agent": doer.unwrap_or_default(), "model": model, "decider": decider.map(|d| d.0).unwrap_or_default(), "passed": passed, "parts": parts });
             drop(over);
             front.write(PROOF, "setup.tested", Actor::Core, data);
-            let said = if passed { "Setup's test passed · Connect › Setup shows each part" } else { "Setup's test did not pass · Connect › Setup: ⏎ on the part that failed mends it" };
+            let said = if passed { "Setup's test passed · Agents › Setup shows each part" } else { "Setup's test did not pass · Agents › Setup: ⏎ on the part that failed mends it" };
             front.note(&thread, said, if passed { "dim" } else { "warn" });
         });
         Said::Open("setup".into())

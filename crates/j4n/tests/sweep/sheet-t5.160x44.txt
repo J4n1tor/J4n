@@ -1,16 +1,16 @@
 
-  󰍩 Chat 1   󰝖 Tasks   󰧑 Library   󰚥 Connect   󰇁 Spend   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                 j4n 0.1.0
- ─────────────────────────────────────────────━━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────
- 󰇁 Spend   󰧭 Report
-━━━━━━━━━───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  a day  • usd  • tokens
-  • $0.12  usd
-  • 15  tokens
-  task  cost
-╰ t1    $0.1200
+  󰍩 Chat 1   󰝖 Tasks   󰇁 Usage   󰚥 Agents   󰹦 Grow   󰦪 Log   󰒓 Settings                                                                              j4n 0.1.0
+ ──────────────────────────────────────────━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 󰹦 Grow   󰐕 Contribute   Updates   TODO
+━━━━━━━━────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  bench pass  —
+• what J4n proposes for itself shows here, to accept or decline
 
 
-                                                ╭─ keys · Spend ───────────────────────────────────────────────╮
+
+
+
+                                                ╭─ keys · Grow ────────────────────────────────────────────────╮
                                                 │                                                              │
                                                 │ ⌥1–9     tabs      Tab n. On a Mac, let the terminal send    │
                                                 │                    Option as Meta or Alt.                    │
@@ -40,5 +40,5 @@
 
 
 
-
+a proposal changes nothing until it is accepted; an accepted one can be undone
  1 waits for you  today $0.1200  󰗑 Decider off  project                                                                                                 ⌃g keys

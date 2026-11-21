@@ -2,8 +2,10 @@ api = 1
 
 # The one switch (default `single`) and the numbers the plan keeper is bound by.
 [[setting]]
+basic = true
 id = "lanes"
 doc = "What acts on its own: `single` (a line is a task; no plan keeper, no branches), `auto` (the plan keeper is on; branches by rule are scouts and reviewers, and the main lane is the only writer), `wide` (also pieces, written in held worktrees and merged one at a time) or `orchestrate` (the one switch of the mode: Main is a chat with a doer session of its own and works each line itself; while it is the word the quick look at each plain line can open chats, and the crew's seats, the envoys, the plan keeper and the messenger are on, each by its own setting `orchestrate.look`, `crew.on` and `crew.envoys`, which are `auto` and follow the word unless you set them yourself; turning the word on or off starts Main's session fresh). `:lanes auto` says it while J4n runs."
+brief = "How much J4n does by itself: single, auto, wide or orchestrate."
 ty = "str"
 default = "single"
 full = "auto"
@@ -99,14 +101,18 @@ default = ""
 # The main lane's own doer: with none, the first election takes the best-ranked of the doers that are ready, and
 # with no record yet that is the smallest id, which is `claude`. `:setup doer <id>` says it while J4n runs. A line that names a doer is the later word.
 [[setting]]
+basic = true
 id = "lane.doer"
 doc = "The doer a thread that is not bound yet is bound to, when it is ready (empty: the election chooses). `:setup doer codex` sets it."
+brief = "The agent a new chat starts with (empty: J4n picks one that works)."
 ty = "str"
 default = ""
 
 [[setting]]
+basic = true
 id = "lane.model"
 doc = "The model of the doer `lane.doer`, as a model word of it (empty: under `orchestrate`, the standard tier of the doer, by `offload.prices`, never Opus or Fable; else the doer's own default)."
+brief = "The model of that agent (empty: the agent's own default)."
 ty = "str"
 default = ""
 
@@ -114,7 +120,7 @@ default = ""
 # layer, which every project reads, so a second project is not asked again; `later` leaves it on.
 [[setting]]
 id = "setup.card"
-doc = "Whether a start shows the Setup card while no agent works or the Decider is not set up. On until the card is answered once in this J4n home: its `open Setup` turns it off for every project, and `later` asks again at the next start. Connect › Setup is there either way."
+doc = "Whether a start shows the Setup card while no agent works or the Decider is not set up. On until the card is answered once in this J4n home: its `open Setup` turns it off for every project, and `later` asks again at the next start. Agents › Setup is there either way."
 ty = "bool"
 default = true
 live = false
