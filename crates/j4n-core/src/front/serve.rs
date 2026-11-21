@@ -997,14 +997,15 @@ impl crate::view::Sources for Src<'_> {
             // the look is what the front holds now, which `:look` changes while the settings are the ones read at the start
             Coll::Table(kind) if kind == "setting" => {
                 use crate::value::Value;
-                let look = front.look();
+                let look = front.look_spoken();
                 let mut rows = screen.setting_rows();
                 let says = front.switch_says(&self.serve.thread);
                 for r in &mut rows {
                     let Value::Map(m) = r else { continue };
                     let Some(Value::Str(id)) = m.get("id").cloned() else { continue };
                     if let Some(w) = id.strip_prefix("theme.").and_then(|p| look.word(p)) {
-                        m.insert("now".into(), Value::text(&w));
+                        // the marks' `auto` says what it comes to on this machine, and why
+                        m.insert("now".into(), Value::text(if id == "theme.marks" { super::fonts::row_word(&w) } else { w }));
                     }
                     // the one switch says what it turns on, the needs and the crew's ready switch
                     if id == "lanes" {

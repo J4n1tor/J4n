@@ -115,7 +115,7 @@ impl Screen {
         };
         j4n_proto::Look {
             palette: word("palette", "jjj"),
-            marks: word("marks", "icons"),
+            marks: word("marks", super::fonts::AUTO),
             frame: word("frame", "round"),
             corners: word("corners", "round"),
             title_place: word("title_place", "inside"),
@@ -215,7 +215,9 @@ impl Screen {
                 // `full` when what stands is what `packs.full` put there and the operator has not said otherwise
                 let via = self.tables.raw("setting", &id).and_then(|r| r.from.get("value")).is_some_and(|l| l == crate::pack::FULL_LAYER);
                 m.insert("via".into(), Value::text(if via { "full" } else { "" }));
-                m.insert("now".into(), now);
+                // the marks' `auto` says what it comes to on this machine, and why
+                let auto = id == "theme.marks" && now == Value::text(super::fonts::AUTO);
+                m.insert("now".into(), if auto { Value::text(super::fonts::row_word(super::fonts::AUTO)) } else { now });
             }
         }
         rows

@@ -214,7 +214,7 @@ pub fn said(terms: &Terms, ids: &[String]) -> String {
 impl super::Front {
     /// The glossary as the screen is sent it: `null` when `read.terms` is off, so that nothing is read.
     pub fn terms_value(&self) -> Json {
-        if !self.look().read.terms {
+        if !self.look_spoken().read.terms {
             return Json::Null;
         }
         let mut terms = self.0.terms.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
@@ -224,7 +224,7 @@ impl super::Front {
 
     /// Whether a doc changed since the glossary was read (the screen is sent it again if so).
     pub fn terms_changed(&self) -> bool {
-        self.look().read.terms && self.0.terms.lock().unwrap_or_else(std::sync::PoisonError::into_inner).refresh(&self.0.cfg().root)
+        self.look_spoken().read.terms && self.0.terms.lock().unwrap_or_else(std::sync::PoisonError::into_inner).refresh(&self.0.cfg().root)
     }
 
     /// `:term ADR-12 BUG-7`: the rows those ids stand for.

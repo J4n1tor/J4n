@@ -156,6 +156,29 @@ To use another Chromium-family browser, copy `packs/accounts/connectors/browser.
 `~/.j4n/connectors/browser.toml` and put its path first in `candidates`. Firefox is not supported: the window relies on
 Chromium's `--user-data-dir` and `--proxy-server` flags.
 
+### Icons and fonts
+
+The marks on the screen (the tabs, the states of a task, the gate) can be drawn as icons from a
+[Nerd Font](https://www.nerdfonts.com), as plain Unicode, as ASCII or as words. The setting `theme.marks` is `auto` out
+of the box: J4n draws icons when the terminal draws them itself (Ghostty, WezTerm, kitty) or a Nerd Font is installed,
+and Unicode when neither is found. **Settings › Look** shows the row with what `auto` chose and why.
+
+An installed font is not proof that the terminal draws with it. If the marks show as boxes or blanks, pick `unicode` on
+that row (`⏎`, or `n` for the next word), or say `:look marks unicode`. For the icons, install a Nerd Font and choose it
+as the terminal's font, then pick `icons` or `auto`:
+
+- Linux: install a Nerd Font from your distribution (Arch: `pacman -S ttf-jetbrains-mono-nerd`) or unpack one from
+  nerdfonts.com into `~/.local/share/fonts` and run `fc-cache -f`. J4n looks in `~/.local/share/fonts`, `~/.fonts`, the
+  `fonts` folder of each `XDG_DATA_DIRS` entry (`/usr/share/fonts`, `/usr/local/share/fonts`), then in `fc-list`.
+- macOS: `brew install --cask font-jetbrains-mono-nerd-font`, then choose *JetBrainsMono Nerd Font* in the terminal's
+  profile (Terminal.app: Settings › Profiles › Text › Font). J4n looks in `~/Library/Fonts`, `/Library/Fonts`,
+  `/System/Library/Fonts` and Homebrew's `share/fonts`, then in `fc-list` when fontconfig is installed. Terminal.app
+  draws no icons without such a font.
+- Over SSH, the font is the one of the terminal on your own machine, and J4n can only look at the fonts of the machine
+  it runs on (a Ghostty or kitty terminal still says its name through `TERM`): set `theme.marks` there if `auto` is wrong.
+- `J4N_FONTS=icons` or `J4N_FONTS=unicode` in the environment says what `auto` is on one machine without looking, for
+  example in the shell profile of a host you reach over SSH.
+
 ## 5. Check it
 
 Connect › Setup is the check, on the screen. `j4n doctor` prints the same lines without opening it, each with the row of

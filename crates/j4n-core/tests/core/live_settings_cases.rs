@@ -60,7 +60,9 @@ fn the_theme_words_of_the_rows_are_the_words_the_protocol_names() {
     let t = tables("");
     for (part, words) in j4n_proto::Look::PARTS.iter().filter(|(p, _)| *p != "motion") {
         let w = row(&t, &format!("theme.{part}")).words.unwrap_or_default();
-        assert_eq!(w, words.iter().map(|s| s.to_string()).collect::<Vec<_>>(), "theme.{part}");
+        // the marks take `auto` too, which the core makes a tier before the screen is sent the look
+        let said = j4n_core::front::fonts::said_words(part, words);
+        assert_eq!(w, said.iter().map(|s| s.to_string()).collect::<Vec<_>>(), "theme.{part}");
     }
 }
 
@@ -209,4 +211,19 @@ fn s_os9_a_ready_row_is_checked_against_the_settings_there_are_and_the_values_th
     let none = Manifest::parse("api = 1\nid = \"p\"\nversion = \"0.0.0\"\nsummary = \"s\"\nstability = \"experimental\"\n[ready]\n[ready.set]\n").unwrap();
     assert!(none.ready.unwrap().problems("p", &t)[0].msg.contains("names one to"), "a row that sets nothing is refused");
     assert!(manifest("lanes = \"orchestrate\"").ready.unwrap().default, "ready is on by default for a pack the operator enables");
+}
+
+/// The marks are `auto` until the operator says a word: the row says the tier it comes to and why (a test run says
+/// `J4N_FONTS=icons`, so the icons), the editor holds the word, and a word that is set is the row's and the look's as it is.
+#[test]
+fn the_row_of_the_marks_says_what_auto_comes_to_and_a_word_that_is_set_stands() {
+    let of = |home: &str| {
+        let t = tables(home);
+        let (screen, _) = Screen::load(t.clone(), &Settings::load(&t).0, Vec::new(), &BTreeMap::new());
+        let row = screen.setting_rows().into_iter().find(|r| r.pointer("/id") == Value::text("theme.marks")).unwrap();
+        (row.pointer("/now"), row.pointer("/edit/value"), screen.look().marks)
+    };
+    assert_eq!(of(""), (Value::text("auto · icons: J4N_FONTS"), Value::text("auto"), "auto".to_string()));
+    assert_eq!(of(&set("theme.marks", "\"unicode\"")), (Value::text("unicode"), Value::text("unicode"), "unicode".to_string()), "the operator's word wins");
+    assert_eq!(of(&set("theme.marks", "\"icons\"")).0, Value::text("icons"), "and so does the icons said as a word");
 }

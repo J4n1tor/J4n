@@ -42,6 +42,7 @@ pub mod envoy;
 pub mod watch;
 mod links;
 pub mod look;
+pub mod fonts;
 pub mod read;
 pub mod clamp;
 pub mod digest;
@@ -570,8 +571,15 @@ impl Front {
         self.0.screen.read().unwrap_or_else(|e| e.into_inner()).clone()
     }
 
-    /// The look the screens draw: what the settings named at the start, with what `:look` has said since.
+    /// The look the screens draw: what the settings named at the start, with what `:look` has said since, and the marks `auto` says
+    /// on this machine as their tier (`fonts`).
     pub fn look(&self) -> j4n_proto::Look {
+        let look = self.look_spoken();
+        if look.marks == fonts::AUTO { j4n_proto::Look { marks: fonts::found().tier().into(), ..look } } else { look }
+    }
+
+    /// The look as the operator said it, the marks `auto` still the word.
+    pub(crate) fn look_spoken(&self) -> j4n_proto::Look {
         self.0.look.lock().unwrap_or_else(|e| e.into_inner()).clone().unwrap_or_else(|| self.screen().look())
     }
 
@@ -1659,19 +1667,20 @@ impl Front {
     /// at once, since the command is the yes. The screens are sent the look as it is now; the next start reads it from the file.
     fn look_said(&self, thread: &str, args: &[String]) -> Said {
         use j4n_proto::Look;
-        let (said, now) = (Said::Command("look".into()), self.look());
+        let (said, now) = (Said::Command("look".into()), self.look_spoken());
         let Some(part) = args.first() else {
             let all: Vec<String> = Look::PARTS.iter().map(|(p, _)| format!("{p} {}", now.word(p).unwrap_or_default())).collect();
             self.note(thread, &all.join(" · "), "dim");
             return said;
         };
         let part = part.strip_prefix("theme.").unwrap_or(part);
-        let Some((_, words)) = Look::PARTS.iter().find(|(p, _)| *p == part) else {
+        let Some(words) = Look::PARTS.iter().find(|(p, _)| *p == part).map(|(p, w)| fonts::said_words(p, w)) else {
             let parts: Vec<&str> = Look::PARTS.iter().map(|(p, _)| *p).collect();
             return self.refuse(thread, format!("the look has no part `{part}` (there are {})", parts.join(", ")));
         };
         let Some(word) = args.get(1) else {
-            self.note(thread, &format!("{part} is {}; it can be {}", now.word(part).unwrap_or_default(), words.join(", ")), "dim");
+            let is = if part == "marks" && now.marks == fonts::AUTO { fonts::found().shown() } else { now.word(part).unwrap_or_default() };
+            self.note(thread, &format!("{part} is {is}; it can be {}", words.join(", ")), "dim");
             return said;
         };
         // `next` is the word after the one it is now, round to the first: the key of a row of Settings › Look
@@ -1707,7 +1716,7 @@ impl Front {
                 Some(toml::Value::Boolean(b)) => b.to_string(),
                 _ => continue,
             };
-            let look = self.look().with(part, &word);
+            let look = self.look_spoken().with(part, &word);
             *self.0.look.lock().unwrap_or_else(|e| e.into_inner()) = Some(look);
         }
     }

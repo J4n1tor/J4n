@@ -63,6 +63,11 @@ command).
 Tabs that belong to a pack appear when the pack is on. Settings are documented where you change them: each setting row shows
 its own explanation.
 
+The marks (the icons of the tabs and rows) are `auto` out of the box: icons where the terminal draws them itself or a Nerd
+Font is installed, plain Unicode where neither is found. **Settings › Look** says which one `auto` chose and why. If the marks
+show as boxes, pick `unicode` there; for the icons, install a Nerd Font and choose it as the terminal's font
+([install guide](INSTALL.md#icons-and-fonts)).
+
 ## 3. The gate and approvals
 
 Every effect an agent asks for (a write, a shell command, a network request, a tool call) goes through one gate before it

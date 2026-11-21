@@ -574,9 +574,9 @@ impl Front {
             "page" => screen.pages.ids().map(|(id, title)| plain(id, title)).collect(),
             "pack" => screen.packs.iter().map(|p| plain(&p.id, if p.on { "on" } else { "off" })).collect(),
             "word" if arg == "look" => {
-                let look = self.look();
+                let look = self.look_spoken();
                 match before.first().and_then(|part| Look::PARTS.iter().find(|(p, _)| p == part)) {
-                    Some((part, words)) => words.iter().map(|w| plain(w, if look.word(part).as_deref() == Some(*w) { "now" } else { "" })).collect(),
+                    Some((part, words)) => super::fonts::said_words(part, words).iter().map(|w| plain(w, if look.word(part).as_deref() == Some(*w) { "now" } else { "" })).collect(),
                     None if before.is_empty() => Look::PARTS.iter().map(|(p, _)| plain(p, &look.word(p).unwrap_or_default())).collect(),
                     None => Vec::new(),
                 }

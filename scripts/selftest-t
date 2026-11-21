@@ -68,6 +68,25 @@ run env CARGO_HOME="$FAKE_HOME" "$T" test "${MANIFEST[@]}" --test hermetic -- --
   fail "an agent CLI that sits in the bin/ of CARGO_HOME reaches the PATH of the run (exit $rc)"
 ok "none of ${AGENT_CLIS[*]} reaches the PATH, installed or not"
 
+# A toolchain that only the caller's PATH names, in a folder of its own (Homebrew's rustup on macOS): a CARGO_HOME whose bin/ is
+# empty, and that folder first on the PATH. Where the system folders hold a cargo, the runner takes that one, and this is not asked.
+if [ ! -e /usr/local/bin/cargo ] && [ ! -e /usr/bin/cargo ] && [ ! -e /bin/cargo ]; then
+  KEG_HOME="$SCRATCH/keg-home"
+  KEG="$SCRATCH/keg"
+  mkdir -p "$KEG_HOME/bin" "$KEG"
+  shopt -s nullglob
+  for f in "${CARGO_HOME:-$HOME/.cargo}"/*; do [ "${f##*/}" = bin ] || ln -s "$f" "$KEG_HOME/"; done
+  for f in "$FAKE_HOME"/bin/*; do ln -s "$f" "$KEG/"; done
+  shopt -u nullglob
+  run env CARGO_HOME="$KEG_HOME" PATH="$KEG:$PATH" "$T" j4n-control
+  [ "$rc" -eq 0 ] && grep -qx control <<<"$out" ||
+    fail "the runner does not find a toolchain that only the caller's PATH names (exit $rc)"
+  run env CARGO_HOME="$KEG_HOME" PATH="$KEG:$PATH" "$T" test "${MANIFEST[@]}" --test hermetic -- --exact agent_clis_are_not_on_the_path
+  [ "$rc" -eq 0 ] && grep -q "test result: ok. 1 passed" <<<"$out" ||
+    fail "an agent CLI beside the caller's cargo reaches the PATH of the run (exit $rc)"
+  ok "a toolchain only the caller's PATH names is found, and the agent CLIs beside it stay off the PATH"
+fi
+
 run "$T" test "${MANIFEST[@]}" --test hermetic -- --exact writes_into_home
 [ "$rc" -ne 0 ] && grep -q "test result: ok. 1 passed" <<<"$out" && grep -qF "t: WROTE 1 entries into HOME" <<<"$out" ||
   fail "a test that passes but writes into HOME does not fail the run (exit $rc)"

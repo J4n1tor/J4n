@@ -704,6 +704,9 @@ pub fn open(setup: Setup, opts: &Opts, interactive: bool, thread: &str) -> Resul
             Tables::load(all).0
         })
     };
+    if interactive {
+        j4n_core::front::fonts::warm(); // what the marks' `auto` comes to is looked for while the rest starts
+    }
     let mut front = Front::new(front, tasks, log, binds, asks, phrases, known).with_who(who).with_screen(Arc::new(screen)).with_proposer(proposer).with_keeper(keeper).with_lanes(lanes).with_librarian(&shelf).with_post(&mailbox).with_live(live, live_plans, reload);
     // the rule that answers for a signed charter asks this program for the Gate, the clock, the tree of a task and what a tree has spent
     if let Some(hooks) = front.charter_hooks() {

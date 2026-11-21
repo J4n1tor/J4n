@@ -95,7 +95,8 @@ fn hello_is_answered_with_who_this_is_and_the_tree() {
     let screen = j4n_core::front::screen::Screen::builtin();
     assert_eq!(downs[1], Down::Keys { binds: screen.keys.clone() }, "then what the keys do, before the tree");
     assert!(matches!(&downs[1], Down::Keys { binds } if binds.len() > 60 && binds.iter().all(|b| b.to == b.key)), "{:?}", downs[1]);
-    assert_eq!(downs[2], Down::Theme { look: screen.look() }, "then the look, before the tree");
+    // the marks' `auto` is sent as the tier it comes to: the icons in a test run, which says `J4N_FONTS=icons`
+    assert_eq!(downs[2], Down::Theme { look: j4n_proto::Look { marks: "icons".into(), ..screen.look() } }, "then the look, before the tree");
     assert_eq!(downs[3], Down::Tree { node: screen.titled(screen.pages.tree("main", &j4n_core::view::outer(screen.set.clone()))) });
     assert_eq!(downs.len(), 4);
 }
@@ -106,7 +107,7 @@ fn the_look_is_the_words_of_the_theme_settings_and_the_design_where_a_pack_says_
     use j4n_core::setting::Settings;
     use j4n_core::table::{Layer, LayerKind, SourceFile, Tables};
     let none = Screen::builtin().look();
-    assert_eq!((none.palette.as_str(), none.marks.as_str(), none.frame.as_str(), none.corners.as_str()), ("jjj", "icons", "round", "round"));
+    assert_eq!((none.palette.as_str(), none.marks.as_str(), none.frame.as_str(), none.corners.as_str()), ("jjj", "auto", "round", "round"), "the marks follow the fonts of the machine");
     assert_eq!((none.title_place.as_str(), none.density.as_str(), none.motion), ("inside", "normal", true));
     assert_eq!(none.fill, "match", "the terminal's background follows the palette unless a layer says otherwise");
     assert_eq!(none.you, "bracket", "your line is a bracket between two caps unless a layer says `band` or `mark`");

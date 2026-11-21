@@ -13,6 +13,7 @@
 # Out: J4N_CAP     "on" when the run is under the 5G memory cap, "off" when no systemd user manager is there
 #      J4N_HERMETIC  1, so a test can tell that it runs under this script
 #      TZ           UTC, so the time of day on a turn (otherwise the machine's zone) is the same on every machine and the goldens keep their ##:##
+#      J4N_FONTS    icons, so the marks' `auto` (icons where a Nerd Font is found) draws the same on every machine
 set -uo pipefail
 cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." || exit 2
 REAL_HOME="$HOME"
@@ -44,6 +45,17 @@ for d in /usr/local/bin /usr/bin /bin "$REAL_CARGO_HOME/bin"; do
   done
   [ "${#tools[@]}" -gt 0 ] && ln -sf "${tools[@]}" "$RUN/bin" 2>/dev/null
 done
+# A toolchain that is not in those (Homebrew's rustup keeps its proxies in its own folder, which only the caller's PATH names): the
+# folder of the caller's cargo gives the run its toolchain programs, and nothing else of that folder.
+if [ ! -e "$RUN/bin/cargo" ] && found="$(command -v cargo 2>/dev/null)" && [ "${found#/}" != "$found" ]; then
+  tools=()
+  for f in "${found%/*}"/*; do
+    case "${f##*/}" in claude|omp|codex|opencode|pi|gemini|msb|j4n) continue ;; esac
+    case "${f##*/}" in cargo|cargo-*|rustc|rustdoc|rustup|rustfmt|rust-*|clippy-driver) ;; *) continue ;; esac
+    [ -f "$f" ] && [ -x "$f" ] && [ ! -e "$RUN/bin/${f##*/}" ] && tools+=("$f")
+  done
+  [ "${#tools[@]}" -gt 0 ] && ln -s "${tools[@]}" "$RUN/bin" 2>/dev/null
+fi
 CAP=()
 capped=off
 if command -v systemd-run >/dev/null 2>&1 && systemd-run --user --scope -q true >/dev/null 2>&1; then
@@ -55,7 +67,7 @@ else
   echo "t: no systemd user manager, running without the 5G cap" >&2
 fi
 ENVV=(
-  HOME="$RUN/home" PATH="$RUN/bin" TMPDIR="$RUN/tmp" J4N_HERMETIC=1 J4N_CAP="$capped" TZ=UTC
+  HOME="$RUN/home" PATH="$RUN/bin" TMPDIR="$RUN/tmp" J4N_HERMETIC=1 J4N_CAP="$capped" TZ=UTC J4N_FONTS=icons
   CARGO_HOME="$RUN/cargo" RUSTUP_HOME="${RUSTUP_HOME:-$REAL_HOME/.rustup}"
   CARGO_BUILD_JOBS="${J4N_T_JOBS:-2}" CARGO_PROFILE_DEV_DEBUG=0
   # off unless the caller asks: the incremental cache grows by gigabytes per build

@@ -17,6 +17,7 @@ you enable them under **Grow › Packs** (or with `:pack on ID`). The setting `p
 | Log | Every task's events in one append-only log per project (`.j4n/log/`). |
 | Chats | Each prompt can be its own chat, with its own agent session. |
 | Three ways to run | The terminal UI (`j4n`), one task (`j4n run "…"`), or one line per turn on stdin. |
+| Marks | The icons on the screen follow the machine: Nerd Font icons where the terminal draws them itself or such a font is installed, plain Unicode where neither is found; ASCII and words on request (`theme.marks`). |
 
 ## Packs on by default
 

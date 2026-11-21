@@ -37,6 +37,7 @@ mod front_cases;
 mod front_models;
 mod front_named;
 mod front_parts;
+mod fonts_cases;
 mod front_serve;
 mod settled_boundary_cases;
 mod gate_check;

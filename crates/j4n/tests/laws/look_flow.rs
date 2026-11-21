@@ -74,6 +74,27 @@ fn a_word_the_screen_does_not_know_is_refused_and_nothing_is_written() {
     world.close();
 }
 
+/// The marks are `auto` out of the box and the screen is sent the tier it comes to (the icons in a test run, which says
+/// `J4N_FONTS=icons`); a word the operator says wins, the tier `auto` came to among them, and `auto` is a word that takes it back.
+#[test]
+fn the_marks_are_auto_until_a_word_is_said_and_the_screen_is_always_sent_a_tier() {
+    let d = Dirs::new("look-marks");
+    let world = open(&d);
+    assert_eq!(world.front.look().marks, "icons", "auto, sent as its tier");
+    let mut op = Operator::sit(&world);
+    op.type_line(":look marks");
+    op.until("what auto came to, and why", |s| s.contains("marks is auto · icons: J4N_FONTS") && s.contains("auto, icons"));
+    drop(op);
+    world.front.say("main", ":look marks icons");
+    assert!(held(&d).contains("theme.marks") && held(&d).contains("value = \"icons\""), "the tier auto came to is a word of its own: {}", held(&d));
+    world.front.say("main", ":look marks unicode");
+    assert_eq!(world.front.look().marks, "unicode", "the operator's word wins");
+    world.front.say("main", ":look marks auto");
+    assert!(held(&d).contains("value = \"auto\""), "{}", held(&d));
+    assert_eq!(world.front.look().marks, "icons", "auto is never sent as a word");
+    world.close();
+}
+
 #[test]
 fn a_screen_that_did_not_say_it_is_sent_the_look_when_another_changes_it() {
     use j4n_proto::{Down, Up};

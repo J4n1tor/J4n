@@ -289,7 +289,9 @@ fn a_doers_shell_finds_this_runs_j4n_over_the_socket_and_a_command_that_opens_th
 }
 
 /// The build J4n was started from is removed while it runs, as a rebuild does: a doer's `j4n py` in the next task still runs, through a copy of
-/// J4n's own image in the task's folder (another process is refused the image itself once J4n is not dumpable).
+/// J4n's own image in the task's folder (another process is refused the image itself once J4n is not dumpable). The image is read through
+/// `/proc/self/exe`, which only Linux has: on macOS a `j4n py` after its build is removed fails.
+#[cfg(target_os = "linux")]
 #[test]
 fn a_doers_j4n_py_runs_after_the_build_j4n_was_started_from_is_removed() {
     use std::io::Write as _;

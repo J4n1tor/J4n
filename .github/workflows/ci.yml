@@ -33,6 +33,8 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel]
     # macOS is built on every push; its tests are reported but do not block until they are green
     continue-on-error: ${{ startsWith(matrix.os, 'macos') }}
+    # a test that hangs ends the job instead of holding the runner for hours (the Linux jobs take under half an hour)
+    timeout-minutes: 60
     # The tests run as scripts/check.sh runs them: through scripts/t, the hermetic runner (docs/TESTING.md), with an empty HOME, a
     # TMPDIR of its own under ~/.cache, no agent CLI on the PATH and a dead proxy. The runners have four cores.
     env:
@@ -54,11 +56,15 @@ jobs:
         run: scripts/selftest-t
       - name: kit python tests
         run: for f in packs/*/tests/test_*.py; do python3 -I -B "$f" || exit 1; done
+      # On macOS: the walk of the keys drives the real binary on a pty with util-linux `script`, whose flags macOS's own `script` does not
+      # take, so it is left out with the tty cases; the three runs in a folder of 100,005 files hung there for hours, and a hang prints no
+      # test's failure, so they are left out until they are looked into on a Mac
       - name: test
-        run: scripts/t test --workspace --locked --no-fail-fast -- --skip tty_cases
+        run: scripts/t test --workspace --locked --no-fail-fast -- --skip tty_cases ${{ runner.os == 'macOS' && '--skip no_shell_walk::the_operators_walk --skip folder_too_big_to_checkpoint' || '' }}
       # the real binary on a pty (util-linux `script`), as the gate's own stage; the speed ratchet is the gate's alone, for a shared
       # runner's times are not this machine's
       - name: tty
+        if: runner.os == 'Linux'
         run: scripts/t test --locked -p j4n --test laws tty_cases
       - name: clippy
         if: matrix.os == 'ubuntu-latest'

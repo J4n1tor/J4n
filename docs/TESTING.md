@@ -10,9 +10,13 @@ runner is what stops that. It runs one cargo command from the repository root wi
 
 - an empty `HOME` and a private `TMPDIR` in a run directory under `~/.cache` (`J4N_T_ROOT` moves it), removed at the end;
 - a `PATH` of the system tools with no agent CLI on it (`claude`, `codex`, `opencode`, `pi`, `gemini`, `omp` and the like);
+  when neither those folders nor `$CARGO_HOME/bin` hold a `cargo` (Homebrew's `rustup` on macOS), the toolchain programs
+  beside the `cargo` of your own `PATH` (`cargo*`, `rustc`, `rustdoc`, `rustup`, `rustfmt`, `rust-*`, `clippy-driver`) and
+  nothing else of that folder;
 - a private `CARGO_HOME` that mirrors the real one (registry, git, config) with an empty `bin/`, because `rustup` puts
   `$CARGO_HOME/bin` on the `PATH` of every tool it starts;
-- a dead proxy (`127.0.0.1:9`, every spelling), two build jobs (`J4N_T_JOBS` sets another number), no debug info, `TZ=UTC`;
+- a dead proxy (`127.0.0.1:9`, every spelling), two build jobs (`J4N_T_JOBS` sets another number), no debug info, `TZ=UTC`,
+  `J4N_FONTS=icons` (the marks' `auto` draws the same on every machine);
 - a memory cap of 5 GB (`systemd-run --user --scope`) when a systemd user manager exists, announced as `J4N_CAP=on|off`;
 - `J4N_HERMETIC=1`. The laws binary fails without it, so a bare `cargo test` cannot pass them.
 
