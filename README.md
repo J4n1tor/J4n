@@ -44,13 +44,14 @@ describes it from each of these angles, says what works today, and lists what it
 
 | Platform | How |
 |---|---|
-| Linux x86_64 / aarch64 | `install.sh` (static musl binary) |
-| macOS arm64 / x86_64 | `install.sh` (binaries built in CI; see [Status](#status)) |
+| Linux x86_64 / aarch64, any distribution (glibc or musl) | `install.sh` (one static binary) |
+| macOS 11 or later, arm64 / x86_64 | `install.sh` (binaries built in CI; see [Status](#status)) |
 | Windows | inside [WSL2](https://learn.microsoft.com/windows/wsl/install), then as Linux |
 | Anything else | `cargo install --git https://github.com/J4n1tor/J4n --locked j4n` |
 
-The installer puts `j4n` in `~/.local/bin` (`J4N_BIN_DIR` changes it, `J4N_VERSION=v0.1.0` pins a release) and checks the
-download's SHA-256. To build from a clone, run `cargo build --release -p j4n --locked`; the toolchain is pinned in
+The installer puts `j4n` in `~/.local/bin` (`J4N_BIN_DIR` changes it, `J4N_VERSION=v0.1.0` pins a release), checks the
+download's SHA-256, prints the `PATH` line for your shell (`J4N_MODIFY_PATH=1` adds it) and names the programs J4n uses
+that are missing. To build from a clone, run `cargo build --release -p j4n --locked`; the toolchain is pinned in
 `rust-toolchain.toml`.
 
 You also need at least one agent CLI, already signed in. Optional tools, used only by the features that need them:
@@ -91,6 +92,9 @@ reflexes, ledger; a skill library; remote places.
 The full list, with what each one does and its default, is in [docs/FEATURES.md](docs/FEATURES.md).
 
 ## Status
+
+J4n is in beta: every release below 1.0.0 is a beta and may change how things work. A release is numbered 0.1.0, 0.1.1,
+0.1.2 and so on, and the middle number goes up when a larger stage is done.
 
 "Built" means it exists and has tests. "Measured" means a run against real tasks showed it helps.
 

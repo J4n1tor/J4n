@@ -11,13 +11,73 @@ project you open.
 curl -fsSL https://raw.githubusercontent.com/J4n1tor/J4n/main/install.sh | sh
 ```
 
-The script picks the build for your OS and CPU (`x86_64` or `aarch64`/`arm64`), checks its SHA-256 and installs it to
-`~/.local/bin/j4n`. Two variables change that:
+Read the script before you pipe it to a shell: [install.sh](../install.sh). It is plain POSIX `sh` and runs under dash,
+busybox ash, bash, zsh and macOS's `/bin/sh`. What it does, in order:
 
-- `J4N_BIN_DIR`: the install folder;
-- `J4N_VERSION`: a tag such as `v0.1.0` (the default is the latest release).
+1. It picks the archive for your OS and CPU: `j4n-x86_64-unknown-linux-musl`, `j4n-aarch64-unknown-linux-musl`,
+   `j4n-x86_64-apple-darwin` or `j4n-aarch64-apple-darwin`. A shell that runs under Rosetta 2 on Apple silicon says
+   `x86_64`; the script asks macOS (`sysctl.proc_translated`) and installs the native arm64 build.
+2. It downloads the archive and its `.sha256` from the latest GitHub release, over https only (TLS 1.2 or later), with
+   `curl`, or with `wget` when there is no `curl`. If the latest full release has no archive for you, it reads the release
+   list and takes the newest release, a pre-release included.
+3. It checks the SHA-256 with `sha256sum`, `shasum` or `openssl`, whichever is there. On a mismatch nothing is installed.
+4. It copies the binary into the install folder under a temporary name, checks that it runs there (`j4n --version`), and
+   renames it over the old one. A `j4n` that is running keeps running; the next start is the new version.
+5. It prints the installed version, the `PATH` line for your shell when the folder is not on `PATH`, the programs J4n uses
+   that it did not find (section 4), and `j4n doctor` as the next step.
 
-Read the script before you pipe it to a shell. It is short: [install.sh](../install.sh).
+It changes no other file unless you ask with `J4N_MODIFY_PATH=1`. The variables:
+
+| Variable | What it does |
+|---|---|
+| `J4N_BIN_DIR` | the install folder (default `~/.local/bin`); `/usr/local/bin` with `sudo` for every user |
+| `J4N_VERSION` | a release tag such as `v0.1.0` (default: the latest release) |
+| `J4N_MODIFY_PATH` | `1`: append the `PATH` line to your shell's start file, once (default: only print it) |
+| `J4N_DOWNLOAD_URL` | a folder that holds `j4n-<target>.tar.gz` and its `.sha256`, used instead of GitHub: `https://`, `http://` or `file://` (a mirror, or archives you built) |
+| `J4N_REPO` | the GitHub repository the releases come from (default `J4n1tor/J4n`), for a fork |
+
+For example, to install archives built on another machine:
+
+```bash
+J4N_DOWNLOAD_URL=file:///home/user/dist sh install.sh
+```
+
+`scripts/release/install-test.sh <folder>` runs the script against such a folder in a scratch `HOME`: a fresh install, an
+update over a running `j4n`, the refusals, and each shell it finds. The release workflow runs it on Linux, macOS and in
+Alpine, Debian, Fedora and Arch containers before a release is published.
+
+**The `PATH` line.** The script reads your login shell from `$SHELL`:
+
+| Shell | Line | File |
+|---|---|---|
+| zsh (macOS's default) | `export PATH="$HOME/.local/bin:$PATH"` | `~/.zshrc` |
+| bash on Linux | the same | `~/.bashrc` |
+| bash on macOS | the same | `~/.bash_profile` (Terminal starts login shells) |
+| fish | `fish_add_path $HOME/.local/bin` | kept by fish itself |
+| any other | the export line | `~/.profile` |
+
+**Per OS.**
+
+- *Linux:* the binary is static (musl), so one build runs on every distribution, glibc or musl (Alpine): no library to
+  install. It needs `tar` and `gzip` to unpack, which every distribution has.
+- *macOS:* macOS 11 (Big Sur) or later. Gatekeeper is not involved: `curl` and `wget` do not mark a download as
+  quarantined, so there is no "unidentified developer" prompt. (A copy downloaded with a browser would be; run
+  `xattr -d com.apple.quarantine j4n` on it.) The Apple-silicon build is signed ad hoc by the linker, as macOS requires.
+- *Windows:* inside WSL2, as Linux.
+
+**When it fails.**
+
+| Message | What it means |
+|---|---|
+| `has no release yet` | the repository has published no binary yet: build from source (below) |
+| `the release list cannot be read from here` | GitHub cannot be reached (offline, a proxy, the API's hourly limit for anonymous calls) or the repository is private: build from source, or use `J4N_DOWNLOAD_URL` |
+| `release vX.Y.Z has no j4n-….tar.gz` | that release has no build for your OS and CPU |
+| `checksum mismatch` | the download is damaged or was changed on the way: nothing was installed; try again |
+| `needs curl or wget` / `needs sha256sum, shasum or openssl` | install one of them with your package manager |
+| `no prebuilt J4n for …` | an OS or CPU with no build (32-bit ARM, RISC-V, a BSD): build from source |
+| `the downloaded j4n does not run on this machine` | the install folder may be mounted `noexec`: set `J4N_BIN_DIR` to another |
+| `another j4n comes first on your PATH` | an older copy (for example from `cargo install`) is found before the new one: remove it |
+| `j4n: command not found` after a successful install | the folder is not on `PATH` yet: add the line above, then open a new terminal |
 
 **From source (any Unix with a Rust toolchain):**
 
@@ -114,5 +174,7 @@ Run the install command again to update. To uninstall:
 rm ~/.local/bin/j4n     # the binary
 rm -rf ~/.j4n           # settings, accounts, caches (optional)
 ```
+
+If `J4N_MODIFY_PATH=1` added the `PATH` line, it is the line under `# J4n` in your shell's start file.
 
 Each project's `.j4n/` folder holds that project's log. Remove it with the project or keep it.

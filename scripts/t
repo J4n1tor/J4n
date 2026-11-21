@@ -8,6 +8,8 @@
 #      CARGO_INCREMENTAL  passed on; 0 (no incremental cache) when unset
 #      J4N_SWEEP   passed on to the run when set: the folder the screen sweep writes its pages in (with J4N_SWEEP_ONLY)
 #      J4N_T_JOBS  how many jobs cargo builds with (default 2)
+#      J4N_T_SLOTS how many runs of this script may build at once on this machine (default 1 under 12 GB of memory, else 2);
+#                  a run waits for a free slot, so parallel sessions cannot push the machine into swap together
 # Out: J4N_CAP     "on" when the run is under the 5G memory cap, "off" when no systemd user manager is there
 #      J4N_HERMETIC  1, so a test can tell that it runs under this script
 #      TZ           UTC, so the time of day on a turn (otherwise the machine's zone) is the same on every machine and the goldens keep their ##:##
@@ -45,7 +47,9 @@ done
 CAP=()
 capped=off
 if command -v systemd-run >/dev/null 2>&1 && systemd-run --user --scope -q true >/dev/null 2>&1; then
-  CAP=(systemd-run --user --scope -q -p MemoryMax=5G)
+  # MemorySwapMax: a run that outgrows memory is stopped inside its own scope rather than filling swap, where the
+  # desktop's OOM daemon would end whatever holds the most swap (often the terminal the run was started from)
+  CAP=(systemd-run --user --scope -q -p MemoryMax=5G -p MemorySwapMax=1G)
   capped=on
 else
   echo "t: no systemd user manager, running without the 5G cap" >&2
@@ -64,7 +68,28 @@ ENVV=(
 [ -n "${J4N_BLESS:-}" ] && ENVV+=(J4N_BLESS="$J4N_BLESS")
 [ -n "${J4N_SWEEP:-}" ] && ENVV+=(J4N_SWEEP="$J4N_SWEEP" J4N_SWEEP_ONLY="${J4N_SWEEP_ONLY:-}")   # the sweep writes its pages there (tests/laws/sweep.rs)
 # an empty array spelled so that a bash older than 4.4 (macOS's own) does not take it for an unset one
-${CAP[@]+"${CAP[@]}"} env -i "${ENVV[@]}" cargo "$@"
+# One slot per build on this machine (Linux flock; elsewhere no wait). The lock is held on fd 9 by this shell only:
+# cargo and what it starts get the fd closed, so a process left behind cannot keep a slot.
+if command -v flock >/dev/null 2>&1; then
+  SLOT_DIR="$REAL_HOME/.cache"   # one place per machine, whatever J4N_T_ROOT a run uses
+  mkdir -p "$SLOT_DIR"
+  mem_kb=$(awk '/^MemTotal:/{print $2}' /proc/meminfo 2>/dev/null || echo 0)
+  slots=${J4N_T_SLOTS:-$([ "${mem_kb:-0}" -lt 12000000 ] && echo 1 || echo 2)}
+  waited=no
+  while :; do
+    got=no
+    for i in $(seq 1 "$slots"); do
+      exec 9>"$SLOT_DIR/j4n-t.slot.$i"
+      if flock -n 9; then got=yes; break; fi
+      exec 9>&-
+    done
+    [ "$got" = yes ] && break
+    [ "$waited" = no ] && echo "t: waiting for a build slot ($slots on this machine; J4N_T_SLOTS changes it)" >&2
+    waited=yes
+    sleep 3
+  done
+fi
+${CAP[@]+"${CAP[@]}"} env -i "${ENVV[@]}" cargo "$@" 9>&-
 rc=$?
 h=$(find "$RUN/home" -mindepth 1 | wc -l)
 if [ "$h" -ne 0 ]; then

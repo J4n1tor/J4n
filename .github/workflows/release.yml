@@ -1,11 +1,14 @@
 name: release
 
+# A `v*` tag builds the four archives, tests install.sh on each OS and in four Linux distributions, then publishes the
+# release. Run by hand (workflow_dispatch) it does the same and publishes nothing: a dry run of a release.
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -19,37 +22,131 @@ jobs:
           - { os: ubuntu-24.04-arm, target: aarch64-unknown-linux-musl }
           - { os: macos-15-intel, target: x86_64-apple-darwin }
           - { os: macos-15, target: aarch64-apple-darwin }
+    env:
+      # The C parts (SQLite, ring) are built by cc-rs, which looks for aarch64-linux-musl-gcc on an arm64 host; musl-tools
+      # ships the native compiler as musl-gcc only. Without this line the aarch64 build stops at "failed to find tool".
+      CC_x86_64_unknown_linux_musl: musl-gcc
+      CC_aarch64_unknown_linux_musl: musl-gcc
+      # Rust and the C parts aim at the same macOS: 11, the first with Apple silicon
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
     steps:
       - uses: actions/checkout@v4
       - name: musl tools
         if: contains(matrix.target, 'musl')
         run: sudo apt-get update && sudo apt-get install -y musl-tools
-      - name: target
-        run: rustup target add ${{ matrix.target }}
-      - name: build
-        run: cargo build --release --locked -p j4n --target ${{ matrix.target }}
-      - name: package
+      - name: toolchain
         shell: bash
         run: |
+          channel=$(sed -n 's/^channel *= *"\(.*\)"/\1/p' rust-toolchain.toml)
+          rustup toolchain install "$channel" --profile minimal --target ${{ matrix.target }}
+      - name: build
+        run: cargo build --release --locked -p j4n --target ${{ matrix.target }}
+      - name: check the binary
+        shell: bash
+        run: |
+          bin=target/${{ matrix.target }}/release/j4n
+          file "$bin"
+          "$bin" --version
+          case "${{ matrix.target }}" in
+            *-linux-musl)
+              # one binary for every distribution: no loader, no shared library (read whole: grep -q may end a pipe early)
+              elf=$(readelf -lW -dW "$bin")
+              case "$elf" in *"program interpreter"* | *NEEDED*) echo "j4n is not a static binary"; echo "$elf"; exit 1 ;; esac ;;
+            *-apple-darwin)
+              otool -l "$bin" | grep -A4 LC_BUILD_VERSION | grep -E 'minos|sdk' ;;
+          esac
+      - name: package
+        shell: bash
+        env:
+          COPYFILE_DISABLE: "1" # no ._ files from macOS's tar
+        run: |
           name=j4n-${{ matrix.target }}
-          cp target/${{ matrix.target }}/release/j4n .
-          cp docs/THIRD-PARTY.md .
-          tar -czf "$name.tar.gz" j4n LICENSE README.md THIRD-PARTY.md
+          mkdir pkg
+          cp target/${{ matrix.target }}/release/j4n LICENSE README.md docs/THIRD-PARTY.md pkg/
+          tar -czf "$name.tar.gz" -C pkg j4n LICENSE README.md THIRD-PARTY.md
+          listed=$(tar -tzf "$name.tar.gz" | LC_ALL=C sort | tr '\n' ' ')
+          [ "$listed" = "LICENSE README.md THIRD-PARTY.md j4n " ] || { echo "the archive holds: $listed"; exit 1; }
           if command -v sha256sum >/dev/null; then sha256sum "$name.tar.gz" > "$name.tar.gz.sha256"; else shasum -a 256 "$name.tar.gz" > "$name.tar.gz.sha256"; fi
+          cat "$name.tar.gz.sha256"
       - uses: actions/upload-artifact@v4
         with:
           name: j4n-${{ matrix.target }}
           path: j4n-${{ matrix.target }}.tar.gz*
+          if-no-files-found: error
+
+  # install.sh as a user runs it, against the archives just built (J4N_DOWNLOAD_URL=file://…): scripts/release/install-test.sh
+  install-test:
+    name: install on ${{ matrix.os }}
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: j4n-*
+          path: dist
+          merge-multiple: true
+      # /bin/sh is dash on Ubuntu and bash 3.2 on macOS; the test also runs install.sh under every other shell it finds
+      - name: install.sh
+        run: sh scripts/release/install-test.sh dist
+      - name: under Rosetta 2, install.sh picks the arm64 build
+        if: matrix.os == 'macos-15'
+        continue-on-error: true # only where the runner image has Rosetta 2
+        run: |
+          arch -x86_64 /bin/sh -c 'uname -m; J4N_DOWNLOAD_URL="file://$PWD/dist" J4N_BIN_DIR="$RUNNER_TEMP/rosetta" sh install.sh' > out 2>&1
+          cat out
+          grep -q "Rosetta 2" out
+          file "$RUNNER_TEMP/rosetta/j4n" | grep -q arm64
+
+  # the Linux archives in the distributions people run: musl (Alpine: busybox ash, tar and wget), Debian, Fedora, Arch
+  install-test-distros:
+    name: install in ${{ matrix.image }} (${{ matrix.os }})
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+        image: ["alpine:3", "debian:stable-slim", "fedora:latest", "archlinux:latest"]
+        exclude:
+          - { os: ubuntu-24.04-arm, image: "archlinux:latest" } # the image is x86_64 only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: j4n-*-linux-musl
+          path: dist
+          merge-multiple: true
+      - name: install.sh in ${{ matrix.image }}
+        run: |
+          docker run --rm -v "$PWD:/w:ro" "${{ matrix.image }}" sh -c '
+            set -e
+            # Alpine keeps httpd (which serves the archives to busybox wget in the test) in busybox-extras
+            if command -v apk >/dev/null; then apk add --no-cache busybox-extras >/dev/null; fi
+            for t in tar gzip; do
+              command -v "$t" >/dev/null || { command -v dnf >/dev/null && dnf -y -q install "$t"; }
+            done
+            sh /w/scripts/release/install-test.sh /w/dist'
 
   publish:
-    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [build, install-test, install-test-distros]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v4
         with:
+          pattern: j4n-*
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
           files: j4n-*.tar.gz*
-          prerelease: true
+          # a full release, so releases/latest (install.sh) finds it; below 1.0.0 the number itself says beta
+          prerelease: false
+          make_latest: true
           generate_release_notes: true
