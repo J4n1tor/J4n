@@ -205,7 +205,7 @@ impl Layer {
     }
 
     /// Every `.toml` under `dir` that is not state (see [`STATE_DIRS`], hidden names, links and, in a pack, its
-    /// `pack.toml`). A directory that is not there is an empty layer.
+    /// `pack.toml` and its `scripts/` folder). A directory that is not there is an empty layer.
     pub fn from_dir(kind: LayerKind, name: &str, dir: &Path) -> (Layer, Vec<Problem>) {
         let mut layer = Layer::new(kind, name, Vec::new());
         layer.dir = Some(dir.to_path_buf());
@@ -253,7 +253,9 @@ fn walk(dir: &Path, rel: &str, depth: usize, layer: &mut Layer, dirs: &mut usize
         if kind.is_symlink() {
             problems.push(Problem::warn(at, "a link is not followed"));
         } else if kind.is_dir() {
-            if !STATE_DIRS.contains(&name.as_str()) && depth < 6 {
+            // a pack's own `scripts/` holds what its scripts read (TOML among it), never kind files: the pack guide says so
+            let scripts = layer.kind == LayerKind::Pack && path == "scripts";
+            if !STATE_DIRS.contains(&name.as_str()) && !scripts && depth < 6 {
                 walk(&entry.path(), &path, depth + 1, layer, dirs, problems);
             }
         } else if name.ends_with(".toml") && !kind.is_file() {

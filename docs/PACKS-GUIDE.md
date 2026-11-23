@@ -125,6 +125,10 @@ A step `do = "who:<role>"` elects a doer for the role (the ask point `who:<role>
   doer that lists no models serves none, except the one `--doer` named, which is given the word as typed.
 - A step that names its own `model` (or its `do` is a connector, `flow:<id>` or `model:<id>`) is the later word and the pin does not touch it;
   the host elected for the pinned model does not go with a model of the step's.
+- A step's `model` may be a template, `model = "{in.reader}"` or `"{steps.brief.out.b.reader}"`: one step serves every model a role is
+  given. The name comes from what the flow is given (a parent flow's `with`) or from a step before it that writes it (a script that reads
+  the line); a line typed at a phrase gives a flow only its `goal`. A template that gives nothing names no model, and the pin and the
+  election decide. `check` refuses a template that reads an input the flow does not declare.
 - The pin is the launch's (`--doer`, `--model`); a thread moved by `:switch` is not read by a flow.
 
 ### A step in a `box` sees a path only if it is listed

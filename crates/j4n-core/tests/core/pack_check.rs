@@ -160,3 +160,35 @@ fn a_tests_file_with_no_expect_is_a_warning_and_does_not_fail_the_pack() {
     let r = check(&d, &catalog(), false);
     assert!(r.ok() && r.found.len() == 1 && r.found[0].level == Level::Warn && r.found[0].to_string().contains("tests/data.toml:1: warning: holds no [[expect]]"), "{:#?}", r.found);
 }
+
+#[test]
+fn a_packs_scripts_folder_is_data_for_its_scripts_and_not_read_as_kind_files() {
+    let d = new_pack("scripts");
+    std::fs::create_dir_all(d.join("scripts")).unwrap();
+    // what a script reads, in TOML: no `api`, no kind the loader knows
+    std::fs::write(d.join("scripts/checks.toml"), "[[check]]\nkind = \"grep\"\nwords = [\"x\"]\n").unwrap();
+    std::fs::create_dir_all(d.join("phrases/scripts")).unwrap();
+    std::fs::write(d.join("phrases/scripts/more.toml"), "api = 1\n[[phrase]]\nid = \"deeper\"\nwords = [\":deeper\"]\ncommand = \"status\"\n").unwrap();
+    // the golden of what the pack gives takes the new phrase in first
+    check(&d, &catalog(), true);
+    let r = check(&d, &catalog(), false);
+    assert!(r.ok() && r.found.is_empty(), "{:#?}", r.found);
+    assert_eq!((r.files, r.entries), (2, 2), "only the pack's own root `scripts/` is left out");
+    // outside a pack, a folder called `scripts` is read as before
+    let (user, _) = j4n_core::table::Layer::from_dir(j4n_core::table::LayerKind::User, "home", &d);
+    assert!(user.files.iter().any(|f| f.path == "scripts/checks.toml"));
+}
+
+#[test]
+fn a_flow_whose_step_model_reads_an_input_it_does_not_declare_is_refused_at_its_line() {
+    let d = new_pack("flowmodel");
+    std::fs::create_dir_all(d.join("flows")).unwrap();
+    let flow = "api = 1\n\n[[flow]]\nid = \"review\"\nin = { goal = \"text\", reader = \"text\" }\nsteps = [{ id = \"read\", do = \"who:read\", goal = \"{in.goal}\", model = \"{in.reader}\" }]\n";
+    std::fs::write(d.join("flows/review.toml"), flow).unwrap();
+    check(&d, &catalog(), true);
+    let r = check(&d, &catalog(), false);
+    assert!(r.ok() && r.found.is_empty(), "a model from a declared input is fine: {:#?}", r.found);
+    edit(&d, "flows/review.toml", "model = \"{in.reader}\"", "model = \"{in.skeptic}\"");
+    let r = check(&d, &catalog(), false);
+    says(&d, &r, "flows/review.toml:3", "`in.skeptic` is not an input of this flow");
+}

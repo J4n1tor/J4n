@@ -3,7 +3,7 @@ api = 1
 # Each ceiling is the exact count now. A ceiling rises only in a change that says why in its commit message; deleting code needs no entry.
 [ceiling]
 j4n-proto = 800
-j4n-core = 52674
+j4n-core = 52715
 j4n-connect = 18558
 j4n-reach = 1258
 j4n-memory = 552

@@ -476,7 +476,7 @@ impl Go {
     /// Who does a `do`: the doer, the model, the endpoint, and what to say about the choice.
     fn who(&self, s: &StepRow, goal: &str, item: Option<&Value>) -> Result<Who, Stop> {
         let reference = s.doer.as_deref().map(|d| if d.contains('{') { self.render(d, item) } else { d.to_string() }).unwrap_or_default();
-        let model = s.model.clone();
+        let model = self.model_of(s, item);
         match reference.split_once(':') {
             Some(("who", role)) => {
                 let exclude: Vec<String> = s.exclude.iter().map(|e| self.render(e, item)).filter(|e| !e.is_empty() && e != crate::value::DASH).collect();
@@ -492,6 +492,13 @@ impl Go {
             _ if reference.is_empty() || reference == crate::value::DASH => Err(Stop::Failed(format!("flow step `{}`: there is nobody to do it (`{}` gave nothing)", s.id, s.doer.as_deref().unwrap_or_default()))),
             _ => Ok(Who { doer: reference, model, endpoint: None, role: s.role.clone() }),
         }
+    }
+
+    /// The model a step names: its template rendered (`{in.reader}`); one that gives nothing names none, and the pin or the
+    /// election says.
+    fn model_of(&self, s: &StepRow, item: Option<&Value>) -> Option<String> {
+        let m = s.model.as_deref()?;
+        Some(if m.contains('{') { self.render(m, item) } else { m.to_string() }).filter(|m| !m.trim().is_empty() && m != crate::value::DASH)
     }
 
     fn do_step(&self, s: &StepRow, item: Option<&Value>) -> Result<StepOut, Stop> {
@@ -660,7 +667,7 @@ impl Go {
                     .map(|item| {
                         sc.spawn(|| {
                             let goal = self.render(s.goal.as_deref().unwrap_or_default(), Some(item));
-                            self.run_child(s, &goal, Who { doer: each.clone(), model: s.model.clone(), endpoint: None, role: s.role.clone() }, Some(item))
+                            self.run_child(s, &goal, Who { doer: each.clone(), model: self.model_of(s, Some(item)), endpoint: None, role: s.role.clone() }, Some(item))
                         })
                     })
                     .collect();

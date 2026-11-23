@@ -143,6 +143,8 @@ fn a_flow_with_a_fault_is_left_out_and_says_what_it_is() {
         (r#"{ id = "a", do = "x", goal = "g", after = ["a"] }"#, "it comes after itself"),
         (r#"{ id = "a", do = "x", goal = "g", out = { p = "text" } }, { id = "b", do = "y", goal = "g", reads = ["diff"] }"#, "no step writes it"),
         (r#"{ id = "a", kind = "end", do = "x" }"#, "`do` belongs to a `do` step"),
+        (r#"{ id = "a", do = "who:read", goal = "g", model = "{in.nope}" }"#, "`in.nope` is not an input"),
+        (r#"{ id = "a", do = "who:read", goal = "g", model = "{in.nope" }"#, "steps[0].model: a `{` is never closed"),
     ] {
         let said = lint(&step(steps));
         assert!(says(&said, needle), "{steps}\nwanted `{needle}`; got {said:?}");
@@ -347,6 +349,34 @@ steps = [
     assert!(reports.iter().all(|r| r["answer"] == "seen" && r["sure"] == "low" && r["found"] == serde_json::json!([])), "{reports:?}");
     assert_eq!(rig.of_kind("report.made").len(), 3);
     assert!(rig.of_kind("report.made").iter().all(|e| e.data["deliver"] == false));
+}
+
+#[test]
+fn a_step_model_may_come_from_the_flows_inputs_so_one_step_serves_every_model_of_a_role() {
+    let flows = clean(
+        r#"[[flow]]
+id = "readers"
+in = { goal = "text", reader = "text", skeptic = "text", spare = "text", files = "json" }
+steps = [
+  { id = "read", do = "who:read", goal = "read: {in.goal}", model = "{in.reader}" },
+  { id = "doubt", do = "who:read", goal = "doubt: {in.goal}", model = "{in.skeptic}", after = ["read"] },
+  { id = "plain", do = "who:read", goal = "plain: {in.goal}", model = "{in.spare}", after = ["doubt"] },
+  { id = "per", kind = "map", over = "in.files", each = "alpha", goal = "each: {item}", model = "{in.reader}", after = ["plain"] },
+  { id = "done", kind = "end", answer = "{steps.per.answer}" },
+]"#,
+    );
+    let alpha = Scripted::new("alpha", vec![vec![end("ok")]]);
+    let rig = rig(&flows, vec![alpha.clone()], &[("read", "alpha")]);
+    let mut spec = j4n_core::task::TaskSpec::new("the folder", "flow:readers");
+    spec.input = serde_json::json!({ "in": { "reader": "base-model", "skeptic": "light-model", "files": ["a.rs"] } });
+    let id = rig.tasks.spawn(spec, Actor::Operator).expect("spawns");
+    let row = answering(&rig, &id, &[]);
+    assert!(matches!(row.state, State::Done { ok: true }), "{:?}\n{}", row.state, rig.dump());
+    let mut models: Vec<(String, Option<String>)> = rig.tasks.book().children(&id).into_iter().map(|k| (k.spec.goal, k.spec.tune.model)).collect();
+    models.sort();
+    let want = |g: &str, m: Option<&str>| (g.to_string(), m.map(String::from));
+    // an input that is not given names no model: the election's (none here) stands
+    assert_eq!(models, [want("doubt: the folder", Some("light-model")), want("each: a.rs", Some("base-model")), want("plain: the folder", None), want("read: the folder", Some("base-model"))]);
 }
 
 #[test]

@@ -226,6 +226,50 @@ fn only_the_newest_checkpoints_are_kept_and_an_unsettled_one_is_never_the_latest
 }
 
 #[test]
+fn a_checkpoint_still_open_is_never_pruned_so_its_task_settles_with_a_footprint() {
+    let w = world(true);
+    w.put("a.txt", "a\n");
+    w.commit_all();
+    let cfg = Cfg { keep: 2, ..Cfg::default() };
+    // a long task (a flow) opens first; the short tasks under it begin and settle past what is kept
+    let long = begin(&w.home, &w.root, "t1", &cfg).unwrap();
+    for n in 2..=4 {
+        begin(&w.home, &w.root, &format!("t{n}"), &cfg).unwrap().end().unwrap();
+    }
+    w.put("b.txt", "made by the long task\n");
+    let f = long.end().expect("the open checkpoint's folder is still there");
+    drop(long);
+    assert_eq!(f.created, ["b.txt"]);
+    assert!(store(&w.home, &w.root).join("t1/footprint.json").is_file());
+    let mut left: Vec<String> =
+        std::fs::read_dir(store(&w.home, &w.root)).unwrap().flatten().map(|e| e.file_name().to_string_lossy().to_string()).collect();
+    left.sort();
+    assert_eq!(left, ["t1", "t4"], "the settled ones past `keep` went; the open one stayed");
+    let r = w.rewind(Some("t1"), false);
+    assert_eq!(r.removed, ["b.txt"], "{:?}", r.lines());
+    // once let go, it is pruned like any settled one
+    begin(&w.home, &w.root, "t5", &cfg).unwrap().end().unwrap();
+    assert!(!store(&w.home, &w.root).join("t1").exists());
+}
+
+#[test]
+fn a_checkpoint_dropped_while_its_task_went_settles_with_what_changed_and_nothing_to_put_back() {
+    let w = world(false);
+    w.put("a.txt", "a\n");
+    let cp = w.begin("t1");
+    tick();
+    w.put("a.txt", "changed\n");
+    w.put("b.txt", "new\n");
+    // another J4n on the same home, or a hand, took the folder away
+    std::fs::remove_dir_all(store(&w.home, &w.root).join("t1")).unwrap();
+    let f = cp.end().expect("no `cannot write the footprint`");
+    assert_eq!((f.created.as_slice(), f.modified.as_slice(), f.not_restorable.as_slice()), (&["b.txt".to_string()][..], &["a.txt".to_string()][..], &["a.txt".to_string()][..]));
+    assert!(f.left_out.iter().any(|l| l.contains("dropped before the task settled")), "{:?}", f.left_out);
+    assert!(!store(&w.home, &w.root).join("t1").exists(), "no footprint is left without its manifest");
+    assert_eq!(latest(&w.home, &w.root), None);
+}
+
+#[test]
 fn a_folder_with_too_many_files_is_refused_a_checkpoint_and_leaves_nothing_behind() {
     let w = world(false);
     let sub = w.root.join("lots");

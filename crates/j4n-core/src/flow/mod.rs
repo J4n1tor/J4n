@@ -61,6 +61,8 @@ pub struct StepRow {
     /// The goal when the step is entered again (a loop came back to it); it may read what came after, which `goal` may not.
     #[serde(default)]
     pub redo: Option<String>,
+    /// The model the step runs on, over the pin and the election's: a name, or a template that gives one
+    /// (`{in.reader}`), so one step serves every model a role is given; a template that gives nothing names no model.
     #[serde(default)]
     pub model: Option<String>,
     /// For a model that works on its own: the most turns it takes (`Limits::visits`).
@@ -182,7 +184,7 @@ fn templates(s: &StepRow) -> Vec<(&'static str, &str)> {
     fn one<'a>(name: &'static str, v: &'a Option<String>) -> Option<(&'static str, &'a str)> {
         v.as_deref().map(|t| (name, t))
     }
-    let mut out: Vec<(&'static str, &str)> = [one("goal", &s.goal), one("redo", &s.redo), one("question", &s.question), one("show", &s.show), one("change", &s.change), one("answer", &s.answer), one("do", &s.doer)]
+    let mut out: Vec<(&'static str, &str)> = [one("goal", &s.goal), one("redo", &s.redo), one("question", &s.question), one("show", &s.show), one("change", &s.change), one("answer", &s.answer), one("do", &s.doer), one("model", &s.model)]
         .into_iter()
         .flatten()
         .collect();

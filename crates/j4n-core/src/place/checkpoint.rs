@@ -22,6 +22,14 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+use std::sync::Mutex;
+
+/// The checkpoints this process holds open: a prune never drops one, however old, as its task writes its footprint there.
+static OPEN: Mutex<BTreeSet<PathBuf>> = Mutex::new(BTreeSet::new());
+
+fn open_set() -> std::sync::MutexGuard<'static, BTreeSet<PathBuf>> {
+    OPEN.lock().unwrap_or_else(|e| e.into_inner())
+}
 
 /// A folder with more files than this is not checkpointed (a home directory, a monorepo with its dependencies checked in):
 /// the walk would take longer than the task, and a copy of it could not be kept.
@@ -115,6 +123,7 @@ pub struct Checkpoint {
     /// J4n's own home, which no task's footprint counts.
     home: PathBuf,
     manifest: Manifest,
+    _held: Held,
 }
 
 /// `<home>/checkpoints/<project key>/`
@@ -341,6 +350,8 @@ pub fn begin_with(home: &Path, root: &Path, task: &str, cfg: &Cfg, also: &[Strin
         return Err(format!("this folder holds more than {MAX_FILES} files, too many to checkpoint"));
     }
     fs::create_dir_all(dir.join("files")).map_err(|e| format!("cannot make {}: {e}", dir.display()))?;
+    open_set().insert(dir.clone());
+    let held = Held(dir.clone());
     let (git_ref, tracked) = git_state(root, task);
     let mut copied = BTreeSet::new();
     let mut total = 0u64;
@@ -385,7 +396,16 @@ pub fn begin_with(home: &Path, root: &Path, task: &str, cfg: &Cfg, also: &[Strin
         return Err(format!("cannot write the manifest: {e}"));
     }
     prune(home, root, cfg, task);
-    Ok(Checkpoint { dir, root: root.to_path_buf(), home: home.to_path_buf(), manifest })
+    Ok(Checkpoint { dir, root: root.to_path_buf(), home: home.to_path_buf(), manifest, _held: held })
+}
+
+/// A hold on an open checkpoint's folder ([`OPEN`]), let go with the checkpoint (or with one that is not made).
+struct Held(PathBuf);
+
+impl Drop for Held {
+    fn drop(&mut self) {
+        open_set().remove(&self.0);
+    }
 }
 
 impl Checkpoint {
@@ -408,8 +428,14 @@ impl Checkpoint {
             }
         }
         f.deleted.extend(self.manifest.before.keys().filter(|p| !after.contains_key(*p)).cloned());
-        let lost: Vec<String> = f.modified.iter().chain(&f.deleted).filter(|p| !self.restorable(p)).cloned().collect();
+        // the checkpoint went while the task was going (another J4n on the same home): nothing can be put back, no lone footprint
+        let gone = !self.dir.join("manifest.json").is_file();
+        let lost: Vec<String> = f.modified.iter().chain(&f.deleted).filter(|p| gone || !self.restorable(p)).cloned().collect();
         f.not_restorable = lost;
+        if gone {
+            f.left_out.push("the checkpoint was dropped before the task settled, so nothing it changed can be put back".into());
+            return Ok(f);
+        }
         let bytes = serde_json::to_vec(&f).map_err(|e| e.to_string())?;
         fs::write(self.dir.join("footprint.json"), bytes).map_err(|e| format!("cannot write the footprint: {e}"))?;
         Ok(f)
@@ -596,17 +622,20 @@ fn drop_checkpoint(home: &Path, root: &Path, name: &str) {
     let _ = git_out(root, &["update-ref", "-d", &format!("refs/j4n/checkpoints/{name}")]);
 }
 
-/// Keep the newest `cfg.keep` checkpoints of the project (never `current`), then, while the rest hold more than
-/// `cfg.max_store_bytes`, drop the oldest settled one (a checkpoint with no footprint belongs to a task that is still going,
-/// and `current` is never dropped); the refs go with them.
+/// Keep the newest `cfg.keep` checkpoints of the project (never `current`, nor one this process holds open), then, while the
+/// rest hold more than `cfg.max_store_bytes`, drop the oldest settled one (a checkpoint with no footprint belongs to a task
+/// that is still going, and `current` is never dropped); the refs go with them.
 fn prune(home: &Path, root: &Path, cfg: &Cfg, current: &str) {
     let mut tasks = checkpoints_of(home, root);
-    while tasks.len() > cfg.keep.max(1) {
-        let (_, name) = tasks.remove(0);
-        if name != current {
-            drop_checkpoint(home, root, &name);
+    let mut over = tasks.len().saturating_sub(cfg.keep.max(1));
+    tasks.retain(|(_, name)| {
+        let cut = over > 0 && name != current && !open_set().contains(&store(home, root).join(name));
+        if cut {
+            over -= 1;
+            drop_checkpoint(home, root, name);
         }
-    }
+        !cut
+    });
     let mut sizes: Vec<(String, u64)> = tasks.iter().map(|(_, n)| (n.clone(), dir_bytes(&store(home, root).join(n)))).collect();
     let mut total: u64 = sizes.iter().map(|(_, b)| b).sum();
     while total > cfg.max_store_bytes {

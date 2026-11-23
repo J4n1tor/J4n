@@ -113,6 +113,12 @@ pub fn check(dir: &Path, catalog: &Catalog, bless: bool) -> Report {
         let (file, line) = locate(&p, &own);
         r.say(p.level, dir, &file, line, p.msg);
     }
+    // a flow is checked like a program before it runs: what its lint refuses is refused here, where the pack is written
+    let theirs = crate::flow::Flows::load(&theirs_tables).1;
+    for p in crate::flow::Flows::load(&tables).1.into_iter().filter(|p| !theirs.contains(p)) {
+        let (file, line) = locate(&p, &own);
+        r.say(p.level, dir, &file, line, p.msg);
+    }
     run_tests(&mut r, dir, &Rig { tables: &tables, phrases: &phrases, made: &made, bless });
     r
 }

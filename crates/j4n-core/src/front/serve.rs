@@ -891,7 +891,7 @@ impl Serve {
         }
         // the Decider in the words of Agents › Setup's row (one reading for both): `Decider on · Jev`, dim `Decider off` while none answers
         let decider = self.front.decider_now();
-        cells.push(if decider.on() { Cell::with_icon("decide", &decider.bar(), Tone::Plain) } else { Cell::with_icon("decide-off", &decider.bar(), Tone::Dim) });
+        cells.push(if decider.on() { Cell::with_icon("decide", decider.bar(), Tone::Plain) } else { Cell::with_icon("decide-off", decider.bar(), Tone::Dim) });
         cells.push(Cell::new(self.front.cfg().project.clone(), Tone::Dim));
         let tone = if waiting > 0 { Tone::Warn } else if running > 0 { Tone::Accent } else { Tone::Plain };
         PRow { key: "status".into(), cells, tone, ..PRow::default() }
