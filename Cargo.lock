@@ -539,7 +539,7 @@ checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
 name = "j4n"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-bench",
  "j4n-connect",
@@ -562,7 +562,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-bench"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -573,7 +573,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-connect"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-core",
  "serde",
@@ -585,7 +585,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-contribute"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-core",
  "serde_json",
@@ -594,7 +594,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-proto",
  "serde",
@@ -606,7 +606,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-forge"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -615,7 +615,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-habits"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -624,7 +624,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-inbox"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-core",
  "serde_json",
@@ -632,7 +632,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-lab"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-core",
  "serde_json",
@@ -641,7 +641,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-ledger"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -650,7 +650,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-memory"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -661,7 +661,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-parts"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -671,7 +671,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-proto"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -680,7 +680,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-qc"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -692,7 +692,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-reach"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -703,7 +703,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-shape"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "j4n-connect",
  "j4n-core",
@@ -715,7 +715,7 @@ dependencies = [
 
 [[package]]
 name = "j4n-tui"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "crossterm",
  "dither-core",

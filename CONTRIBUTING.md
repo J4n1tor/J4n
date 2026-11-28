@@ -1,7 +1,7 @@
 # Contributing to J4n
 
 Thank you for looking at J4n. This page is how to build it, test it and send a change that passes. Contributions are taken
-under the project's [MIT license](LICENSE).
+dual-licensed under [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at the user's option, with no additional terms.
 
 For a bug, open an issue with the template. For a vulnerability, follow [SECURITY.md](SECURITY.md) instead. For a larger
 change, open an issue first and say what you want to do, so the work is not wasted.

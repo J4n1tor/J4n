@@ -4,6 +4,7 @@
 
 mod settings_override_cases;
 mod j4n_basic;
+mod reference_docs;
 mod settings_api_cases;
 mod gate_distrust_cases;
 mod accounts_flow;

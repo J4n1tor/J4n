@@ -26,7 +26,7 @@ Each law has a test; a law without a check is a wish. The tests are in `crates/j
    offered-set validation, boundary-only compaction, redaction, approvals never to model answerers, rule
    cause-depth/rate limits.
 10. **No domain in core; the cut list stays cut.** *Test*: an absurd-domain pack works unchanged;
-    a case-insensitive grep for the cut word over `crates/`, `packs/`, `tests/` and `docs/` finds it
+    a case-insensitive scan for the cut word over every file and file name of the repository (but `.git`, `target`, `.claude`) finds it
     only in the file the law names.
 11. **TUI is the front door.** Every `[[command]]` is reachable from the palette and plain words; CLI verbs
     are for scripts/tests. No task of the operator needs a shell command or a file written by hand: each has a

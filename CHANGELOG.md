@@ -1,33 +1,39 @@
 # Changelog
 
-All notable changes to J4n are written here, in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The number moves
-at a release point, not at each merge; before 1.0 a minor bump may change anything.
+Notable changes, in the form of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Before 1.0 a minor version may
+change anything, including the pack format (`api = 1`) and the commands.
+
+## [Unreleased]
+
+### Changed
+
+- License: MIT OR Apache-2.0 (was MIT).
+- README and docs rewritten as technical reference. `docs/ABOUT.md` and `docs/FEATURES.md` are gone; their content is in
+  the README and in `docs/reference/`, which is generated from the pack rows.
+
+### Added
+
+- `AGENTS.md`: a map of the code for coding agents.
+- `docs/reference/`: every setting, command and pack, kept equal to the pack rows by a test.
 
 ## [0.1.0] - 2026-11-16
 
-The first numbered version. `j4n --version` prints the number, the commit and the commit's date: `0.1.0 (<commit> <date>)`.
+First numbered version. `j4n --version` prints the number, the commit and its date.
 
-### What exists
+### Added
 
-Four promises:
-
-- **One gate.** Run any agent; its risky steps are approved in one place; no agent sees a key.
-- **Know the cost and the result.** Each task shows what it cost (dollars, or a share of the plan window) and whether it was checked.
-- **The cheapest route that works.** Code first, a small model next, a big model last.
-- **Grow it yourself.** Say what you want; J4n writes a small pack file; nothing applies before the operator presses Tab.
+- The gate: one rule set for writes, commands and network use, approved in one place; agents never see J4n's keys.
+- Cost and result per task: money, or the share of a subscription's limit window; whether the project's checks passed.
+- Connectors for Claude Code, Codex, Gemini CLI, OpenCode and Pi, and `/connect` for other CLIs.
+- Grow: pack proposals that apply only when accepted.
 
 ### Experimental
 
-Everything is experimental: nothing is called stable until the maintainer says so. In particular the following have been built but not measured
-against enough runs to be trusted:
+Built and tested, not measured on enough real runs:
 
-- the routes that pick a cheaper doer (the plan, the offload, the kit) and the savings they claim;
-- the connect lab's learning of a new agent or tool from its help text (it does well on the shapes it was built for and worse on others);
-- the guard's reading of a risky command, which is a net and not a proof;
-- the packs that J4n writes for the operator, and the settings that switch features on;
-- the `orchestrate` word of the setting `lanes` (Main as a chat with its own session, a quick look that decides whether a line is answered,
-  worked in one lane or split into chats, and the briefs and limits of those chats). It is off by default (`single`); the word is the one
-  switch: the quick look (`orchestrate.look`), the crew's seats (`crew.on`) and the envoys (`crew.envoys`) are `auto` and follow it, and a
-  value set by hand still wins. The packs `lanes` and `crew` are in J4n basic and change nothing under `single`.
-
-The pack format (`api = 1`) and the commands may change between minor versions.
+- the routes that pick a cheaper doer (plan, offload, kit);
+- the connect lab's learning of a new CLI from its help text;
+- the guard's reading of a risky command (a net, not a proof);
+- packs J4n writes for the operator;
+- `lanes = orchestrate`: Main as a chat with its own session, splitting work into chats. Off by default (`single`);
+  `orchestrate.look`, `crew.on` and `crew.envoys` are `auto` and follow it.

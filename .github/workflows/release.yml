@@ -62,10 +62,10 @@ jobs:
         run: |
           name=j4n-${{ matrix.target }}
           mkdir pkg
-          cp target/${{ matrix.target }}/release/j4n LICENSE README.md docs/THIRD-PARTY.md pkg/
-          tar -czf "$name.tar.gz" -C pkg j4n LICENSE README.md THIRD-PARTY.md
+          cp target/${{ matrix.target }}/release/j4n LICENSE-APACHE LICENSE-MIT README.md docs/THIRD-PARTY.md pkg/
+          tar -czf "$name.tar.gz" -C pkg j4n LICENSE-APACHE LICENSE-MIT README.md THIRD-PARTY.md
           listed=$(tar -tzf "$name.tar.gz" | LC_ALL=C sort | tr '\n' ' ')
-          [ "$listed" = "LICENSE README.md THIRD-PARTY.md j4n " ] || { echo "the archive holds: $listed"; exit 1; }
+          [ "$listed" = "LICENSE-APACHE LICENSE-MIT README.md THIRD-PARTY.md j4n " ] || { echo "the archive holds: $listed"; exit 1; }
           if command -v sha256sum >/dev/null; then sha256sum "$name.tar.gz" > "$name.tar.gz.sha256"; else shasum -a 256 "$name.tar.gz" > "$name.tar.gz.sha256"; fi
           cat "$name.tar.gz.sha256"
       - uses: actions/upload-artifact@v4

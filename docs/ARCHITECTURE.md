@@ -82,13 +82,74 @@ the core has to guess at. The look (palette, marks, frame, density) is data too,
 The core and the screen run on threads connected by channels today; the protocol has no assumption that stops it going over
 a socket.
 
-## 5. Threads, not async
+## 5. The life of a line
+
+1. **Read.** A typed line is matched against the phrase table (`packs/base/phrases/`) and the `[[command]]` rows. A match
+   runs that command; nothing else is started. The list is in [reference/commands.md](reference/commands.md).
+2. **Route.** Otherwise the line goes to the doer of its thread. With `weigh.on`, a cheap check first sorts it into
+   `answer` (a cheap model, no tools), `light` (a lean session) or `task`. With `lanes = orchestrate`, a read of closed
+   questions decides the kind, whether it goes on, which chat and which doer (`front/read.rs`).
+3. **Run.** A task is queued, then runs in its place (`here`, `worktree`, `box`) through its doer's connector. The doer
+   streams events: text, tool calls, shell output with its exit code, cost, an end.
+4. **Gate.** Every effect the doer asks for (a write, a shell line, a network call) is checked once (§6). An `ask` verdict
+   makes the task wait on an approval.
+5. **Settle.** When the doer ends, the task settles. Rules react to `task.settled`; the base pack's `lane-check` starts
+   the project's check (`packs/base/rules/check.toml`) when files changed and `check.after` is on. The command is the
+   first row of `packs/base/checks/detect.toml` whose files exist in the project.
+6. **Fold.** Views, cost and the screen are folds over the events the task wrote.
+
+## 6. Asks, approvals and grants
+
+Every decision is an ask point (`packs/base/asks/points.toml`) with a chain of answerers and a fallback. The chain is
+walked in order; the first answer within the offered choices wins.
+
+| Point | Chain | Fallback | Meaning |
+|---|---|---|---|
+| `approval` | `rule:gate`, `human` | `safe` | an effect the gate asks about; a rule or a grant answers, otherwise you |
+| `inside` | `decider:jev?min_conf=0.8` | `pick:ask` | whether a line the gate could not prove harmless stays inside the project (only with `approval.inside`) |
+
+An approval never reaches a model (law 6). With `approval.inside` on, the gate itself says yes to effects it can prove
+stay inside the project (edits, test runs, linters, removing build folders). Anything reaching outside, such as the
+network, a remote shell, a deploy or `git push`, still asks.
+
+A **grant** is a remembered yes, scoped to once, the task, the session or the project; `:grant` lists them and `:grant
+back <id>` revokes one. A grant never lifts a **block**: secrets rules, taint rules after untrusted input, and J4n's own
+folders stay blocked.
+
+Machine answerers have two limits (`j4n-core/src/answer/`). An answerer that fails 3 times in a row is turned off for
+24 hours. A task gets at most 6 machine answers, and the same question is not put to a machine twice.
+
+## 7. Settings and layers
+
+A setting is a `[[setting]]` row in a pack (`j4n-core/src/setting.rs`). Its value comes from layers, last one wins: the
+pack's default, then your files (`~/.j4n/`), then the project's (`~/.j4n/projects/<key>/`), then the session. A row with
+`live = false` takes effect at the next start. A row with `auto = "<setting>=<word>"` follows another setting when its
+value is `auto`. Every row is in [reference/settings.md](reference/settings.md).
+
+## 8. The Log
+
+One JSONL file per project (`<project>/.j4n/log/0001.jsonl`) and one for you (`~/.j4n/`). One thread appends. Every event
+has a `kind` and, when it belongs to one, a task id. The kinds a reader needs most:
+
+| Kind | Written when |
+|---|---|
+| `task.queued`, `task.started`, `task.waiting`, `task.resumed`, `task.settled` | the task loop moves |
+| `run.tool_call`, `run.shell`, `run.message` | a doer acts or speaks |
+| `gate.verdict` | the gate judges an effect |
+| `ask.step`, `ask.answered` | an answerer in a chain is tried, and the ask is answered |
+| `decider` | a decider answers a question |
+| `rule` | a rule fires |
+| `edit.applied`, `change.recorded` | a file or a setting changes |
+
+`j4n-memory` keeps a derived full-text index of it; nothing else stores state apart from the Log.
+
+## 9. Threads, not async
 
 J4n uses OS threads, channels and a blocking HTTP client, with no async runtime. A task is at most a few threads and a
 workload is a handful of tasks, so the simpler model wins: child output is read on its own thread, cancellation kills the
 process group, and every network client is built by one builder that honours the proxy variables.
 
-## 6. The laws
+## 10. The laws
 
 The rules the code keeps are in [CHARTER.md](CHARTER.md), and each has a test in `crates/j4n/tests/laws`. The ones that shape
 the layout: the eight parts and a size ratchet, one loop, one Log with one writer, one gate, one ask, one way to connect, a

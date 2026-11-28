@@ -1,6 +1,6 @@
 # Third-party software in J4n
 
-J4n is MIT licensed (see `LICENSE`). Its binaries are built from the crates below, each under its own license; the
+J4n is licensed under MIT or Apache-2.0, at your option (`LICENSE-MIT`, `LICENSE-APACHE`). Its binaries are built from the crates below, each under its own license; the
 full text of each license is in the crate's source at the link given. `rusqlite` builds SQLite into the binary;
 SQLite is in the public domain (https://sqlite.org/copyright.html).
 

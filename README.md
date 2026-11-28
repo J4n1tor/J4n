@@ -1,153 +1,156 @@
-<p align="center"><img alt="J4n1tor: your personal janitor for coding agents" src="assets/png/banner.png" width="100%"></p>
+<p align="center"><img alt="J4n" src="assets/png/banner.png" width="100%"></p>
 
 # J4n
 
-**Your personal janitor for coding agents.** A control layer for the command-line agents you already use. J4n1tor in
-full; `j4n` is what you type.
+J4n is a meta-harness for command-line coding agents. It starts the agents you already have (Claude Code, Codex, Gemini
+CLI, OpenCode, Pi, or any CLI it learns), sends every step they take through one permission gate, writes every event to
+one log per project, and charges every task to one cost line. It is a single Rust binary with no async runtime and no
+service behind it. Behaviour beyond the core is data: TOML *packs*.
 
-J4n runs on top of the agents you already use (Claude Code, Codex, Gemini CLI, OpenCode, Pi, or any CLI you describe to
-it). Every task goes through one permission gate, is charged to one cost line and is recorded in one event log per project.
-It is a single Rust binary with a terminal UI, a one-shot mode and a pipe mode.
+> [!NOTE]
+> 0.1.x is a beta. The core (gate, log, tasks, connectors, cost) is built and tested. Most packs are off by default and
+> not yet shown to help on real tasks. See [Status](#status).
 
-<p align="center"><img alt="J4n in a terminal, orchestrate mode: one line is split into two chats that work side by side in worktrees of their own, the project's tests run on each, a review by Codex sends a bug back and the chat fixes it, both parts are laid in, a delete waits on an approval card, the gate blocks a force push, then the Tasks, Spend and Log tabs" src="assets/demo.gif" width="100%"><br>
-<sub>The real <code>j4n</code> screen in orchestrate mode (experimental). The agents here are scripted stand-ins for Claude Code and Codex, so no model was called.</sub></p>
+<p align="center"><img alt="The j4n terminal screen in orchestrate mode: two chats in worktrees, a review sends a bug back, an approval card, the gate blocking a force push" src="assets/demo.gif" width="100%"><br>
+<sub>The terminal screen, orchestrate mode. The agents are scripted stand-ins, so no model was called.</sub></p>
 
-> [!WARNING]
-> **Wet floor.** 0.1.0, experimental. The core is built and tested. Features marked *experimental* are off by default and
-> have not yet been shown to help. See [Status](#status).
+## How it fits together
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/J4n1tor/J4n/main/install.sh | sh
-cd your-project && j4n doctor && j4n
+```mermaid
+flowchart LR
+  you([you]) <--> ui["j4n-tui (screen)"]
+  ui <-->|"j4n-proto: Down / Up"| task
+  subgraph corebox ["j4n-core"]
+    table[("Table: packs, settings")]
+    task["Tasks and Asks"]
+    gate{"Gate"}
+    log[("Log, one per project")]
+    table --- task
+    task --- gate
+    task --- log
+  end
+  gate <--> connect["j4n-connect, j4n-reach"]
+  connect <--> agents["agent CLIs: claude, codex, gemini, opencode, pi"]
+  connect <--> world["shell, git, web, MCP"]
 ```
 
-## Why
+- **j4n-core** holds every decision. It reads no terminal and starts no process itself.
+- **j4n-connect** and **j4n-reach** are the only crates that touch the outside: processes, worktrees, sandboxes, HTTP, MCP.
+- **j4n-tui** draws what the core sends over `j4n-proto` and returns typed intents. It depends on nothing else in J4n.
 
-Running several agents means several permission systems, several ways of reporting cost, and no common record of what
-happened. J4n puts one layer over all of them:
+The detail is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-- **One gate.** Writes outside the project, commands that change state, and network access are checked by one rule set
-  and approved in one place. The agents never see the keys J4n holds, and secrets are redacted from what they read.
-- **Cost and result per task.** Each task shows what it cost (money, or the share of a subscription's limit window) and
-  whether the project's own checks passed afterwards.
-- **Cheapest route first.** Plain code before a small model, a small model before a large one.
-- **Extensible by data.** Behaviour lives in *packs*: TOML files for rules, connectors, screens and flows. J4n can
-  propose a pack change from a description; nothing changes until you accept it, and every change can be undone.
+## Concepts
 
-J4n never reads or stores an agent's login. Each agent keeps its own sign-in; J4n starts the agent as it is.
-
-People come to J4n for different reasons: to keep control of an agent they must use as it is, to give different work
-to different providers, to have one screen instead of several, or to build their own layer on top. [docs/ABOUT.md](docs/ABOUT.md)
-describes it from each of these angles, says what works today, and lists what it could become.
+| Word | Meaning |
+|---|---|
+| doer | Who runs a task: an agent CLI (through a connector), a flow of steps, or you. |
+| task | All work. A chat turn, a check, a flow step and a question are tasks. States: queued, running, cooling, waiting, done, stopped. |
+| place | Where a task runs: `here` (the project), a git `worktree`, or a bubblewrap `box`. |
+| gate | One rule set every effect passes before it runs: allow, ask, or block. Block beats ask beats allow. |
+| grant | Your yes to a kind of effect, for once, a task, a session or always in this project. A grant never lifts a block. |
+| ask | A decision as a child task, answered by a chain: rule → decider → you. An approval is never answered by a model. |
+| pack | A folder of TOML rows: settings, rules, gates, flows, connectors, pages, commands. 24 are built in. |
+| flow | A pack-declared sequence of steps (plan → work → check) whose doers and models are data. |
+| log | Append-only JSONL of every event, in `.j4n/log/` of the project. Every view and every cost figure is a fold over it. |
 
 ## Install
 
-| Platform | How |
-|---|---|
-| Linux x86_64 / aarch64, any distribution (glibc or musl) | `install.sh` (one static binary) |
-| macOS 11 or later, arm64 / x86_64 | `install.sh` (binaries built in CI; see [Status](#status)) |
-| Windows | inside [WSL2](https://learn.microsoft.com/windows/wsl/install), then as Linux |
-| Anything else | `cargo install --git https://github.com/J4n1tor/J4n --locked j4n` |
-
-The installer puts `j4n` in `~/.local/bin` (`J4N_BIN_DIR` changes it, `J4N_VERSION=v0.1.0` pins a release), checks the
-download's SHA-256, prints the `PATH` line for your shell (`J4N_MODIFY_PATH=1` adds it) and names the programs J4n uses
-that are missing. To build from a clone, run `cargo build --release -p j4n --locked`; the toolchain is pinned in
-`rust-toolchain.toml`.
-
-You also need at least one agent CLI, already signed in. Optional tools, used only by the features that need them:
-
-| Tool | Used for | Linux | macOS |
-|---|---|---|---|
-| `git` | checkpoints, worktrees, lanes | distro package | Xcode CLT / Homebrew |
-| [bubblewrap](https://github.com/containers/bubblewrap) | `--place box` (sandboxed task) | `bwrap` package | not available |
-| Python 3 | the `kit` pack | distro package | preinstalled / Homebrew |
-| Chromium, Chrome, Brave or Edge | the `accounts` pack (one window per account) | any of them | any of them |
-
-`j4n doctor` reports what it found and what is missing. Details: [docs/INSTALL.md](docs/INSTALL.md).
-
-## Usage
-
 ```bash
-j4n                              # the terminal UI
-j4n run "fix the failing test"   # one task, answer on stdout
-echo "explain src/main.rs" | j4n # piped: one line per turn
-j4n doctor                       # agents, sign-ins, keys, safety defaults
-j4n --help
+curl -fsSL https://raw.githubusercontent.com/J4n1tor/J4n/main/install.sh | sh
 ```
 
-In a new folder J4n creates `.j4n/` (git-ignored) for the project's log. Work is done behind a checkpoint you can rewind to.
-Anything the gate marks as risky comes to an approval card first.
+| Platform | How |
+|---|---|
+| Linux x86_64 / aarch64 (glibc or musl) | `install.sh`: one static binary into `~/.local/bin`, SHA-256 checked |
+| macOS 11+, arm64 / x86_64 | `install.sh` (built in CI; its tests do not yet block a merge) |
+| Windows | inside WSL2, as Linux |
+| From source | `cargo install --git https://github.com/J4n1tor/J4n --locked j4n` (toolchain pinned in `rust-toolchain.toml`) |
 
-## Features
+Installer variables: `J4N_BIN_DIR` (target folder), `J4N_VERSION=v0.1.0` (pin), `J4N_MODIFY_PATH=1` (edit your shell's
+`PATH`). You need at least one agent CLI, signed in. Optional programs:
 
-**Core (on by default):** the permission gate and key guard; cost per task with subscription limit windows; checks
-after edits; the event log; connectors for Claude Code, Codex, Gemini CLI, OpenCode and Pi, plus any CLI J4n learns by
-probing it; Grow (pack proposals with accept and undo); chats, where each prompt can be its own thread.
+| Program | Needed by |
+|---|---|
+| `git` | checkpoints, worktrees, lanes |
+| `bwrap` (bubblewrap) | the `box` place; Linux only |
+| Python 3 | the `kit` pack |
+| Chromium, Chrome, Brave or Edge | the `accounts` pack |
 
-**Packs (built in, off until enabled under Settings › Packs, or all at once with `packs.full`):** several accounts per
-agent, each with its own browser window and proxy; offload of light chores to a cheaper agent; lanes and an orchestrate
-mode (a planner with branches); a Python tool for J4n's own agent; quality marks; prompt shaping; inbox, habits,
-reflexes, ledger; a skill library; remote places.
+`j4n doctor` lists what it found and what is missing. More: [docs/INSTALL.md](docs/INSTALL.md).
 
-The full list, with what each one does and its default, is in [docs/FEATURES.md](docs/FEATURES.md).
+## Use
+
+```bash
+cd your-project
+j4n doctor                       # agents, sign-ins, keys, safety defaults
+j4n                              # the terminal screen
+j4n run "fix the failing test"   # one task; the answer on stdout
+echo "explain src/main.rs" | j4n # one line per turn on stdin
+```
+
+J4n makes `.j4n/` in the project (git-ignored) for its log. Edits happen behind a checkpoint you can rewind. An effect the
+gate marks as risky waits on an approval card. Commands typed in the chat (`:pack`, `:grant`, `:clear`, …) are listed in
+[docs/reference/commands.md](docs/reference/commands.md).
+
+## What the core does
+
+| Feature | Behaviour |
+|---|---|
+| Gate | Checks writes, commands and network use. Writes outside the project ask; J4n's own folder and git internals are blocked. [docs/GATE.md](docs/GATE.md) |
+| Key guard | Keys J4n holds never reach an agent. Secrets in the log and in what a model reads are replaced by shape-keeping placeholders. |
+| Checkpoints | `:undo` and rewind take work back. |
+| Cost | Money for API use; the share of the limit window for subscription plans. Per task. |
+| Checks | After edits, the project's own test command runs (detected per language). |
+| Connectors | Claude Code, Codex, Gemini CLI, OpenCode, Pi; `/connect <program>` probes any other CLI and proposes a connector. |
+| Grow | J4n drafts a pack change from a description. Nothing applies until you accept it; every change can be undone. |
+
+Every pack, with its default and what it adds: [docs/reference/packs.md](docs/reference/packs.md). Every setting:
+[docs/reference/settings.md](docs/reference/settings.md).
 
 ## Status
 
-J4n is in beta: every release below 1.0.0 is a beta and may change how things work. A release is numbered 0.1.0, 0.1.1,
-0.1.2 and so on, and the middle number goes up when a larger stage is done.
+*Built* means it exists and has tests. *Measured* means a run on real tasks showed it helps.
 
-"Built" means it exists and has tests. "Measured" means a run against real tasks showed it helps.
-
-| Feature | Default | State |
+| Part | Default | State |
 |---|---|---|
-| Gate and key guard | on | built; the gate's attack drills pass |
-| Cost per task, plan limit windows | on | built |
+| Gate, key guard | on | built; the gate's attack drills pass |
+| Log, tasks, checkpoints | on | built |
+| Cost, plan limit windows | on | built |
+| Connectors | on | built |
 | Checks after edits | on | built, not measured |
-| Event log | on | built |
-| Grow (proposals, undo) | on | built |
-| Connectors (Claude Code, Codex, Gemini CLI, OpenCode, Pi, learned CLIs) | on | built |
-| Chats | setting, off | built |
-| Accounts | pack, off | experimental |
+| Grow | on | built |
+| Lanes / orchestrate | off (`lanes = single`) | experimental; not better than a single lane in tests so far |
 | Offload | pack, off | experimental; helped on one model, not on a smaller one |
-| Lanes / orchestrate | pack, off | experimental; not better than a single lane in tests so far |
-| Kit, quality marks, shaping, inbox, habits, reflexes, ledger | packs, off | experimental, not measured |
+| Accounts, kit, qc, shape, inbox, habits, reflexes, ledger | packs, off | experimental, not measured |
 
-Development and the full test suite run on Linux. On macOS the binaries are built in CI; its test suite does not yet block
-a merge. The `box` place needs bubblewrap, so it is Linux only. Native Windows is not supported.
+Development and the full test suite run on Linux. J4n does not make an agent smarter by itself. It is not a hosted
+service: nothing leaves the machine except what the agents you run send.
 
 ## Documentation
 
-| | |
-|---|---|
-| [docs/ABOUT.md](docs/ABOUT.md) | what J4n is, from several angles, and where it could go |
-| [docs/INSTALL.md](docs/INSTALL.md) | install, per-OS dependencies, uninstall |
-| [docs/GUIDE.md](docs/GUIDE.md) | the screen, chats, accounts, cost |
-| [docs/FEATURES.md](docs/FEATURES.md) | every feature and pack, with defaults |
-| [docs/GATE.md](docs/GATE.md) | the gate, the key guard, sandboxing |
-| [docs/PACKS-GUIDE.md](docs/PACKS-GUIDE.md) | writing a pack |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | crates, protocol, design laws |
-| [docs/BRAND.md](docs/BRAND.md) | the mark, the wordmark, colours, rebuilding the art |
-| [CONTRIBUTING.md](CONTRIBUTING.md), [docs/TESTING.md](docs/TESTING.md) | working on J4n |
-| [SECURITY.md](SECURITY.md) | reporting a vulnerability |
-| [docs/THANKS.md](docs/THANKS.md) | the projects J4n is built with and the agents it works with |
+| Doc | For | Content |
+|---|---|---|
+| [docs/README.md](docs/README.md) | everyone | index of all docs |
+| [AGENTS.md](AGENTS.md) | coding agents | a map of the code: where each thing lives and how to change it |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | contributors | parts, crates, protocol, life of a line |
+| [docs/GUIDE.md](docs/GUIDE.md) | users | the screen, chats, approvals, cost |
+| [docs/GATE.md](docs/GATE.md) | users, reviewers | the gate, the key guard, sandboxing, known attacks |
+| [docs/PACKS-GUIDE.md](docs/PACKS-GUIDE.md) | pack authors | writing a pack |
+| [docs/reference/](docs/reference/) | everyone | settings, commands and packs, generated from the pack rows |
 
 ## Provider terms
 
-J4n starts each agent's own unmodified CLI with the login that CLI already has. It does not offer a sign-in of its own, and
-it does not proxy or resell access. You are responsible for using each provider within its terms.
-
-## Thanks
-
-J4n is built on [ratatui](https://github.com/ratatui/ratatui), [crossterm](https://github.com/crossterm-rs/crossterm),
-[serde](https://github.com/serde-rs/serde) and many more crates, and it works through the agents you already use. Thank you to
-all of them: [docs/THANKS.md](docs/THANKS.md) names each one.
+J4n starts each agent's own unmodified CLI with the login that CLI already has. It never reads or stores a login, offers no
+sign-in of its own, and does not proxy or resell access. You are responsible for using each provider within its terms.
 
 ## License
 
-[MIT](LICENSE). The licenses of the crates in the binaries are listed in [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md).
+Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or [MIT license](LICENSE-MIT), at your option.
+Unless you state otherwise, any contribution you submit for inclusion in J4n is dual-licensed as above, without any
+additional terms. The licenses of the crates in the binaries are in [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md); the
+projects J4n is built with are thanked in [docs/THANKS.md](docs/THANKS.md).
 
-## Creator note
+---
 
-> I needed a tool. I made the tool. I shared the tool.
-
-<p align="center"><img alt="" src="assets/png/shelf.png" width="360"></p>
+<sub>The README and the docs are AI-generated under the maintainer's supervision and review.</sub>
